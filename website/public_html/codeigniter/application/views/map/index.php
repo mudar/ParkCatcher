@@ -1,0 +1,111 @@
+<?php
+if ( empty( $geo_lat ) || empty( $geo_lon ) ) {
+	$geo_lat = $this->config->item('parking_default_geo_lat');
+	$geo_lon = $this->config->item('parking_default_geo_lon');
+	$is_empty_address = TRUE;
+	$zoom = 14;
+}
+else {
+	$zoom = 17;
+}
+
+?>
+<div id="map" style="height: 100%;"></div>
+
+<script src="<?php echo base_url() ?>js/libs/leaflet_0.4.4/leaflet.js"></script>
+<script>
+// <![CDATA[
+var map = L.map('map').setView([<?php echo $geo_lat ?> , <?php echo $geo_lon ?>], <?php echo $zoom ?>);
+
+L.tileLayer('http://{s}.tile.cloudmade.com/{key}/22677/256/{z}/{x}/{y}.png', {
+	attribution: '',
+	minZoom: 13, 
+	maxZoom: 18,
+	key: 'BC9A493B41014CAABB98F0471D759707'
+}).addTo(map);
+
+
+
+function onEachFeature(feature, layer) {
+	var popupContent = "";
+
+	if (feature.properties && feature.properties.desc) {
+		popupContent = "<strong><?php echo lang( 'parking_placemark_is_available' ) ?>.</strong><br /><?php echo lang( 'parking_placemark_next_forbidding' ) ?><ul>" 
+			+ feature.properties.desc + "</ul>";
+	}
+
+	layer.bindPopup(popupContent);
+}
+
+var geoJsonLayer = L.geoJson(null, {
+	onEachFeature: onEachFeature,
+	pointToLayer: function (feature, latlng) {
+		return L.circleMarker(latlng, {
+			radius: 5,
+			fillColor: "#6ca144",
+			color: "#000",
+			weight: 1,
+			opacity: 0.8,
+			fillOpacity: 0.8,
+zIndexOffset: 100
+		});
+	}
+}).addTo(map);
+
+<?php if ( !empty( $destination ) && empty( $is_empty_address ) ): ?>
+	L.circle([<?php echo $geo_lat ?> , <?php echo $geo_lon ?>], 100, {
+			color: "#1877cf",
+			fillColor: "#fff",
+			opacity: 0.3,
+			fillOpacity: 0.3
+		}).addTo(map)
+
+	var marker = L.marker([<?php echo $geo_lat ?> , <?php echo $geo_lon ?>] , {zIndexOffset: -10} ).addTo(map)
+			.bindPopup( "<span class=\"black\"><?php printf( lang( 'parking_placemark_destination_radius' ) , '<strong>' . $destination . '</strong>' )?></span>").openPopup();
+
+<?php endif ?>
+
+
+var hasZoomedIn = false;
+var hasZoomedOut = false;
+function getGeoJSON() {
+	if ( map.getZoom() >= 16 ) {
+		globalAjaxCursorChange();
+
+		var bounds = map.getBounds();
+		var NW = bounds.getNorthWest();
+		var SE = bounds.getSouthEast();
+
+		jQuery.getJSON( "<?php echo base_url() ?>api/" , 
+			{ day: $('#day').val() , hour: $('#hour').val() , duration: $('#duration').val() , destination: $('#destination').val() , 
+				latNW: NW.lat , lonNW: NW.lng , latSE: SE.lat , lonSE: SE.lng , descHtml: true } , 
+			function(data) {
+				geoJsonLayer.clearLayers();
+				geoJsonLayer.addData([data]);
+		});
+	}
+
+}
+
+map.on("moveend", function(e) {
+	getGeoJSON();
+});
+
+map.on("zoomend", function(e) {
+	if ( map.getZoom() >= 16 ) {
+		hasZoomedIn = true;
+		if ( hasZoomedOut ) {
+			$( "#footer_zoom_in" ).hide();
+			$("#footer_wrapper").hide();
+		}
+	}
+	else if ( hasZoomedIn ) {
+		hasZoomedOut = true;
+		$( "#footer_content .hint" ).hide();
+		$( "#footer_zoom_in" ).show();
+		$("#footer_wrapper").show();
+	}
+});
+
+// ]]>
+</script>
