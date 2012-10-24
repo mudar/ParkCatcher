@@ -14,9 +14,10 @@ Park Catcher Montréal is an open source project, powered by Open Data provided 
 
 [www.capteurdestationnement.com][link_capteurdestationnement]
 
-Also: 
+Check the project's [Wiki][link_wiki] for more resources:  
 
-   * [The project's Wiki][link_wiki]
+* Fully-documented [**GeoJSON API**][link_wiki_api].
+* [**How Does It Work?**][link_wiki_how_does_it_work]
 
 ##Open Data
 
@@ -70,6 +71,7 @@ The website is powered by CodeIgniter (c) EllisLab, Inc.
 [link_emma_cargo]: http://cargocollective.com/emmadumesnil/
 [link_wiki]: https://github.com/mudar/ParkCatcher/wiki/
 [link_wiki_api]: https://github.com/mudar/ParkCatcher/wiki/API
+[link_wiki_how_does_it_work]: https://github.com/mudar/ParkCatcher/wiki/How-Does-It-Work%3F
 [link_api_example]: http://www.parkcatcher.com/api/?day=5&hour=10.5&duration=2&destination=h3c2n5&radius=500&latNW=45.500564421707544&lonNW=-73.56202840805054&latSE=45.49463845610178&lonSE=-73.54838132858276
 [link_gpl]: http://www.gnu.org/licenses/gpl.html
 [link_portal]: http://donnees.ville.montreal.qc.ca/
