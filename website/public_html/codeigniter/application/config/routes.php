@@ -49,6 +49,7 @@ $route['welcome'] = 'welcome/splash';
 $route['quiz'] = 'quiz/index';
 $route['help'] = 'help/index';
 $route['about'] = 'about/index';
+$route['quiz-game-over'] = 'quiz/game_over';
 
 
 // French
@@ -57,6 +58,7 @@ $route['bienvenue'] = 'welcome/splash';
 $route['quiz'] = 'quiz/index';
 $route['aide'] = 'help/index';
 $route['a-propos'] = 'about/index';
+$route['quiz-perdu'] = 'quiz/game_over';
 
 
 /* End of file routes.php */

@@ -7,12 +7,14 @@ $lang['parking_route_welcome_home'] = 'accueil';
 $lang['parking_route_welcome_splash'] = 'bienvenue';
 $lang['parking_route_welcome_help'] = 'aide';
 $lang['parking_route_welcome_quiz'] = 'quiz';
+$lang['parking_route_welcome_quiz_game_over'] = 'quiz-perdu';
 $lang['parking_route_welcome_about'] = 'a-propos';
 
 /*
  * Site 
  */
 $lang['parking_site_lang'] = 'fr';
+$lang['parking_site_locale'] = 'fr_FR.UTF8';
 $lang['parking_html_title'] = 'Capteur de stationnement Montréal';
 $lang['parking_site_title'] = 'Capteur de stationnement Montréal';
 $lang['parking_site_desc'] = 'Trouvez facilement un stationnement gratuit dans la rue résidentielle la proche quand vous vous déplacez à Montréal&nbsp;!';
@@ -45,7 +47,24 @@ $lang['parking_help_temp'] = 'En construction&hellip; Cette section présentera 
  * Quiz
  */
 $lang['parking_quiz_temp'] = 'En construction&hellip; Cette section contiendra un petit jeu pour tester vos connaissances : êtes-vous un expert en déchiffrement des panneaux de stationnement&nbsp;?';
+$lang['parking_quiz_subtitle'] = 'Êtes-vous le Roi du stationnement&nbsp;?';
 
+$lang['parking_quiz_date_format'] = '<b>%A</b> %e %B. Il est <b>%H&nbsp;h&nbsp;%M</b>';
+$lang['parking_quiz_date_desc'] = 'On est le %s.<br />Pouvez-vous stationner ici pour une durée de <b>%s&nbsp;heure</b>&nbsp;?';
+$lang['parking_quiz_date_desc_plural'] = 'On est le %s.<br />Pouvez-vous stationner ici pour une durée de <b>%s&nbsp;heures</b>&nbsp;?';
+$lang['parking_quiz_btn_yes'] = 'OUI &ndash; Je peux stationner&nbsp;!';
+$lang['parking_quiz_btn_no'] = 'NON &ndash; Je cherche ailleurs&hellip;';
+
+$lang['parking_quiz_answer_right'] = 'Bonne réponse&nbsp;!';
+$lang['parking_quiz_answer_wrong'] = 'Désolé, réponse incorrecte&hellip;';
+$lang['parking_quiz_answer_correction'] = 'La bonne réponse était&nbsp;: %s';
+$lang['parking_quiz_answer_correction_yes'] = 'Oui';
+$lang['parking_quiz_answer_correction_no'] = 'Non';
+$lang['parking_quiz_try_again'] = 'Recommencer&hellip;';
+
+$lang['parking_quiz_step'] = 'Vous avez %s bonne réponse et';
+$lang['parking_quiz_step_plural'] = 'Vous avez %s bonnes réponses et';
+$lang['parking_quiz_score'] = '%s points';
 
 /*
  * Search
@@ -69,6 +88,8 @@ $lang['parking_placemark_name'] = 'Poteau numéro&nbsp;%s';
 $lang['parking_placemark_is_available'] = 'Stationnement autorisé';
 $lang['parking_placemark_next_forbidding'] = 'Prochaines périodes d’interdiction&nbsp;: ';
 $lang['parking_placemark_destination_radius'] = 'Emplacements où le stationnement est autorisé dans un rayon de 100&nbsp;mètres autour de %s.';
+$lang['parking_placemark_itinerary'] = 'Itinéraire';
+$lang['parking_placemark_street_view'] = 'Street View';
 
 $lang['parking_form_day'] = 'Jour';
 $lang['parking_form_hour'] = 'Heure';
@@ -155,3 +176,14 @@ $lang['parking_error_geocoder_005'] = 'Postal Code is not in the proper Format.'
 $lang['parking_error_geocoder_004'] = 'Specify either a Canadian province two letter code or a US two letter state abbreviation.';
 $lang['parking_error_geocoder_007'] = 'Supply a valid query.';
 $lang['parking_error_geocoder_008'] = 'Adresse introuvable&nbsp;! Essayez de simplifier ou de saisir le code postal';
+ 
+/*
+ * Form Validations
+ */
+$lang['parking_form_quiz_answer'] = 'Réponse «&nbsp;Oui / Non&nbsp;»';
+$lang['parking_form_quiz_message'] = 'Cliquez ci-dessus pour répondre par «&nbsp;Oui&nbsp;» ou par «&nbsp;Non&nbsp;».';
+
+$lang['parking_form_search_day'] = 'Jour';
+$lang['parking_form_search_hour'] = 'Heure';
+$lang['parking_form_search_duration'] = 'Durée';
+$lang['parking_form_search_destination'] = 'Adresse';

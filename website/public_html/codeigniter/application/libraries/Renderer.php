@@ -74,14 +74,7 @@ class Renderer
 		if ( !empty( $data['is_splash'] ) ) { $data['body_class'] .= ' splash'; }
 		if ( !empty( $data['has_hint'] ) ) { $data['body_class'] .= ' hint'; }
 
-		if ( $CI->router->class != 'map' ) {
-			$CI->session->set_userdata( array( 'last_view' => $data['view'] ) );
-		}
-		elseif ( $CI->session->userdata( 'last_view' ) != null ) {
-			$data['view'] = $CI->session->userdata( 'last_view' );
-		}
-
-// 		$data['has_searched'] = $CI->session->userdata( 'has_searched' );
+		$data['has_searched'] = $CI->session->userdata( 'has_searched' );
 
 		$CI->load->view( ( IS_AJAX ? $this->ajax_layout : $this->layout ) , $data );
 	}

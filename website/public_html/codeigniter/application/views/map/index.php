@@ -13,7 +13,7 @@ else {
 <div id="map" style="height: 100%;"></div>
 
 <script src="<?php echo base_url() ?>js/libs/leaflet_0.4.4/leaflet.js"></script>
-<script>
+<script type="text/javascript">
 // <![CDATA[
 var map = L.map('map').setView([<?php echo $geo_lat ?> , <?php echo $geo_lon ?>], <?php echo $zoom ?>);
 
@@ -32,6 +32,11 @@ function onEachFeature(feature, layer) {
 	if (feature.properties && feature.properties.desc) {
 		popupContent = "<strong><?php echo lang( 'parking_placemark_is_available' ) ?>.</strong><br /><?php echo lang( 'parking_placemark_next_forbidding' ) ?><ul>" 
 			+ feature.properties.desc + "</ul>";
+		var coordinates = feature.geometry.coordinates[1]+","+feature.geometry.coordinates[0];
+		popupContent += "<div class=\"google_maps\">";
+		popupContent += "<a target=\"_blank\" href=\"http://maps.google.ca/maps?daddr="+coordinates+"&amp;hl=<?php echo lang( 'parking_site_lang' ) ?>\"><?php echo lang( 'parking_placemark_itinerary' ) ?></a> ";
+		popupContent += "<a target=\"_blank\" href=\"https://maps.google.ca/?cbll="+coordinates+"&amp;cbp=0,0,0,0,0&amp;layer=c&amp;z=16&amp;hl=<?php echo lang( 'parking_site_lang' ) ?>\"><?php echo lang( 'parking_placemark_street_view' ) ?></a>";
+		popupContent += "</div>";
 	}
 
 	layer.bindPopup(popupContent);
@@ -63,6 +68,10 @@ zIndexOffset: 100
 	var marker = L.marker([<?php echo $geo_lat ?> , <?php echo $geo_lon ?>] , {zIndexOffset: -10} ).addTo(map)
 			.bindPopup( "<span class=\"black\"><?php printf( lang( 'parking_placemark_destination_radius' ) , '<strong>' . $destination . '</strong>' )?></span>").openPopup();
 
+	var hasOpenedPopup = false;
+<?php else: ?>
+	var hasOpenedPopup = true;
+
 <?php endif ?>
 
 
@@ -82,9 +91,19 @@ function getGeoJSON() {
 			function(data) {
 				geoJsonLayer.clearLayers();
 				geoJsonLayer.addData([data]);
+
+				if ( hasOpenedPopup ) {
+					var mapCenter = map.getCenter();
+					for (var item in geoJsonLayer._layers) {
+						if ( geoJsonLayer._layers[ item ]._latlng.distanceTo( mapCenter ) < 100 ) {
+							geoJsonLayer._layers[ item ].openPopup();
+							break;
+						}
+					}
+					hasOpenedPopup = false;
+				}
 		});
 	}
-
 }
 
 map.on("moveend", function(e) {
