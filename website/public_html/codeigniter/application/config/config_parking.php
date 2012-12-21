@@ -1,6 +1,6 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-$config['parking_assets_version'] = '?v=9';
+$config['parking_assets_version'] = '?v=12';
 
 $config['parking_base_url_en'] = 'http://www.parkcatcher.com/';
 $config['parking_base_url_fr'] = 'http://www.capteurdestationnement.com/';

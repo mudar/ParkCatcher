@@ -7,12 +7,14 @@ $lang['parking_route_welcome_home'] = 'home';
 $lang['parking_route_welcome_splash'] = 'welcome';
 $lang['parking_route_welcome_help'] = 'help';
 $lang['parking_route_welcome_quiz'] = 'quiz';
+$lang['parking_route_welcome_quiz_game_over'] = 'quiz-game-over';
 $lang['parking_route_welcome_about'] = 'about';
 
 /*
  * Site 
  */
 $lang['parking_site_lang'] = 'en';
+$lang['parking_site_locale'] = 'en_US.UTF8';
 $lang['parking_html_title'] = 'Park Catcher Montréal';
 $lang['parking_site_title'] = 'Park Catcher Montréal';
 $lang['parking_site_desc'] = 'Find a free parking in the nearest residential street when driving in Montréal!';
@@ -45,7 +47,24 @@ $lang['parking_help_temp'] = 'Under construction&hellip; This section will conta
  * Quiz
  */
 $lang['parking_quiz_temp'] = 'Under construction&hellip; This section will contain a parking knowledge quiz: are you an expert in deciphering parking panels?';
+$lang['parking_quiz_subtitle'] = 'So You Think You Can Park?';
 
+$lang['parking_quiz_date_format'] = '<b>%A</b>, %B %e, at <b>%H:%M</b>';
+$lang['parking_quiz_date_desc'] = 'The day is %s.<br />Can you park here for <b>%s&nbsp;hour</b>?';
+$lang['parking_quiz_date_desc_plural'] = 'The day is %s.<br />Can you park here for <b>%s&nbsp;hours</b>?';
+$lang['parking_quiz_btn_yes'] = 'Yes, I can park here!';
+$lang['parking_quiz_btn_no'] = 'No, I must park elsewhere&hellip;';
+
+$lang['parking_quiz_answer_right'] = 'Right answer!';
+$lang['parking_quiz_answer_wrong'] = 'Sorry, wrong answer!';
+$lang['parking_quiz_answer_correction'] = 'The right answer was: %s';
+$lang['parking_quiz_answer_correction_yes'] = 'Yes';
+$lang['parking_quiz_answer_correction_no'] = 'No';
+$lang['parking_quiz_try_again'] = 'Play Again&hellip;';
+
+$lang['parking_quiz_step'] = 'You have %s correct answer and';
+$lang['parking_quiz_step_plural'] = 'You have %s correct answers and';
+$lang['parking_quiz_score'] = '%s points';
 
 /*
  * Search
@@ -69,6 +88,8 @@ $lang['parking_placemark_name'] = 'Post number&nbsp;%s';
 $lang['parking_placemark_is_available'] = 'Parking Allowed';
 $lang['parking_placemark_next_forbidding'] = 'Next forbidden periods: ';
 $lang['parking_placemark_destination_radius'] = 'Spots where parking is allowed at 100&nbsp;metre raidus from %s.';
+$lang['parking_placemark_itinerary'] = 'Itinerary';
+$lang['parking_placemark_street_view'] = 'Street View';
 
 $lang['parking_form_day'] = 'Day';
 $lang['parking_form_hour'] = 'Time';
@@ -155,3 +176,14 @@ $lang['parking_error_geocoder_005'] = 'Postal Code is not in the proper Format.'
 $lang['parking_error_geocoder_004'] = 'Specify either a Canadian province two letter code or a US two letter state abbreviation.';
 $lang['parking_error_geocoder_007'] = 'Supply a valid query.';
 $lang['parking_error_geocoder_008'] = 'Address not found! Try to simplify or enter the postal code';
+
+/*
+ * Form Validations
+ */
+$lang['parking_form_quiz_answer'] = '“Yes/No” answer';
+$lang['parking_form_quiz_message'] = 'Press the “Yes” or “No” button to answer.';
+
+$lang['parking_form_search_day'] = 'Day';
+$lang['parking_form_search_hour'] = 'Time';
+$lang['parking_form_search_duration'] = 'Duration';
+$lang['parking_form_search_destination'] = 'Address';

@@ -21,7 +21,7 @@
 
 	<ul>
 		<li>Un <a href="https://github.com/mudar/ParkCatcher" title="GitHub &ndash; ParkCatcher">API ouvert</a> sera disponible très prochainement&hellip;</li>
-	<ul>
+	</ul>
 <?php endif ?>
 
 	<div id="logo_mtl_ouvert"><a title="Montréal ouvert" href="http://montrealouvert.net/donnees-ouvertes-questions-frequemment-demandees/?lang=<?php echo lang( 'parking_site_lang' ) ?>"><img title="montrealouvert.net" alt="Montréal Ouvert" src="<?php echo base_url() ?>img/logo_montreal_ouvert_<?php echo lang( 'parking_site_lang' ) ?>.png"></a></div>

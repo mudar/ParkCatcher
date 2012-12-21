@@ -23,7 +23,6 @@
   <meta property="og:locale" content="<?php echo lang( 'parking_site_lang' ) ?>_CA" />
 
   <meta name="viewport" content="width=1050, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" >
-  <link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url() ?>css/DroidSans.css" >
   <link rel="stylesheet" href="<?php echo base_url() ?>js/libs/leaflet_0.4.4/leaflet.css<?php echo $assets_version ?>" >
   <!--[if lte IE 8]>
     <link rel="stylesheet" href="<?php echo base_url() ?>js/libs/leaflet/leaflet.ie.css" />
