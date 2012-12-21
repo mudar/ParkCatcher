@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <fragment
+        android:id="@+id/fragment_favorites"
+        android:name="ca.mudar.parkcatcher.ui.fragments.FavoritesFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="tag_fragment_favorites" />
+
+    <fragment
+        android:id="@+id/fragment_map"
+        android:name="ca.mudar.parkcatcher.ui.fragments.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="tag_fragment_map" />
+
+    <SlidingDrawer
+        android:id="@+id/drawer_time"
+        android:layout_width="@dimen/width_land_drawer"
+        android:layout_height="@dimen/height_land_drawer"
+        android:layout_gravity="bottom|center_horizontal"
+        android:allowSingleTap="true"
+        android:animateOnClick="true"
+        android:content="@+id/drawer_time_input"
+        android:handle="@+id/drawer_time_title"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/drawer_time_title"
+            style="@style/DrawerTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TableLayout
+            android:id="@+id/drawer_time_input"
+            style="@style/DrawerTable"
+            android:layout_width="@dimen/width_land_drawer"
+            android:layout_height="wrap_content" >
+
+            <TableRow
+                style="@style/DrawerTableRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    style="@style/DrawerLabelLand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/drawer_label_date" />
+
+                <TextView
+                    style="@style/DrawerLabelLand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/drawer_label_time" />
+
+                <TextView
+                    style="@style/DrawerLabelLand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/drawer_label_duration" />
+            </TableRow>
+
+            <TableRow
+                style="@style/DrawerTableRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/btn_day"
+                    style="@style/DrawerButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="showDatePickerDialog" />
+
+                <Button
+                    android:id="@+id/btn_start"
+                    style="@style/DrawerButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="showTimePickerDialog" />
+
+                <Button
+                    android:id="@+id/btn_duration"
+                    style="@style/DrawerButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="showNumberPickerDialog" />
+            </TableRow>
+        </TableLayout>
+    </SlidingDrawer>
+
+</FrameLayout>

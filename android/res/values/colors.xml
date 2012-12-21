@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ActionBar -->
+    <color name="pressed_parking">#CC99cc00</color>
+
+    <!-- Main -->
+    <color name="black">#000000</color>
+
+    <!-- Drawer Time -->
+    <color name="drawer_background">#99333333</color>
+    <color name="drawer_text">#ffffff</color>
+
+    <!-- About -->
+    <color name="about_text">#ffffff</color>
+    <color name="hyperlink">#99cc00</color>
+
+    <!-- Preferences -->
+    <color name="prefs_category_text">#ffffff</color>
+    <!-- <color name="prefs_category_background">#cc6ca144</color> -->
+
+</resources>

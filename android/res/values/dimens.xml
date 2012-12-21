@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_normal">8dp</dimen>
+    <dimen name="padding_double">16dp</dimen>
+    <dimen name="padding_large">48dp</dimen>
+
+    <!-- Main -->
+    <dimen name="height_port_drawer">200dp</dimen>
+    <dimen name="height_land_drawer">140dp</dimen>
+    <dimen name="width_land_drawer">360dp</dimen>
+
+</resources>

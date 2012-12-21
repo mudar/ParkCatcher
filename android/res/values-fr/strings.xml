@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <string name="app_version">0.5.0</string>
+
+    <!-- Activities -->
+    <string name="app_name">Capteur de stationnement Montréal</string>
+    <string name="activity_about">À propos</string>
+    <string name="activity_help">Aide</string>
+    <string name="activity_preferences">Paramètres</string>
+
+    <!-- Menus -->
+    <string name="menu_search">Recherche</string>
+    <string name="menu_help">Aide</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_about">À propos</string>
+
+    <!-- UI -->
+    <string name="tab_map">Carte</string>
+    <string name="tab_favorites">Favoris</string>
+
+    <!-- Search -->
+    <string name="search_hint">Adresse</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_title_duration">Durée</string>
+    <string name="dialog_value_duration">1&#160;heure</string>
+    <string name="dialog_value_duration_plural">%s&#160;heures</string>
+    <string name="dialog_set">Définir</string>
+    <string name="dialog_cancel">Annuler</string>
+    <string name="dialog_done">Ok</string>
+
+    <!-- Toast -->
+    <string name="toast_postal_code_processing">Recherche en cours…</string>
+    <string name="toast_search_error">Incapable de trouver %1$s</string>
+    <string name="toast_sync_error">Erreur de connexion : %s</string>
+    <string name="toast_sync_finished">Mise à jour terminée</string>
+    <string name="toast_network_connection_error">Pas de connexion réseau…</string>
+    <string name="toast_map_not_ready">Chargement de la carte en cours…</string>
+    <string name="toast_map_zoom_to_update">Veuillez faire un zoom avant pour mettre à jour la carte</string>
+
+    <!-- Map -->
+    <string name="map_marker_snippet_title">Stationnement autorisé</string>
+    <string name="map_marker_snippet_subtitle">Prochaines périodes d’interdiction&#160;:</string>
+
+    <!-- Drawer -->
+    <string name="drawer_time_title"><xliff:g id="string">%s</xliff:g> à&#160;<xliff:g id="string">%s</xliff:g> pour&#160;1&#160;heure</string>
+    <string name="drawer_time_title_plural"><xliff:g id="string">%s</xliff:g> à&#160;<xliff:g id="string">%s</xliff:g> pour&#160;<xliff:g id="string">%s</xliff:g>&#160;heures</string>
+    <string name="drawer_title_day">EEEE</string>
+    <string name="drawer_button_date">EEEE d MMMM</string>
+    <string name="drawer_button_time">kk&#160;\'h\'&#160;mm</string>
+    <string name="drawer_button_duration">1&#160;heure</string>
+    <string name="drawer_button_duration_plural">%s&#160;heures</string>
+    <string name="drawer_label_date">Jour</string>
+    <string name="drawer_label_time">Heure</string>
+    <string name="drawer_label_duration">Durée</string>
+
+    <!-- Favorites -->
+
+
+    <!-- PostDetails -->
+
+
+    <!-- About -->
+    <string name="logo_open_data">@drawable/logo_open_data_fr</string>
+    <string name="about_project_version">Version %s</string>
+    <string name="about_project_url"><a href="http://www.capteurdestationnement.com/">capteurdestationnement.com</a></string>
+    <string name="about_intro_1">Ne tournez plus en rond, évitez les contraventions, dirigez-vous directement vers la bonne rue&#160;!</string>
+    <string name="about_intro_2">Capteur de stationnement Montréal est votre guide pour stationner facilement. Un projet de données ouvertes.</string>
+    <string name="about_credits_1">Application Android réalisée par <a href="http://www.mudar.ca/">Mudar Noufal</a>. Le code source est publié sous la licence GPLv3 de la Free Software Foundation.</string>
+    <string name="about_credits_2">Direction artistique et design graphique par <a href="http://cargocollective.com/emmadumesnil/">Emma Dumesnil</a>.</string>
+    <string name="about_credits_3">Projet réalisé en collaboration avec <a href="http://montrealouvert.net/donnees-ouvertes-questions-frequemment-demandees/?lang=fr">Montréal ouvert</a>. Un grand merci à toutes les personnes de la Ville de Montréal et l’arrondissement du Plateau Mont-Royal qui ont rendu ce projet possible&#160;!</string>
+    <string name="about_open_data">Cette application est propulsée par le <a href="http://donnees.ville.montreal.qc.ca/fiche/stationnement-rue/">Portail</a> données ouvertes de la Ville de Montréal en conformité avec sa <a href="http://donnees.ville.montreal.qc.ca/licence-texte-complet">licence</a> d’utilisation des données ouvertes.</string>
+
+    <!-- Help -->
+    <string name="help_1">La carte interactive et le moteur de recherche vous permettent de trouver les emplacements où le stationnement est autorisé pour la période de votre choix.</string>
+    <string name="help_2">Chaque poteau de stationnement, affiché en vert, indique la prochaine période d’interdiction à cet emplacement.</string>
+    <string name="help_3">Les zones où le stationnement est interdit ne sont pas affichées.</string>
+
+    <!-- Prefrences -->
+    <string name="prefs_breadcrumb">Paramètres et réglages</string>
+    <string name="prefs_category_general">Paramètres généraux</string>
+    <string name="prefs_category_performance">Performance</string>
+    <string name="prefs_language_title">Langue</string>
+    <string name="prefs_language_summary">Changer la langue de l’interface</string>
+    <string name="prefs_language_dialog_title">Choix de langue</string>
+    <string name="prefs_language_french">Français</string>
+    <string name="prefs_language_english">English</string>
+    <string name="prefs_units_title">Unités de mesure</string>
+    <string name="prefs_units_summary">Afficher les distances en km ou en milles</string>
+    <string name="prefs_units_dialog_title">Système des unités de mesure</string>
+    <string name="prefs_units_iso">Métrique (km)</string>
+    <string name="prefs_units_imperial">Impérial (mile)</string>
+    <string name="prefs_follow_location_title">Optimiser les mesures</string>
+    <string name="prefs_follow_location_summary">Recommandé&#160;: actualisation en arrière-plan de la position géographique. Utile en déplacement.</string>
+
+    <!-- Accessibility -->
+    <string name="logo_open_data_content_desc">Montréal Ouvert [Logo]</string>
+    <string name="logo_about_content_desc">Capteur de stationnement [Logo]</string>
+
+    <!-- Offline -->
+
+
+    <!-- TEMP -->
+    <string name="park_distance_iso">%.1f km</string>
+    <string name="park_distance_iso_min">&lt; 100 m</string>
+    <string name="park_distance_imp">%.1f mi</string>
+    <string name="park_distance_imp_feet">%s ft</string>
+    <string name="park_distance_imp_min">&lt; 200 ft</string>
+
+</resources>

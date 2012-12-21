@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Main -->
+    <style name="LogoActionBar" parent="@style/Widget.Sherlock.ActionBar.Solid">
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="displayOptions">showHome|useLogo</item>
+    </style>
+
+    <style name="DrawerTitle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:background">@color/drawer_background</item>
+        <item name="android:padding">@dimen/padding_normal</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="DrawerTable">
+        <item name="android:background">@color/drawer_background</item>
+    </style>
+
+    <style name="DrawerTableRow">
+        <item name="android:gravity">center</item>
+        <!-- <item name="android:background">@color/drawer_background</item> -->
+    </style>
+
+    <style name="DrawerButton">
+        <!-- <item name="android:padding">@dimen/padding_normal</item> -->
+    </style>
+
+    <style name="DrawerLabel">
+        <item name="android:padding">@dimen/padding_normal</item>
+        <item name="android:textColor">@color/drawer_text</item>
+        <item name="android:layout_gravity">right|center_vertical</item>
+    </style>
+
+    <style name="DrawerLabelLand" parent="@style/DrawerLabel">
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <!-- Dialogs -->
+    <style name="DialogDuration">
+        <item name="android:padding">@dimen/padding_normal</item>
+    </style>
+
+    <style name="DurationValue" parent="@android:style/TextAppearance.Medium">
+        <item name="android:paddingBottom">@dimen/padding_normal</item>
+    </style>
+
+    <!-- Preferences -->
+    <style name="TextContent">
+        <item name="android:padding">@dimen/padding_double</item>
+    </style>
+
+    <style name="AboutBox">
+        <item name="android:background">@drawable/ab_solid_parking</item>
+        <item name="android:padding">@dimen/padding_double</item>
+        <item name="android:layout_marginBottom">@dimen/padding_double</item>
+    </style>
+
+    <style name="AboutBoxText" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/about_text</item>
+        <item name="android:textColorLink">@color/hyperlink</item>
+        <item name="android:focusableInTouchMode">false</item>
+    </style>
+
+    <style name="AboutBoxFooter" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/hyperlink</item>
+        <item name="android:textColorLink">@color/hyperlink</item>
+        <item name="android:focusableInTouchMode">false</item>
+    </style>
+
+    <!-- Preferences -->
+    <style name="PrefsListView" parent="android:Widget.ListView">
+        <item name="android:listSelector">@drawable/selectable_background_parking</item>
+
+        <!-- <item name="android:cacheColorHint">@color/black</item> -->
+        <item name="android:overScrollFooter">#600000</item>
+    </style>
+
+    <style name="PrefsCategory" parent="@android:style/TextAppearance.Small">
+
+        <!-- <item name="android:background">@color/prefs_category_background</item> -->
+        <item name="android:background">@drawable/ab_transparent_parking</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/prefs_category_text</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingTop">@dimen/padding_small</item>
+        <item name="android:paddingLeft">@dimen/padding_small</item>
+        <item name="android:paddingBottom">@dimen/padding_normal</item>
+    </style>
+
+</resources>
