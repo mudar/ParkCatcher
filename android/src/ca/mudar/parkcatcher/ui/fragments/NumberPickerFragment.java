@@ -1,3 +1,25 @@
+/*
+    Park Catcher Montréal
+    Find a free parking in the nearest residential street when driving in
+    Montréal. A Montréal Open Data project.
+
+    Copyright (C) 2012 Mudar Noufal <mn@mudar.ca>
+
+    This file is part of Park Catcher Montréal.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package ca.mudar.parkcatcher.ui.fragments;
 
@@ -55,12 +77,13 @@ public class NumberPickerFragment extends DialogFragment {
 
         LayoutInflater factory = LayoutInflater.from(getActivity());
         final View view = factory.inflate(R.layout.fragment_number_picker, null);
-        final NumberPicker numberPicker = (NumberPicker) view.findViewById(R.id.number_picker_duration);
+        final NumberPicker numberPicker = (NumberPicker) view
+                .findViewById(R.id.number_picker_duration);
 
         numberPicker.setMinValue(Const.DURATION_MIN);
         numberPicker.setMaxValue(Const.DURATION_MAX);
         numberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        
+
         int currentDuration = mListener.getParkingDuration();
         numberPicker.setValue(currentDuration);
 

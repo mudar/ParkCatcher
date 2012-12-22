@@ -1,11 +1,11 @@
 /*
-    Patiner Montréal for Android.
-    Information about outdoor rinks in the city of Montréal: conditions,
-    services, contact, map, etc.
+    Park Catcher Montréal
+    Find a free parking in the nearest residential street when driving in
+    Montréal. A Montréal Open Data project.
 
-    Copyright (C) 2010 Mudar Noufal <mn@mudar.ca>
+    Copyright (C) 2012 Mudar Noufal <mn@mudar.ca>
 
-    This file is part of Patiner Montréal for Android.
+    This file is part of Park Catcher Montréal.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -207,15 +207,15 @@ public class Helper {
      * @param Location
      * @return GeoPoint
      */
-//    public static GeoPoint locationToGeoPoint(Location location) {
-//        if (location == null) {
-//            return null;
-//        }
-//        GeoPoint geoPoint = new GeoPoint((int) (location.getLatitude() * 1E6),
-//                (int) (location.getLongitude() * 1E6));
-//
-//        return geoPoint;
-//    }
+    // public static GeoPoint locationToGeoPoint(Location location) {
+    // if (location == null) {
+    // return null;
+    // }
+    // GeoPoint geoPoint = new GeoPoint((int) (location.getLatitude() * 1E6),
+    // (int) (location.getLongitude() * 1E6));
+    //
+    // return geoPoint;
+    // }
 
     /**
      * Convert GeoPoint to Location
@@ -223,12 +223,12 @@ public class Helper {
      * @param GeoPoint
      * @return Location
      */
-//    public static Location geoPointToLocation(GeoPoint geoPoint) {
-//        Location location = new Location(Const.LOCATION_PROVIDER);
-//
-//        location.setLatitude(geoPoint.getLatitudeE6() / 1E6);
-//        location.setLongitude(geoPoint.getLongitudeE6() / 1E6);
-//
-//        return location;
-//    }
+    // public static Location geoPointToLocation(GeoPoint geoPoint) {
+    // Location location = new Location(Const.LOCATION_PROVIDER);
+    //
+    // location.setLatitude(geoPoint.getLatitudeE6() / 1E6);
+    // location.setLongitude(geoPoint.getLongitudeE6() / 1E6);
+    //
+    // return location;
+    // }
 }

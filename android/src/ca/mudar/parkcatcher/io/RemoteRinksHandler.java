@@ -1,11 +1,11 @@
 /*
-    Patiner Montréal for Android.
-    Information about outdoor rinks in the city of Montréal: conditions,
-    services, contact, map, etc.
+    Park Catcher Montréal
+    Find a free parking in the nearest residential street when driving in
+    Montréal. A Montréal Open Data project.
 
-    Copyright (C) 2010 Mudar Noufal <mn@mudar.ca>
+    Copyright (C) 2012 Mudar Noufal <mn@mudar.ca>
 
-    This file is part of Patiner Montréal for Android.
+    This file is part of Park Catcher Montréal.
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

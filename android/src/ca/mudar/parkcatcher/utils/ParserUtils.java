@@ -24,8 +24,6 @@
 
 package ca.mudar.parkcatcher.utils;
 
-
-
 import ca.mudar.parkcatcher.providers.RinksContract;
 import ca.mudar.parkcatcher.providers.RinksContract.SyncColumns;
 
@@ -108,8 +106,9 @@ public class ParserUtils {
     }
 
     /**
-     * @author Andrew Pearson 
-     * {@link http://blog.andrewpearson.org/2010/07/android-why-to-use-json-and-how-to-use.html}
+     * @author Andrew Pearson {@link http
+     *         ://blog.andrewpearson.org/2010/07/android
+     *         -why-to-use-json-and-how-to-use.html}
      * @param archiveQuery URL of JSON resources
      * @return String Raw content, requires use of JSONArray() and
      *         getJSONObject()

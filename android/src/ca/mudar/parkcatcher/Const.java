@@ -1,3 +1,25 @@
+/*
+    Park Catcher Montréal
+    Find a free parking in the nearest residential street when driving in
+    Montréal. A Montréal Open Data project.
+
+    Copyright (C) 2012 Mudar Noufal <mn@mudar.ca>
+
+    This file is part of Park Catcher Montréal.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package ca.mudar.parkcatcher;
 
@@ -44,9 +66,9 @@ public class Const {
     // API
     private static final String API_SERVER_NAME = "http://www.parkcatcher.com";
 
-    public static final String API_POSTS = API_SERVER_NAME + "/api/?day=%s&hour=%s&duration=%s&latNW=%s&lonNW=%s&latSE=%s&lonSE=%s";
-    
-    
+    public static final String API_POSTS = API_SERVER_NAME
+            + "/api/?day=%s&hour=%s&duration=%s&latNW=%s&lonNW=%s&latSE=%s&lonSE=%s";
+
     // Intent and Bundle extras
     public static final String INTENT_EXTRA_POST_ID = "post_id";
 
@@ -59,10 +81,9 @@ public class Const {
     public static final String LOCATION_PROVIDER_INTENT = "IntentLocationProvider";
     public static final String LOCATION_PROVIDER_PREFS = "PrefsLocationProvider";
     public static final String LOCATION_PROVIDER_SERVICE = "ServiceLocationProvider";
-    
-    
+
     public static final int PADDING_BOTTOM_ZOOM = 40;
-    
+
     public static final double MAPS_DEFAULT_COORDINATES[] = {
             45.5d, -73.666667d
     };
@@ -105,7 +126,7 @@ public class Const {
     public static final int BUNDLE_SEARCH_ADDRESS_ERROR = 0x0;
     public static final String KEY_BUNDLE_ADDRESS_LAT = "bundle_address_lat";
     public static final String KEY_BUNDLE_ADDRESS_LNG = "bundle_address_lng";
-    
+
     public static final String INTENT_EXTRA_GEO_LAT = "geo_lat";
     public static final String INTENT_EXTRA_GEO_LNG = "geo_lng";
     public static final String INTENT_EXTRA_FORCE_UPDATE = "force_update";

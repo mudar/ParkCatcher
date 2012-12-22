@@ -1,7 +1,6 @@
 This project has three external library dependencies:
 
 1. `ActionBarSherlock` to add actionbar support to API < 11 (pre-honeycomb).
-    Modified to add support to the new SupportMapFragment.
     
         http://actionbarsherlock.com/
         Version 4.2.0

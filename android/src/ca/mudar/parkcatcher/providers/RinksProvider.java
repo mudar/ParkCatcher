@@ -23,8 +23,6 @@
 
 package ca.mudar.parkcatcher.providers;
 
-
-
 import ca.mudar.parkcatcher.Const.DbValues;
 import ca.mudar.parkcatcher.providers.RinksContract.Boroughs;
 import ca.mudar.parkcatcher.providers.RinksContract.Favorites;
@@ -32,6 +30,7 @@ import ca.mudar.parkcatcher.providers.RinksContract.Parks;
 import ca.mudar.parkcatcher.providers.RinksContract.ParksColumns;
 import ca.mudar.parkcatcher.providers.RinksContract.Rinks;
 import ca.mudar.parkcatcher.providers.RinksDatabase.Tables;
+import ca.mudar.parkcatcher.services.SyncService;
 import ca.mudar.parkcatcher.utils.SelectionBuilder;
 
 import android.app.Activity;
