@@ -2,17 +2,22 @@
 
 ##A Montréal Open Data project. Find a free parking in the nearest residential area.
 
-Park Catcher Montréal is your guide to easy parking. Find spots where parking is allowed for the time period you need using the interactive map and the search engine. Stop driving in circles, avoid parking tickets, head directly to the right street! 
+Park Catcher Montréal is your guide to easy parking. Find spots where parking is allowed for the time period you need, using the interactive map and the search engine. Stop driving in circles, avoid parking tickets, head directly to the right street! 
 
-A **GeoJSON API** is available. Check the [Wiki][link_wiki_api] or the [example][link_api_example] for more information. Mobile versions for **Android** and **iOS** are currently under development…
+Powered by Open Data provided by the City of Montréal [Open Data Portal][link_portal], Park Catcher is an open source [website][link_parkcatcher] and [Android app][link_parkcatcher_playstore].
 
-Park Catcher Montréal is an open source project, powered by Open Data provided by the City of Montréal [Open Data Portal][link_portal].
+A **GeoJSON API** is also available. Check the [Wiki][link_wiki_api] or the [example][link_api_example] for more information. **iOS** mobile version is currently under development…
+
 
 ##Links
 
 [www.parkcatcher.com][link_parkcatcher]
 
 [www.capteurdestationnement.com][link_capteurdestationnement]
+
+[Park Catcher on Google Play][link_parkcatcher_playstore]
+
+[![Android app on Google Play][img_playstore_badge]][link_parkcatcher_playstore]
 
 Check the project's [Wiki][link_wiki] for more resources:  
 
@@ -61,11 +66,23 @@ Data sources are JSON and KMZ files provided by the City of Montréal:
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-The website is powered by CodeIgniter (c) EllisLab, Inc.
+The **website** is powered by [CodeIgniter][link_lib_codeigniter] &copy; EllisLab, Inc. Map data &copy; 2012 [OpenStreetMap][link_lib_openstreetmap], powered by [Leaflet][link_lib_leaflet] &copy; CloudMade.
 
+The **Android app** includes (thanks!) libraries and derivative work of the following projects:
+
+* [Action Bar Sherlock][link_lib_actionbarsherlock] &copy; Jake Wharton.
+* [Google Gson][link_lib_gson] &copy; Google Inc.
+* [Google I/O App][link_lib_iosched] iosched &copy; Google Inc.
+* [Android Protips Location][link_lib_radioactiveyak] &copy; Reto Meier
+* [AOSP][link_lib_aosp] &copy; The Android Open Source Project.
+
+These five projects are all released under the [Apache License v2.0][link_apache]. Map data is powered by Google Maps Android API v2.
+
+[![Android app on Google Play][img_devices]][link_parkcatcher_playstore]
 
 [link_capteurdestationnement]: http://www.capteurdestationnement.com/
 [link_parkcatcher]: http://www.parkcatcher.com/
+[link_parkcatcher_playstore]: http://play.google.com/store/apps/details?id=ca.mudar.parkcatcher
 [link_mtl_ouvert]: http://montrealouvert.net/?page_id=113&lang=en
 [link_mudar_ca]: http://www.mudar.ca/
 [link_emma_cargo]: http://cargocollective.com/emmadumesnil/
@@ -81,4 +98,15 @@ The website is powered by CodeIgniter (c) EllisLab, Inc.
 [link_apache]: http://www.apache.org/licenses/LICENSE-2.0
 [img_mtl_ouvert]: http://www.parkcatcher.com/img/logo_montreal_ouvert_github.png
 [img_github]: http://www.parkcatcher.com/img/park-catcher-github.png
+[img_devices]: http://www.parkcatcher.com/img/phone_tablet_github.png
+[img_playstore_badge]: http://developer.android.com/images/brand/en_app_rgb_wo_60.png
+[link_lib_codeigniter]: http://ellislab.com/codeigniter
+[link_lib_leaflet]: http://leafletjs.com/
+[link_lib_openstreetmap]: http://www.openstreetmap.org/
+[link_lib_actionbarsherlock]: https://github.com/JakeWharton/ActionBarSherlock
+[link_lib_gson]: http://code.google.com/p/google-gson/
+[link_lib_iosched]: http://code.google.com/p/iosched/
+[link_lib_radioactiveyak]: http://code.google.com/p/android-protips-location/
+[link_lib_aosp]: http://source.android.com/
+[link_apache]: http://www.apache.org/licenses/LICENSE-2.0
 
