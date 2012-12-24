@@ -21,10 +21,36 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:text="@string/todo_favorites" />
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        style="@style/FavoritesBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/AboutBoxText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/padding_normal"
+            android:text="@string/todo_favorites_1" />
+
+        <TextView
+            style="@style/AboutBoxText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/padding_normal"
+            android:text="@string/todo_favorites_2" />
+
+        <TextView
+            style="@style/AboutBoxText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/padding_normal"
+            android:text="@string/todo_favorites_3" />
+    </LinearLayout>
+
+</ScrollView>

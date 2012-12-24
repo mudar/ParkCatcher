@@ -23,6 +23,8 @@
 -->
 <resources>
 
+    <color name="green">#CC99cc00</color>
+
     <!-- ActionBar -->
     <color name="pressed_parking">#CC99cc00</color>
 

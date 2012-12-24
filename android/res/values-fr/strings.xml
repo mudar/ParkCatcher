@@ -23,7 +23,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_version">0.5.0</string>
+    <string name="app_version">0.5.3 bêta</string>
 
     <!-- Activities -->
     <string name="app_name">Capteur de stationnement Montréal</string>
@@ -60,10 +60,16 @@
     <string name="toast_network_connection_error">Pas de connexion réseau…</string>
     <string name="toast_map_not_ready">Chargement de la carte en cours…</string>
     <string name="toast_map_zoom_to_update">Veuillez faire un zoom avant pour mettre à jour la carte</string>
+    <string name="toast_playservices_restart">Redémarrage de Capteur de stationnement… Mise à jour réussi de Google Play services&#160;!</string>
 
     <!-- Map -->
     <string name="map_marker_snippet_title">Stationnement autorisé</string>
     <string name="map_marker_snippet_subtitle">Prochaines périodes d’interdiction&#160;:</string>
+
+    <!-- Playservices -->
+    <string name="playservices_title">De quoi s’agit-il&#160;?</string>
+    <string name="playservices_1">Avec les services Google Play, les applications Android du Play Store s’intègrent dans Google+, Google Maps ainsi que d’autres services Google. Pour pouvoir fonctionner correctement, certaines applications peuvent nécessiter l’installation et la mise à jour des services Google Play.</string>
+    <string name="playservices_2">Les services Google Play sont généralement mis à jour automatiquement sur les appareils Android. Si vous utilisez une application nécessitant la version la plus récente des services Google Play, vous êtes redirigé vers le Play Store où vous pouvez les installer ou les mettre à jour manuellement.</string>
 
     <!-- Drawer -->
     <string name="drawer_time_title"><xliff:g id="string">%s</xliff:g> à&#160;<xliff:g id="string">%s</xliff:g> pour&#160;1&#160;heure</string>
@@ -78,8 +84,9 @@
     <string name="drawer_label_duration">Durée</string>
 
     <!-- Favorites -->
-    <string name="todo_favorites">À FAIRE: This contains list of user’s favorite parking spots</string>
-
+    <string name="todo_favorites_1">À venir bientôt&#160;!</string>
+    <string name="todo_favorites_2">Cette section est encore en chantier… La prochaine version vous permettra de sauvegarder les emplacements dans une listes de favoris.</string>
+    <string name="todo_favorites_3">Autre fonctionnalités à venir&#160;:\r\n- Utilisation en mode hors-ligne.\r\n- Historique et aide à la saisie pour la recherche d’adresses.\r\n- Intégration avec les applications Street View et Navigation de Google.\r\n- Tutoriel pour démystifier les règles de stationnement à Montréal&#160;!</string>
 
     <!-- PostDetails -->
 
@@ -96,10 +103,12 @@
     <string name="about_open_data">Cette application est propulsée par le <a href="http://donnees.ville.montreal.qc.ca/fiche/stationnement-rue/">Portail</a> données ouvertes de la Ville de Montréal en conformité avec sa <a href="http://donnees.ville.montreal.qc.ca/licence-texte-complet">licence</a> d’utilisation des données ouvertes.</string>
 
     <!-- Help -->
-    <string name="todo_help">À FAIRE: This contains list of user’s favorite parking spots</string>
     <string name="help_1">La carte interactive et le moteur de recherche vous permettent de trouver les emplacements où le stationnement est autorisé pour la période de votre choix.</string>
-    <string name="help_2">Chaque poteau de stationnement, affiché en vert, indique la prochaine période d’interdiction à cet emplacement.</string>
-    <string name="help_3">Les zones où le stationnement est interdit ne sont pas affichées.</string>
+    <string name="help_2">Appuyez sur un poteau de stationnement, affiché en <b>vert</b>, pour afficher la prochaine période d’interdiction à cet emplacement.</string>
+    <string name="help_3">Les emplacements où le stationnement est <b>interdit</b> ne sont pas affichées.</string>
+    <string name="help_4">Appuyez sur <b>la date</b> en bas de l’écran pour saisir la période de temps pour laquelle vous cherchez un stationnement.</string>
+    <string name="help_5"><b>Appuyez longuement</b> sur la carte pour modifier votre position géographique.</string>
+    <string name="help_6"><b>Appuyez deux fois</b> sur le titre de l’onglet «&#160;Carte&#160;» pour réinitialiser la période de recherche et votre position géographique.</string>
 
     <!-- Prefrences -->
     <string name="prefs_breadcrumb">Paramètres et réglages</string>

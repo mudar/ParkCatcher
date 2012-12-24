@@ -23,7 +23,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_version">0.5.0</string>
+    <string name="app_version">0.5.3 beta</string>
 
     <!-- Activities -->
     <string name="app_name">Park Catcher Montréal</string>
@@ -60,10 +60,16 @@
     <string name="toast_network_connection_error">Network connection is unavailable…</string>
     <string name="toast_map_not_ready">Loading Map…</string>
     <string name="toast_map_zoom_to_update">Please zoom in to update map information</string>
+    <string name="toast_playservices_restart">Restarting Park Catcher… Google Play services successfully update!</string>
 
     <!-- Map -->
     <string name="map_marker_snippet_title">Parking Allowed</string>
     <string name="map_marker_snippet_subtitle">Next forbidden periods:</string>
+
+    <!-- Playservices -->
+    <string name="playservices_title">What is this about?</string>
+    <string name="playservices_1">Google Play services lets Android apps from the Google Play Store integrate with Google+, Google Maps, and other Google services. To work correctly, some apps may require Google Play services to be present and up to date.</string>
+    <string name="playservices_2">Google Play services is usually updated automatically on Android devices. In the event you use an app that requires the latest Google Play services, you will be redirected to install or update it manually from the Google Play Store.</string>
 
     <!-- Drawer -->
     <string name="drawer_time_title"><xliff:g id="string">%s</xliff:g> at&#160;<xliff:g id="string">%s</xliff:g> for&#160;1&#160;hour</string>
@@ -78,7 +84,9 @@
     <string name="drawer_label_duration">Duration</string>
 
     <!-- Favorites -->
-    <string name="todo_favorites">TODO: This contains list of user’s favorite parking spots</string>
+    <string name="todo_favorites_1">Coming Soon!</string>
+    <string name="todo_favorites_2">This section is still under construction, please be patient… The next version will allow you to save locations into a list of Favorites.</string>
+    <string name="todo_favorites_3">Other upcoming features:\r\n- Offline mode support.\r\n- Address search history and auto-complete.\r\n- Integration with Google Navigation and Street View.\r\n- Tutorial demystifying Montreal’s parking rules!</string>
 
     <!-- PostDetails -->
 
@@ -95,10 +103,12 @@
     <string name="about_open_data">This app is powered by The City of Montréal Open Data <a href="http://donnees.ville.montreal.qc.ca/fiche/stationnement-rue/">Portal</a>, in compliance with its Open Data <a href="http://donnees.ville.montreal.qc.ca/licence-texte-complet">license</a>.</string>
 
     <!-- Help -->
-    <string name="todo_help">TODO: This contains list of user’s favorite parking spots</string>
-    <string name="help_1">EN La carte interactive et le moteur de recherche vous permettent de trouver les emplacements où le stationnement est autorisé pour la période de votre choix.</string>
-    <string name="help_2">EN Chaque poteau de stationnement, affiché en vert, indique la prochaine période d’interdiction à cet emplacement.</string>
-    <string name="help_3">EN Les zones où le stationnement est interdit ne sont pas affichées.</string>
+    <string name="help_1">The interactive map and the search engine allow you to find spots where parking is allowed for the time period you need.</string>
+    <string name="help_2">Tap on a parking post, displayed in <b>green</b>, to display the next no-parking period in that area.</string>
+    <string name="help_3">The zones where parking is <b>not allowed</b> are not displayed on the map.</string>
+    <string name="help_4">Tap the <b>date</b> at the screen bottom to enter the time period for which you need a parking spot.</string>
+    <string name="help_5"><b>Long press</b> on the map to change your geographic location.</string>
+    <string name="help_6"><b>Press twice</b> on the “Map” tab title to reset the search time period and your geographic location.</string>
 
     <!-- Prefrences -->
     <string name="prefs_breadcrumb">Settings and Preferences</string>

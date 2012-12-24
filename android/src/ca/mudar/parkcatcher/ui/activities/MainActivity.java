@@ -57,6 +57,7 @@ import android.widget.Button;
 import android.widget.SlidingDrawer;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -78,6 +79,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
     FavoritesFragment mFavoritesFragment;
     private Location initLocation;
     private boolean isCenterOnMyLocation;
+    private boolean isPlayservicesOutdated;
 
     ActivityHelper activityHelper;
     ParkingApp parkingApp;
@@ -100,8 +102,14 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         parkingApp = (ParkingApp) getApplicationContext();
         parkingApp.updateUiLanguage();
 
-        if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS) {
-            setContentView(R.layout.fragment_about);
+        isPlayservicesOutdated = (GooglePlayServicesUtil
+                .isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS);
+
+        if (isPlayservicesOutdated) {
+            disableLocationUpdates();
+            isCenterOnMyLocation = false;
+            setContentView(R.layout.activity_playservices_update);
+            return;
         }
         else {
             setContentView(R.layout.activity_main);
@@ -192,6 +200,23 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
     @Override
     public void onResume() {
         super.onResume();
+
+        // Check Playservices status
+        if (isPlayservicesOutdated) {
+
+            if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS) {
+                // Still out of date, interrupt onResume()
+                disableLocationUpdates();
+            }
+            else {
+                // Playservice updated, display message and restart activity
+                parkingApp.showToastText(R.string.toast_playservices_restart, Toast.LENGTH_LONG);
+                final Intent intent = getIntent();
+                this.finish();
+                startActivity(intent);
+            }
+            return;
+        }
 
         if (!ConnectionHelper.hasConnection(this)) {
             ConnectionHelper.showDialogNoConnection(this);
