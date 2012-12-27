@@ -632,15 +632,13 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
                 }
 
                 Post post = geoJson.getFeatures().get(i);
-                // Log.v(TAG, "post = " + post.toString());
 
                 final Marker marker = mMap.addMarker(new MarkerOptions()
                         .position(post.getLatLng())
                         .snippet(post.getDesc())
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(HUE_MARKER)).visible(true));
-                // Log.v(TAG, "myMarker = " + myMarker.getTitle());
-                // break;
+
                 if (clickedMarker != null) {
                     if (clickedMarker.getPosition().equals(marker.getPosition())) {
                         marker.showInfoWindow();

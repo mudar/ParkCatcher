@@ -186,5 +186,5 @@ public class Const {
     // passive background updates.
     public static boolean DISABLE_PASSIVE_LOCATION_WHEN_USER_EXIT = false;
 
-    public static String ACTIVE_LOCATION_UPDATE_PROVIDER_DISABLED = "ca.mudar.patinoires.data.ACTIVE_LOCATION_UPDATE_PROVIDER_DISABLED";
+    public static String ACTIVE_LOCATION_UPDATE_PROVIDER_DISABLED = "ca.mudar.parkcatcher.data.ACTIVE_LOCATION_UPDATE_PROVIDER_DISABLED";
 }

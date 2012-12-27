@@ -104,7 +104,7 @@ public class RinksContract {
         final String FAVORITE_IS_FAVORITE_MAPPED = "( favorites.rink_id IS NOT NULL )";
     }
 
-    public static final String CONTENT_AUTHORITY = "ca.mudar.patinoires";
+    public static final String CONTENT_AUTHORITY = "ca.mudar.parkcatcher";
 
     private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 

@@ -50,7 +50,7 @@ import java.util.List;
 public class GingerbreadLastLocationFinder implements ILastLocationFinder {
 
     protected static String TAG = "LastLocationFinder";
-    protected static String SINGLE_LOCATION_UPDATE_ACTION = "ca.mudar.patinoires.data.SINGLE_LOCATION_UPDATE_ACTION";
+    protected static String SINGLE_LOCATION_UPDATE_ACTION = "ca.mudar.parkcatcher.data.SINGLE_LOCATION_UPDATE_ACTION";
 
     protected PendingIntent singleUpatePI;
     protected LocationListener locationListener;

@@ -65,6 +65,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import com.crittercism.app.Crittercism;
+
 public class MainActivity extends LocationFragmentActivity implements ActionBar.TabListener,
         DatePickerFragment.OnParkingCalendarChangedListener,
         TimePickerFragment.OnParkingCalendarChangedListener,
@@ -93,6 +95,8 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Crittercism.init(getApplicationContext(), "50dcd78a59e1bd0d82000002");
+        
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         activityHelper = ActivityHelper.createInstance(this);

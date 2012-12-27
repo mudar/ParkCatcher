@@ -37,8 +37,8 @@ import android.util.Log;
 public class RinksDatabase extends SQLiteOpenHelper {
     private static final String TAG = "RinksDatabase";
 
-    private static final String DATABASE_NAME = "patinoires_mtl";
-    private static final int DATABASE_VERSION = 10;
+    private static final String DATABASE_NAME = "parkcatcher.db";
+    private static final int DATABASE_VERSION = 11;
 
     public static interface Tables {
         final String BOROUGHS = "boroughs";

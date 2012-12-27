@@ -23,7 +23,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_version">0.5.3 beta</string>
+    <string name="app_version">0.6 beta</string>
 
     <!-- Activities -->
     <string name="app_name">Park Catcher Montréal</string>
