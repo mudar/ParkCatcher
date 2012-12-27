@@ -95,7 +95,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Crittercism.init(getApplicationContext(), "50dcd78a59e1bd0d82000002");
+        Crittercism.init(getApplicationContext(), "__CRITTERCISM_APP_ID__");
         
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
