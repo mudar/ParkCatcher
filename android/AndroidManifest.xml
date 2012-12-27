@@ -128,6 +128,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.activities.EulaActivity"
+            android:exported="false"
+            android:label="@string/activity_eula"
+            android:theme="@style/AppTheme.Eula" >
+        </activity>
+        <activity
             android:name=".ui.activities.AboutActivity"
             android:exported="false"
             android:label="@string/activity_about" >

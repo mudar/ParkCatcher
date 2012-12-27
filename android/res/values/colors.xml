@@ -24,19 +24,27 @@
 <resources>
 
     <color name="green">#CC99cc00</color>
+    <color name="background">#2c2c2c</color>
 
     <!-- ActionBar -->
     <color name="pressed_parking">#CC99cc00</color>
 
+    <!-- Eula -->
+    <color name="eula_bg">#ffffff</color>
+
     <!-- Main -->
     <color name="black">#000000</color>
+    <color name="no_connection_text">#ccffffff</color>
+
+    <!-- UI -->
+    <color name="btn_text">#c0000000</color>
 
     <!-- Map -->
     <color name="map_info_title">#ff000000</color>
     <color name="map_info_snippet">#ff7f7f7f</color>
 
     <!-- Drawer Time -->
-    <color name="drawer_background">#99333333</color>
+    <color name="drawer_background">#cc2c2c2c</color>
     <color name="drawer_text">#ffffff</color>
 
     <!-- About -->

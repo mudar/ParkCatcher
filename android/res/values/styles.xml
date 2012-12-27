@@ -24,16 +24,29 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- Eula -->
+    <style name="EulaButton" parent="@style/ButtonAppTheme">
+        <item name="android:textColor">@color/btn_text</item>
+        <item name="android:textSize">@dimen/button_text</item>
+    </style>
+
     <!-- Main -->
     <style name="LogoActionBar" parent="@style/Widget.Sherlock.ActionBar.Solid">
         <item name="android:displayOptions">showHome|useLogo</item>
         <item name="displayOptions">showHome|useLogo</item>
     </style>
 
+    <style name="NoConnectionTitle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:padding">@dimen/padding_normal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/no_connection_text</item>
+    </style>
+
     <style name="DrawerTitle" parent="@android:style/TextAppearance.Medium">
         <item name="android:background">@color/drawer_background</item>
         <item name="android:padding">@dimen/padding_normal</item>
         <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/drawer_text</item>
     </style>
 
     <style name="DrawerTable">
@@ -45,8 +58,9 @@
         <!-- <item name="android:background">@color/drawer_background</item> -->
     </style>
 
-    <style name="DrawerButton">
-        <!-- <item name="android:padding">@dimen/padding_normal</item> -->
+    <style name="DrawerButton" parent="@style/ButtonAppTheme">
+        <item name="android:textColor">@color/btn_text</item>
+        <item name="android:textSize">@dimen/button_text</item>
     </style>
 
     <style name="DrawerLabel">
@@ -71,8 +85,7 @@
     <!-- Favorites -->
     <style name="FavoritesBox" parent="@style/TextContent">
         <item name="android:layout_margin">@dimen/padding_double</item>
-        <item name="android:background">@drawable/ab_solid_parking</item>
-        <item name="android:layout_marginBottom">@dimen/padding_double</item>
+        <item name="android:background">@color/background</item>
     </style>
 
     <style name="PlayservicesTitle" parent="@android:style/TextAppearance.Medium">
@@ -83,10 +96,11 @@
     <!-- About -->
     <style name="TextContent">
         <item name="android:padding">@dimen/padding_double</item>
+        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
     <style name="AboutBox">
-        <item name="android:background">@drawable/ab_solid_parking</item>
+        <item name="android:background">@color/background</item>
         <item name="android:padding">@dimen/padding_double</item>
         <item name="android:layout_marginBottom">@dimen/padding_double</item>
     </style>
@@ -106,8 +120,7 @@
     <!-- Help -->
     <style name="HelpBox" parent="@style/TextContent">
         <item name="android:layout_margin">@dimen/padding_double</item>
-        <item name="android:background">@drawable/ab_solid_parking</item>
-        
+        <item name="android:background">@color/background</item>
     </style>
 
     <style name="HelpBoxText" parent="@style/AboutBoxText" />

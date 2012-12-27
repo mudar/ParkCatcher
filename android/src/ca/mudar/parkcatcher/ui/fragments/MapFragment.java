@@ -117,6 +117,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
     private Location mMapCenter = null;
     private LatLng screenCenter = null;
     private Marker clickedMarker = null;
+    private Marker searchedMarker = null;
     private boolean hasHintMarker = true;
 
     ActivityHelper activityHelper;
@@ -136,6 +137,8 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
         public void OnMyLocationChanged(Location location);
 
         public void OnMyMapClickListener();
+
+        public void OnSearchClickListener();
     }
 
     /**
@@ -273,6 +276,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
         if (mLongPressLocationSource != null) {
             mLongPressLocationSource.onResume();
         }
+
         // if (mLocationSource != null) {
         // mLocationSource.onResume();
         // }
@@ -317,7 +321,10 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
                 View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View v, boolean hasFocus) {
-                        if (!hasFocus) {
+                        if (hasFocus) {
+                            mListener.OnSearchClickListener();
+                        }
+                        else {
                             searchItem.collapseActionView();
                         }
                     }
@@ -422,6 +429,19 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             location.setLongitude(b.getDouble(Const.KEY_BUNDLE_ADDRESS_LNG));
 
             setMapCenterZoomed(location);
+
+            /**
+             * Add marker for found location
+             */
+
+            searchedMarker = mMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
+                    .title(postalCode)
+                    .snippet(null)
+                    .icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).visible(true));
+            searchedMarker.showInfoWindow();
+
         } else {
             /**
              * Address not found! Display error message.
@@ -585,6 +605,16 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             }
 
             mMap.clear();
+
+            if (searchedMarker != null) {
+                searchedMarker = mMap.addMarker(new MarkerOptions()
+                        .position(searchedMarker.getPosition())
+                        .title(searchedMarker.getTitle())
+                        .snippet(null)
+                        .icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).visible(true));
+                searchedMarker.showInfoWindow();
+            }
 
             if (screenCenter == null || clickedMarker != null) {
                 hasHintMarker = false;
@@ -864,6 +894,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
      * Tab re-selection.
      */
     public void resetMapCenter() {
+        searchedMarker = null;
         if (!mMap.isMyLocationEnabled()) {
             mMap.setMyLocationEnabled(true);
         }

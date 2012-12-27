@@ -72,6 +72,7 @@ public class Const {
     // Intent and Bundle extras
     public static final String INTENT_EXTRA_POST_ID = "post_id";
 
+    public static final int INTENT_REQ_CODE_EULA = 0x10;
     // public static final int INTENT_REQ_CODE_SPLASH = 0x10;
     // public static String INTENT_GMAPS_PACKAGE_NAME = "";
 
@@ -103,6 +104,7 @@ public class Const {
         final String LAST_UPDATE_LNG = "prefs_last_update_lng";
         final String LAST_UPDATE_TIME_GEO = "prefs_last_update_time_geo";
         final String FOLLOW_LOCATION_CHANGES = "prefs_follow_location_changes";
+        final String HAS_ACCEPTED_EULA = "accepted_eula";
     }
 
     public static interface PrefsValues {

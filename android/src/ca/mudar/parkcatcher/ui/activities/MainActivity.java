@@ -34,6 +34,7 @@ import ca.mudar.parkcatcher.ui.fragments.NumberSeekBarFragment;
 import ca.mudar.parkcatcher.ui.fragments.TimePickerFragment;
 import ca.mudar.parkcatcher.utils.ActivityHelper;
 import ca.mudar.parkcatcher.utils.ConnectionHelper;
+import ca.mudar.parkcatcher.utils.EulaHelper;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -93,14 +94,26 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        // requestWindowFeature(Window.FEATURE_PROGRESS);
-
-        // Log.v(TAG, "onCreate");
 
         activityHelper = ActivityHelper.createInstance(this);
 
         parkingApp = (ParkingApp) getApplicationContext();
         parkingApp.updateUiLanguage();
+
+        /**
+         * Display the GPLv3 licence
+         */
+        if (!EulaHelper.hasAcceptedEula(this)) {
+            if (ConnectionHelper.hasConnection(this)) {
+                EulaHelper.showEula(false, this);
+            }
+            else {
+                setContentView(R.layout.activity_no_connection);
+                setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
+                return;
+            }
+
+        }
 
         isPlayservicesOutdated = (GooglePlayServicesUtil
                 .isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS);
@@ -108,17 +121,18 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         if (isPlayservicesOutdated) {
             disableLocationUpdates();
             isCenterOnMyLocation = false;
+
             setContentView(R.layout.activity_playservices_update);
+            setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
+
             return;
         }
         else {
             setContentView(R.layout.activity_main);
+            setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
         }
 
         // Set the layout containing the two fragments
-
-        setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
-        //
 
         // Get the fragments
         FragmentManager fm = getSupportFragmentManager();
@@ -145,22 +159,6 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
 
         mDrawer = (SlidingDrawer) findViewById(R.id.drawer_time);
         mDrawer.animateOpen();
-
-        // Toggle the zoom controller on drawer open/close
-        // mDrawer.setOnDrawerOpenListener(new
-        // SlidingDrawer.OnDrawerOpenListener() {
-        // @Override
-        // public void onDrawerOpened() {
-        // mMapFragment.toggleZoomControlDisplay(false);
-        // }
-        // });
-        // mDrawer.setOnDrawerCloseListener(new
-        // SlidingDrawer.OnDrawerCloseListener() {
-        // @Override
-        // public void onDrawerClosed() {
-        // // mMapFragment.toggleZoomControlDisplay(true);
-        // }
-        // });
 
         initLocation = null;
 
@@ -195,6 +193,18 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
             isCenterOnMyLocation = true;
         }
         isCenterOnMyLocation = true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Const.INTENT_REQ_CODE_EULA) {
+            boolean hasAcceptedEula = EulaHelper.acceptEula(resultCode, this);
+            if (!hasAcceptedEula) {
+                this.finish();
+            }
+        }
     }
 
     @Override
@@ -249,11 +259,13 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
 
-        if (keyCode == KeyEvent.KEYCODE_MENU) {
-            mMapFragment.searchToggle(false);
-        }
-        else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
-            mMapFragment.searchToggle(true);
+        if (mMapFragment != null) {
+            if (keyCode == KeyEvent.KEYCODE_MENU) {
+                mMapFragment.searchToggle(false);
+            }
+            else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+                mMapFragment.searchToggle(true);
+            }
         }
 
         return super.onKeyUp(keyCode, event);
@@ -266,10 +278,17 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         if (tab.getTag().equals(Const.TAG_TABS_MAP)) {
+            if (mDrawer != null) {
+                mDrawer.setVisibility(View.VISIBLE);
+            }
+
             ft.show(mMapFragment);
             ft.commit();
         }
         else if (tab.getTag().equals(Const.TAG_TABS_FAVORITES)) {
+            if (mDrawer != null) {
+                mDrawer.setVisibility(View.GONE);
+            }
             ft.show(mFavoritesFragment);
             ft.commit();
         }
@@ -389,6 +408,23 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         }
     }
 
+    @Override
+    public void OnSearchClickListener() {
+        OnMyMapClickListener();
+    }
+
+    public void retryConnection(View v) {
+        if (ConnectionHelper.hasConnection(this)) {
+            parkingApp.showToastText(R.string.map_no_connection_restart, Toast.LENGTH_LONG);
+            final Intent intent = getIntent();
+            this.finish();
+            startActivity(intent);
+        }
+        else {
+            ConnectionHelper.showDialogNoConnection(this);
+        }
+    }
+
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), Const.TAG_FRAGMENT_PICKER_DATE);
@@ -427,7 +463,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         day = day.substring(0, 1).toUpperCase() + day.substring(1);
 
         df = new SimpleDateFormat(getResources().getString(
-                R.string.drawer_button_time), Locale.getDefault());
+                R.string.drawer_time_btn), Locale.getDefault());
         String time = df.format(c.getTime());
 
         String sTimeTitle;
@@ -449,7 +485,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         GregorianCalendar c = parkingApp.getParkingCalendar();
 
         SimpleDateFormat df = new SimpleDateFormat(getResources().getString(
-                R.string.drawer_button_date), Locale.getDefault());
+                R.string.drawer_date_btn), Locale.getDefault());
         String date = df.format(c.getTime());
         // Required for French: capitalize first character
         date = date.substring(0, 1).toUpperCase() + date.substring(1);
@@ -461,7 +497,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         GregorianCalendar c = parkingApp.getParkingCalendar();
 
         SimpleDateFormat df = new SimpleDateFormat(getResources().getString(
-                R.string.drawer_button_time), Locale.getDefault());
+                R.string.drawer_time_btn), Locale.getDefault());
         String time = df.format(c.getTime());
         ((Button) findViewById(R.id.btn_start)).setText(time);
     }
@@ -470,11 +506,11 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         int duration = parkingApp.getParkingDuration();
 
         if (duration == 1) {
-            ((Button) findViewById(R.id.btn_duration)).setText(R.string.drawer_button_duration);
+            ((Button) findViewById(R.id.btn_duration)).setText(R.string.drawer_duration_btn);
         }
         else {
             ((Button) findViewById(R.id.btn_duration)).setText(String.format(getResources()
-                    .getString(R.string.drawer_button_duration_plural), duration));
+                    .getString(R.string.drawer_duration_plural_btn), duration));
         }
 
     }

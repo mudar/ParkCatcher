@@ -140,7 +140,9 @@ public class DistanceUpdateService extends IntentService {
                 }
             }
         }
-
+        // TODO: remove this!
+        doUpdate = false;
+        
         if (doUpdate) {
             try {
                 contentResolver.applyBatch(RinksContract.CONTENT_AUTHORITY,

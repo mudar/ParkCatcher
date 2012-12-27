@@ -34,9 +34,8 @@
         android:ellipsize="end"
         android:paddingBottom="@dimen/padding_small"
         android:singleLine="true"
-        android:text="@string/map_marker_snippet_title"
         android:textColor="@color/map_info_title"
-        android:textSize="@dimen/map_info_window"
+        android:textSize="@dimen/map_info_window_text"
         android:textStyle="bold" />
 
     <TextView
@@ -47,13 +46,13 @@
         android:singleLine="true"
         android:text="@string/map_marker_snippet_subtitle"
         android:textColor="@color/map_info_snippet"
-        android:textSize="@dimen/map_info_window" />
+        android:textSize="@dimen/map_info_window_text" />
 
     <TextView
         android:id="@+id/snippet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/map_info_snippet"
-        android:textSize="@dimen/map_info_window" />
+        android:textSize="@dimen/map_info_window_text" />
 
 </LinearLayout>

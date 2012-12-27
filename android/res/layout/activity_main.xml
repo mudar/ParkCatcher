@@ -53,7 +53,7 @@
         <SlidingDrawer
             android:id="@+id/drawer_time"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/height_port_drawer"
             android:allowSingleTap="true"
             android:animateOnClick="true"
             android:content="@+id/drawer_time_input"
