@@ -16,12 +16,12 @@ $(document).ready(function() {
 		
 	
 	$(document).mouseup(function (e) {
-		if (($("#main_wrapper").has(e.target).length === 0) && $('body').hasClass('right'))
+		if (($("#main_wrapper").has(e.target).length === 0) && $('body').hasClass('right') && !$('body').hasClass('splash') )
 		{
 			toggleContent(true);
 		}
 	});
-
+	
 	
 /*
 	$( "a#btn_help" ).click( function(e) {
@@ -43,6 +43,18 @@ $(window).load(function(){
 			$("#main").css("width","100%");
 		}});
 	});
+	
+	if ( $( "#quiz_question_result.right" ).length > 0 ) {
+		$( "#quiz_question_result" ).delay(3000).fadeOut( function() {
+			$( "#quiz_subtitle" ).fadeIn();
+		} );
+	}
+	
+	if ( $( "#parking_time.important" ).length > 0 ) {
+		$( "#parking_time.important" ).fadeTo( 'slow' , 0.3 , function() {
+			$( "#parking_time.important" ).fadeTo( 'slow' , 1 );
+		} );	
+	}
 });  
 
 function toggleContent(isMapHidden ) {
@@ -63,6 +75,7 @@ function toggleContent(isMapHidden ) {
 }
 
 function bodyResize() {
+	if ( $("body").hasClass("panels_index") || $("body").hasClass("privacy_index")) { return false; }
 	bodyWidth = $("#main").width();
 	
 	var maxHeight = ($(window).height() > bodyHeight ? "100%" : bodyHeight + "px" );
@@ -81,3 +94,12 @@ function globalAjaxCursorChange()
 		$(this).removeClass('busy');  
 	});  
 }
+
+
+// Quiz
+$( ".btn_quiz" ).click( function(e) {
+	e.preventDefault();
+	var answer = ( $(this).attr("href") == "#yes" ? 1 : 0 );
+	$( "#quiz_answer").val(answer);
+	$( "#quiz_form" ).submit();
+});

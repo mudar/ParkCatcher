@@ -30,7 +30,8 @@ $lang['parking_home_desc_1'] = 'ParkCatcher.com is your guide to easy parking in
 $lang['parking_home_desc_2'] = 'The interactive <a %s title="Display Map">map</a> and the search engine allow you to find spots where parking is allowed for the time period you need.';
 $lang['parking_home_desc_3'] = 'Each parking post, displayed in green, displays the next no-parking period in that area.';
 $lang['parking_home_desc_4'] = 'The zones where parking is not allowed are not displayed on the map.';
-$lang['parking_home_desc_5'] = 'An Open Data project.';
+$lang['parking_home_desc_5'] = 'Get the free <a href="%s" rel="me">Android app</a> on Google Play!';
+$lang['parking_home_desc_6'] = 'An Open Data project.';
 
 $lang['parking_home_box_quiz'] = 'Quiz';
 $lang['parking_home_box_help'] = 'Help';
@@ -42,6 +43,11 @@ $lang['parking_home_lang_alternate_title'] = 'Version française';
  * Help
  */
 $lang['parking_help_temp'] = 'Under construction&hellip; This section will contain help to understand the parking laws in Montréal and to finally be able to read the parking panels!!';
+
+/*
+ * About
+ */
+$lang['parking_playstore_title'] = 'Get the free Android app on Google Play';
 
 /*
  * Quiz

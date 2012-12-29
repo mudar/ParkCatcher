@@ -44,7 +44,7 @@ class Parking_model extends CI_Model
 		}
 	}
 
-	function get_panels_codes_total_rules() 
+	function get_panels_codes_rules_total() 
 	{
 		$sql_query = 'SELECT * FROM table';
 
@@ -55,7 +55,6 @@ class Parking_model extends CI_Model
 			return $query->result_array();
 		}
 	}
-
 
 	function get_quiz_panels( $excluded_ids = NULL , $nb_panels = 1 )
 	{
@@ -81,4 +80,51 @@ class Parking_model extends CI_Model
 		}
 	}
 
+	function export_posts() 
+	{
+		$sql_query = 'SELECT * FROM table';
+
+		$query = $this->db->query( $sql_query );
+
+		if ( $query->num_rows() == 0 ) { return FALSE; }
+		else {
+			return $query;
+		}
+	}
+
+	function export_panels() 
+	{
+		$sql_query = 'SELECT * FROM table';
+
+		$query = $this->db->query( $sql_query );
+
+		if ( $query->num_rows() == 0 ) { return FALSE; }
+		else {
+			return $query;
+		}
+	}
+
+	function export_panels_codes() 
+	{
+		$sql_query = 'SELECT * FROM table';
+
+		$query = $this->db->query( $sql_query );
+
+		if ( $query->num_rows() == 0 ) { return FALSE; }
+		else {
+			return $query->result_array();
+		}
+	}
+
+	function export_panels_codes_rules() 
+	{
+		$sql_query = 'SELECT * FROM table';
+
+		$query = $this->db->query( $sql_query );
+
+		if ( $query->num_rows() == 0 ) { return FALSE; }
+		else {
+			return $query->result_array();
+		}
+	}
 }

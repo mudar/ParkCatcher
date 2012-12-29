@@ -30,7 +30,8 @@ $lang['parking_home_desc_1'] = 'CapteurDeStationnement.com est votre guide pour 
 $lang['parking_home_desc_2'] = 'La <a %s title="Afficher la carte">carte</a> interactive et le moteur de recherche vous permettent de trouver les emplacements où le stationnement est autorisé pour la période de votre choix.';
 $lang['parking_home_desc_3'] = 'Chaque poteau de stationnement, affiché en vert, indique la prochaine période d’interdiction à cet emplacement.';
 $lang['parking_home_desc_4'] = 'Les zones où le stationnement est interdit ne sont pas affichées.';
-$lang['parking_home_desc_5'] = 'Un projet de données ouvertes.';
+$lang['parking_home_desc_5'] = 'Téléchargez l’<a href="%s" rel="me">application Android</a> gratuite sur Google Play&nbsp;!';
+$lang['parking_home_desc_6'] = 'Un projet de données ouvertes.';
 
 $lang['parking_home_box_quiz'] = 'Quiz';
 $lang['parking_home_box_help'] = 'Aide';
@@ -42,6 +43,11 @@ $lang['parking_home_lang_alternate_title'] = 'English version';
  * Help
  */
 $lang['parking_help_temp'] = 'En construction&hellip; Cette section présentera une aide pour comprendre le règlement de stationnement à Montréal, et finalement savoir lire les nombreaux panneaux&nbsp;!';
+
+/*
+ * About
+ */
+$lang['parking_playstore_title'] = 'Téléchargez l’application Android gratuite sur Google Play';
 
 /*
  * Quiz

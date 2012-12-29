@@ -8,7 +8,8 @@ class Welcome extends CI_Controller {
 
 		if ( $this->input->cookie( 'skip_splash' , FALSE ) ) {
 
-			$data['has_hint'] = !$this->input->cookie( 'has_searched' , FALSE ); 
+			$data['has_hint'] = !$this->input->cookie( 'has_searched' , FALSE );
+            $data['url_playstore'] = $this->config->item( 'parking_url_playstore' );
 
 			$this->renderer->render( 'welcome/index' , $data );
 		}

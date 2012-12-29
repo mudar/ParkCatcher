@@ -268,6 +268,7 @@ footer {
 .left #body { display: none; }
 .right #body { display: block; }
 
+.privacy_index #main ,
 .panels_index #main {
 	overflow: auto;
 	height: 100%;
@@ -541,6 +542,16 @@ footer {
 #logo_mtl_ouvert {
 	margin-top: 30px;
 	text-align: center;
+}
+
+#logo_playstore_android {
+    width: 48px;
+    height: 98px;
+    background: url(../img/logo_playstore_android.png) left top no-repeat;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 250px;
 }
 
 /*

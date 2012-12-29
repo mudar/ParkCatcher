@@ -7,7 +7,8 @@
 			<li><?php echo sprintf( lang( 'parking_home_desc_2' ) , 'href="#map" id="txt_toggle_display"' ) ?></li>
 			<li><?php echo lang( 'parking_home_desc_3' ) ?></li>
 			<li><?php echo lang( 'parking_home_desc_4' ) ?></li>
-			<li><?php echo lang( 'parking_home_desc_5' ) ?></li>
+			<li><?php echo sprintf( lang( 'parking_home_desc_5' ) , $url_playstore ) ?></li>
+            <li><?php echo lang( 'parking_home_desc_6' ) ?></li>
 		</ul>
 	</div>
 

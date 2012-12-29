@@ -42,6 +42,11 @@ $route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
 $route['api'] = 'api/api';
+$route['api/posts'] = 'api/api/export_posts';
+$route['api/panels'] = 'api/api/export_panels';
+$route['api/panels-codes'] = 'api/api/export_panels_codes';
+$route['api/panels-codes-rules'] = 'api/api/export_panels_codes_rules';
+
 
 // English
 $route['home'] = 'welcome/index';
