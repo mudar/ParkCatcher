@@ -26,6 +26,7 @@ package ca.mudar.parkcatcher.ui.activities;
 import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
+import ca.mudar.parkcatcher.service.SyncService;
 import ca.mudar.parkcatcher.ui.fragments.DatePickerFragment;
 import ca.mudar.parkcatcher.ui.fragments.FavoritesFragment;
 import ca.mudar.parkcatcher.ui.fragments.MapFragment;
@@ -41,6 +42,7 @@ import com.actionbarsherlock.app.ActionBar.Tab;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
+import com.crittercism.app.Crittercism;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
@@ -65,8 +67,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import com.crittercism.app.Crittercism;
-
 public class MainActivity extends LocationFragmentActivity implements ActionBar.TabListener,
         DatePickerFragment.OnParkingCalendarChangedListener,
         TimePickerFragment.OnParkingCalendarChangedListener,
@@ -76,13 +76,13 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
     protected static final String TAG = "MainActivity";
 
     TabHost mTabHost;
-    // TabManager mTabManager;
 
     MapFragment mMapFragment;
     FavoritesFragment mFavoritesFragment;
     private Location initLocation;
     private boolean isCenterOnMyLocation;
     private boolean isPlayservicesOutdated;
+    private boolean hasLoadedData;
 
     ActivityHelper activityHelper;
     ParkingApp parkingApp;
@@ -95,8 +95,10 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Crittercism.init(getApplicationContext(), "__CRITTERCISM_APP_ID__");
-        
+        if (!Const.IS_DEBUG) {
+            Crittercism.init(getApplicationContext(), Const.CRITTERCISM_APP_ID);
+        }
+
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         activityHelper = ActivityHelper.createInstance(this);
@@ -108,6 +110,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
          * Display the GPLv3 licence
          */
         if (!EulaHelper.hasAcceptedEula(this)) {
+
             if (ConnectionHelper.hasConnection(this)) {
                 EulaHelper.showEula(false, this);
             }
@@ -116,7 +119,19 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
                 setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
                 return;
             }
+        }
 
+        hasLoadedData = parkingApp.hasLoadedData();
+
+        if (!hasLoadedData) {
+            hasLoadedData = true;
+
+            // The service runs in the background with no listener
+            Intent intent = new Intent(Intent.ACTION_SYNC, null, getApplicationContext(),
+                    SyncService.class);
+            intent.putExtra(Const.INTENT_EXTRA_SERVICE_LOCAL, false);
+            intent.putExtra(Const.INTENT_EXTRA_SERVICE_REMOTE, true);
+            startService(intent);
         }
 
         isPlayservicesOutdated = (GooglePlayServicesUtil
@@ -290,6 +305,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
             ft.commit();
         }
         else if (tab.getTag().equals(Const.TAG_TABS_FAVORITES)) {
+
             if (mDrawer != null) {
                 mDrawer.setVisibility(View.GONE);
             }
@@ -332,7 +348,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
             updateParkingTimeButton();
             updateParkingDurationButton();
 
-            mMapFragment.downloadOverlaysForced();
+            mMapFragment.updateOverlaysForced();
         }
         else if (tab.getTag().equals(Const.TAG_TABS_FAVORITES)) {
             // TODO handle reselection of tab
@@ -359,7 +375,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
 
         updateParkingTimeTitle();
 
-        mMapFragment.downloadOverlaysForced();
+        mMapFragment.updateOverlaysForced();
     }
 
     @Override
@@ -370,7 +386,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
 
         updateParkingTimeTitle();
 
-        mMapFragment.downloadOverlaysForced();
+        mMapFragment.updateOverlaysForced();
     }
 
     @Override
@@ -381,7 +397,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
 
         updateParkingTimeTitle();
 
-        mMapFragment.downloadOverlaysForced();
+        mMapFragment.updateOverlaysForced();
     }
 
     @Override
@@ -406,7 +422,6 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
     @SuppressWarnings("deprecation")
     @Override
     public void OnMyMapClickListener() {
-        // TODO Auto-generated method stub
         if (mDrawer.isOpened()) {
             mDrawer.animateClose();
         }

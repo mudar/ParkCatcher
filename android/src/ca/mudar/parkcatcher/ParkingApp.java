@@ -25,7 +25,7 @@ package ca.mudar.parkcatcher;
 
 import ca.mudar.parkcatcher.Const.PrefsNames;
 import ca.mudar.parkcatcher.Const.PrefsValues;
-import ca.mudar.parkcatcher.services.DistanceUpdateService;
+import ca.mudar.parkcatcher.service.DistanceUpdateService;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
@@ -50,6 +50,7 @@ public class ParkingApp extends Application {
     private String mUnits;
     private String mLanguage;
     private Toast mToast;
+    private boolean mHasLoadedData;
 
     private GregorianCalendar mParkingCalendar;
     private int mParkingDuration;
@@ -87,6 +88,8 @@ public class ParkingApp extends Application {
         if (!mLanguage.equals(PrefsValues.LANG_EN) && !mLanguage.equals(PrefsValues.LANG_FR)) {
             mLanguage = PrefsValues.LANG_EN;
         }
+
+        mHasLoadedData = prefs.getBoolean(PrefsNames.HAS_LOADED_DATA, Const.HAS_OFFLINE);
 
         resetParkingCalendar();
 
@@ -186,6 +189,16 @@ public class ParkingApp extends Application {
         this.mLanguage = lang;
         updateUiLanguage();
     }
+    
+    public boolean hasLoadedData() {
+        return mHasLoadedData;
+    }
+
+    public void setHasLoadedData(boolean mHasLoadedData) {
+        this.mHasLoadedData = mHasLoadedData;
+        Editor prefsEditor = prefs.edit();
+        prefsEditor.putBoolean(PrefsNames.HAS_LOADED_DATA, mHasLoadedData).commit();
+    }
 
     public GregorianCalendar getParkingCalendar() {
         return mParkingCalendar;
@@ -238,5 +251,7 @@ public class ParkingApp extends Application {
         getBaseContext().getResources().updateConfiguration(config,
                 getBaseContext().getResources().getDisplayMetrics());
     }
+
+
 
 }

@@ -18,31 +18,34 @@
  * Modifications:
  * - Copied from IOSched
  * - Renamed package
+ * - Replaced XMLParser by JSONTokener
  * - Removed reference to Blocks and Tracks
  * - Replaced ScheduleContract by SecurityContract  
  */
 
 package ca.mudar.parkcatcher.utils;
 
-import ca.mudar.parkcatcher.providers.RinksContract;
-import ca.mudar.parkcatcher.providers.RinksContract.SyncColumns;
+import ca.mudar.parkcatcher.provider.ParkingContract;
+import ca.mudar.parkcatcher.provider.ParkingContract.SyncColumns;
 
 import org.apache.http.util.ByteArrayBuffer;
 import org.json.JSONException;
 import org.json.JSONTokener;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.format.Time;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.regex.Pattern;
 
 /**
@@ -59,7 +62,6 @@ public class ParserUtils {
     private static final Pattern sCommaPattern = Pattern.compile("\\s*,\\s*");
 
     private static Time sTime = new Time();
-    private static XmlPullParserFactory sFactory;
 
     /**
      * Sanitize the given string to be {@link Uri} safe for building
@@ -93,19 +95,6 @@ public class ParserUtils {
     }
 
     /**
-     * Build and return a new {@link XmlPullParser} with the given
-     * {@link InputStream} assigned to it.
-     */
-    public static XmlPullParser newXmlPullParser(InputStream input) throws XmlPullParserException {
-        if (sFactory == null) {
-            sFactory = XmlPullParserFactory.newInstance();
-        }
-        final XmlPullParser parser = sFactory.newPullParser();
-        parser.setInput(input, null);
-        return parser;
-    }
-
-    /**
      * @author Andrew Pearson {@link http
      *         ://blog.andrewpearson.org/2010/07/android
      *         -why-to-use-json-and-how-to-use.html}
@@ -131,10 +120,42 @@ public class ParserUtils {
             }
             baf.append(buffer, 0, read);
         }
-        queryResult = new String(baf.toByteArray());
+        Log.v(TAG, "Done reading. baf length = " + baf.length());
+        final byte[] ba = baf.toByteArray();
+        Log.v(TAG, "Converted BAF to BA. length = " + ba.length);
+        queryResult = new String(ba);
+        Log.v(TAG, "converted BA to String. length = " + queryResult.length());
 
         JSONTokener data = new JSONTokener(queryResult);
         return data;
+    }
+
+    public static JSONTokener newJsonTokenerParser(URL url) throws IOException {
+
+        final URLConnection tc = url.openConnection();
+
+        final BufferedReader in = new BufferedReader(new InputStreamReader(tc.getInputStream()));
+        String line;
+        String str = "";
+        try {
+            while ((line = in.readLine()) != null) {
+                str += line;
+            }
+
+        } catch (IOException e) {
+            throw e;
+        } finally {
+            in.close();
+        }
+
+        try {
+            final JSONTokener parser = new JSONTokener(str);
+            return parser;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     /**
@@ -159,7 +180,7 @@ public class ParserUtils {
             if (cursor.moveToFirst()) {
                 return cursor.getLong(0);
             } else {
-                return RinksContract.UPDATED_NEVER;
+                return ParkingContract.UPDATED_NEVER;
             }
         } finally {
             cursor.close();

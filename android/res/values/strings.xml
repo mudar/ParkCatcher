@@ -43,7 +43,6 @@
     <string name="tab_favorites">Favorites</string>
 
     <!-- EULA -->
-    <string name="eula_assets_filename">gpl-3.0-standalone.html</string>
     <string name="eula_title">GNU General Public License v3.0</string>
     <string name="eula_accept_btn">Accepter</string>
     <string name="eula_decline_btn">Refuser</string>
@@ -97,6 +96,7 @@
     <string name="todo_favorites_1">Coming Soon!</string>
     <string name="todo_favorites_2">This section is still under construction, please be patient… The next version will allow you to save locations into a list of Favorites.</string>
     <string name="todo_favorites_3">Other upcoming features:\r\n- Offline mode support.\r\n- Address search history and auto-complete.\r\n- Integration with Google Navigation and Street View.\r\n- Tutorial demystifying Montreal’s parking rules!</string>
+    <string name="favorites_empty_list">Empty list…</string>
 
     <!-- PostDetails -->
 

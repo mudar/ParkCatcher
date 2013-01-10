@@ -24,8 +24,8 @@ package ca.mudar.parkcatcher.ui.activities;
 
 import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.ParkingApp;
-import ca.mudar.parkcatcher.receivers.LocationChangedReceiver;
-import ca.mudar.parkcatcher.receivers.PassiveLocationChangedReceiver;
+import ca.mudar.parkcatcher.receiver.LocationChangedReceiver;
+import ca.mudar.parkcatcher.receiver.PassiveLocationChangedReceiver;
 import ca.mudar.parkcatcher.utils.ActivityHelper;
 import ca.mudar.parkcatcher.utils.PlatformSpecificImplementationFactory;
 import ca.mudar.parkcatcher.utils.base.ILastLocationFinder;

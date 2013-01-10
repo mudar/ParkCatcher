@@ -22,7 +22,7 @@
 
 package ca.mudar.parkcatcher.io;
 
-import ca.mudar.parkcatcher.io.JsonHandler.JsonHandlerException;
+import ca.mudar.parkcatcher.io.JsonHandler.HandlerException;
 import ca.mudar.parkcatcher.utils.ParserUtils;
 
 import org.apache.http.HttpResponse;
@@ -37,6 +37,8 @@ import android.content.ContentResolver;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * Executes an {@link HttpUriRequest} and passes the result as an
@@ -58,17 +60,30 @@ public class RemoteExecutor {
      * {@link XmlHandler#parseAndApply(XmlPullParser, ContentResolver)}.
      */
 
-    public void executeGet(String url, JsonHandler handler) throws JsonHandlerException {
-        final HttpUriRequest request = new HttpGet(url);
-        execute(request, handler);
+    public void executeGet(String request, JsonHandler handler) throws HandlerException {
+        try {
+            URL url = new URL(request);
+
+            final JSONTokener parser = ParserUtils.newJsonTokenerParser(url);
+            handler.parseAndApply(parser, mResolver);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void execute(HttpUriRequest request, JsonHandler handler) throws JsonHandlerException {
+    /**
+     * Execute this {@link HttpUriRequest}, passing a valid response through
+     * {@link XmlHandler#parseAndApply(XmlPullParser, ContentResolver)}.
+     */
+    public void execute(HttpUriRequest request, JsonHandler handler) throws HandlerException {
         try {
             final HttpResponse resp = mHttpClient.execute(request);
             final int status = resp.getStatusLine().getStatusCode();
             if (status != HttpStatus.SC_OK) {
-                throw new JsonHandlerException("Unexpected server response " + resp.getStatusLine()
+                throw new HandlerException("Unexpected server response " + resp.getStatusLine()
                         + " for " + request.getRequestLine());
             }
 
@@ -80,12 +95,26 @@ public class RemoteExecutor {
                 if (input != null)
                     input.close();
             }
-        } catch (JsonHandlerException e) {
+        } catch (HandlerException e) {
             throw e;
         } catch (IOException e) {
-            throw new JsonHandlerException("Problem reading remote response for "
+            throw new HandlerException("Problem reading remote response for "
                     + request.getRequestLine(), e);
         }
+    }
 
+    public void execute(String request, JsonHandler handler) throws HandlerException {
+
+        try {
+            URL url = new URL(request);
+
+            final JSONTokener parser = ParserUtils.newJsonTokenerParser(url);
+            handler.parseAndApply(parser, mResolver);
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

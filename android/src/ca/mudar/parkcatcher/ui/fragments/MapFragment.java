@@ -25,13 +25,17 @@ package ca.mudar.parkcatcher.ui.fragments;
 
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.Const.DbValues;
 import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
-import ca.mudar.parkcatcher.models.GeoJSON;
-import ca.mudar.parkcatcher.models.Post;
+import ca.mudar.parkcatcher.model.GeoJSON;
+import ca.mudar.parkcatcher.model.Post;
+import ca.mudar.parkcatcher.provider.ParkingContract.PanelsCodes;
+import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
+import ca.mudar.parkcatcher.provider.ParkingContract.PostsColumns;
 import ca.mudar.parkcatcher.ui.widgets.MyInfoWindowAdapter;
 import ca.mudar.parkcatcher.utils.ActivityHelper;
-import ca.mudar.parkcatcher.utils.Helper;
+import ca.mudar.parkcatcher.utils.GeoHelp;
 import ca.mudar.parkcatcher.utils.LongPressLocationSource;
 import ca.mudar.parkcatcher.utils.SearchMessageHandler;
 
@@ -61,6 +65,7 @@ import com.google.gson.stream.JsonReader;
 
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationManager;
@@ -125,6 +130,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
 
     final private Handler handler = new SearchMessageHandler(this);
     private JsonAsyncTask jsonAsyncTask = null;
+    private DbAsyncTask dbAsyncTask = null;
 
     private MenuItem searchItem;
     private String postalCode;
@@ -383,7 +389,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             /**
              * Geocode search. Takes time and not very reliable!
              */
-            loc = Helper.findLocatioFromName(getActivity(), postalCode);
+            loc = GeoHelp.findLocatioFromName(getActivity(), postalCode);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -495,7 +501,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
                 mListener.OnMyMapClickListener();
-                downloadOverlays();
+                updateOverlays();
             }
         });
 
@@ -516,17 +522,163 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
         return true;
     }
 
+    private class DbAsyncTask extends AsyncTask<Object, Void, Cursor> {
+
+        @Override
+        protected void onPreExecute() {
+
+            try {
+                // Needed to avoid problems when main activity is sent to
+                // background
+                ((SherlockFragmentActivity) getActivity())
+                        .setSupportProgressBarIndeterminateVisibility(Boolean.TRUE);
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        protected Cursor doInBackground(Object... params) {
+            final int dayOfWeek = (Integer) params[0];
+            final double hourOfWeek = (Double) params[1] + (dayOfWeek - 1) * 24;
+            final int duration = (Integer) params[2];
+
+            final LatLng NE = (LatLng) params[3];
+            final LatLng SW = (LatLng) params[4];
+
+            final GregorianCalendar calendar = parkingApp.getParkingCalendar();
+            // API uses values 0-365 (or 364)
+            final int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR) - 1;
+
+            Cursor cur = getActivity()
+                    .getApplicationContext()
+                    .getContentResolver()
+                    .query(Posts.CONTENT_ALLOWED_URI,
+                            PostsOverlaysQuery.PROJECTION,
+                            PostsColumns.LAT + " >= ? AND " +
+                                    PostsColumns.LAT + " <= ? AND " +
+                                    PostsColumns.LNG + " >= ? AND " +
+                                    PostsColumns.LNG + " <= ? ",
+
+                            new String[] {
+                                    Double.toString(SW.latitude),
+                                    Double.toString(NE.latitude),
+                                    Double.toString(SW.longitude),
+                                    Double.toString(NE.longitude),
+                                    Double.toString(hourOfWeek),
+                                    Integer.toString(duration),
+                                    Integer.toString(dayOfYear)
+                            },
+                            null);
+
+            return cur;
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            try {
+                // Needed to avoid problems when main activity is sent to
+                // background
+                ((SherlockFragmentActivity) getActivity())
+                        .setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
+
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                return;
+            }
+
+            if (cursor == null) {
+                return;
+            }
+
+            final int totalMarkers = cursor.getCount();
+            if (totalMarkers == 0) {
+                cursor.close();
+                return;
+            }
+
+            if (isCancelled()) {
+                cursor.close();
+                return;
+            }
+
+            mMap.clear();
+
+            // TODO: use same following code between DB and JSON
+            if (searchedMarker != null) {
+                searchedMarker = mMap.addMarker(new MarkerOptions()
+                        .position(searchedMarker.getPosition())
+                        .title(searchedMarker.getTitle())
+                        .snippet(null)
+                        .icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).visible(true));
+                searchedMarker.showInfoWindow();
+            }
+
+            if (screenCenter == null || clickedMarker != null) {
+                hasHintMarker = false;
+            }
+            Location locationCenter = new Location(Const.LOCATION_PROVIDER_DEFAULT);
+            if (hasHintMarker) {
+                locationCenter.setLatitude(screenCenter.latitude);
+                locationCenter.setLongitude(screenCenter.longitude);
+            }
+
+            cursor.moveToFirst();
+            do {
+                if (isCancelled()) {
+                    return;
+                }
+
+                final double lat = cursor.getDouble(PostsOverlaysQuery.LAT);
+                final double lng = cursor.getDouble(PostsOverlaysQuery.LNG);
+                final String desc = cursor.getString(PostsOverlaysQuery.CONCAT_DESCRIPTION)
+                        .replace(DbValues.CONCAT_SEPARATOR, Const.LINE_SEPARATOR);
+
+                final Marker marker = mMap.addMarker(new MarkerOptions()
+                        .position(new LatLng(lat, lng))
+                        .snippet(desc)
+                        .icon(BitmapDescriptorFactory
+                                .defaultMarker(HUE_MARKER)).visible(true));
+
+                if (clickedMarker != null) {
+                    if (clickedMarker.getPosition().equals(marker.getPosition())) {
+                        marker.showInfoWindow();
+                    }
+                }
+                else if (hasHintMarker) {
+                    Location locationMarker = new Location(Const.LOCATION_PROVIDER_DEFAULT);
+                    locationMarker.setLatitude(marker.getPosition().latitude);
+                    locationMarker.setLongitude(marker.getPosition().longitude);
+
+                    if (locationCenter.distanceTo(locationMarker) < DISTANCE_MARKER_HINT) {
+                        marker.showInfoWindow();
+                        hasHintMarker = false;
+                        clickedMarker = marker;
+                    }
+                }
+
+            } while (cursor.moveToNext());
+            cursor.close();
+
+        }
+
+    }
+
     private class JsonAsyncTask extends AsyncTask<URL, Void, GeoJSON> {
         @SuppressWarnings("unused")
         protected static final String TAG = "JsonAsyncTask";
 
         @Override
         protected void onPreExecute() {
+
             try {
                 // Needed to avoid problems when main activity is sent to
                 // background
                 ((SherlockFragmentActivity) getActivity())
                         .setSupportProgressBarIndeterminateVisibility(Boolean.TRUE);
+
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
@@ -550,7 +702,6 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             try {
                 urlConnection.connect();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return null;
             }
@@ -559,7 +710,6 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
                 reader = new JsonReader(
                         new InputStreamReader(urlConnection.getInputStream()));
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return null;
             }
@@ -568,8 +718,6 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             JsonElement rootElement = parser.parse(reader);
 
             if (rootElement != null) {
-                // Log.v(TAG, "rootElement not null");
-
                 Gson gson = new Gson();
                 GeoJSON geoJson = gson.fromJson(rootElement, GeoJSON.class);
                 return geoJson;
@@ -586,6 +734,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
                 // background
                 ((SherlockFragmentActivity) getActivity())
                         .setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
+
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 return;
@@ -606,6 +755,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
 
             mMap.clear();
 
+            // TODO: use same following code between DB and JSON
             if (searchedMarker != null) {
                 searchedMarker = mMap.addMarker(new MarkerOptions()
                         .position(searchedMarker.getPosition())
@@ -659,12 +809,12 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
         }
     }
 
-    public void downloadOverlaysForced() {
+    public void updateOverlaysForced() {
         screenCenter = null;
-        downloadOverlays();
+        updateOverlays();
     }
 
-    private void downloadOverlays() {
+    private void updateOverlays() {
 
         // Log.v(TAG, "current zoom = " + mMap.getCameraPosition().zoom);
 
@@ -717,12 +867,30 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
                 : parkingCalendar.get(Calendar.DAY_OF_WEEK) - 1);
         final double parkingHour = parkingCalendar.get(Calendar.HOUR_OF_DAY)
                 + Math.round(parkingCalendar.get(Calendar.MINUTE) / 0.6) / 100.00d;
+        final int duration = parkingApp.getParkingDuration();
 
-        final String fetchUrl = String.format(Const.API_POSTS,
-                day, parkingHour, parkingApp.getParkingDuration(),
+        if (Const.HAS_OFFLINE) {
+            queryOverlays(day, parkingHour, duration, NE, SW);
+        }
+        else {
+            downloadOverlays(day, parkingHour, duration, NE, SW);
+        }
+
+    }
+
+    private void queryOverlays(int day, double parkingHour, int duration, LatLng NE, LatLng SW) {
+        if (dbAsyncTask != null) {
+            dbAsyncTask.cancel(true);
+        }
+
+        dbAsyncTask = new DbAsyncTask();
+        dbAsyncTask.execute(day, parkingHour, duration, NE, SW);
+    }
+
+    private void downloadOverlays(int day, double parkingHour, int duration, LatLng NE, LatLng SW) {
+        final String fetchUrl = String.format(Const.Api.POSTS_LIVE,
+                day, parkingHour, duration,
                 NE.latitude, SW.longitude, SW.latitude, NE.longitude);
-
-        // Log.v(TAG, "fetchUrl = " + fetchUrl);
 
         URL apiURL = null;
         try {
@@ -737,11 +905,10 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
         }
         jsonAsyncTask = new JsonAsyncTask();
         jsonAsyncTask.execute(apiURL);
-
     }
 
     /**
-     * Initialize Map: centre and load rinks
+     * Initialize Map: centre and load posts
      */
     protected void initMap() {
 
@@ -933,4 +1100,19 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
         thread.start();
     }
 
+    private static interface PostsOverlaysQuery {
+        // int _TOKEN = 0x10;
+
+        final String[] PROJECTION = new String[] {
+                Posts.ID_POST,
+                Posts.LAT,
+                Posts.LNG,
+                PanelsCodes.CONCAT_DESCRIPTION
+        };
+        // final int ID_POST = 0;
+        final int LAT = 1;
+        final int LNG = 2;
+        final int CONCAT_DESCRIPTION = 3;
+
+    }
 }

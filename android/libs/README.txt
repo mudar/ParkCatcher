@@ -1,4 +1,4 @@
-This project has three external library dependencies:
+This project has the following external library dependencies:
 
 1. `ActionBarSherlock` to add actionbar support to API < 11 (pre-honeycomb).
     
@@ -14,4 +14,14 @@ This project has three external library dependencies:
 
        http://code.google.com/p/google-gson/
        Version 2.2.2
+
+4. ` Android SQLiteAssetHelper` to manage database creation
+
+       https://github.com/jgilfelt/android-sqlite-asset-helper
+       Version 1.0
+
+5. `Crittercism` to get crash reports
+
+       http://www.crittercism.com/
+       Version 3.0.3
 

@@ -25,7 +25,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.mudar.parkcatcher"
     android:installLocation="auto"
-    android:versionCode="7"
+    android:versionCode="8"
     android:versionName="@string/app_version" >
 
     <uses-sdk
@@ -62,7 +62,7 @@
         android:required="true" />
 
     <application
-        android:name=".ParkingApp"
+        android:name="ca.mudar.parkcatcher.ParkingApp"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
@@ -129,6 +129,7 @@
         </activity>
         <activity
             android:name=".ui.activities.EulaActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/activity_eula"
             android:theme="@style/AppTheme.Eula" >
@@ -215,19 +216,19 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".services.SyncService" />
-        <service android:name=".services.DistanceUpdateService" />
+        <service android:name="ca.mudar.parkcatcher.service.SyncService" />
+        <service android:name="ca.mudar.parkcatcher.service.DistanceUpdateService" />
 
-        <receiver android:name=".receivers.LocationChangedReceiver" />
-        <receiver android:name=".receivers.PassiveLocationChangedReceiver" />
+        <receiver android:name="ca.mudar.parkcatcher.receiver.LocationChangedReceiver" />
+        <receiver android:name="ca.mudar.parkcatcher.receiver.PassiveLocationChangedReceiver" />
         <receiver
-            android:name=".receivers.ConnectivityChangedReceiver"
+            android:name="ca.mudar.parkcatcher.receiver.ConnectivityChangedReceiver"
             android:enabled="false" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".receivers.PowerStateChangedReceiver" >
+        <receiver android:name="ca.mudar.parkcatcher.receiver.PowerStateChangedReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BATTERY_LOW" />
                 <action android:name="android.intent.action.BATTERY_OKAY" />
@@ -235,11 +236,11 @@
         </receiver>
 
         <provider
-            android:name=".providers.RinksProvider"
+            android:name=".provider.ParkingProvider"
             android:authorities="ca.mudar.parkcatcher"
             android:exported="false" />
-        
-        <activity android:name="com.crittercism.NotificationActivity"/>
+
+        <activity android:name="com.crittercism.NotificationActivity" />
     </application>
 
 </manifest>

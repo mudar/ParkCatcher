@@ -64,14 +64,14 @@ public abstract class JsonHandler {
      * given {@link ContentResolver}.
      */
     public void parseAndApply(JSONTokener jsonTokener, ContentResolver resolver)
-            throws JsonHandlerException {
+            throws HandlerException {
         try {
             final ArrayList<ContentProviderOperation> batch = parse(jsonTokener, resolver);
             resolver.applyBatch(mAuthority, batch);
         } catch (IOException e) {
-            throw new JsonHandlerException("Problem reading response", e);
+            throw new HandlerException("Problem reading response", e);
         } catch (JSONException e) {
-            throw new JsonHandlerException("Problem parsing JSON response", e);
+            throw new HandlerException("Problem parsing JSON response", e);
         } catch (RemoteException e) {
             throw new RuntimeException("Problem applying batch operation", e);
         } catch (OperationApplicationException e) {
@@ -91,14 +91,14 @@ public abstract class JsonHandler {
      * General {@link IOException} that indicates a problem occurred while
      * parsing a {@link JSONTokener}.
      */
-    public static class JsonHandlerException extends IOException {
+    public static class HandlerException extends IOException {
         private static final long serialVersionUID = -2336169334778645289L;
 
-        public JsonHandlerException(String message) {
+        public HandlerException(String message) {
             super(message);
         }
 
-        public JsonHandlerException(String message, Throwable cause) {
+        public HandlerException(String message, Throwable cause) {
             super(message);
             initCause(cause);
         }

@@ -24,40 +24,26 @@
 package ca.mudar.parkcatcher.ui.activities;
 
 import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.Const.LocalAssets;
 import ca.mudar.parkcatcher.R;
-import ca.mudar.parkcatcher.utils.Helper;
 
 import com.actionbarsherlock.app.SherlockActivity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import java.io.IOException;
-
 public class EulaActivity extends SherlockActivity {
-    protected static final String TAG = "EulaActivity";
+    @SuppressWarnings("unused")
+    private static final String TAG = "EulaActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        String filename = getResources().getString(R.string.eula_assets_filename);
-
-        String eulaHtml = "";
-        try {
-            eulaHtml = Helper.inputStreamToString(getAssets().open(filename));
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
-        }
-        //
-        // LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-        // LinearLayout.LayoutParams.MATCH_PARENT,
-        // LinearLayout.LayoutParams.MATCH_PARENT);
 
         setContentView(R.layout.activity_eula);
 
@@ -65,9 +51,12 @@ public class EulaActivity extends SherlockActivity {
         v.setWebViewClient(new MyWebViewClient());
         v.setVisibility(View.VISIBLE);
         v.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-        v.loadDataWithBaseURL("file:///android_asset/", eulaHtml, "text/html", "utf-8", null);
-        // v.setLayoutParams(params);
+        v.loadUrl("file:///android_asset/" + LocalAssets.LICENSE);
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     public void acceptEula(View v) {
