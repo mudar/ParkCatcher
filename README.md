@@ -71,12 +71,13 @@ The **website** is powered by [CodeIgniter][link_lib_codeigniter] &copy; EllisLa
 The **Android app** includes (thanks!) libraries and derivative work of the following projects:
 
 * [Action Bar Sherlock][link_lib_actionbarsherlock] &copy; Jake Wharton.
+* [Android SQLiteAssetHelper][link_lib_assethelper] &copy; Jeff Gilfelt.
 * [Google Gson][link_lib_gson] &copy; Google Inc.
 * [Google I/O App][link_lib_iosched] iosched &copy; Google Inc.
 * [Android Protips Location][link_lib_radioactiveyak] &copy; Reto Meier
 * [AOSP][link_lib_aosp] &copy; The Android Open Source Project.
 
-These five projects are all released under the [Apache License v2.0][link_apache]. Map data is powered by Google Maps Android API v2.
+These six projects are all released under the [Apache License v2.0][link_apache]. Map data is powered by Google Maps Android API v2.
 
 [![Android app on Google Play][img_devices]][link_parkcatcher_playstore]
 
@@ -104,6 +105,7 @@ These five projects are all released under the [Apache License v2.0][link_apache
 [link_lib_leaflet]: http://leafletjs.com/
 [link_lib_openstreetmap]: http://www.openstreetmap.org/
 [link_lib_actionbarsherlock]: https://github.com/JakeWharton/ActionBarSherlock
+[link_lib_assethelper]: https://github.com/jgilfelt/android-sqlite-asset-helper
 [link_lib_gson]: http://code.google.com/p/google-gson/
 [link_lib_iosched]: http://code.google.com/p/iosched/
 [link_lib_radioactiveyak]: http://code.google.com/p/android-protips-location/
