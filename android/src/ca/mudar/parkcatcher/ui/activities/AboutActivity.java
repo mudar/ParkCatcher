@@ -25,6 +25,7 @@ package ca.mudar.parkcatcher.ui.activities;
 
 import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.ui.fragments.AboutFragment;
+import ca.mudar.parkcatcher.utils.ActivityHelper;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
@@ -53,10 +54,8 @@ public class AboutActivity extends SherlockFragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        ActivityHelper activityHelper = ActivityHelper.createInstance(this);
+
+        return (activityHelper.onOptionsItemSelected(item) || super.onOptionsItemSelected(item));
     }
 }

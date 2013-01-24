@@ -120,11 +120,8 @@ public class ParserUtils {
             }
             baf.append(buffer, 0, read);
         }
-        Log.v(TAG, "Done reading. baf length = " + baf.length());
         final byte[] ba = baf.toByteArray();
-        Log.v(TAG, "Converted BAF to BA. length = " + ba.length);
         queryResult = new String(ba);
-        Log.v(TAG, "converted BA to String. length = " + queryResult.length());
 
         JSONTokener data = new JSONTokener(queryResult);
         return data;

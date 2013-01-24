@@ -23,45 +23,56 @@
 
 package ca.mudar.parkcatcher.ui.fragments;
 
+import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
+import ca.mudar.parkcatcher.provider.ParkingContract.Favorites;
 import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
-import ca.mudar.parkcatcher.provider.ParkingContract.PostsColumns;
+import ca.mudar.parkcatcher.ui.activities.DetailsActivity;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.BaseColumns;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class FavoritesFragment extends SherlockListFragment implements LoaderCallbacks<Cursor> {
+    protected static final String TAG = "FavoritesFragment";
 
+    ParkingApp parkingApp;
+
+    private View rootView;
     protected Cursor cursor = null;
     protected SimpleCursorAdapter mAdapter;
-
-    // @Override
-    // public View onCreateView(LayoutInflater inflater, ViewGroup container,
-    // Bundle savedInstanceState) {
-    // return inflater.inflate(R.layout.fragment_favorites, container, false);
-    // }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setListAdapter(null);
 
+        parkingApp = (ParkingApp) getActivity().getApplicationContext();
+
         mAdapter = new SimpleCursorAdapter(getActivity(),
                 R.layout.fragment_list_item_favorites,
                 cursor,
                 new String[] {
-                        PostsColumns.LAT, PostsColumns.LNG, PostsColumns.GEO_DISTANCE,
-                        PostsColumns.ID_POST
+                        Favorites.LABEL
+                // , PanelsCodes.DESCRIPTION, Posts.GEO_DISTANCE
                 },
                 new int[] {
-                        R.id.favorite_name, R.id.favorite_desc, R.id.favorite_distance
+                        R.id.favorite_name
+                // , R.id.favorite_desc, R.id.favorite_distance
                 },
                 0);
 
@@ -71,35 +82,96 @@ public class FavoritesFragment extends SherlockListFragment implements LoaderCal
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        rootView = inflater.inflate(R.layout.fragment_list_favorites, null);
+
+        return rootView;
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+        Cursor c = mAdapter.getCursor();
+
+        if ((position < 0) || (position == c.getCount())) {
+            return;
+        }
+
+        c.moveToPosition(position);
+        int idPost = c.getInt(FavoritesQuery.ID_POST);
+
+        Intent intent = new Intent(getSherlockActivity(), DetailsActivity.class);
+        intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
+        getSherlockActivity().startActivity(intent);
+
+    }
+
+    @Override
     public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
+        final GregorianCalendar parkingCalendar = parkingApp.getParkingCalendar();
+
+        final int dayOfWeek = (parkingCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? 7
+                : parkingCalendar.get(Calendar.DAY_OF_WEEK) - 1);
+        final double parkingHour = parkingCalendar.get(Calendar.HOUR_OF_DAY)
+                + Math.round(parkingCalendar.get(Calendar.MINUTE) / 0.6) / 100.00d;
+        final double hourOfWeek = parkingHour + (dayOfWeek - 1) * 24;
+
+        // API uses values 0-365 (or 364)
+        final int dayOfYear = parkingCalendar.get(Calendar.DAY_OF_YEAR) - 1;
+
+        final int duration = parkingApp.getParkingDuration();
+
         return new CursorLoader(getSherlockActivity().getApplicationContext(),
-                Posts.CONTENT_STARRED_URI, FavoritesQuery.FAVORITES_SUMMARY_PROJECTION, null, null,
+                Posts.CONTENT_STARRED_URI,
+                FavoritesQuery.FAVORITES_SUMMARY_PROJECTION,
+                null,
+                new String[] {
+                        Double.toString(hourOfWeek),
+                        Integer.toString(duration),
+                        Integer.toString(dayOfYear)
+                },
                 Posts.DISTANCE_SORT);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        // TODO Auto-generated method stub
         mAdapter.swapCursor(data);
+
+        if ((data == null) || (data.getCount() == 0)) {
+            rootView.findViewById(android.R.id.empty).setVisibility(View.GONE);
+            rootView.findViewById(R.id.favorites_empty_list).setVisibility(View.VISIBLE);
+        }
+        else {
+            rootView.findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.favorites_empty_list).setVisibility(View.GONE);
+        }
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> arg0) {
+    public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
     }
 
     public static interface FavoritesQuery {
-        // int _TOKEN = 0x10;
-
-        final int _ID = 0;
-        final int ID_POST = 1;
-        final int LAT = 2;
-        final int LNG = 3;
-        final int GEO_DISTANCE = 4;
+        int _TOKEN = 0x20;
 
         final String[] FAVORITES_SUMMARY_PROJECTION = new String[] {
-                BaseColumns._ID, PostsColumns.ID_POST, PostsColumns.LAT, PostsColumns.LNG,
-                PostsColumns.GEO_DISTANCE
+                Posts._ID,
+                Posts.ID_POST,
+                Favorites.LABEL,
+                // Posts.GEO_DISTANCE,
+                // Posts.IS_FORBIDDEN,
+                // PanelsCodes.CONCAT_DESCRIPTION,
+
         };
+        final int _ID = 0;
+        final int ID_POST = 1;
+        final int LABEL = 2;
+        // final int GEO_DISTANCE = 2;
+        // final int IS_FORBIDDEN = 3;
+        // final int CONCAT_DESCRIPTION = 4;
+
     }
 }

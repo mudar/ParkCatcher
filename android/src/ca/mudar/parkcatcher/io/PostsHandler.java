@@ -89,8 +89,6 @@ public class PostsHandler extends JsonHandler {
             batch.add(builderPosts.build());
         }
 
-        // Log.v(TAG, "batch done. Size = " + batch.size());
-
         return batch;
     }
 

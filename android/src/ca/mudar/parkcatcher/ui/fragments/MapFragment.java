@@ -32,14 +32,15 @@ import ca.mudar.parkcatcher.model.GeoJSON;
 import ca.mudar.parkcatcher.model.Post;
 import ca.mudar.parkcatcher.provider.ParkingContract.PanelsCodes;
 import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
-import ca.mudar.parkcatcher.provider.ParkingContract.PostsColumns;
+import ca.mudar.parkcatcher.ui.activities.DetailsActivity;
 import ca.mudar.parkcatcher.ui.widgets.MyInfoWindowAdapter;
 import ca.mudar.parkcatcher.utils.ActivityHelper;
-import ca.mudar.parkcatcher.utils.GeoHelp;
+import ca.mudar.parkcatcher.utils.ConnectionHelper;
+import ca.mudar.parkcatcher.utils.GeoHelper;
 import ca.mudar.parkcatcher.utils.LongPressLocationSource;
 import ca.mudar.parkcatcher.utils.SearchMessageHandler;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockMapFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -65,17 +66,19 @@ import com.google.gson.stream.JsonReader;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Point;
+import android.location.Address;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -91,6 +94,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
         SearchMessageHandler.OnMessageHandledListener,
         GoogleMap.OnMapClickListener,
         GoogleMap.OnMarkerClickListener,
+        GoogleMap.OnInfoWindowClickListener,
         // MapListener,
         Runnable {
     protected static final String TAG = "MapFragment";
@@ -104,19 +108,14 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
     private static final float ZOOM_NEAR = 17f;
     private static final float ZOOM_MIN = 16f;
     private static final float HUE_MARKER = 94f;
+    private static final float HUE_MARKER_STARRED = BitmapDescriptorFactory.HUE_YELLOW;
     private static final float DISTANCE_MARKER_HINT = 50f;
 
     private GoogleMap mMap;
     private LongPressLocationSource mLongPressLocationSource;
 
-    // protected MapView mMapView;
-    // protected MyLocationOverlay mLocationOverlay;
-    // protected MapController mMapController;
     protected LocationManager mLocationManager;
     private OnLocationChangedListener onLocationChangedListener;
-
-    // private boolean mIsScrolling = false;
-    // private boolean mIsScrollingComputed = false;
 
     private Location initLocation = null;
     private Location mMapCenter = null;
@@ -128,7 +127,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
     ActivityHelper activityHelper;
     ParkingApp parkingApp;
 
-    final private Handler handler = new SearchMessageHandler(this);
+    private Handler handler;
     private JsonAsyncTask jsonAsyncTask = null;
     private DbAsyncTask dbAsyncTask = null;
 
@@ -164,68 +163,33 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
     /**
      * Create map and initialize
      */
-
-    // public void onCreate(Bundle savedInstanceState) {
-    // super.onCreate(savedInstanceState);
-    //
-    //
-    // }
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (handler == null) {
+            handler = new SearchMessageHandler(this);
+        }
+    }
 
     // @Override
-    public View onCreateViews(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        //
-        // mMap = getMap();
-        //
-        // // mMapView = new MapView(getActivity(), 256); // constructor
-        //
-        // // mMapView.setMapListener(this);
-        //
-        // // final Scroller scroller = mMapView.getScroller();
-        // //
-        // // mMapView.setOnTouchListener(new OnTouchListener() {
-        // // @Override
-        // // public boolean onTouch(View v, MotionEvent event) {
-        // //
-        // // switch (event.getAction()) {
-        // // case MotionEvent.ACTION_DOWN:
-        // // mIsScrolling = true;
-        // // Log.i(TAG, "onTouch is ACTION_DOWN");
-        // // break;
-        // // case MotionEvent.ACTION_UP:
-        // // Log.i(TAG, "onTouch is ACTION_UP");
-        // //
-        // // if (mIsScrolling && scroller != null) {
-        // // if (scroller.getDuration() < scroller.timePassed() + 100) {
-        // // mIsScrolling = false;
-        // // downloadOverlays();
-        // // }
-        // // }
-        // //
-        // // break;
-        // // case MotionEvent.ACTION_SCROLL:
-        // // Log.e(TAG, "onTouch is ACTION_SCROLL");
-        // // break;
-        // // }
-        // //
-        // // return false;
-        // // }
-        // // });
-        View root = super.onCreateView(inflater, container, savedInstanceState);
-        //
-        // activityHelper = ActivityHelper.createInstance(getActivity());
-        // parkingApp = (ParkingApp) getActivity().getApplicationContext();
-        //
-        // setRetainInstance(true);
-
-        // mMap.set
-
-        // CameraUpdate tilted = new CameraUpdate()
-
-        // mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-        return root;
-    }
+    // public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    // Bundle savedInstanceState) {
+    // View root = super.onCreateView(inflater, container, savedInstanceState);
+    // //
+    // // activityHelper = ActivityHelper.createInstance(getActivity());
+    // // parkingApp = (ParkingApp) getActivity().getApplicationContext();
+    // //
+    // // setRetainInstance(true);
+    //
+    // // mMap.set
+    //
+    // // CameraUpdate tilted = new CameraUpdate()
+    //
+    // //
+    // mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+    //
+    // return root;
+    // }
 
     /**
      * Initialize map and LocationManager
@@ -238,6 +202,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
 
         activityHelper = ActivityHelper.createInstance(getActivity());
         parkingApp = (ParkingApp) getActivity().getApplicationContext();
+
         setUpMapIfNeeded();
 
         // mMapView.setClickable(true);
@@ -274,8 +239,23 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
      */
     @Override
     public void onResume() {
+
         // mLocationOverlay.enableMyLocation();
         super.onResume();
+
+        // TODO Optimize this using savedInstanceState to avoid reload of
+        // identical data onResume
+        if (ConnectionHelper.hasConnection(getActivity())) {
+            final Intent intent = getSherlockActivity().getIntent();
+            if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+                final String query = getAddressFromUri(intent.getData());
+                if (query != null) {
+                    postalCode = query;
+                    showSearchProcessing();
+                }
+            }
+
+        }
 
         setUpMapIfNeeded();
 
@@ -286,6 +266,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
         // if (mLocationSource != null) {
         // mLocationSource.onResume();
         // }
+
     }
 
     /**
@@ -307,7 +288,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
     /**
      * Create the fragment's Address Search MenuItem, from code.
      */
-    // @Override
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
 
@@ -340,36 +321,66 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
         searchItem.setActionView(searchView);
     }
 
+    /**
+     * Implementation of GoogleMap.OnMapClickListener
+     */
     @Override
     public void onMapClick(LatLng point) {
-        // Log.v(TAG, "onMapClick");
         clickedMarker = null;
         mListener.OnMyMapClickListener();
     }
 
+    /**
+     * Implementation of GoogleMap.OnMarkerClickListener
+     */
     @Override
     public boolean onMarkerClick(Marker marker) {
-        // Log.v(TAG, "onMarkerClick");
         clickedMarker = marker;
         mListener.OnMyMapClickListener();
         return false;
     }
 
     /**
-     * Handle the Address Search query
+     * Implementation of GoogleMap.OnInfoWindowClickListener
+     */
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        final String title = marker.getTitle();
+
+        try {
+            final int idPost = Integer.valueOf(title);
+
+            Intent intent = new Intent(getSherlockActivity(), DetailsActivity.class);
+            intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
+            getSherlockActivity().startActivity(intent);
+        } catch (NumberFormatException e) {
+            // Selected marker is not a post.
+            // e.printStackTrace();
+        }
+    }
+
+    /**
+     * Implementation of SearchView.OnQueryTextListener. Handle the Address
+     * Search query
      */
     @Override
     public boolean onQueryTextSubmit(String query) {
         postalCode = query;
 
         searchItem.collapseActionView();
-        showDialogProcessing();
+        if (ConnectionHelper.hasConnection(getActivity())) {
+            showSearchProcessing();
+        }
+        else {
+            parkingApp.showToastText(R.string.toast_search_network_connection_error,
+                    Toast.LENGTH_LONG);
+        }
 
         return true;
     }
 
     /**
-     * Required implementation
+     * SearchView.OnQueryTextListener
      */
     @Override
     public boolean onQueryTextChange(String newText) {
@@ -378,18 +389,18 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
     }
 
     /**
-     * This runnable thread gets the Geocode search value in the background.
-     * Results are sent to the handler.
+     * Implementation of Runnable. This runnable thread gets the Geocode search
+     * value in the background. Results are sent to the handler.
      */
     @Override
     public void run() {
 
-        Location loc = null;
+        Address address = null;
         try {
             /**
              * Geocode search. Takes time and not very reliable!
              */
-            loc = GeoHelp.findLocatioFromName(getActivity(), postalCode);
+            address = GeoHelper.findAddressFromName(getActivity(), postalCode);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -397,7 +408,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
         final Message msg = handler.obtainMessage();
         final Bundle b = new Bundle();
 
-        if (loc == null) {
+        if (address == null) {
             /**
              * Send error message to handler.
              */
@@ -408,8 +419,9 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
              * Send success message to handler with the found geocoordinates.
              */
             b.putInt(Const.KEY_BUNDLE_SEARCH_ADDRESS, Const.BUNDLE_SEARCH_ADDRESS_SUCCESS);
-            b.putDouble(Const.KEY_BUNDLE_ADDRESS_LAT, loc.getLatitude());
-            b.putDouble(Const.KEY_BUNDLE_ADDRESS_LNG, loc.getLongitude());
+            b.putDouble(Const.KEY_BUNDLE_ADDRESS_LAT, address.getLatitude());
+            b.putDouble(Const.KEY_BUNDLE_ADDRESS_LNG, address.getLongitude());
+            b.putString(Const.KEY_BUNDLE_ADDRESS_DESC, address.getAddressLine(0));
         }
         msg.setData(b);
 
@@ -417,12 +429,17 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
     }
 
     /**
-     * Handle the runnable thread results. This hides the indeterminate progress
-     * bar then centers map on found location or displays error message.
+     * Implementation of SearchMessageHandler.OnMessageHandledListener. Handle
+     * the runnable thread results. This hides the indeterminate progress bar
+     * then centers map on found location or displays error message.
      */
     @Override
     public void OnMessageHandled(Message msg) {
-        ((SherlockFragmentActivity) getActivity())
+        if (getSherlockActivity() == null) {
+            return;
+        }
+
+        getSherlockActivity()
                 .setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
         final Bundle b = msg.getData();
 
@@ -433,6 +450,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             final Location location = new Location(Const.LOCATION_PROVIDER_SEARCH);
             location.setLatitude(b.getDouble(Const.KEY_BUNDLE_ADDRESS_LAT));
             location.setLongitude(b.getDouble(Const.KEY_BUNDLE_ADDRESS_LNG));
+            final String desc = b.getString(Const.KEY_BUNDLE_ADDRESS_DESC);
 
             setMapCenterZoomed(location);
 
@@ -441,8 +459,9 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
              */
 
             searchedMarker = mMap.addMarker(new MarkerOptions()
+
                     .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                    .title(postalCode)
+                    .title(desc)
                     .snippet(null)
                     .icon(BitmapDescriptorFactory
                             .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).visible(true));
@@ -496,6 +515,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
 
         mMap.setOnMapClickListener(this);
         mMap.setOnMarkerClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
         mMap.setOnCameraChangeListener(new OnCameraChangeListener() {
 
             @Override
@@ -530,8 +550,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             try {
                 // Needed to avoid problems when main activity is sent to
                 // background
-                ((SherlockFragmentActivity) getActivity())
-                        .setSupportProgressBarIndeterminateVisibility(Boolean.TRUE);
+                getSherlockActivity().setSupportProgressBarIndeterminateVisibility(Boolean.TRUE);
 
             } catch (NullPointerException e) {
                 e.printStackTrace();
@@ -551,28 +570,33 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             // API uses values 0-365 (or 364)
             final int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR) - 1;
 
-            Cursor cur = getActivity()
-                    .getApplicationContext()
-                    .getContentResolver()
-                    .query(Posts.CONTENT_ALLOWED_URI,
-                            PostsOverlaysQuery.PROJECTION,
-                            PostsColumns.LAT + " >= ? AND " +
-                                    PostsColumns.LAT + " <= ? AND " +
-                                    PostsColumns.LNG + " >= ? AND " +
-                                    PostsColumns.LNG + " <= ? ",
+            try {
+                Cursor cur = getActivity()
+                        .getApplicationContext()
+                        .getContentResolver()
+                        .query(Posts.CONTENT_ALLOWED_URI,
+                                PostsOverlaysQuery.PROJECTION,
+                                Posts.LAT + " >= ? AND " +
+                                        Posts.LAT + " <= ? AND " +
+                                        Posts.LNG + " >= ? AND " +
+                                        Posts.LNG + " <= ? ",
 
-                            new String[] {
-                                    Double.toString(SW.latitude),
-                                    Double.toString(NE.latitude),
-                                    Double.toString(SW.longitude),
-                                    Double.toString(NE.longitude),
-                                    Double.toString(hourOfWeek),
-                                    Integer.toString(duration),
-                                    Integer.toString(dayOfYear)
-                            },
-                            null);
+                                new String[] {
+                                        Double.toString(SW.latitude),
+                                        Double.toString(NE.latitude),
+                                        Double.toString(SW.longitude),
+                                        Double.toString(NE.longitude),
+                                        Double.toString(hourOfWeek),
+                                        Integer.toString(duration),
+                                        Integer.toString(dayOfYear)
+                                },
+                                null);
+                return cur;
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
 
-            return cur;
+            return null;
         }
 
         @Override
@@ -580,8 +604,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             try {
                 // Needed to avoid problems when main activity is sent to
                 // background
-                ((SherlockFragmentActivity) getActivity())
-                        .setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
+                getSherlockActivity().setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
 
             } catch (NullPointerException e) {
                 e.printStackTrace();
@@ -614,6 +637,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
                         .icon(BitmapDescriptorFactory
                                 .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).visible(true));
                 searchedMarker.showInfoWindow();
+                hasHintMarker = false;
             }
 
             if (screenCenter == null || clickedMarker != null) {
@@ -628,19 +652,24 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             cursor.moveToFirst();
             do {
                 if (isCancelled()) {
+                    cursor.close();
                     return;
                 }
 
+                final int idPost = cursor.getInt(PostsOverlaysQuery.ID_POST);
                 final double lat = cursor.getDouble(PostsOverlaysQuery.LAT);
                 final double lng = cursor.getDouble(PostsOverlaysQuery.LNG);
                 final String desc = cursor.getString(PostsOverlaysQuery.CONCAT_DESCRIPTION)
                         .replace(DbValues.CONCAT_SEPARATOR, Const.LINE_SEPARATOR);
+                final int isStarred = cursor.getInt(PostsOverlaysQuery.IS_STARRED);
 
                 final Marker marker = mMap.addMarker(new MarkerOptions()
+                        .title(String.valueOf(idPost))
                         .position(new LatLng(lat, lng))
                         .snippet(desc)
                         .icon(BitmapDescriptorFactory
-                                .defaultMarker(HUE_MARKER)).visible(true));
+                                .defaultMarker(isStarred == 1 ? HUE_MARKER_STARRED : HUE_MARKER))
+                        .visible(true));
 
                 if (clickedMarker != null) {
                     if (clickedMarker.getPosition().equals(marker.getPosition())) {
@@ -676,8 +705,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             try {
                 // Needed to avoid problems when main activity is sent to
                 // background
-                ((SherlockFragmentActivity) getActivity())
-                        .setSupportProgressBarIndeterminateVisibility(Boolean.TRUE);
+                getSherlockActivity().setSupportProgressBarIndeterminateVisibility(Boolean.TRUE);
 
             } catch (NullPointerException e) {
                 e.printStackTrace();
@@ -732,8 +760,7 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
             try {
                 // Needed to avoid problems when main activity is sent to
                 // background
-                ((SherlockFragmentActivity) getActivity())
-                        .setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
+                getSherlockActivity().setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
 
             } catch (NullPointerException e) {
                 e.printStackTrace();
@@ -946,7 +973,6 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
      * @param mapCenter
      */
     protected void animateToPoint(Location mapCenter) {
-        // Log.v(TAG, "animateToPoint ");
         if (mMap == null) {
             return;
         }
@@ -1092,27 +1118,62 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
     /**
      * Show the Indeterminate ProgressBar and start the Geocode search thread.
      */
-    protected void showDialogProcessing() {
-        ((SherlockFragmentActivity) getActivity())
+    protected void showSearchProcessing() {
+        getSherlockActivity()
                 .setSupportProgressBarIndeterminateVisibility(Boolean.TRUE);
+
+        try {
+            final ActionBar ab = getSherlockActivity().getSupportActionBar();
+            if (ab.getSelectedTab().getPosition() != Const.TABS_INDEX_MAP) {
+                ab.setSelectedNavigationItem(Const.TABS_INDEX_MAP);
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
         final Thread thread = new Thread(this);
         thread.start();
     }
 
+    private String getAddressFromUri(Uri uri) {
+        String address = null;
+
+        List<String> pathSegments = uri.getPathSegments();
+
+        // http://www.capteurdestationnement.com/map/search/2/15.5/12/h2w2e7
+
+        Log.v(TAG, "pathSegments = " + pathSegments);
+
+        if ((pathSegments.size() == 6)
+                && (pathSegments.get(0).equals(Const.INTENT_EXTRA_URL_PATH_MAP))
+                && (pathSegments.get(1).equals(Const.INTENT_EXTRA_URL_PATH_SEARCH))) {
+
+            try {
+                address = pathSegments.get(5);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return address;
+    }
+
     private static interface PostsOverlaysQuery {
-        // int _TOKEN = 0x10;
+        int _TOKEN = 0x10;
 
         final String[] PROJECTION = new String[] {
                 Posts.ID_POST,
                 Posts.LAT,
                 Posts.LNG,
-                PanelsCodes.CONCAT_DESCRIPTION
+                PanelsCodes.CONCAT_DESCRIPTION,
+                Posts.IS_STARRED
         };
-        // final int ID_POST = 0;
+        final int ID_POST = 0;
         final int LAT = 1;
         final int LNG = 2;
         final int CONCAT_DESCRIPTION = 3;
+        final int IS_STARRED = 4;
 
     }
+
 }

@@ -37,8 +37,8 @@ public class Const {
 
     // Database
     public static final String DATABASE_NAME = "parkcatcher.db";
-    public static final int DATABASE_VERSION = 12;
-    
+    public static final int DATABASE_VERSION = 18;
+
     // Prefs
     public static final String APP_PREFS_NAME = "parking_prefs";
 
@@ -74,12 +74,13 @@ public class Const {
     // API
     private static final String API_KEY_PARK_CATCHER = "__API_PRIVATE_KEY__";
     private static final String API_SERVER_NAME = "http://www.parkcatcher.com";
-    
+
     public static interface Api {
 
+        static final int PAGINATION = 1000;
         static final int PAGES_POSTS = 92;
         static final int PAGES_PANELS = 118;
-        
+
         static final String POSTS_LIVE = API_SERVER_NAME
                 + "/api/?day=%s&hour=%s&duration=%s&latNW=%s&lonNW=%s&latSE=%s&lonSE=%s"
                 + "&api_key=" + API_KEY_PARK_CATCHER;
@@ -95,8 +96,11 @@ public class Const {
                 + API_KEY_PARK_CATCHER;
         static final String DATABASE = API_SERVER_NAME + "/sqlite/" + DATABASE_NAME;
     }
-    
 
+    public static final String URL_GMAPS_DIRECTIONS = "http://maps.google.com/maps?saddr=%s&daddr=%s&f=d";
+    public static final String URI_INTENT_STREETVIEW = "google.streetview:cbll=%s,%s";
+    public static final String URI_INSTALL_STREETVIEW = "market://details?id=com.google.android.street";
+    public static final String URI_INTENT_NAVIGATION = "google.navigation:q=%s,%s";
 
     public static interface LocalAssets {
         final String LICENSE = "gpl-3.0-standalone.html";
@@ -106,8 +110,18 @@ public class Const {
     public static final String INTENT_EXTRA_POST_ID = "post_id";
     public static final String INTENT_EXTRA_SERVICE_LOCAL = "service_local";
     public static final String INTENT_EXTRA_SERVICE_REMOTE = "service_remote";
+    public static final String INTENT_EXTRA_URL_PATH_MAP = "map";
+    public static final String INTENT_EXTRA_URL_PATH_SEARCH = "search";
+    public static final String INTENT_EXTRA_URL_PATH_POST_ID = "spot";
+    public static final String INTENT_EXTRA_GEO_LAT = "geo_lat";
+    public static final String INTENT_EXTRA_GEO_LNG = "geo_lng";
+    public static final String INTENT_EXTRA_FORCE_UPDATE = "force_update";
 
     public static final String KEY_BUNDLE_PROGRESS_INCREMENT = "bundle_progress_increment";
+    public static final String KEY_BUNDLE_ADDRESS_LAT = "bundle_address_lat";
+    public static final String KEY_BUNDLE_ADDRESS_LNG = "bundle_address_lng";
+    public static final String KEY_BUNDLE_ADDRESS_DESC = "bundle_address_desc";
+    public static final String KEY_BUNDLE_SELECTED_TAB = "bundle_selected_tab";
 
     public static final int INTENT_REQ_CODE_EULA = 0x10;
     // public static final int INTENT_REQ_CODE_SPLASH = 0x10;
@@ -165,14 +179,9 @@ public class Const {
      * TEMP
      */
     public static final String KEY_BUNDLE_SEARCH_ADDRESS = "bundle_search_address";
+    public static final String KEY_BUNDLE_REVERSE_GEOCODER = "bundle_reverse_geocoder";
     public static final int BUNDLE_SEARCH_ADDRESS_SUCCESS = 0x1;
     public static final int BUNDLE_SEARCH_ADDRESS_ERROR = 0x0;
-    public static final String KEY_BUNDLE_ADDRESS_LAT = "bundle_address_lat";
-    public static final String KEY_BUNDLE_ADDRESS_LNG = "bundle_address_lng";
-
-    public static final String INTENT_EXTRA_GEO_LAT = "geo_lat";
-    public static final String INTENT_EXTRA_GEO_LNG = "geo_lng";
-    public static final String INTENT_EXTRA_FORCE_UPDATE = "force_update";
 
     // Database
     public static interface DbValues {

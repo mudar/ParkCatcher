@@ -97,7 +97,7 @@ public class MyPreferenceActivityHC extends SherlockPreferenceActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            this.finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -113,7 +113,7 @@ public class MyPreferenceActivityHC extends SherlockPreferenceActivity {
         mParkingApp.setLanguage(lg);
         mParkingApp.updateUiLanguage();
 
-        finish();
+        this.finish();
         Intent intent = new Intent(getApplicationContext(), MyPreferenceActivityHC.class);
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         startActivity(intent);

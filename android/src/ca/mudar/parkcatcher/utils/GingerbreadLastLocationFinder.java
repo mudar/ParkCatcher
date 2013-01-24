@@ -172,7 +172,7 @@ public class GingerbreadLastLocationFinder implements ILastLocationFinder {
             context.unregisterReceiver(singleUpdateReceiver);
         } catch (IllegalArgumentException e) {
             Log.v(TAG, "Receiver already unregistered.");
-            e.printStackTrace();
+            // e.printStackTrace();
         }
 
     }

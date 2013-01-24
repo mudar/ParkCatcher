@@ -93,26 +93,86 @@
         <item name="android:background">@color/background</item>
     </style>
 
-    <style name="ListItem">
+    <style name="FavoritesList">
+        <item name="android:overScrollFooter">@null</item>
+        <item name="android:divider">@color/listview_divider</item>
+        <item name="android:dividerHeight">@dimen/listview_divider_height</item>
+    </style>
+
+    <style name="FavoritesListItem">
         <item name="android:cacheColorHint">#660000</item>
+        <item name="android:background">@drawable/list_selector_favorites</item>
         <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
         <item name="android:paddingLeft">@dimen/padding_normal</item>
         <item name="android:paddingRight">@dimen/padding_normal</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
-    <style name="ListItemTitle" parent="@android:style/TextAppearance.Medium">
+    <style name="FavoritesListItemTitle" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@color/listview_text_1</item>
     </style>
 
-    <style name="ListItemSummary" parent="@android:style/TextAppearance.Small">
+    <style name="FavoritesListItemSummary" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">@color/listview_text_2</item>
+        <item name="android:gravity">left</item>
+        <item name="android:visibility">gone</item>
     </style>
 
-    <style name="ListItemDistance" parent="@android:style/TextAppearance.Small">
+    <style name="FavoritesListItemDistance" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">@color/listview_text_2</item>
         <item name="android:gravity">right</item>
+        <item name="android:visibility">gone</item>
     </style>
+
+    <style name="FavoritesListEmpty" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">@color/listview_text_2</item>
+        <item name="android:gravity">center</item>
+        <item name="android:drawableBottom">@drawable/ic_action_favorite_on</item>
+    </style>
+
+    <!-- Post Details -->
+    <style name="DetailsBox" parent="@style/TextContent">
+        <item name="android:layout_margin">@dimen/padding_double</item>
+        <item name="android:background">@color/background</item>
+    </style>
+
+    <style name="DetailsProgressAddress" parent="@android:style/TextAppearance.Small">
+        <item name="android:paddingLeft">@dimen/padding_normal</item>
+        <item name="android:textColor">@color/details_progress_address_text</item>
+    </style>
+
+    <style name="DetailsTitle" parent="@android:style/TextAppearance.Large">
+        <item name="android:layout_marginBottom">@dimen/padding_normal</item>
+        <item name="android:textColor">@color/green</item>
+    </style>
+
+    <style name="DetailsTimeTitle" parent="@android:style/TextAppearance.Small">
+        <item name="android:layout_marginBottom">@dimen/padding_double</item>
+        <item name="android:textColor">@color/details_time_tile_text</item>
+    </style>
+
+    <!-- <style name="DetailsPanel" parent="@android:style/TextAppearance.Small"> -->
+    <!-- <item name="android:textColor">@color/details_panel_text</item> -->
+    <!-- <item name="android:singleLine">false</item> -->
+    <!-- <item name="android:gravity">center</item> -->
+    <!-- <item name="android:layout_marginBottom">@dimen/padding_double</item> -->
+    <!-- </style> -->
+
+
+    <!-- <style name="DetailsPanelNoParking" parent="@style/DetailsPanel"> -->
+    <!-- <item name="android:background">@drawable/bg_panel_no_parking</item> -->
+    <!-- </style> -->
+
+
+    <!-- <style name="DetailsPanelNoStopping" parent="@style/DetailsPanel"> -->
+    <!-- <item name="android:background">@drawable/bg_panel_no_stopping</item> -->
+    <!-- </style> -->
+
+
+    <!-- <style name="DetailsPanelParking" parent="@style/DetailsPanel"> -->
+    <!-- <item name="android:background">@drawable/bg_panel_parking</item> -->
+    <!-- </style> -->
+
 
     <!-- About -->
     <style name="TextContent">

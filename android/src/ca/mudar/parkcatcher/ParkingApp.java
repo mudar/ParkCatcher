@@ -189,7 +189,7 @@ public class ParkingApp extends Application {
         this.mLanguage = lang;
         updateUiLanguage();
     }
-    
+
     public boolean hasLoadedData() {
         return mHasLoadedData;
     }
@@ -217,8 +217,6 @@ public class ParkingApp extends Application {
         int hourOfDay = mParkingCalendar.get(Calendar.HOUR_OF_DAY);
         int minute = mParkingCalendar.get(Calendar.MINUTE);
         mParkingCalendar.set(year, month, day, hourOfDay, minute);
-
-        // Log.v(TAG, "setParkingDate = " + mParkingCalendar.toString());
     }
 
     public void setParkingTime(int hourOfDay, int minute) {
@@ -227,8 +225,6 @@ public class ParkingApp extends Application {
         int day = mParkingCalendar.get(Calendar.DAY_OF_MONTH);
 
         mParkingCalendar.set(year, month, day, hourOfDay, minute);
-
-        // Log.v(TAG, "setParkingTime = " + mParkingCalendar.toString());
     }
 
     public int getParkingDuration() {
@@ -236,7 +232,6 @@ public class ParkingApp extends Application {
     }
 
     public void setParkingDuration(int duration) {
-        // Log.v(TAG, "setParkingDuration = " + duration);
         mParkingDuration = duration;
     }
 
@@ -251,7 +246,5 @@ public class ParkingApp extends Application {
         getBaseContext().getResources().updateConfiguration(config,
                 getBaseContext().getResources().getDisplayMetrics());
     }
-
-
 
 }

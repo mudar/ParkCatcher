@@ -27,6 +27,7 @@ import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.ui.activities.AboutActivity;
 import ca.mudar.parkcatcher.ui.activities.HelpActivity;
+import ca.mudar.parkcatcher.ui.activities.MainActivity;
 import ca.mudar.parkcatcher.ui.activities.MyPreferenceActivity;
 import ca.mudar.parkcatcher.ui.activities.MyPreferenceActivityHC;
 
@@ -71,7 +72,14 @@ public class ActivityHelper {
 
         int id = item.getItemId();
 
-        if (id == R.id.menu_help) {
+        if (item.getItemId() == android.R.id.home) {
+            intent = new Intent(mActivity, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            mActivity.startActivity(intent);
+            mActivity.overridePendingTransition(R.anim.home_enter, R.anim.home_exit);
+            return true;
+        }
+        else if (id == R.id.menu_help) {
             intent = new Intent(mActivity, HelpActivity.class);
             mActivity.startActivity(intent);
             return true;

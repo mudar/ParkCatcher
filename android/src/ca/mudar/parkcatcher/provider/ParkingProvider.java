@@ -67,7 +67,8 @@ public class ParkingProvider extends ContentProvider {
     private static final int POSTS_ALLOWED = 101;
     private static final int POSTS_FORBIDDEN = 102;
     private static final int POSTS_STARRED = 103;
-    private static final int POSTS_ID = 104;
+    private static final int POSTS_ID_TIMED = 104;
+    private static final int POSTS_ID = 105;
 
     private static final int PANELS = 200;
     private static final int PANELS_ID = 201;
@@ -92,6 +93,7 @@ public class ParkingProvider extends ContentProvider {
         matcher.addURI(authority, "posts/fobidden", POSTS_FORBIDDEN);
         matcher.addURI(authority, "posts/starred", POSTS_STARRED);
         matcher.addURI(authority, "posts/*", POSTS_ID);
+        matcher.addURI(authority, "posts/*/timed/*/*/*", POSTS_ID_TIMED);
 
         matcher.addURI(authority, "panels", PANELS);
         matcher.addURI(authority, "panels/*", PANELS_ID);
@@ -128,6 +130,8 @@ public class ParkingProvider extends ContentProvider {
                 return Posts.CONTENT_TYPE;
             case POSTS_STARRED:
                 return Posts.CONTENT_TYPE;
+            case POSTS_ID_TIMED:
+                return Posts.CONTENT_ITEM_TYPE;
             case POSTS_ID:
                 return Posts.CONTENT_ITEM_TYPE;
             case PANELS:
@@ -159,7 +163,112 @@ public class ParkingProvider extends ContentProvider {
 
         final int match = sUriMatcher.match(uri);
         final SelectionBuilder builder = buildExpandedSelection(uri, match);
+
         switch (match) {
+            case POSTS_ID:
+            case POSTS_ID_TIMED: {
+                final String id_post = Posts.getPostId(uri);
+
+                String timeFilter = "1";
+                try {
+
+                    final double startHour = Double.parseDouble(selectionArgs[0]); // hourOfWeek
+                    final int duration = Integer.parseInt(selectionArgs[1]);
+                    final int dayOfYear = Integer.parseInt(selectionArgs[2]);
+
+                    final double endHour = startHour + duration;
+                    if (endHour > HOURS_PER_WEEK) {
+                        // Handle week overlap
+                        timeFilter = " ("
+                                + getTimeFilterQuery(startHour, HOURS_PER_WEEK, dayOfYear) + " OR "
+                                + getTimeFilterQuery(0, endHour - HOURS_PER_WEEK, dayOfYear) + ") ";
+                    }
+                    else {
+                        timeFilter = getTimeFilterQuery(startHour, endHour, dayOfYear);
+                    }
+
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+
+                // final String queryTimeFilter = Qualified.POSTS_ID_POST +
+                // " IN ("
+                // + Subquery.PANELS_POST_ID_FORBIDDEN
+                // + " WHERE " + Qualified.PANELS_ID_POST + " = " + id_post
+                // + " AND " + timeFilter + ") ";
+
+                final String queryTimeFilter = "(" + Subquery.PANELS_POST_ID_FORBIDDEN
+                        + " WHERE " + Qualified.PANELS_ID_POST + " = " + id_post
+                        + " AND " + timeFilter + ")";
+
+                // projection[projection.length] = queryTimeFilter;
+
+                // builder
+                // // .map(Posts.IS_FORBIDDEN, queryTimeFilter)
+                // .map(Favorites._ID, Qualified.FAVORITE_ID)
+                // .mapToTable(Posts.ID_POST, Tables.POSTS)
+                // .map(Posts.IS_STARRED, Qualified.FAVORITE_ID +
+                // " IS NOT NULL ");
+
+                // Cursor c = builder
+                // .query(db, projection, null, null, sortOrder, null);
+
+                Cursor c = db.query(Tables.POSTS_JOIN_PANELS_PANELS_CODES_FAVORITES,
+                        new String[] {
+                                "code", "description", "type_desc",
+                                "favorites._id IS NOT NULL  AS is_starred",
+                                "lat", "lng",
+                                queryTimeFilter + " AS is_forbidden "
+                        },
+                        builder.getSelection(),
+                        builder.getSelectionArgs(),
+                        null, null, null);
+
+                c.setNotificationUri(getContext().getContentResolver(), uri);
+
+                return c;
+
+            }
+            case POSTS_STARRED: {
+
+                String queryTimeFilter = "1";
+                try {
+
+                    final double startHour = Double.parseDouble(selectionArgs[0]); // hourOfWeek
+                    final int duration = Integer.parseInt(selectionArgs[1]);
+                    final int dayOfYear = Integer.parseInt(selectionArgs[2]);
+
+                    final double endHour = startHour + duration;
+                    if (endHour > HOURS_PER_WEEK) {
+                        // Handle week overlap
+                        queryTimeFilter = " ("
+                                + getTimeFilterQuery(startHour, HOURS_PER_WEEK, dayOfYear) + " OR "
+                                + getTimeFilterQuery(0, endHour - HOURS_PER_WEEK, dayOfYear) + ") ";
+                    }
+                    else {
+                        queryTimeFilter = getTimeFilterQuery(startHour, endHour, dayOfYear);
+                    }
+
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    return null;
+                }
+
+                queryTimeFilter = Qualified.POSTS_ID_POST + " IN ("
+                        + Subquery.POSTS_FAVORITES_PANELS_FORBIDDEN
+                        + " WHERE " + queryTimeFilter + ") ";
+
+                String groupBy = Qualified.POSTS_ID;
+                Cursor c = builder
+                        .map(Posts.IS_FORBIDDEN, queryTimeFilter)
+                        .mapToTable(Posts._ID, Tables.POSTS)
+                        .mapToTable(Posts.ID_POST, Tables.POSTS)
+                        .query(db, projection, groupBy, null, sortOrder, null);
+                c.setNotificationUri(getContext().getContentResolver(), uri);
+
+                return c;
+            }
             case POSTS_ALLOWED: {
 
                 String[] selectionGeoArgs = new String[] {
@@ -198,6 +307,8 @@ public class ParkingProvider extends ContentProvider {
 
                 String groupBy = Qualified.POSTS_ID;
                 Cursor c = builder
+                        .map(Favorites._ID, Qualified.FAVORITE_ID)
+                        .map(Posts.IS_STARRED, Qualified.FAVORITE_ID + " IS NOT NULL ")
                         .mapToTable(Posts.ID_POST, Tables.POSTS)
                         .where(selection, selectionGeoArgs)
                         .where(Qualified.POSTS_ID_POST + " NOT IN ("
@@ -244,12 +355,14 @@ public class ParkingProvider extends ContentProvider {
                 getContext().getContentResolver().notifyChange(uri, null);
                 return PanelsCodesRules.buildPanelCodeRuleUri(values.getAsString(BaseColumns._ID));
             }
+            case POSTS_STARRED:
             case FAVORITES: {
                 try {
                     db.insertOrThrow(Tables.FAVORITES, null, values);
                     getContext().getContentResolver().notifyChange(uri, null);
                 } catch (SQLiteConstraintException e) {
                     Log.v(TAG, "Post is already a favorite");
+                    // e.printStackTrace();
                 }
                 return Favorites.buildFavoriteUri(values.getAsString(BaseColumns._ID));
             }
@@ -339,6 +452,7 @@ public class ParkingProvider extends ContentProvider {
                 final String id = PanelsCodesRules.getPanelCodeRuleId(uri);
                 return builder.table(Tables.PANELS_CODES_RULES).where(BaseColumns._ID + "=?", id);
             }
+            case POSTS_STARRED:
             case FAVORITES: {
                 return builder.table(Tables.FAVORITES);
             }
@@ -358,20 +472,27 @@ public class ParkingProvider extends ContentProvider {
             case POSTS: {
                 return builder.table(Tables.POSTS);
             }
-
             case POSTS_ALLOWED: {
-                return builder.table(Tables.POSTS_JOIN_PANELS_PANELS_CODES);
+                return builder.table(Tables.POSTS_JOIN_PANELS_PANELS_CODES_FAVORITES);
             }
             case POSTS_FORBIDDEN: {
-                return builder.table(Tables.POSTS_JOIN_PANELS_PANELS_CODES);
-            }
-            case POSTS_STARRED: {
                 return builder.table(Tables.POSTS);
             }
-
-            case POSTS_ID: {
-                final String id = Posts.getPostId(uri);
-                return builder.table(Tables.POSTS).where(BaseColumns._ID + "=?", id);
+            case POSTS_STARRED: {
+                return builder.table(Tables.POSTS_JOIN_FAVORITES_PANELS_PANELS_CODES);
+            }
+            case POSTS_ID:
+                // {
+                // final String id = Posts.getPostId(uri);
+                // return builder.table(Tables.POSTS).where(BaseColumns._ID +
+                // "=?", id);
+                // }
+            case POSTS_ID_TIMED: {
+                final String id_post = Posts.getPostId(uri);
+                return builder
+                        .table(Tables.POSTS_JOIN_PANELS_PANELS_CODES_FAVORITES)
+                        .mapToTable(Posts.ID_POST, Tables.POSTS)
+                        .where(Qualified.POSTS_ID_POST + "=?", id_post);
             }
             case PANELS: {
                 return builder.table(Tables.PANELS);
@@ -426,6 +547,14 @@ public class ParkingProvider extends ContentProvider {
                 PostsColumns.LAT + " <= ? AND " +
                 PostsColumns.LNG + " >= ? AND " +
                 PostsColumns.LNG + " <= ?";
+
+        String POSTS_FAVORITES_PANELS_FORBIDDEN = "SELECT " + Qualified.POSTS_ID_POST
+                + " FROM "
+                + Tables.POSTS_JOIN_FAVORITES_PANELS_PANELS_CODES_RULES;
+
+        String PANELS_POST_ID_FORBIDDEN = "SELECT COUNT(" + Qualified.PANELS_ID + ") > 0 "
+                + " FROM "
+                + Tables.PANELS_JOIN_PANELS_CODES_RULES;
     }
 
     /**
@@ -483,9 +612,11 @@ public class ParkingProvider extends ContentProvider {
      */
     private interface Qualified {
         String POSTS_ID = Tables.POSTS + "." + Posts._ID;
+        String PANELS_ID = Tables.PANELS + "." + Panels._ID;
         String POSTS_ID_POST = Tables.POSTS + "." + Posts.ID_POST;
-        String PANELS_CODES_ID = Tables.PANELS_CODES + "." + Panels._ID;
+        // String PANELS_CODES_ID = Tables.PANELS_CODES + "." + Panels._ID;
+        String PANELS_ID_POST = Tables.PANELS + "." + Posts.ID_POST;
 
-        // String FAVORITE_ID = Tables.FAVORITES + "." + BaseColumns._ID;
+        String FAVORITE_ID = Tables.FAVORITES + "." + BaseColumns._ID;
     }
 }

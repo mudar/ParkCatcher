@@ -36,6 +36,7 @@ import ca.mudar.parkcatcher.ui.fragments.TimePickerFragment;
 import ca.mudar.parkcatcher.utils.ActivityHelper;
 import ca.mudar.parkcatcher.utils.ConnectionHelper;
 import ca.mudar.parkcatcher.utils.EulaHelper;
+import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
@@ -49,6 +50,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -58,14 +60,12 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SlidingDrawer;
-import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
+import java.util.List;
 
 public class MainActivity extends LocationFragmentActivity implements ActionBar.TabListener,
         DatePickerFragment.OnParkingCalendarChangedListener,
@@ -75,12 +75,10 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         MapFragment.OnMyLocationChangedListener {
     protected static final String TAG = "MainActivity";
 
-    TabHost mTabHost;
-
     MapFragment mMapFragment;
     FavoritesFragment mFavoritesFragment;
     private Location initLocation;
-    private boolean isCenterOnMyLocation;
+    private boolean isCenterOnMyLocation = true;
     private boolean isPlayservicesOutdated;
     private boolean hasLoadedData;
 
@@ -168,8 +166,28 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         ab.addTab(ab.newTab().setText(R.string.tab_favorites).setTabListener(this)
                 .setTag(Const.TAG_TABS_FAVORITES));
 
-        // Initialize the displayed values
-        parkingApp.resetParkingCalendar();
+        initLocation = null;
+
+        double latitude = getIntent().getDoubleExtra(Const.INTENT_EXTRA_GEO_LAT, Double.MIN_VALUE);
+        double longitude = getIntent().getDoubleExtra(Const.INTENT_EXTRA_GEO_LNG, Double.MIN_VALUE);
+
+        if (Double.compare(latitude, Double.MIN_VALUE) != 0
+                && Double.compare(latitude, Double.MIN_VALUE) != 0) {
+            initLocation = new Location(Const.LOCATION_PROVIDER_INTENT);
+
+            initLocation.setLatitude(latitude);
+            initLocation.setLongitude(longitude);
+
+            isCenterOnMyLocation = false;
+        }
+        else {
+            isCenterOnMyLocation = true;
+
+            // Initialize the displayed values. This is not done when
+            // MainActivity is called from Details activity, to keep the same
+            // Calendar.
+            parkingApp.resetParkingCalendar();
+        }
 
         updateParkingTimeTitle();
         updateParkingDateButton();
@@ -178,21 +196,6 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
 
         mDrawer = (SlidingDrawer) findViewById(R.id.drawer_time);
         mDrawer.animateOpen();
-
-        initLocation = null;
-
-        Integer latitude = getIntent().getIntExtra(Const.INTENT_EXTRA_GEO_LAT, Integer.MIN_VALUE);
-        Integer longitude = getIntent().getIntExtra(Const.INTENT_EXTRA_GEO_LNG, Integer.MIN_VALUE);
-
-        if (!latitude.equals(Integer.MIN_VALUE) && !longitude.equals(Integer.MIN_VALUE)) {
-            initLocation = new Location(Const.LOCATION_PROVIDER_INTENT);
-            initLocation.setLatitude(latitude);
-            initLocation.setLongitude(longitude);
-            isCenterOnMyLocation = false;
-        }
-        else {
-            isCenterOnMyLocation = true;
-        }
     }
 
     @Override
@@ -211,7 +214,51 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         else {
             isCenterOnMyLocation = true;
         }
-        isCenterOnMyLocation = true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        try {
+            outState.putString(Const.KEY_BUNDLE_SELECTED_TAB,
+                    getSupportActionBar().getSelectedTab().getTag().toString());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        isCenterOnMyLocation = false;
+
+        if (getIntent().hasExtra(Const.INTENT_EXTRA_POST_ID)) {
+            try {
+                final ActionBar ab = getSupportActionBar();
+                if (ab.getSelectedTab().getPosition() != Const.TABS_INDEX_MAP) {
+                    ab.setSelectedNavigationItem(Const.TABS_INDEX_MAP);
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }
+        else if ((savedInstanceState != null)
+                && (savedInstanceState.containsKey(Const.KEY_BUNDLE_SELECTED_TAB))) {
+            if (savedInstanceState.getString(Const.KEY_BUNDLE_SELECTED_TAB)
+                    .equals(Const.TAG_TABS_FAVORITES)) {
+                try {
+                    final ActionBar ab = getSupportActionBar();
+                    if (ab.getSelectedTab().getPosition() != Const.TABS_INDEX_FAVORITES) {
+                        ab.setSelectedNavigationItem(Const.TABS_INDEX_FAVORITES);
+                    }
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
     @Override
@@ -232,7 +279,6 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
 
         // Check Playservices status
         if (isPlayservicesOutdated) {
-
             if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS) {
                 // Still out of date, interrupt onResume()
                 disableLocationUpdates();
@@ -251,9 +297,36 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
             ConnectionHelper.showDialogNoConnection(this);
         }
 
+        // TODO Optimize this using savedInstanceState to avoid reload of
+        // identical data onResume
+        final Intent intent = getIntent();
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            updateParkingTimeFromUri(intent.getData());
+
+            updateParkingTimeTitle();
+            updateParkingDateButton();
+            updateParkingTimeButton();
+            updateParkingDurationButton();
+        }
+
+        // if
+        // (getSupportActionBar().getSelectedTab().getTag().equals(Const.TAG_TABS_MAP)
+        // || isCenterOnMyLocation) {
         if (initLocation != null || isCenterOnMyLocation) {
             mMapFragment.setMapCenter(initLocation);
+            isCenterOnMyLocation = false;
+
+            try {
+                final ActionBar ab = getSupportActionBar();
+                if (ab.getSelectedTab().getPosition() != Const.TABS_INDEX_MAP) {
+                    ab.setSelectedNavigationItem(Const.TABS_INDEX_MAP);
+                }
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
+        // }
+
     }
 
     @Override
@@ -293,7 +366,6 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
     @SuppressWarnings("deprecation")
     @Override
     public void onTabSelected(Tab tab, FragmentTransaction fragmentTransaction) {
-        // Log.v(TAG, "onTab Selected");
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         if (tab.getTag().equals(Const.TAG_TABS_MAP)) {
@@ -301,7 +373,8 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
                 mDrawer.setVisibility(View.VISIBLE);
             }
 
-            ft.show(mMapFragment);
+            // ft.show(mMapFragment);
+            ft.hide(mFavoritesFragment);
             ft.commit();
         }
         else if (tab.getTag().equals(Const.TAG_TABS_FAVORITES)) {
@@ -309,7 +382,9 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
             if (mDrawer != null) {
                 mDrawer.setVisibility(View.GONE);
             }
+
             ft.show(mFavoritesFragment);
+            // ft.hide(mMapFragment);
             ft.commit();
         }
 
@@ -320,23 +395,21 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
 
     @Override
     public void onTabUnselected(Tab tab, FragmentTransaction fragmentTransaction) {
-        // Log.v(TAG, "onTab Unselected");
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-        if (tab.getTag().equals(Const.TAG_TABS_MAP)) {
-            ft.hide(mMapFragment);
-            ft.commit();
-        }
-        else if (tab.getTag().equals(Const.TAG_TABS_FAVORITES)) {
-            ft.hide(mFavoritesFragment);
-            ft.commit();
-        }
+        // FragmentTransaction ft =
+        // getSupportFragmentManager().beginTransaction();
+        //
+        // if (tab.getTag().equals(Const.TAG_TABS_MAP)) {
+        // ft.hide(mMapFragment);
+        // ft.commit();
+        // }
+        // else if (tab.getTag().equals(Const.TAG_TABS_FAVORITES)) {
+        // ft.hide(mFavoritesFragment);
+        // ft.commit();
+        // }
     }
 
     @Override
     public void onTabReselected(Tab tab, FragmentTransaction fragmentTransaction) {
-        // Log.v(TAG, "onTab Reselected");
-
         if (tab.getTag().equals(Const.TAG_TABS_MAP)) {
             isCenterOnMyLocation = true;
 
@@ -402,7 +475,6 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
 
     @Override
     public void OnMyLocationChanged(final Location location) {
-        Log.v(TAG, "OnMyLocationChanged");
         /**
          * Following code allows the background listener to modify the UI's
          * menu.
@@ -469,69 +541,63 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
     @SuppressLint("DefaultLocale")
     private void updateParkingTimeTitle() {
 
-        GregorianCalendar c = parkingApp.getParkingCalendar();
-        int duration = parkingApp.getParkingDuration();
+        final GregorianCalendar c = parkingApp.getParkingCalendar();
+        final int duration = parkingApp.getParkingDuration();
 
-        Date date = c.getTime();
-
-        SimpleDateFormat df = new SimpleDateFormat(getResources().getString(
-                R.string.drawer_title_day), Locale.getDefault());
-
-        String day = df.format(date);
-        // Required for French: capitalize first character
-        day = day.substring(0, 1).toUpperCase() + day.substring(1);
-
-        df = new SimpleDateFormat(getResources().getString(
-                R.string.drawer_time_btn), Locale.getDefault());
-        String time = df.format(c.getTime());
-
-        String sTimeTitle;
-        if (duration == 1) {
-            sTimeTitle = String.format(getResources().getString(R.string.drawer_time_title), day,
-                    time);
-        }
-        else {
-            sTimeTitle = String.format(getResources().getString(R.string.drawer_time_title_plural),
-                    day, time, duration);
-        }
-
-        TextView vTimeTitle = (TextView) findViewById(R.id.drawer_time_title);
-        if (vTimeTitle != null)
-            vTimeTitle.setText(sTimeTitle);
+        ((TextView) findViewById(R.id.drawer_time_title)).setText(
+                ParkingTimeHelper.getTitle(this, c, duration));
     }
 
     private void updateParkingDateButton() {
-        GregorianCalendar c = parkingApp.getParkingCalendar();
+        final GregorianCalendar c = parkingApp.getParkingCalendar();
 
-        SimpleDateFormat df = new SimpleDateFormat(getResources().getString(
-                R.string.drawer_date_btn), Locale.getDefault());
-        String date = df.format(c.getTime());
-        // Required for French: capitalize first character
-        date = date.substring(0, 1).toUpperCase() + date.substring(1);
-
-        ((Button) findViewById(R.id.btn_day)).setText(date);
+        ((Button) findViewById(R.id.btn_day)).setText(ParkingTimeHelper.getDate(this, c));
     }
 
     private void updateParkingTimeButton() {
-        GregorianCalendar c = parkingApp.getParkingCalendar();
+        final GregorianCalendar c = parkingApp.getParkingCalendar();
 
-        SimpleDateFormat df = new SimpleDateFormat(getResources().getString(
-                R.string.drawer_time_btn), Locale.getDefault());
-        String time = df.format(c.getTime());
-        ((Button) findViewById(R.id.btn_start)).setText(time);
+        ((Button) findViewById(R.id.btn_start)).setText(ParkingTimeHelper.getTime(this, c));
     }
 
     private void updateParkingDurationButton() {
-        int duration = parkingApp.getParkingDuration();
+        final int duration = parkingApp.getParkingDuration();
 
-        if (duration == 1) {
-            ((Button) findViewById(R.id.btn_duration)).setText(R.string.drawer_duration_btn);
-        }
-        else {
-            ((Button) findViewById(R.id.btn_duration)).setText(String.format(getResources()
-                    .getString(R.string.drawer_duration_plural_btn), duration));
-        }
+        ((Button) findViewById(R.id.btn_duration)).setText(ParkingTimeHelper.getDuration(this,
+                duration));
+    }
 
+    private void updateParkingTimeFromUri(Uri uri) {
+        Log.v(TAG, "updateParkingTimeFromUri");
+        List<String> pathSegments = uri.getPathSegments();
+
+        // http://www.capteurdestationnement.com/map/search/2/15.5/12
+        // http://www.capteurdestationnement.com/map/search/2/15.5/12/h2w2e7
+
+        if ((pathSegments.size() >= 5)
+                && (pathSegments.get(0).equals(Const.INTENT_EXTRA_URL_PATH_MAP))
+                && (pathSegments.get(1).equals(Const.INTENT_EXTRA_URL_PATH_SEARCH))) {
+
+            try {
+                final int day = Integer.valueOf(pathSegments.get(2));
+                final double time = Double.valueOf(pathSegments.get(3));
+                final int duration = Integer.valueOf(pathSegments.get(4));
+
+                final int hourOfDay = (int) time;
+                final int minute = (int) ((time - hourOfDay) * 60);
+
+                GregorianCalendar calendar = new GregorianCalendar();
+
+                calendar.set(Calendar.DAY_OF_WEEK, day == 7 ? Calendar.SUNDAY : day + 1);
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                calendar.set(Calendar.MINUTE, minute);
+
+                parkingApp.setParkingCalendar(calendar);
+                parkingApp.setParkingDuration(duration);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

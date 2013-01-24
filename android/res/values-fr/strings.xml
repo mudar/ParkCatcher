@@ -23,10 +23,14 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_version">0.6 bêta</string>
+    <string name="app_version">0.8 bêta</string>
+
+    <!-- Share URL -->
+    <string name="url_share_post_id">http://capteurdestationnement.com/spot/<xliff:g id="string">%s</xliff:g>/<xliff:g id="string">%s</xliff:g>/<xliff:g id="string">%s</xliff:g>/<xliff:g id="string">%s</xliff:g>/</string>
 
     <!-- Activities -->
     <string name="app_name">Capteur de stationnement Montréal</string>
+    <string name="activity_details">Informations du stationnement</string>
     <string name="activity_about">À propos</string>
     <string name="activity_help">Aide</string>
     <string name="activity_preferences">Paramètres</string>
@@ -36,6 +40,12 @@
     <string name="menu_help">Aide</string>
     <string name="menu_settings">Paramètres</string>
     <string name="menu_about">À propos</string>
+    <string name="menu_favorite">Favoris</string>
+    <string name="menu_reminder">Rappel</string>
+    <string name="menu_map">Carte</string>
+    <string name="menu_directions">Itinéraire</string>
+    <string name="menu_streetview">Street View</string>
+    <string name="menu_share">Partager</string>
 
     <!-- UI -->
     <string name="tab_map">Carte</string>
@@ -43,8 +53,8 @@
 
     <!-- EULA -->
     <string name="eula_title">GNU General Public License v3.0</string>
-    <string name="eula_accept_btn">Accept</string>
-    <string name="eula_decline_btn">Decline</string>
+    <string name="eula_accept_btn">Accepter</string>
+    <string name="eula_decline_btn">Refuser</string>
 
     <!-- Search -->
     <string name="search_hint">Adresse</string>
@@ -56,21 +66,29 @@
     <string name="dialog_set">Définir</string>
     <string name="dialog_cancel">Annuler</string>
     <string name="dialog_done">Ok</string>
+    <!-- <string name="dialog_title_maps_chooser">Afficher l\'itinéraire avec</string> -->
+
 
     <!-- Toast -->
     <string name="toast_postal_code_processing">Recherche en cours…</string>
     <string name="toast_search_error">Incapable de trouver %1$s</string>
+    <string name="toast_search_network_connection_error">Pour cette recherche, connectez-vous à internet…</string>
     <string name="toast_sync_error">Erreur de connexion : %s</string>
     <string name="toast_sync_finished">Mise à jour terminée</string>
-    <string name="toast_network_connection_error">Pas de connexion réseau…</string>
+    <string name="toast_network_connection_error">Pas de connexion internet…</string>
     <string name="toast_map_not_ready">Chargement de la carte en cours…</string>
     <string name="toast_map_zoom_to_update">Veuillez faire un zoom avant pour mettre à jour la carte</string>
     <string name="toast_playservices_restart">Redémarrage de Capteur de stationnement… Mise à jour réussi de Google Play services&#160;!</string>
+    <string name="toast_address_error">Adresse introuvable</string>
+    <string name="toast_favorites_added">Ajouté aux favoris</string>
+    <string name="toast_favorites_removed">Supprimé des favoris</string>
+    <string name="toast_streetview_error">Incapable de démarrer Google Street View…</string>
+    <string name="toast_todo_reminder">À venir bientôt&#160;: ajouter un rappel de stationnement</string>
 
     <!-- Map -->
     <string name="map_marker_snippet_title">Stationnement autorisé</string>
     <string name="map_marker_snippet_subtitle">Prochaines périodes d’interdiction&#160;:</string>
-    <string name="map_no_connection">Pas de connexion réseau…</string>
+    <string name="map_no_connection">Pas de connexion internet…</string>
     <string name="map_retry_btn">Réessayer</string>
     <string name="map_no_connection_restart">Redémarrage de Capteur de stationnement…</string>
 
@@ -95,10 +113,14 @@
     <string name="todo_favorites_1">À venir bientôt&#160;!</string>
     <string name="todo_favorites_2">Cette section est encore en chantier… La prochaine version vous permettra de sauvegarder les emplacements dans une listes de favoris.</string>
     <string name="todo_favorites_3">Autre fonctionnalités à venir&#160;:\r\n- Utilisation en mode hors-ligne.\r\n- Historique et aide à la saisie pour la recherche d’adresses.\r\n- Intégration avec les applications Street View et Navigation de Google.\r\n- Tutoriel pour démystifier les règles de stationnement à Montréal&#160;!</string>
-    <string name="favorites_empty_list">Liste vide…</string>
+    <string name="favorites_empty_list">La liste des favoris est vide. Sauvegardez vos emplacements préférés ici pour y accéder plus rapidement…</string>
 
     <!-- PostDetails -->
-
+    <string name="details_title_allowed">Stationnement autorisé</string>
+    <string name="details_title_forbidden">Stationnement interdit</string>
+    <string name="details_progress_address">Recherche de l’address…</string>
+    <string name="details_share_title">Informations du stationnement par Capteur de stationnement MTL&#160;: <xliff:g id="string">%s</xliff:g>&#160;</string>
+    <string name="details_share_subtitle">Interdiction de stationner ici aux heures suivantes&#160;: %s</string>
 
     <!-- About -->
     <string name="logo_open_data">@drawable/logo_open_data_fr</string>

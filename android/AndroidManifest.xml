@@ -90,7 +90,7 @@
 
                 <data
                     android:host="www.parkcatcher.com"
-                    android:pathPrefix="/map"
+                    android:pathPrefix="/map/search"
                     android:scheme="http" />
             </intent-filter>
             <intent-filter>
@@ -101,9 +101,14 @@
 
                 <data
                     android:host="www.capteurdestationnement.com"
-                    android:pathPrefix="/map"
+                    android:pathPrefix="/map/search"
                     android:scheme="http" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activities.DetailsActivity"
+            android:label="@string/activity_details"
+            android:uiOptions="splitActionBarWhenNarrow" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -112,7 +117,7 @@
 
                 <data
                     android:host="www.parkcatcher.com"
-                    android:pathPattern="/"
+                    android:pathPrefix="/spot"
                     android:scheme="http" />
             </intent-filter>
             <intent-filter>
@@ -123,7 +128,7 @@
 
                 <data
                     android:host="www.capteurdestationnement.com"
-                    android:pathPattern="/"
+                    android:pathPrefix="/spot"
                     android:scheme="http" />
             </intent-filter>
         </activity>

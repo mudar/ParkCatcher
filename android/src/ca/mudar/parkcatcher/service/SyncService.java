@@ -179,7 +179,7 @@ public class SyncService extends IntentService {
      * @throws HandlerException
      */
     private void syncRemote() throws HandlerException {
-        // Log.v(TAG, "Started remote sync...");
+        Log.v(TAG, "Started remote sync...");
         final long startRemote = System.currentTimeMillis();
 
         mRemoteExecutor.executeGet(Const.Api.PANELS_CODES,
@@ -193,7 +193,7 @@ public class SyncService extends IntentService {
          * Pagination is used for Posts and Panels to avoid memory issues.
          */
         for (int i = 0; i < Api.PAGES_POSTS; i++) {
-            Log.v(TAG, "Syncing Posts # " + (i + 1));
+            // Log.v(TAG, "Syncing Posts # " + (i + 1));
             final String urlApi = String.format(Api.POSTS, i * Api.PAGINATION, Api.PAGINATION);
             mRemoteExecutor.executeGet(urlApi,
                     new PostsHandler(ParkingContract.CONTENT_AUTHORITY));
@@ -201,7 +201,7 @@ public class SyncService extends IntentService {
         // Log.v(TAG, "Posts synched");
 
         for (int i = 0; i < Api.PAGES_PANELS; i++) {
-            Log.v(TAG, "Syncing Panels # " + (i + 1));
+            // Log.v(TAG, "Syncing Panels # " + (i + 1));
             final String urlApi = String.format(Api.PANELS, i * Api.PAGINATION, Api.PAGINATION);
             mRemoteExecutor.executeGet(urlApi,
                     new PanelsHandler(ParkingContract.CONTENT_AUTHORITY));
@@ -268,7 +268,7 @@ public class SyncService extends IntentService {
             return info.packageName + "/" + info.versionName
                     + " (" + info.versionCode + ") (gzip)";
         } catch (NameNotFoundException e) {
-            Log.e(TAG, e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }

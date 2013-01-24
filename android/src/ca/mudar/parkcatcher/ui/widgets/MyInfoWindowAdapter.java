@@ -49,11 +49,28 @@ public class MyInfoWindowAdapter implements InfoWindowAdapter {
     @Override
     public View getInfoContents(Marker marker) {
 
-        final String title = marker.getTitle();
+        String title = marker.getTitle();
         final String snippet = marker.getSnippet();
         final TextView titleUi = (TextView) mView.findViewById(R.id.title);
         final View subtitleUi = mView.findViewById(R.id.subtitle);
         final TextView snippetUi = ((TextView) mView.findViewById(R.id.snippet));
+
+        /**
+         * TWEAK: to enable use of the OnInfoWindowClickListener, the title
+         * actually holds the id_post. In our case, all infoWindows have the
+         * same static title "Parking Allowed". So if the title can be converted
+         * to an iteger, we hide it and display the static title. Otherwise, we
+         * display the String title. Snippet is checked to verify that the
+         * marker's title is not the user's address search string.
+         */
+        if (snippet != null) {
+            try {
+                int id = Integer.valueOf(title);
+                title = null;
+            } catch (NumberFormatException e) {
+                // Nothing to do here, title is not an integer so it
+            }
+        }
 
         if (title != null) {
             titleUi.setText(title);

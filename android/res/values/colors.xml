@@ -44,9 +44,15 @@
     <color name="map_info_snippet">#ff7f7f7f</color>
 
     <!-- Favorites -->
-    <color name="listview_colorhint">#00000000</color>
+    <color name="listview_bg">#cc2c2c2c</color>
+    <color name="listview_divider">#99000000</color>
     <color name="listview_text_1">#ffffffff</color>
     <color name="listview_text_2">#ccffffff</color>
+
+    <!-- Details -->
+    <color name="details_panel_text">#ff000000</color>
+    <color name="details_progress_address_text">#ccffffff</color>
+    <color name="details_time_tile_text">#ccffffff</color>
 
     <!-- Drawer Time -->
     <color name="drawer_background">#cc2c2c2c</color>

@@ -91,6 +91,7 @@ public class ParkingContract {
 
     public static interface FavoritesColumns {
         final String ID_POST = "id_post";
+        final String LABEL = "label";
     }
 
     public static final String CONTENT_AUTHORITY = "ca.mudar.parkcatcher";
@@ -105,6 +106,7 @@ public class ParkingContract {
     private static final String PATH_POSTS_ALLOWED = "allowed";
     private static final String PATH_POSTS_FORBIDDEN = "fobidden";
     private static final String PATH_POSTS_STARRED = "starred";
+    private static final String PATH_POSTS_TIMED = "timed";
 
     public static class Posts implements PostsColumns, SyncColumns, BaseColumns {
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
@@ -120,6 +122,9 @@ public class ParkingContract {
         public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.parkcatcher.post";
         public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.parkcatcher.post";
 
+        public static final String IS_FORBIDDEN = "is_forbidden";
+        public static final String IS_STARRED = "is_starred";
+
         public static final String DEFAULT_SORT = BaseColumns._ID + " ASC ";
         public static final String DISTANCE_SORT = PostsColumns.GEO_DISTANCE + " ASC ";
 
@@ -130,6 +135,33 @@ public class ParkingContract {
         public static String getPostId(Uri uri) {
             return uri.getPathSegments().get(1);
         }
+
+        public static Uri buildPostTimedUri(String id,
+                String startHour, String endHour, String dayOfYear) {
+            return CONTENT_URI.buildUpon()
+                    .appendPath(id)
+                    .appendPath(PATH_POSTS_TIMED)
+                    .appendPath(startHour)
+                    .appendPath(endHour)
+                    .appendPath(dayOfYear)
+                    .build();
+        }
+
+        public static String getPostTimedStartHour(Uri uri) {
+            return uri.getPathSegments().get(3);
+        }
+
+        public static String getPostTimedEndHour(Uri uri) {
+            return uri.getPathSegments().get(4);
+        }
+
+        public static String getPostTimedDayOfYear(Uri uri) {
+            return uri.getPathSegments().get(5);
+        }
+
+        // public static Uri buildAllowedPostsUri(String id) {
+        // return CONTENT_URI.buildUpon().appendPath(id).build();
+        // }
 
         // public static Uri buildPanelsUri(String postId) {
         // return

@@ -55,13 +55,43 @@ public class ParkingDatabase extends SQLiteAssetHelper {
         final String PANELS_CODES_RULES = "panels_codes_rules";
         final String FAVORITES = "favorites";
 
-        final String POSTS_JOIN_PANELS_PANELS_CODES = " posts "
+        // final String POSTS_JOIN_PANELS_PANELS_CODES = " posts "
+        // + "INNER JOIN panels ON posts.id_post = panels.id_post "
+        // +
+        // "INNER JOIN panels_codes ON panels.id_panel_code = panels_codes._id ";
+
+        final String POSTS_JOIN_PANELS_PANELS_CODES_FAVORITES = " posts "
                 + "INNER JOIN panels ON posts.id_post = panels.id_post "
-                + "INNER JOIN panels_codes ON panels.id_panel_code = panels_codes._id ";
+                + "INNER JOIN panels_codes ON panels.id_panel_code = panels_codes._id "
+                + "LEFT JOIN favorites ON posts.id_post = favorites.id_post ";
+        final String POSTS_JOIN_ALL = " posts "
+                + "INNER JOIN panels ON posts.id_post = panels.id_post "
+                + "INNER JOIN panels_codes ON panels.id_panel_code = panels_codes._id "
+                + "LEFT JOIN panels_codes_rules ON panels.id_panel_code = panels_codes_rules.id_panel_code "
+                + "LEFT JOIN favorites ON posts.id_post = favorites.id_post ";
 
         final String POSTS_JOIN_PANELS_PANELS_CODES_RULES = " posts "
                 + "INNER JOIN panels ON posts.id_post = panels.id_post "
                 + "INNER JOIN panels_codes_rules ON panels.id_panel_code = panels_codes_rules.id_panel_code ";
+
+        final String POSTS_JOIN_FAVORITES_PANELS_PANELS_CODES = " posts "
+                + "INNER JOIN favorites ON posts.id_post = favorites.id_post "
+                + "INNER JOIN panels ON posts.id_post = panels.id_post "
+                + "INNER JOIN panels_codes ON panels.id_panel_code = panels_codes._id ";
+
+        final String POSTS_JOIN_FAVORITES_PANELS_PANELS_CODES_RULES = " posts "
+                + "INNER JOIN favorites ON posts.id_post = favorites.id_post "
+                + "INNER JOIN panels ON posts.id_post = panels.id_post "
+                + "INNER JOIN panels_codes_rules ON panels.id_panel_code = panels_codes_rules.id_panel_code ";
+
+        // final String PANELS_JOIN_PANELS_CODES_FAVORITES = " panels "
+        // +
+        // "INNER JOIN panels_codes ON panels.id_panel_code = panels_codes._id "
+        // + "LEFT JOIN favorites ON panels.id_post = favorites.id_post ";
+
+        final String PANELS_JOIN_PANELS_CODES_RULES = " panels "
+                + "INNER JOIN panels_codes_rules ON panels.id_panel_code = panels_codes_rules.id_panel_code ";
+
     }
 
     /** {@code INDEXES} clauses. */
@@ -95,6 +125,7 @@ public class ParkingDatabase extends SQLiteAssetHelper {
     }
 
     public ParkingDatabase(Context context) {
+
         super(context, Const.DATABASE_NAME, null, Const.DATABASE_VERSION);
         // String cacheDB = getTempUrl(context, Const.API_DATABASE + ".zip");
 
@@ -103,6 +134,14 @@ public class ParkingDatabase extends SQLiteAssetHelper {
         // }
     }
 
+    /**
+     * Used to download the .DB file from remote server, in order to reduce
+     * impact on storage.
+     * 
+     * @param context
+     * @param sUrl
+     * @return
+     */
     private String getTempUrl(Context context, String sUrl) {
         String fileName = Uri.parse(sUrl).getLastPathSegment();
 
@@ -230,7 +269,8 @@ public class ParkingDatabase extends SQLiteAssetHelper {
          */
         db.execSQL("CREATE TABLE IF NOT EXISTS " + Tables.FAVORITES + " ( "
                 + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT , "
-                + FavoritesColumns.ID_POST + " INTEGER " + References.ID_POST + " )");
+                + FavoritesColumns.ID_POST + " INTEGER UNIQUE NOT NULL " + References.ID_POST + ","
+                + FavoritesColumns.LABEL + " TEXT NULL )");
         db.execSQL("CREATE INDEX " + Indexes.FAVORITES_ID_POST
                 + " ON " + Tables.FAVORITES
                 + " (" + FavoritesColumns.ID_POST + ")");

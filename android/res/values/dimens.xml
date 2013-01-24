@@ -39,4 +39,12 @@
     <!-- Map -->
     <dimen name="map_info_window_text">14sp</dimen>
 
+    <!-- Favorites -->
+    <dimen name="listview_divider_height">1dp</dimen>
+    <dimen name="listview_empty_width">220dp</dimen>
+
+    <!-- Details -->
+    <dimen name="details_progress">24dp</dimen>
+    <dimen name="details_panel_width">130dp</dimen>
+
 </resources>

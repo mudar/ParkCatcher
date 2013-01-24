@@ -33,12 +33,12 @@ import org.json.JSONTokener;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
-import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class PanelsHandler extends JsonHandler {
+    @SuppressWarnings("unused")
     private static final String TAG = "PanelsHandler";
 
     public PanelsHandler(String authority) {
@@ -88,8 +88,6 @@ public class PanelsHandler extends JsonHandler {
 
             batch.add(builderPanels.build());
         }
-
-        Log.v(TAG, "batch done. Size = " + batch.size());
 
         return batch;
     }

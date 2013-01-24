@@ -25,30 +25,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:cacheColorHint="@color/listview_colorhint"
+    android:background="@drawable/layer_list_background_asphalt"
+    android:cacheColorHint="@android:color/transparent"
+    android:clickable="true"
     android:gravity="center"
     android:orientation="vertical" >
 
     <ListView
+        style="@style/FavoritesList"
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:cacheColorHint="@color/listview_colorhint"
+        android:cacheColorHint="@android:color/transparent"
         android:fastScrollEnabled="true" />
 
     <ProgressBar
         android:id="@id/android:empty"
-        style="?android:attr/progressBarStyle"
+        style="@style/Widget.Sherlock.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" >
     </ProgressBar>
 
     <TextView
+        style="@style/FavoritesListEmpty"
         android:id="@+id/favorites_empty_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
+        android:layout_width="@dimen/listview_empty_width"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
         android:text="@string/favorites_empty_list"
         android:visibility="gone" />
 

@@ -63,14 +63,14 @@ public class EulaActivity extends SherlockActivity {
         Intent intent = new Intent();
         setResult(Const.INTENT_REQ_CODE_EULA, intent);
         setResult(RESULT_OK, intent);
-        finish();
+        this.finish();
     }
 
     public void declineEula(View v) {
         Intent intent = new Intent();
         setResult(Const.INTENT_REQ_CODE_EULA, intent);
         setResult(RESULT_CANCELED, intent);
-        finish();
+        this.finish();
     }
 
     class MyWebViewClient extends WebViewClient {
