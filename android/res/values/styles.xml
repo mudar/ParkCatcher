@@ -115,13 +115,14 @@
     <style name="FavoritesListItemSummary" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">@color/listview_text_2</item>
         <item name="android:gravity">left</item>
+        <item name="android:layout_alignParentLeft">true</item>
         <item name="android:visibility">gone</item>
+        <item name="android:textStyle">italic</item>
     </style>
 
     <style name="FavoritesListItemDistance" parent="@android:style/TextAppearance.Small">
         <item name="android:textColor">@color/listview_text_2</item>
         <item name="android:gravity">right</item>
-        <item name="android:visibility">gone</item>
     </style>
 
     <style name="FavoritesListEmpty" parent="@android:style/TextAppearance.Medium">

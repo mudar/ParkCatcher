@@ -115,6 +115,7 @@
     <string name="todo_favorites_2">This section is still under construction, please be patient… The next version will allow you to save locations into a list of Favorites.</string>
     <string name="todo_favorites_3">Other upcoming features:\r\n- Offline mode support.\r\n- Address search history and auto-complete.\r\n- Integration with Google Navigation and Street View.\r\n- Tutorial demystifying Montreal’s parking rules!</string>
     <string name="favorites_empty_list">Favorites list is empty. Store your favorite locations here for faster access…</string>
+    <string name="favroites_is_forbidden">Parking Forbidden</string>
 
     <!-- PostDetails -->
     <string name="details_title">Parking</string>

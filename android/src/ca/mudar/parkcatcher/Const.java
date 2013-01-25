@@ -168,7 +168,7 @@ public class Const {
     }
 
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    
+
     public static boolean SUPPORTS_JELLY_BEAN = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
     public static boolean SUPPORTS_ICS = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
     public static boolean SUPPORTS_HONEYCOMB = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB;
@@ -180,6 +180,7 @@ public class Const {
      */
     public static final String KEY_BUNDLE_SEARCH_ADDRESS = "bundle_search_address";
     public static final String KEY_BUNDLE_REVERSE_GEOCODER = "bundle_reverse_geocoder";
+    public static final String KEY_BUNDLE_CURSOR_SELECTION = "bundle_cursor_selection";
     public static final int BUNDLE_SEARCH_ADDRESS_SUCCESS = 0x1;
     public static final int BUNDLE_SEARCH_ADDRESS_ERROR = 0x0;
 
@@ -189,7 +190,7 @@ public class Const {
 
         final int TYPE_PANEL_CODE_PARKING = 0x1;
         final int TYPE_PANEL_CODE_PAID = 0x2;
-        
+
         final String CONCAT_SEPARATOR = "__SEP__";
     }
 

@@ -114,6 +114,7 @@
     <string name="todo_favorites_2">Cette section est encore en chantier… La prochaine version vous permettra de sauvegarder les emplacements dans une listes de favoris.</string>
     <string name="todo_favorites_3">Autre fonctionnalités à venir&#160;:\r\n- Utilisation en mode hors-ligne.\r\n- Historique et aide à la saisie pour la recherche d’adresses.\r\n- Intégration avec les applications Street View et Navigation de Google.\r\n- Tutoriel pour démystifier les règles de stationnement à Montréal&#160;!</string>
     <string name="favorites_empty_list">La liste des favoris est vide. Sauvegardez vos emplacements préférés ici pour y accéder plus rapidement…</string>
+    <string name="favroites_is_forbidden">Stationnement interdit</string>
 
     <!-- PostDetails -->
     <string name="details_title_allowed">Stationnement autorisé</string>

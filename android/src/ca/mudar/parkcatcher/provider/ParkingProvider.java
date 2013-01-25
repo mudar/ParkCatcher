@@ -192,25 +192,18 @@ public class ParkingProvider extends ContentProvider {
                     return null;
                 }
 
-                // final String queryTimeFilter = Qualified.POSTS_ID_POST +
-                // " IN ("
-                // + Subquery.PANELS_POST_ID_FORBIDDEN
-                // + " WHERE " + Qualified.PANELS_ID_POST + " = " + id_post
-                // + " AND " + timeFilter + ") ";
-
                 final String queryTimeFilter = "(" + Subquery.PANELS_POST_ID_FORBIDDEN
                         + " WHERE " + Qualified.PANELS_ID_POST + " = " + id_post
                         + " AND " + timeFilter + ")";
 
-                // projection[projection.length] = queryTimeFilter;
-
+                // TWEAK: SelectionBuilder uses cached mapping, which doesn't
+                // work with our LEFT JOIN. Replaced by a manual query.
                 // builder
-                // // .map(Posts.IS_FORBIDDEN, queryTimeFilter)
+                // .map(Posts.IS_FORBIDDEN, queryTimeFilter)
                 // .map(Favorites._ID, Qualified.FAVORITE_ID)
                 // .mapToTable(Posts.ID_POST, Tables.POSTS)
                 // .map(Posts.IS_STARRED, Qualified.FAVORITE_ID +
                 // " IS NOT NULL ");
-
                 // Cursor c = builder
                 // .query(db, projection, null, null, sortOrder, null);
 
@@ -223,48 +216,81 @@ public class ParkingProvider extends ContentProvider {
                         },
                         builder.getSelection(),
                         builder.getSelectionArgs(),
-                        null, null, null);
+                        null,
+                        null,
+                        null);
 
                 c.setNotificationUri(getContext().getContentResolver(), uri);
 
                 return c;
-
             }
             case POSTS_STARRED: {
-
                 String queryTimeFilter = "1";
-                try {
 
-                    final double startHour = Double.parseDouble(selectionArgs[0]); // hourOfWeek
-                    final int duration = Integer.parseInt(selectionArgs[1]);
-                    final int dayOfYear = Integer.parseInt(selectionArgs[2]);
+                if (selectionArgs != null) {
+                    try {
 
-                    final double endHour = startHour + duration;
-                    if (endHour > HOURS_PER_WEEK) {
-                        // Handle week overlap
-                        queryTimeFilter = " ("
-                                + getTimeFilterQuery(startHour, HOURS_PER_WEEK, dayOfYear) + " OR "
-                                + getTimeFilterQuery(0, endHour - HOURS_PER_WEEK, dayOfYear) + ") ";
+                        final double startHour = Double.parseDouble(selectionArgs[0]); // hourOfWeek
+                        final int duration = Integer.parseInt(selectionArgs[1]);
+                        final int dayOfYear = Integer.parseInt(selectionArgs[2]);
+
+                        final double endHour = startHour + duration;
+                        if (endHour > HOURS_PER_WEEK) {
+                            // Handle week overlap
+                            queryTimeFilter = " ("
+                                    + getTimeFilterQuery(startHour, HOURS_PER_WEEK, dayOfYear)
+                                    + " OR "
+                                    + getTimeFilterQuery(0, endHour - HOURS_PER_WEEK, dayOfYear)
+                                    + ") ";
+                        }
+                        else {
+                            queryTimeFilter = getTimeFilterQuery(startHour, endHour, dayOfYear);
+                        }
+
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        return null;
                     }
-                    else {
-                        queryTimeFilter = getTimeFilterQuery(startHour, endHour, dayOfYear);
-                    }
 
-                } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                    return null;
+                    queryTimeFilter = Qualified.POSTS_ID_POST + " IN ("
+                            + Subquery.POSTS_FAVORITES_PANELS_FORBIDDEN
+                            + " WHERE " + queryTimeFilter + ") ";
+
+                    projection = new String[] {
+                            Qualified.POSTS_ID,
+                            Qualified.POSTS_ID_POST,
+                            Favorites.LABEL,
+                            Posts.GEO_DISTANCE,
+                            queryTimeFilter + " AS " + Posts.IS_FORBIDDEN,
+                    };
                 }
+                else {
+                    projection = new String[] {
+                            Qualified.POSTS_ID,
+                            PostsColumns.LAT,
+                            PostsColumns.LNG,
+                            PostsColumns.GEO_DISTANCE
+                    };
+                }
+                //
 
-                queryTimeFilter = Qualified.POSTS_ID_POST + " IN ("
-                        + Subquery.POSTS_FAVORITES_PANELS_FORBIDDEN
-                        + " WHERE " + queryTimeFilter + ") ";
+                // TWEAK: SelectionBuilder uses cached mapping, which doesn't
+                // work with our LEFT JOIN. Replaced by a manual query.
+                // Cursor c = builder
+                // .map(Posts.IS_FORBIDDEN, queryTimeFilter)
+                // .mapToTable(Posts._ID, Tables.POSTS)
+                // .mapToTable(Posts.ID_POST, Tables.POSTS)
+                // .query(db, projection, Qualified.POSTS_ID, null, sortOrder,
+                // null);
 
-                String groupBy = Qualified.POSTS_ID;
-                Cursor c = builder
-                        .map(Posts.IS_FORBIDDEN, queryTimeFilter)
-                        .mapToTable(Posts._ID, Tables.POSTS)
-                        .mapToTable(Posts.ID_POST, Tables.POSTS)
-                        .query(db, projection, groupBy, null, sortOrder, null);
+                Cursor c = db.query(Tables.POSTS_JOIN_FAVORITES_PANELS_PANELS_CODES,
+                        projection,
+                        builder.getSelection(),
+                        builder.getSelectionArgs(),
+                        Qualified.POSTS_ID,
+                        null,
+                        sortOrder);
+
                 c.setNotificationUri(getContext().getContentResolver(), uri);
 
                 return c;
@@ -377,14 +403,17 @@ public class ParkingProvider extends ContentProvider {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
         final int match = sUriMatcher.match(uri);
-        final SelectionBuilder builder = buildExpandedSelection(uri, match);
         switch (match) {
             case POSTS_STARRED: {
-                int retVal = builder.where(selection, selectionArgs).update(db, values);
+                final SelectionBuilder builder = new SelectionBuilder();
+                int retVal = builder
+                        .table(Tables.POSTS)
+                        .where(selection, selectionArgs).update(db, values);
                 getContext().getContentResolver().notifyChange(uri, null);
                 return retVal;
             }
             default: {
+                final SelectionBuilder builder = buildExpandedSelection(uri, match);
                 int retVal = builder.where(selection, selectionArgs).update(db, values);
                 getContext().getContentResolver().notifyChange(uri, null);
                 return retVal;

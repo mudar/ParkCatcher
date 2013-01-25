@@ -38,7 +38,7 @@
         android:scrollHorizontally="true" />
 
     <TextView
-        android:id="@+id/favorite_desc"
+        android:id="@+id/favorite_is_forbidden"
         style="@style/FavoritesListItemSummary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,7 +46,8 @@
         android:layout_toLeftOf="@+id/favorite_distance"
         android:ellipsize="end"
         android:lines="1"
-        android:scrollHorizontally="true" />
+        android:scrollHorizontally="true"
+        android:text="@string/favroites_is_forbidden" />
 
     <TextView
         android:id="@+id/favorite_distance"

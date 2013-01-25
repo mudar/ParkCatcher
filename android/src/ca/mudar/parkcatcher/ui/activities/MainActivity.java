@@ -193,6 +193,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         updateParkingDateButton();
         updateParkingTimeButton();
         updateParkingDurationButton();
+        mFavoritesFragment.refreshList();
 
         mDrawer = (SlidingDrawer) findViewById(R.id.drawer_time);
         mDrawer.animateOpen();
@@ -307,6 +308,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
             updateParkingDateButton();
             updateParkingTimeButton();
             updateParkingDurationButton();
+            mFavoritesFragment.refreshList();
         }
 
         // if
@@ -420,6 +422,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
             updateParkingDateButton();
             updateParkingTimeButton();
             updateParkingDurationButton();
+            mFavoritesFragment.refreshList();
 
             mMapFragment.updateOverlaysForced();
         }
@@ -447,6 +450,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         updateParkingDateButton();
 
         updateParkingTimeTitle();
+        mFavoritesFragment.refreshList();
 
         mMapFragment.updateOverlaysForced();
     }
@@ -458,6 +462,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         updateParkingTimeButton();
 
         updateParkingTimeTitle();
+        mFavoritesFragment.refreshList();
 
         mMapFragment.updateOverlaysForced();
     }
@@ -469,6 +474,7 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         updateParkingDurationButton();
 
         updateParkingTimeTitle();
+        mFavoritesFragment.refreshList();
 
         mMapFragment.updateOverlaysForced();
     }

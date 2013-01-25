@@ -127,6 +127,8 @@ public class ParkingContract {
 
         public static final String DEFAULT_SORT = BaseColumns._ID + " ASC ";
         public static final String DISTANCE_SORT = PostsColumns.GEO_DISTANCE + " ASC ";
+        public static final String FORBIDDEN_DISTANCE_SORT = IS_FORBIDDEN + " ASC, "
+                + PostsColumns.GEO_DISTANCE + " ASC ";
 
         public static Uri buildPostUri(String id) {
             return CONTENT_URI.buildUpon().appendPath(id).build();

@@ -29,6 +29,7 @@ import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.provider.ParkingContract.Favorites;
 import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
 import ca.mudar.parkcatcher.ui.activities.DetailsActivity;
+import ca.mudar.parkcatcher.ui.widgets.PostsCursorAdapter;
 
 import com.actionbarsherlock.app.SherlockListFragment;
 
@@ -38,7 +39,6 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,7 +54,7 @@ public class FavoritesFragment extends SherlockListFragment implements LoaderCal
 
     private View rootView;
     protected Cursor cursor = null;
-    protected SimpleCursorAdapter mAdapter;
+    protected PostsCursorAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,22 +63,23 @@ public class FavoritesFragment extends SherlockListFragment implements LoaderCal
 
         parkingApp = (ParkingApp) getActivity().getApplicationContext();
 
-        mAdapter = new SimpleCursorAdapter(getActivity(),
+        mAdapter = new PostsCursorAdapter(getActivity(),
                 R.layout.fragment_list_item_favorites,
                 cursor,
                 new String[] {
-                        Favorites.LABEL
-                // , PanelsCodes.DESCRIPTION, Posts.GEO_DISTANCE
+                        Favorites.LABEL, Posts.GEO_DISTANCE
                 },
                 new int[] {
-                        R.id.favorite_name
-                // , R.id.favorite_desc, R.id.favorite_distance
+                        R.id.favorite_name, R.id.favorite_distance
                 },
                 0);
 
         setListAdapter(mAdapter);
 
-        getLoaderManager().initLoader(0, null, this);
+        Bundle args = new Bundle();
+        args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION, getSelectionArgs());
+
+        getLoaderManager().initLoader(FavoritesQuery._TOKEN, args, this);
     }
 
     @Override
@@ -105,34 +106,22 @@ public class FavoritesFragment extends SherlockListFragment implements LoaderCal
         Intent intent = new Intent(getSherlockActivity(), DetailsActivity.class);
         intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
         getSherlockActivity().startActivity(intent);
-
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-        final GregorianCalendar parkingCalendar = parkingApp.getParkingCalendar();
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
-        final int dayOfWeek = (parkingCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? 7
-                : parkingCalendar.get(Calendar.DAY_OF_WEEK) - 1);
-        final double parkingHour = parkingCalendar.get(Calendar.HOUR_OF_DAY)
-                + Math.round(parkingCalendar.get(Calendar.MINUTE) / 0.6) / 100.00d;
-        final double hourOfWeek = parkingHour + (dayOfWeek - 1) * 24;
-
-        // API uses values 0-365 (or 364)
-        final int dayOfYear = parkingCalendar.get(Calendar.DAY_OF_YEAR) - 1;
-
-        final int duration = parkingApp.getParkingDuration();
+        String[] selectionArgs = null;
+        if (id == FavoritesQuery._TOKEN && args.containsKey(Const.KEY_BUNDLE_CURSOR_SELECTION)) {
+            selectionArgs = args.getStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION);
+        }
 
         return new CursorLoader(getSherlockActivity().getApplicationContext(),
                 Posts.CONTENT_STARRED_URI,
                 FavoritesQuery.FAVORITES_SUMMARY_PROJECTION,
                 null,
-                new String[] {
-                        Double.toString(hourOfWeek),
-                        Integer.toString(duration),
-                        Integer.toString(dayOfYear)
-                },
-                Posts.DISTANCE_SORT);
+                selectionArgs,
+                Posts.FORBIDDEN_DISTANCE_SORT);
     }
 
     @Override
@@ -154,6 +143,35 @@ public class FavoritesFragment extends SherlockListFragment implements LoaderCal
         mAdapter.swapCursor(null);
     }
 
+    public void refreshList() {
+        Bundle args = new Bundle();
+        args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION, getSelectionArgs());
+
+        getLoaderManager().restartLoader(FavoritesQuery._TOKEN, args, this);
+    }
+
+    private String[] getSelectionArgs() {
+
+        final GregorianCalendar parkingCalendar = parkingApp.getParkingCalendar();
+
+        final int dayOfWeek = (parkingCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? 7
+                : parkingCalendar.get(Calendar.DAY_OF_WEEK) - 1);
+        final double parkingHour = parkingCalendar.get(Calendar.HOUR_OF_DAY)
+                + Math.round(parkingCalendar.get(Calendar.MINUTE) / 0.6) / 100.00d;
+        final double hourOfWeek = parkingHour + (dayOfWeek - 1) * 24;
+
+        // API uses values 0-365 (or 364)
+        final int dayOfYear = parkingCalendar.get(Calendar.DAY_OF_YEAR) - 1;
+
+        final int duration = parkingApp.getParkingDuration();
+
+        return new String[] {
+                Double.toString(hourOfWeek),
+                Integer.toString(duration),
+                Integer.toString(dayOfYear)
+        };
+    }
+
     public static interface FavoritesQuery {
         int _TOKEN = 0x20;
 
@@ -161,17 +179,13 @@ public class FavoritesFragment extends SherlockListFragment implements LoaderCal
                 Posts._ID,
                 Posts.ID_POST,
                 Favorites.LABEL,
-                // Posts.GEO_DISTANCE,
-                // Posts.IS_FORBIDDEN,
-                // PanelsCodes.CONCAT_DESCRIPTION,
-
+                Posts.GEO_DISTANCE,
+                Posts.IS_FORBIDDEN,
         };
         final int _ID = 0;
         final int ID_POST = 1;
         final int LABEL = 2;
-        // final int GEO_DISTANCE = 2;
-        // final int IS_FORBIDDEN = 3;
-        // final int CONCAT_DESCRIPTION = 4;
-
+        final int GEO_DISTANCE = 3;
+        final int IS_FORBIDDEN = 4;
     }
 }

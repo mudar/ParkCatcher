@@ -163,16 +163,6 @@ public class DistanceUpdateService extends IntentService {
                 - startLocal) + " ms");
     }
 
-    /**
-     * The cursor columns projection.
-     */
-    static final String[] POSTS_SUMMARY_PROJECTION = new String[] {
-            BaseColumns._ID,
-            PostsColumns.LAT,
-            PostsColumns.LNG,
-            PostsColumns.GEO_DISTANCE
-    };
-
     protected ArrayList<ContentProviderOperation> updateDistance(Uri contentUri,
             double startLatitude, double startLongitude) {
         final ArrayList<ContentProviderOperation> batch = Lists.newArrayList();
@@ -180,29 +170,24 @@ public class DistanceUpdateService extends IntentService {
         ContentProviderOperation.Builder builder = ContentProviderOperation
                 .newUpdate(contentUri);
 
-        Cursor queuedPosts = contentResolver.query(contentUri, POSTS_SUMMARY_PROJECTION,
-                null, null, PostsColumns.GEO_DISTANCE);
-
+        Cursor queuedPosts = contentResolver.query(contentUri,
+                DistanceQuery.POSTS_SUMMARY_PROJECTION,
+                null, null, Posts.DISTANCE_SORT);
         try {
-            final int indexId = queuedPosts.getColumnIndexOrThrow(BaseColumns._ID);
-            final int indexLat = queuedPosts.getColumnIndexOrThrow(PostsColumns.LAT);
-            final int indexLng = queuedPosts.getColumnIndexOrThrow(PostsColumns.LNG);
-            final int indexDistance = queuedPosts
-                    .getColumnIndexOrThrow(PostsColumns.GEO_DISTANCE);
             final String selection = BaseColumns._ID + " = ? ";
 
             while (queuedPosts.moveToNext()) {
                 String[] queuedId = new String[] {
-                        queuedPosts.getString(indexId)
+                        queuedPosts.getString(DistanceQuery._ID)
                 };
-                double endLat = queuedPosts.getDouble(indexLat);
-                double endLng = queuedPosts.getDouble(indexLng);
+                double endLat = queuedPosts.getDouble(DistanceQuery.LAT);
+                double endLng = queuedPosts.getDouble(DistanceQuery.LNG);
 
                 if ((endLat == 0.0) || (endLng == 0.0)) {
                     continue;
                 }
 
-                int oldDistance = queuedPosts.getInt(indexDistance);
+                int oldDistance = queuedPosts.getInt(DistanceQuery.GEO_DISTANCE);
 
                 /**
                  * Calculate the new distance.
@@ -215,7 +200,8 @@ public class DistanceUpdateService extends IntentService {
                  * Compare the new distance to the old one, to avoid the db
                  * write operation if not necessary.
                  */
-                if (Math.abs(oldDistance - distance) > Const.DB_MAX_DISTANCE) {
+                if ((oldDistance == 0)
+                        || (Math.abs(oldDistance - distance) > Const.DB_MAX_DISTANCE)) {
                     builder = ContentProviderOperation.newUpdate(contentUri);
                     builder.withValue(PostsColumns.GEO_DISTANCE, distance);
                     builder.withSelection(selection, queuedId);
@@ -229,5 +215,22 @@ public class DistanceUpdateService extends IntentService {
         }
 
         return batch;
+    }
+
+    /**
+     * The cursor columns projection.
+     */
+    private static interface DistanceQuery {
+        final String[] POSTS_SUMMARY_PROJECTION = new String[] {
+                Posts._ID,
+                PostsColumns.LAT,
+                PostsColumns.LNG,
+                PostsColumns.GEO_DISTANCE
+        };
+
+        final int _ID = 0;
+        final int LAT = 1;
+        final int LNG = 2;
+        final int GEO_DISTANCE = 3;
     }
 }
