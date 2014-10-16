@@ -315,10 +315,10 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
         // (getSupportActionBar().getSelectedTab().getTag().equals(Const.TAG_TABS_MAP)
         // || isCenterOnMyLocation) {
         if (initLocation != null || isCenterOnMyLocation) {
-            mMapFragment.setMapCenter(initLocation);
-            isCenterOnMyLocation = false;
-
             try {
+                mMapFragment.setMapCenter(initLocation);
+                isCenterOnMyLocation = false;
+
                 final ActionBar ab = getSupportActionBar();
                 if (ab.getSelectedTab().getPosition() != Const.TABS_INDEX_MAP) {
                     ab.setSelectedNavigationItem(Const.TABS_INDEX_MAP);
@@ -546,7 +546,6 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
 
     @SuppressLint("DefaultLocale")
     private void updateParkingTimeTitle() {
-
         final GregorianCalendar c = parkingApp.getParkingCalendar();
         final int duration = parkingApp.getParkingDuration();
 

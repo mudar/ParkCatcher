@@ -169,7 +169,8 @@
         <activity
             android:name=".ui.activities.HelpActivity"
             android:exported="false"
-            android:label="@string/activity_help" >
+            android:label="@string/activity_help"
+            android:theme="@style/AppTheme.Help" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

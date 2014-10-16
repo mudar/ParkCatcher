@@ -58,7 +58,7 @@
         <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
 
         <!-- SearchView Fix -->
-<!--         <item name="searchViewTextField">@drawable/edit_text_holo_dark</item> -->
+        <!-- <item name="searchViewTextField">@drawable/edit_text_holo_dark</item> -->
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme">
@@ -80,6 +80,11 @@
         <item name="actionBarStyle">@style/LogoActionBar</item>
         <item name="android:logo">@drawable/logo_home</item>
         <item name="android:actionBarStyle">@style/LogoActionBar</item>
+    </style>
+
+    <!-- Help -->
+    <style name="AppTheme.Help" parent="@style/AppTheme">
+        <item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item>
     </style>
 
     <!-- Preferences -->

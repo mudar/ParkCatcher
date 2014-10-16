@@ -66,7 +66,7 @@
     <string name="dialog_set">Définir</string>
     <string name="dialog_cancel">Annuler</string>
     <string name="dialog_done">Ok</string>
-    <!-- <string name="dialog_title_maps_chooser">Afficher l\'itinéraire avec</string> -->
+    <!-- <string name="dialog_title_maps_chooser">Afficher l’itinéraire avec</string> -->
 
 
     <!-- Toast -->
@@ -110,9 +110,6 @@
     <string name="drawer_label_duration">Durée</string>
 
     <!-- Favorites -->
-    <string name="todo_favorites_1">À venir bientôt&#160;!</string>
-    <string name="todo_favorites_2">Cette section est encore en chantier… La prochaine version vous permettra de sauvegarder les emplacements dans une listes de favoris.</string>
-    <string name="todo_favorites_3">Autre fonctionnalités à venir&#160;:\r\n- Utilisation en mode hors-ligne.\r\n- Historique et aide à la saisie pour la recherche d’adresses.\r\n- Intégration avec les applications Street View et Navigation de Google.\r\n- Tutoriel pour démystifier les règles de stationnement à Montréal&#160;!</string>
     <string name="favorites_empty_list">La liste des favoris est vide. Sauvegardez vos emplacements préférés ici pour y accéder plus rapidement…</string>
     <string name="favroites_is_forbidden">Stationnement interdit</string>
 
@@ -135,12 +132,68 @@
     <string name="about_open_data">Cette application est propulsée par le <a href="http://donnees.ville.montreal.qc.ca/fiche/stationnement-rue/">Portail</a> données ouvertes de la Ville de Montréal en conformité avec sa <a href="http://donnees.ville.montreal.qc.ca/licence-texte-complet">licence</a> d’utilisation des données ouvertes.</string>
 
     <!-- Help -->
-    <string name="help_1">La carte interactive et le moteur de recherche vous permettent de trouver les emplacements où le stationnement est autorisé pour la période de votre choix.</string>
-    <string name="help_2">Appuyez sur un poteau de stationnement, affiché en <b>vert</b>, pour afficher la prochaine période d’interdiction à cet emplacement.</string>
-    <string name="help_3">Les emplacements où le stationnement est <b>interdit</b> ne sont pas affichées.</string>
-    <string name="help_4">Appuyez sur <b>la date</b> en bas de l’écran pour saisir la période de temps pour laquelle vous cherchez un stationnement.</string>
-    <string name="help_5"><b>Appuyez longuement</b> sur la carte pour modifier votre position géographique.</string>
-    <string name="help_6"><b>Appuyez deux fois</b> sur le titre de l’onglet «&#160;Carte&#160;» pour réinitialiser la période de recherche et votre position géographique.</string>
+
+
+    <!-- Help Titles -->
+    <string name="help_title_default">Aide %s</string>
+    <string name="help_title_app">App</string>
+    <string name="help_title_rules">Règles</string>
+    <string name="help_title_parking">Stationnement</string>
+    <string name="help_title_stopping">Arrêt</string>
+    <string name="help_title_restricted">Limité</string>
+    <string name="help_title_srrr">S3R</string>
+    <string name="help_title_cell">Cellulaire</string>
+    <string name="help_title_arrow">Flèche</string>
+    <string name="help_title_priority">Priorité</string>
+
+    <!-- Help/APP -->
+    <string name="help_app_1">La carte interactive et le moteur de recherche vous permettent de trouver les emplacements où le stationnement est autorisé pour la période de votre choix.</string>
+    <string name="help_app_2">Appuyez sur un poteau de stationnement, affiché en <b>vert</b>, pour afficher la prochaine période d’interdiction à cet emplacement.</string>
+    <string name="help_app_3">Les emplacements où le stationnement est <b>interdit</b> ne sont pas affichés.</string>
+    <string name="help_app_4">Appuyez sur <b>la date</b> en bas de l’écran pour saisir la période de temps pour laquelle vous cherchez un stationnement.</string>
+    <string name="help_app_5"><b>Appuyez longuement</b> sur la carte pour modifier votre position géographique.</string>
+    <string name="help_app_6"><b>Appuyez deux fois</b> sur le titre de l’onglet «&#160;Carte&#160;» pour réinitialiser la période de recherche et votre position géographique.</string>
+
+    <!-- Help/Rules -->
+    <string name="help_rules">Il est interdit de stationner&#160;:\r\n&#8226; devant une entrée privée\r\n&#8226; dans une ruelle\r\n&#8226; sur une piste cyclable\r\n&#8226; en double file\r\n&#8226; en sens inverse de la circulation\r\n&#8226; devant une borne-fontaine\r\n&#8226; à proximité d’une intersection\r\n&#8226; sur un trottoir\r\n&#8226; sur un passage piétonnier\r\n&#8226; devant une rampe de trottoir pour personnes handicapées\r\n&#8226; en angle, sauf signalisation, même lors de chutes de neige</string>
+
+    <!-- Help/NoStopping -->
+    <string name="help_stopping_1">Arrêt interdit en tout temps.</string>
+    <string name="help_stopping_2">Arrêt interdit durant la période indiquée.</string>
+    <string name="help_stopping_3">Arrêt interdit en tout temps&#160;: espace réservé aux véhicules d’urgence.</string>
+    <string name="help_stopping_4">Arrêt interdit en tout temps&#160;: espace réservé aux autobus.</string>
+
+    <!-- Help/NoParking -->
+    <string name="help_parking_1">Stationnement interdit en tout temps.</string>
+    <string name="help_parking_2">Stationnement interdit durant la période et la saison indiquée.</string>
+    <string name="help_parking_3">Stationnement interdit durant la période indiquée&#160;: espace réservé aux taxis.</string>
+    <string name="help_parking_6">Stationnement interdit durant la période indiquée&#160;: ce panneau temporaire devient prioritaire sur la signalisation en place.</string>
+
+    <!-- Help/Restricted -->
+    <string name="help_restricted_1">Stationnement autorisé pour un maximum de 15&#160;minutes&#160;: débarcadère.</string>
+    <string name="help_restricted_2">Stationnement autorisé pour un maximum de 60&#160;minutes durant la période indiquée.</string>
+
+    <!-- Help/SRRR -->
+    <string name="help_srrr_1">Stationnement interdit durant la période indiquée&#160;: espace réservé aux détenteurs d’un permis S3R (vignette résidentielle).</string>
+    <string name="help_srrr_2">Le nombre de places de stationnement réservées aux résidants n’excède pas 50&#160;% des places disponibles dans un secteur donné.</string>
+
+    <!-- Help/Cell phone -->
+    <string name="help_cell_1">Depuis le 1er avril 2008, l’utilisation d’un téléphone cellulaire tenu en main, c’est-à-dire sans la fonction «&#160;mains libres&#160;», est interdite au volant.</string>
+    <string name="help_cell_2">Cette infracion est passible de&#160;:\r\n&#8226; 3 points d’inaptitude\r\n&#8226; une amende de 80&#160;$ à 100&#160;$</string>
+
+    <!-- Help/Arrow -->
+    <string name="help_arrow_1">Quand un panneau comporte une flèche, la réglementation s’applique dans la zone indiquée par la flèche.</string>
+    <string name="help_arrow_2">Si la flèche pointe vers <b>la rue</b>, il s’agit du <b>début de la zone</b> du panneau&#160;:</string>
+    <string name="help_arrow_3">Si la flèche pointe vers <b>le trottoir</b>, il s’agit de la <b>fin de la zone</b> du panneau&#160;:</string>
+    <string name="help_arrow_4">Une zone réglementée peut <b>commencer</b> après une intersection. Dans un tel cas, le panneau ne comporte pas de flèche.</string>
+    <string name="help_arrow_5">Une zone <b>se termine</b> soit par une autre intersection, soit par un panneau comportant une flèche.</string>
+    <string name="help_arrow_6">S’il n’y a <b>pas de flèche</b> sur le panneau, il s’agit d’un panneau intermédiaire qui indique le milieu de la zone de réglementation.</string>
+    <string name="help_arrow_7">Une ruelle n’interrompt pas la signalisation&#160;: s’il n’y a pas d’autres panneaux, la signalisation est toujours valable de l’autre côté de la ruelle.</string>
+
+    <!-- Help/Priority -->
+    <string name="help_priority_1">Quand un poteau comporte plusieurs panneaux, la réglementation s’applique du <b>plus haut au plus bas</b>.</string>
+    <string name="help_priority_2"><b>Cas n°&#160;1</b>\r\nNous sommes le lundi matin, il est 8&#160;h, vous voulez stationner pour 30&#160;minutes.\r\nIci, le stationnement est strictement <b>interdit</b> entre 7&#160;h et 9&#160;h, quelle que soit la durée.</string>
+    <string name="help_priority_3"><b>Cas n°&#160;2</b>\r\nLes panneaux sont inversés. Nous sommes toujours le lundi matin, il est 8&#160;h, vous voulez stationner pour 30&#160;minutes.\r\nIci, le stationnement est <b>autorisé</b> pour un maximum de 60&#160;minutes durant la semaine.</string>
 
     <!-- Prefrences -->
     <string name="prefs_breadcrumb">Paramètres et réglages</string>
@@ -165,6 +218,7 @@
     <!-- Accessibility -->
     <string name="logo_open_data_content_desc">Montréal Ouvert [Logo]</string>
     <string name="logo_about_content_desc">Capteur de stationnement [Logo]</string>
+    <string name="arrow_illustration_content_desc">Flèches des panneaux de stationnement [Illustration]</string>
 
     <!-- TEMP -->
     <string name="park_distance_iso">%.1f km</string>

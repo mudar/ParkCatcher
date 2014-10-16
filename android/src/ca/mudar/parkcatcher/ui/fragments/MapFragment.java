@@ -544,6 +544,8 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
 
     private class DbAsyncTask extends AsyncTask<Object, Void, Cursor> {
 
+        // TODO: use WeakReference
+
         @Override
         protected void onPreExecute() {
 
@@ -696,6 +698,9 @@ public class MapFragment extends SherlockMapFragment implements SearchView.OnQue
     }
 
     private class JsonAsyncTask extends AsyncTask<URL, Void, GeoJSON> {
+
+        // TODO: use WeakReference
+
         @SuppressWarnings("unused")
         protected static final String TAG = "JsonAsyncTask";
 

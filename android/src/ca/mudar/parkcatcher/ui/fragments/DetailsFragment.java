@@ -41,7 +41,6 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.widget.ShareActionProvider;
 
 import android.content.ContentValues;
 import android.content.Intent;
@@ -55,7 +54,6 @@ import android.os.Message;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,8 +69,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class DetailsFragment extends SherlockFragment implements LoaderCallbacks<Cursor>,
         SearchMessageHandler.OnMessageHandledListener,
@@ -344,7 +340,6 @@ public class DetailsFragment extends SherlockFragment implements LoaderCallbacks
      */
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle arg1) {
-         
 
         final GregorianCalendar parkingCalendar = parkingApp.getParkingCalendar();
 
@@ -365,8 +360,6 @@ public class DetailsFragment extends SherlockFragment implements LoaderCallbacks
                 String.valueOf(hourOfWeek + duration),
                 String.valueOf(dayOfYear));
 
-        Log.v(TAG, "mPostUri = " + uriPost);
-        
         return new CursorLoader(getSherlockActivity().getApplicationContext(),
                 uriPost,
                 PostDetailsQuery.PROJECTION,
@@ -574,10 +567,6 @@ public class DetailsFragment extends SherlockFragment implements LoaderCallbacks
         int postId = -1;
 
         List<String> pathSegments = uri.getPathSegments();
-
-        // http://www.parkcatcher.com/spot/80713/6/9.5/2/
-
-        Log.v(TAG, "pathSegments = " + pathSegments);
 
         if ((pathSegments.size() == 5)
                 && (pathSegments.get(0).equals(Const.INTENT_EXTRA_URL_PATH_POST_ID))) {

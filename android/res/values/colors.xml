@@ -62,6 +62,11 @@
     <color name="about_text">#ffffff</color>
     <color name="hyperlink">#99cc00</color>
 
+    <!-- Help -->
+    <color name="indicator_bg">#802c2c2c</color>
+    <color name="indicator_text_1">#ffffffff</color>
+    <color name="indicator_text_2">#99ffffff</color>
+
     <!-- Preferences -->
     <color name="prefs_category_text">#ffffff</color>
     <!-- <color name="prefs_category_background">#cc6ca144</color> -->

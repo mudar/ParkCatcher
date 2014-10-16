@@ -23,18 +23,26 @@
 
 package ca.mudar.parkcatcher.ui.activities;
 
+import ca.mudar.parkcatcher.Const.HelpPages;
 import ca.mudar.parkcatcher.ParkingApp;
+import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.ui.fragments.HelpFragment;
+import ca.mudar.parkcatcher.ui.widgets.HelpFragmentPagerAdapter;
 import ca.mudar.parkcatcher.utils.ActivityHelper;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.viewpagerindicator.TitlePageIndicator;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
+import android.view.View;
 
-public class HelpActivity extends SherlockFragmentActivity {
+public class HelpActivity extends SherlockFragmentActivity implements
+        ViewPager.OnPageChangeListener {
     protected static final String TAG = "HelpActivity";
+
+    private HelpFragmentPagerAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,12 +52,19 @@ public class HelpActivity extends SherlockFragmentActivity {
 
         ((ParkingApp) getApplicationContext()).updateUiLanguage();
 
-        FragmentManager fm = getSupportFragmentManager();
+        setContentView(R.layout.activity_help);
 
-        if (fm.findFragmentById(android.R.id.content) == null) {
-            HelpFragment help = new HelpFragment();
-            fm.beginTransaction().add(android.R.id.content, help).commit();
-        }
+        mAdapter = new HelpFragmentPagerAdapter(
+                getSupportFragmentManager(), getResources());
+
+        final ViewPager pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(mAdapter);
+        pager.setCurrentItem(HelpPages.STOPPING);
+
+        final TitlePageIndicator indicator = (TitlePageIndicator) findViewById(R.id.indicator);
+        indicator.setViewPager(pager);
+
+        indicator.setOnPageChangeListener(this);
     }
 
     @Override
@@ -57,5 +72,24 @@ public class HelpActivity extends SherlockFragmentActivity {
         ActivityHelper activityHelper = ActivityHelper.createInstance(this);
 
         return (activityHelper.onOptionsItemSelected(item) || super.onOptionsItemSelected(item));
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if (position == HelpPages.ARROW) {
+            HelpFragment arrowFragment = (HelpFragment) mAdapter.getItem(HelpPages.ARROW);
+            View root = findViewById(R.id.root_help_arrow);
+            if (root != null) {
+                arrowFragment.startLoadingImages(root, getResources());
+            }
+        }
     }
 }

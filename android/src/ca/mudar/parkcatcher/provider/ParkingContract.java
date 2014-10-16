@@ -106,6 +106,7 @@ public class ParkingContract {
     private static final String PATH_POSTS_ALLOWED = "allowed";
     private static final String PATH_POSTS_FORBIDDEN = "fobidden";
     private static final String PATH_POSTS_STARRED = "starred";
+    // TODO: remove this
     private static final String PATH_POSTS_TIMED = "timed";
 
     public static class Posts implements PostsColumns, SyncColumns, BaseColumns {

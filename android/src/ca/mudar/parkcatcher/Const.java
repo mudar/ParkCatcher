@@ -147,6 +147,21 @@ public class Const {
             -73.466087d
     };
 
+    // Help
+    public static interface HelpPages {
+        static final int COUNT = 9;
+
+        static final int APP = 0x0;
+        static final int STOPPING = 0x1;
+        static final int PARKING = 0x2;
+        static final int SRRR = 0x3;
+        static final int RESTRICTED = 0x4;
+        static final int PRIORITY = 0x5;
+        static final int ARROW = 0x6;
+        static final int RULES = 0x7;
+        static final int CELL = 0x8;
+    }
+
     // Preferences
     public static interface PrefsNames {
         final String LANGUAGE = "prefs_language";
@@ -181,6 +196,7 @@ public class Const {
     public static final String KEY_BUNDLE_SEARCH_ADDRESS = "bundle_search_address";
     public static final String KEY_BUNDLE_REVERSE_GEOCODER = "bundle_reverse_geocoder";
     public static final String KEY_BUNDLE_CURSOR_SELECTION = "bundle_cursor_selection";
+    public static final String KEY_BUNDLE_HELP_INDEX = "bundle_help_index";
     public static final int BUNDLE_SEARCH_ADDRESS_SUCCESS = 0x1;
     public static final int BUNDLE_SEARCH_ADDRESS_ERROR = 0x0;
 

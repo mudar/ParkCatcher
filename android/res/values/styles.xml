@@ -205,7 +205,33 @@
         <item name="android:background">@color/background</item>
     </style>
 
-    <style name="HelpBoxText" parent="@style/AboutBoxText" />
+    <style name="HelpBoxText" parent="@style/AboutBoxText">
+        <item name="android:drawablePadding">@dimen/padding_double</item>
+    </style>
+
+    <style name="HelpBoxTextSmall" parent="@android:style/TextAppearance.Small">
+        <item name="android:drawablePadding">@dimen/padding_double</item>
+        <item name="android:textColor">@color/about_text</item>
+    </style>
+
+    <style name="HelpImageArrow">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/padding_normal</item>
+        <item name="android:layout_marginBottom">@dimen/help_arrow_padding</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="CustomTitlePageIndicator">
+        <item name="android:background">@color/indicator_bg</item>
+        <item name="footerColor">@color/green</item>
+        <item name="footerIndicatorStyle">triangle</item>
+        <item name="android:textColor">@color/indicator_text_2</item>
+        <item name="selectedColor">@color/indicator_text_1</item>
+        <item name="selectedBold">true</item>
+    </style>
 
     <!-- Preferences -->
     <style name="PrefsListView" parent="android:Widget.ListView">
