@@ -23,7 +23,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_version">0.8 beta</string>
+    <string name="app_version">0.9</string>
 
     <!-- Share URL -->
     <string name="url_share_post_id">http://parkcatcher.com/spot/<xliff:g id="string">%s</xliff:g>/<xliff:g id="string">%s</xliff:g>/<xliff:g id="string">%s</xliff:g>/<xliff:g id="string">%s</xliff:g>/</string>
@@ -153,6 +153,7 @@
     <string name="help_app_4">Tap the <b>date</b> at the screen bottom to enter the time period for which you need a parking spot.</string>
     <string name="help_app_5"><b>Long press</b> on the map to change your geographic location.</string>
     <string name="help_app_6"><b>Press twice</b> on the “Map” tab title to reset the search time period and your geographic location.</string>
+
     <!-- Help/Rules -->
     <string name="help_rules">It is prohibited to park:\r\n&#8226; in front of a private driveway\r\n&#8226; in a back lane\r\n&#8226; on a cycle path\r\n&#8226; next to a parked vehicle (double parking)\r\n&#8226; facing oncoming traffic\r\n&#8226; in front of a fire hydrant\r\n&#8226; near an intersection\r\n&#8226; on the sidewalk\r\n&#8226; in a pedestrian walkway\r\n&#8226; in front of a disability access ramp\r\n&#8226; on an angle, unless signage, even owing to snowfall</string>
 

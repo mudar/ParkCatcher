@@ -51,6 +51,7 @@ public class ParkingApp extends Application {
     private String mLanguage;
     private Toast mToast;
     private boolean mHasLoadedData;
+    private boolean mHasViewedTutorial;
 
     private GregorianCalendar mParkingCalendar;
     private int mParkingDuration;
@@ -194,10 +195,21 @@ public class ParkingApp extends Application {
         return mHasLoadedData;
     }
 
-    public void setHasLoadedData(boolean mHasLoadedData) {
-        this.mHasLoadedData = mHasLoadedData;
+    public void setHasLoadedData(boolean hasLoadedData) {
+        this.mHasLoadedData = hasLoadedData;
         Editor prefsEditor = prefs.edit();
         prefsEditor.putBoolean(PrefsNames.HAS_LOADED_DATA, mHasLoadedData).commit();
+    }
+    
+
+    public boolean hasViewedTutorial() {
+        return mHasViewedTutorial;
+    }
+    
+    public void setHasViewedTutorial(boolean hasViewedTutorial) {
+        this.mHasViewedTutorial = hasViewedTutorial;
+        Editor prefsEditor = prefs.edit();
+        prefsEditor.putBoolean(PrefsNames.HAS_VIEWED_TUTORIAL, mHasViewedTutorial).commit();
     }
 
     public GregorianCalendar getParkingCalendar() {

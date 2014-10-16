@@ -50,7 +50,10 @@ public class HelpActivity extends SherlockFragmentActivity implements
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ((ParkingApp) getApplicationContext()).updateUiLanguage();
+        final ParkingApp parkingApp = (ParkingApp) getApplicationContext();
+        
+        parkingApp.updateUiLanguage();
+        parkingApp.setHasViewedTutorial(true);
 
         setContentView(R.layout.activity_help);
 

@@ -25,7 +25,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.mudar.parkcatcher"
     android:installLocation="auto"
-    android:versionCode="8"
+    android:versionCode="9"
     android:versionName="@string/app_version" >
 
     <uses-sdk
@@ -108,6 +108,7 @@
         <activity
             android:name=".ui.activities.DetailsActivity"
             android:label="@string/activity_details"
+            android:launchMode="singleTop"
             android:uiOptions="splitActionBarWhenNarrow" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

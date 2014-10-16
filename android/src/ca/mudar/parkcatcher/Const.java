@@ -173,6 +173,7 @@ public class Const {
         final String HAS_ACCEPTED_EULA = "accepted_eula";
         final String HAS_LOADED_DATA = "loaded_data";
         final String IS_BETA_USER = "beta_user";
+        final String HAS_VIEWED_TUTORIAL = "viewed_tutorial";
     }
 
     public static interface PrefsValues {

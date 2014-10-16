@@ -23,7 +23,7 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <string name="app_version">0.8 bêta</string>
+    <string name="app_version">0.9</string>
 
     <!-- Share URL -->
     <string name="url_share_post_id">http://capteurdestationnement.com/spot/<xliff:g id="string">%s</xliff:g>/<xliff:g id="string">%s</xliff:g>/<xliff:g id="string">%s</xliff:g>/<xliff:g id="string">%s</xliff:g>/</string>
