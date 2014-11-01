@@ -14,7 +14,7 @@ else {
 }
 
 ?>
-{"status":"<?php echo $status ?>","name":"PanelsCodes","count":<?php echo $num_rows ?>,"columns":["id","code","desc","type"],"PanelsCodes":[<?php 
+{"status":"<?php echo $status ?>","name":"PanelsCodes","version":<?php echo $api_version ?>,"count":<?php echo $num_rows ?>,"columns":["id","code","desc","type"],"PanelsCodes":[<?php 
 if ( !empty( $panels_codes ) ): 
 	$i = 1;
 

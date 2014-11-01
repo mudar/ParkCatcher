@@ -1,3 +1,11 @@
+<?php if ( ENVIRONMENT == 'production' ): ?>
+<?php 
+header('Cache-Control: no-cache, must-revalidate');
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header('Content-type: application/json'); 
+?>
+{"status":"error","msg":"db_error","name":"PARKING","type":"FeatureCollection","count":0,"features":[]}
+<?php else: ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,3 +68,4 @@ p {
 	</div>
 </body>
 </html>
+<?php endif ?>

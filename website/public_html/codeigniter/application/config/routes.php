@@ -42,10 +42,14 @@ $route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
 $route['api'] = 'api/api';
-$route['api/posts'] = 'api/api/export_posts';
-$route['api/panels'] = 'api/api/export_panels';
-$route['api/panels-codes'] = 'api/api/export_panels_codes';
-$route['api/panels-codes-rules'] = 'api/api/export_panels_codes_rules';
+$route['api/posts(\/([A-Za-z0-9]+))?'] = 'api/api/export_posts/$2';
+$route['api/posts(\/([A-Za-z0-9]+)\/([0-9]+)\/([0-9]+))?'] = 'api/api/export_posts/$2/$3/$4';
+$route['api/panels(\/([A-Za-z0-9]+))?'] = 'api/api/export_panels/$2';
+$route['api/panels(\/([A-Za-z0-9]+)\/([0-9]+)\/([0-9]+))?'] = 'api/api/export_panels/$2/$3/$4';
+$route['api/panels-codes(\/([A-Za-z0-9]+))?'] = 'api/api/export_panels_codes/$2';
+$route['api/panels-codes-rules(\/([A-Za-z0-9]+))?'] = 'api/api/export_panels_codes_rules/$2';
+
+$route['spot\/([0-9]+)\/([0-9]+)\/([\.0-9]+)\/([0-9]+)(\/.*)?'] = 'map/search/$2/$3/$4/0/$1';
 
 
 // English

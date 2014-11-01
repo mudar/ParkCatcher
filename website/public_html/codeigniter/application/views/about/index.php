@@ -28,7 +28,7 @@
             <a title="Montréal ouvert" href="http://montrealouvert.net/donnees-ouvertes-questions-frequemment-demandees/?lang=<?php echo lang( 'parking_site_lang' ) ?>"><img title="montrealouvert.net" alt="Montréal Ouvert" src="<?php echo base_url() ?>img/logo_montreal_ouvert_<?php echo lang( 'parking_site_lang' ) ?>.png"></a>
         </div>
 
-        <a id="logo_playstore_android" href="http://play.google.com/store/apps/details?id=ca.mudar.parkcatcher" rel="me" title="<?php echo lang( 'parking_playstore_title' ) ?>" ><span class="hidden">title="<?php echo lang( 'parking_playstore_title' ) ?>" </span></a>
+        <a id="logo_playstore_android" href="https://play.google.com/store/apps/details?id=ca.mudar.parkcatcher" rel="me" title="<?php echo lang( 'parking_playstore_title' ) ?>" ><span class="hidden">title="<?php echo lang( 'parking_playstore_title' ) ?>" </span></a>
 
 	</div>
 </div>

@@ -70,7 +70,8 @@ zIndexOffset: 100
 
 	var hasOpenedPopup = false;
 <?php else: ?>
-	var hasOpenedPopup = true;
+	var hasOpenedPopup = <?php echo ( empty( $id_post ) ? 'true' : 'false' ) ?>;
+	hasOpenedPopup = true;
 
 <?php endif ?>
 
@@ -95,7 +96,7 @@ function getGeoJSON() {
 				if ( hasOpenedPopup ) {
 					var mapCenter = map.getCenter();
 					for (var item in geoJsonLayer._layers) {
-						if ( geoJsonLayer._layers[ item ]._latlng.distanceTo( mapCenter ) < 100 ) {
+						if ( geoJsonLayer._layers[ item ]._latlng.distanceTo( mapCenter ) < <?php echo ( empty( $id_post ) ? 100 : 5 ) ?> ) {
 							geoJsonLayer._layers[ item ].openPopup();
 							break;
 						}

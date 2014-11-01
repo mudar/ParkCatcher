@@ -14,7 +14,7 @@ else {
 }
 
 ?>
-{"status":"<?php echo $status ?>","name":"PanelsCodesRules","count":<?php echo $num_rows ?>,"columns":["id","id_panel_code","minutes_duration","hour_start","hour_end","hour_duration","day_start","day_end"],"PanelsCodesRules":[<?php 
+{"status":"<?php echo $status ?>","name":"PanelsCodesRules","version":<?php echo $api_version ?>,"count":<?php echo $num_rows ?>,"columns":["id","id_panel_code","minutes_duration","hour_start","hour_end","hour_duration","day_start","day_end"],"PanelsCodesRules":[<?php 
 if ( !empty( $panels_codes_rules ) ): 
 	$i = 1;
 

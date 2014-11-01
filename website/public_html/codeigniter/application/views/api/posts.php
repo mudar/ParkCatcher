@@ -16,7 +16,7 @@ else {
 }
 
 ?>
-{"status":"<?php echo $status ?>","name":"Posts","count":<?php echo $num_rows ?>,"columns":["id_post","lng","lat"],"Posts":[<?php 
+{"status":"<?php echo $status ?>","name":"Posts","version":<?php echo $api_version ?>,"count":<?php echo $num_rows ?>,"columns":["id_post","lng","lat"],"Posts":[<?php 
 if ( !empty( $posts_query ) ): 
 	$i = 1;
 

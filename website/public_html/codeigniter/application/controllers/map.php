@@ -15,7 +15,7 @@ class Map extends CI_Controller {
 		$this->search( $day , $start , $duration );
 	}
 
-	public function search( $day = -1 , $start = -1 , $duration = -1 , $destination = NULL ) 
+	public function search( $day = -1 , $start = -1 , $duration = -1 , $destination = NULL , $id_post = -1 ) 
 	{
 
 		if ( $this->input->post('submitted') == 1 ) {
@@ -27,14 +27,31 @@ class Map extends CI_Controller {
 			$duration = $this->input->post( 'duration' , TRUE );
 			$destination = $this->input->post( 'destination' , TRUE );
 
-			redirect('/map/search/' . $day . '/' . $start . '/' . $duration . '/' . urlencode( $destination ) );
+			if ( ( $day === FALSE ) || ( $start === FALSE ) || ( $duration === FALSE ) || ( $destination === FALSE ) ) {
+				redirect('/');
+			}
+			else {
+				redirect('/map/search/' . $day . '/' . $start . '/' . $duration . '/' . urlencode( $destination ) );
+			}
 			exit;
 		}
 
-        $destination = urldecode($destination);
+		if ( is_numeric( $id_post ) && ( $id_post > 0 ) ) {
+			$post = $this->Parking_model->get_position_by_post( $id_post );
+			if ( !empty( $post ) ) {
+				$geo_point['lat'] = $post->lat;
+				$geo_point['lon'] = $post->lon;
+				$destination = null;
+				$data['id_post'] = $id_post;
+			}
+		}
 
-		$this->load->library( 'Geocoder' );
-		$geo_point = $this->geocoder->get_geo_point( $destination );
+		if ( empty( $geo_point ) ) {
+			$destination = urldecode($destination);
+
+			$this->load->library( 'Geocoder' );
+			$geo_point = $this->geocoder->get_geo_point( $destination );
+		}
 
 		$min_duration = $this->config->item('parking_min_duration');
 		$max_duration = $this->config->item('parking_max_duration');
@@ -43,12 +60,17 @@ class Map extends CI_Controller {
 		$now = getdate();
 		$year_day = $now['yday'];
 
-
-		$day = ( $now['wday'] == 0 ? 7 : $now['wday'] ); // We start on monday (ISO), php getdate() returns 0 (for Sunday) through 6 (for Saturday)
-		$start = $now['hours'] + ( $now['minutes'] < 30 ? 0 : 0.5 );
-
+		if ( !is_numeric( $day ) || ( $day < 1 ) || ( $day > 7 ) ) {
+			$day = ( $now['wday'] == 0 ? 7 : $now['wday'] ); // We start on monday (ISO), php getdate() returns 0 (for Sunday) through 6 (for Saturday)
+		}
+		if ( !is_numeric( $start ) || ( $start < 1 ) || ( $start > 24 ) ) {
+			$start = $now['hours'] + ( $now['minutes'] < 30 ? 0 : 0.5 );
+		}
 		$hour = $start;
 		$start += ($day -1) * 24;
+		if ( !is_numeric( $duration ) || ( $duration < $min_duration ) || ( $duration > $max_duration ) ) {
+			$duration = 2;
+		}
 
 		// TWEAK: for optimized memory usage, we return the CI Query object
 		$data['posts_query'] = $this->Parking_model->get_posts( $start , $duration , $year_day );

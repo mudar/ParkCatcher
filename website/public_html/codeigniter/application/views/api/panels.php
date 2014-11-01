@@ -16,7 +16,7 @@ else {
 }
 
 ?>
-{"status":"<?php echo $status ?>","name":"Panels","count":<?php echo $num_rows ?>,"columns":["id_panel","id_post","id_panel_code"],"Panels":[<?php 
+{"status":"<?php echo $status ?>","name":"Panels","version":<?php echo $api_version ?>,"count":<?php echo $num_rows ?>,"columns":["id_panel","id_post","id_panel_code"],"Panels":[<?php 
 if ( !empty( $panels_query ) ): 
 	$i = 1;
 
