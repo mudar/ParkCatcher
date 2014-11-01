@@ -17,11 +17,17 @@ else {
 // <![CDATA[
 var map = L.map('map').setView([<?php echo $geo_lat ?> , <?php echo $geo_lon ?>], <?php echo $zoom ?>);
 
-L.tileLayer('http://{s}.tile.cloudmade.com/{key}/22677/256/{z}/{x}/{y}.png', {
-	attribution: '',
+var tonerUrl = "http://{S}tile.stamen.com/toner-lite/{Z}/{X}/{Y}.png";
+var url = tonerUrl.replace(/({[A-Z]})/g, function(s) {
+	return s.toLowerCase();
+});
+ 
+var basemap = new L.tileLayer(url, {
+	subdomains: ['','a.','b.','c.','d.'],
 	minZoom: 13, 
 	maxZoom: 18,
-	key: 'BC9A493B41014CAABB98F0471D759707'
+	type: 'png',
+	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
 }).addTo(map);
 
 
@@ -47,7 +53,7 @@ var geoJsonLayer = L.geoJson(null, {
 	pointToLayer: function (feature, latlng) {
 		return L.circleMarker(latlng, {
 			radius: 5,
-			fillColor: "#6ca144",
+			fillColor: "#99cc00",
 			color: "#000",
 			weight: 1,
 			opacity: 0.8,
@@ -60,9 +66,9 @@ zIndexOffset: 100
 <?php if ( !empty( $destination ) && empty( $is_empty_address ) ): ?>
 	L.circle([<?php echo $geo_lat ?> , <?php echo $geo_lon ?>], 100, {
 			color: "#1877cf",
-			fillColor: "#fff",
-			opacity: 0.3,
-			fillOpacity: 0.3
+			fillColor: "#000",
+			opacity: 0.5,
+			fillOpacity: 0.1
 		}).addTo(map)
 
 	var marker = L.marker([<?php echo $geo_lat ?> , <?php echo $geo_lon ?>] , {zIndexOffset: -10} ).addTo(map)

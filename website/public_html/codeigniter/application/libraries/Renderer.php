@@ -74,7 +74,7 @@ class Renderer
 		if ( !empty( $data['is_splash'] ) ) { $data['body_class'] .= ' splash'; }
 		if ( !empty( $data['has_hint'] ) ) { $data['body_class'] .= ' hint'; }
 
-		$data['has_searched'] = $CI->session->userdata( 'has_searched' );
+		$data['has_searched'] = ( $CI->input->cookie( 'has_searched' , FALSE ) || !empty( $data['has_searched'] ) );
 
 		$CI->load->view( ( IS_AJAX ? $this->ajax_layout : $this->layout ) , $data );
 	}

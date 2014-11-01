@@ -25,7 +25,7 @@
   <meta name="viewport" content="width=1050, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" >
   <link rel="stylesheet" href="<?php echo base_url() ?>js/libs/leaflet_0.4.4/leaflet.css<?php echo $assets_version ?>" >
   <!--[if lte IE 8]>
-    <link rel="stylesheet" href="<?php echo base_url() ?>js/libs/leaflet_4.4/leaflet.ie.css" />
+    <link rel="stylesheet" href="<?php echo base_url() ?>js/libs/leaflet_0.4.4/leaflet.ie.css" />
   <![endif]-->
   <link rel="stylesheet" href="<?php echo base_url() ?>css/style.css<?php echo $assets_version ?>">
 

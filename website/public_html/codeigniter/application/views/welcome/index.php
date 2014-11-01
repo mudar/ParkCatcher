@@ -23,5 +23,7 @@
 	<div id="home_about">
 		<a href="<?php echo site_url( lang( 'parking_route_welcome_about' ) ) ?>"><img src="<?php echo base_url() ?>img/ic_arrow_list.png" alt="&gt;" /><?php echo lang( 'parking_home_box_about' ) ?><img src="<?php echo base_url() ?>img/ic_arrow_left.png" alt="&lt;" /></a>
 	</div>
+
+	<a id="logo_playstore_android" href="http://play.google.com/store/apps/details?id=ca.mudar.parkcatcher" rel="me" title="<?php echo lang( 'parking_playstore_title' ) ?>" ><span class="hidden">title="<?php echo lang( 'parking_playstore_title' ) ?>" </span></a>
 </div>
 

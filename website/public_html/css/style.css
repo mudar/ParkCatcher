@@ -139,6 +139,12 @@ td { vertical-align: top; }
 .leaflet-popup-content strong 
 { font-family: "RobotoBoldCondensed",Arial,Helvetica,sans-serif; font-weight: normal; }
 
+.leaflet-container a:hover,
+.leaflet-container a:visited,
+.leaflet-container a {
+	color: #000;
+}
+
 /**
  * Reset stuff 
  */

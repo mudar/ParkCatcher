@@ -36,6 +36,8 @@ class Map extends CI_Controller {
 			exit;
 		}
 
+		$data['url_playstore'] = $this->config->item( 'parking_url_playstore' );
+
 		if ( is_numeric( $id_post ) && ( $id_post > 0 ) ) {
 			$post = $this->Parking_model->get_position_by_post( $id_post );
 			if ( !empty( $post ) ) {
