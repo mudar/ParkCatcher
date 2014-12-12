@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Park Catcher Montréal
+    Find a free parking in the nearest residential street when driving in
+    Montréal. A Montréal Open Data project.
+
+    Copyright (C) 2012 Mudar Noufal <mn@mudar.ca>
+
+    This file is part of Park Catcher Montréal.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <fragment
+        android:id="@+id/fragment_map"
+        android:name="ca.mudar.parkcatcher.ui.fragments.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="tag_fragment_map" />
+
+    <fragment
+        android:id="@+id/fragment_favorites"
+        android:name="ca.mudar.parkcatcher.ui.fragments.FavoritesFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:tag="tag_fragment_favorites" />
+
+    <LinearLayout
+        android:id="@+id/drawer_zindex_helper"
+        android:layout_width="@dimen/width_land_drawer"
+        android:layout_height="@dimen/height_land_drawer"
+        android:layout_gravity="bottom|center_horizontal"
+        android:background="@android:color/transparent"
+        android:clickable="false" >
+
+        <!-- TWEAK: This LinearLayout solves the  GoogleMap/SlidingDrawer zIndex issue -->
+
+        <SlidingDrawer
+            android:id="@+id/drawer_time"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_land_drawer"
+            android:allowSingleTap="true"
+            android:animateOnClick="true"
+            android:content="@+id/drawer_time_input"
+            android:handle="@+id/drawer_time_title"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+            <TextView
+                android:id="@+id/drawer_time_title"
+                style="@style/DrawerTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TableLayout
+                android:id="@+id/drawer_time_input"
+                style="@style/DrawerTable"
+                android:layout_width="@dimen/width_land_drawer"
+                android:layout_height="wrap_content" >
+
+                <TableRow
+                    style="@style/DrawerTableRow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <TextView
+                        style="@style/DrawerLabelLand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drawer_label_date" />
+
+                    <TextView
+                        style="@style/DrawerLabelLand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drawer_label_time" />
+
+                    <TextView
+                        style="@style/DrawerLabelLand"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/drawer_label_duration" />
+                </TableRow>
+
+                <TableRow
+                    style="@style/DrawerTableRow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" >
+
+                    <Button
+                        android:id="@+id/btn_day"
+                        style="@style/DrawerButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="showDatePickerDialog" />
+
+                    <Button
+                        android:id="@+id/btn_start"
+                        style="@style/DrawerButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="showTimePickerDialog" />
+
+                    <Button
+                        android:id="@+id/btn_duration"
+                        style="@style/DrawerButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:onClick="showNumberPickerDialog" />
+                </TableRow>
+            </TableLayout>
+        </SlidingDrawer>
+    </LinearLayout>
+
+</FrameLayout>

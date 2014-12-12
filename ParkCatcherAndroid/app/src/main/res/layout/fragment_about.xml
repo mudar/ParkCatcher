@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Park Catcher Montréal
+    Find a free parking in the nearest residential street when driving in
+    Montréal. A Montréal Open Data project.
+
+    Copyright (C) 2012 Mudar Noufal <mn@mudar.ca>
+
+    This file is part of Park Catcher Montréal.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        style="@style/TextContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/padding_double"
+            android:contentDescription="@string/logo_about_content_desc"
+            android:src="@drawable/logo_about" />
+
+        <LinearLayout
+            style="@style/AboutBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/padding_double"
+            android:orientation="vertical" >
+
+            <TextView
+                style="@style/AboutBoxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/about_intro_1" />
+
+            <TextView
+                style="@style/AboutBoxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_intro_2" />
+        </LinearLayout>
+
+        <RelativeLayout
+            style="@style/AboutBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/about_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/padding_large"
+                android:contentDescription="@string/logo_open_data_content_desc"
+                android:src="@string/logo_open_data" />
+
+            <TextView
+                android:id="@+id/about_credits_1"
+                style="@style/AboutBoxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/about_image"
+                android:linksClickable="true"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/about_credits_1" />
+
+            <TextView
+                android:id="@+id/about_credits_2"
+                style="@style/AboutBoxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/about_credits_1"
+                android:linksClickable="true"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/about_credits_2" />
+
+            <TextView
+                android:id="@+id/about_credits_3"
+                style="@style/AboutBoxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/about_credits_2"
+                android:linksClickable="true"
+                android:paddingBottom="@dimen/padding_normal"
+                android:text="@string/about_credits_3" />
+
+            <TextView
+                android:id="@+id/about_open_data"
+                style="@style/AboutBoxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/about_credits_3"
+                android:linksClickable="true"
+                android:text="@string/about_open_data" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/about_project_url"
+            style="@style/AboutBoxFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/about_project_url" />
+
+        <TextView
+            android:id="@+id/about_project_version"
+            style="@style/AboutBoxFooter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+    </LinearLayout>
+
+</ScrollView>

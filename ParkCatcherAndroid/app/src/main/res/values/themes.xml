@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Park Catcher Montréal
+    Find a free parking in the nearest residential street when driving in
+    Montréal. A Montréal Open Data project.
+
+    Copyright (C) 2012 Mudar Noufal <mn@mudar.ca>
+
+    This file is part of Park Catcher Montréal.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="AppBaseTheme" parent="@style/Theme.Sherlock">
+
+        <!-- ActionBar -->
+        <!-- File created by the Android Action Bar Style Generator -->
+        <item name="actionBarItemBackground">@drawable/selectable_background_parking</item>
+        <item name="popupMenuStyle">@style/parking_PopupMenu</item>
+        <item name="dropDownListViewStyle">@style/parking_DropDownListView</item>
+        <item name="actionBarTabStyle">@style/parking_ActionBarTabStyle</item>
+        <item name="actionDropDownStyle">@style/parking_DropDownNav</item>
+        <item name="actionBarStyle">@style/parking_solid_ActionBar</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_parking</item>
+        <item name="android:popupMenuStyle">@style/parking_PopupMenu</item>
+        <item name="android:dropDownListViewStyle">@style/parking_DropDownListView</item>
+        <item name="android:actionBarTabStyle">@style/parking_ActionBarTabStyle</item>
+        <item name="android:actionDropDownStyle">@style/parking_DropDownNav</item>
+        <item name="android:actionBarStyle">@style/parking_solid_ActionBar</item>
+        <item name="android:panelBackground">@drawable/menu_hardkey_panel_parking</item>
+
+        <!-- Holo -->
+        <!-- Generated with http://android-holo-colors.com -->
+        <item name="android:editTextStyle">@style/EditTextAppTheme</item>
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewAppTheme</item>
+        <item name="android:checkboxStyle">@style/CheckBoxAppTheme</item>
+        <item name="android:radioButtonStyle">@style/RadioButtonAppTheme</item>
+        <!-- <item name="android:buttonStyle">@style/ButtonAppTheme</item> -->
+        <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
+        <item name="android:progressBarStyleHorizontal">@style/ProgressBarAppTheme</item>
+        <item name="android:seekBarStyle">@style/SeekBarAppTheme</item>
+        <item name="android:buttonStyleToggle">@style/ToggleAppTheme</item>
+        <!-- <item name="android:listViewStyle">@style/ListViewAppTheme</item> -->
+        <!-- <item name="android:listViewWhiteStyle">@style/ListViewAppTheme.White</item> -->
+        <item name="android:spinnerItemStyle">@style/SpinnerItemAppTheme</item>
+
+        <!-- SearchView Fix -->
+        <!-- <item name="searchViewTextField">@drawable/edit_text_holo_dark</item> -->
+    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme">
+        <item name="android:windowBackground">@drawable/layer_list_background_asphalt</item>
+    </style>
+
+    <!-- Main -->
+    <style name="AppTheme.Main" parent="@style/AppTheme">
+        <item name="logo">@drawable/logo_home</item>
+        <item name="actionBarStyle">@style/LogoActionBar</item>
+        <item name="android:logo">@drawable/logo_home</item>
+        <item name="android:actionBarStyle">@style/LogoActionBar</item>
+    </style>
+
+    <!-- Eula -->
+    <style name="AppTheme.Eula" parent="@style/AppTheme.Main">
+        <item name="android:windowBackground">@null</item>
+        <item name="logo">@drawable/logo_home</item>
+        <item name="actionBarStyle">@style/LogoActionBar</item>
+        <item name="android:logo">@drawable/logo_home</item>
+        <item name="android:actionBarStyle">@style/LogoActionBar</item>
+    </style>
+
+    <!-- Help -->
+    <style name="AppTheme.Help" parent="@style/AppTheme">
+        <!--<item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item>-->
+    </style>
+
+    <!-- Preferences -->
+    <style name="AppTheme.Preferences" parent="@style/AppBaseTheme">
+
+        <!-- <item name="android:listViewStyle">@style/PrefsListView</item> -->
+        <item name="android:listSeparatorTextViewStyle">@style/PrefsCategory</item>
+    </style>
+
+</resources>
