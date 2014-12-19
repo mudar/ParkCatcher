@@ -26,7 +26,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppBaseTheme" parent="@style/Theme.Sherlock">
+    <style name="AppBaseThemeDeprecated" parent="@style/Theme.AppCompat">
 
         <!-- ActionBar -->
         <!-- File created by the Android Action Bar Style Generator -->

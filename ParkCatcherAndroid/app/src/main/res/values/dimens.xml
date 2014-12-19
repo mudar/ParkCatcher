@@ -29,7 +29,7 @@
     <dimen name="padding_large">48dp</dimen>
 
     <!-- UI -->
-    <dimen name="button_text">18sp</dimen>
+    <dimen name="button_text">16sp</dimen>
 
     <!-- Main -->
     <dimen name="height_port_drawer">200dp</dimen>

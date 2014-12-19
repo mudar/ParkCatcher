@@ -46,24 +46,25 @@
             android:title="@string/menu_directions"/>
         <item
             android:id="@+id/menu_streetview"
-            android:icon="@drawable/ic_menu_streetview"
+            android:icon="@drawable/ic_action_streetview"
             android:orderInCategory="40"
-            android:showAsAction="never"
+            android:showAsAction="ifRoom"
             android:title="@string/menu_streetview"/>
     </group>
     <group>
         <item
             android:id="@+id/menu_reminder"
-            android:icon="@drawable/ic_menu_alert"
+            android:icon="@drawable/ic_action_alert"
             android:orderInCategory="50"
             android:showAsAction="never"
             android:title="@string/menu_reminder"/>
         <item
             android:id="@+id/menu_share"
-            android:icon="@drawable/ic_menu_share"
+            android:icon="@drawable/ic_action_share"
             android:orderInCategory="60"
             android:showAsAction="never"
             android:title="@string/menu_share"/>
+        <!-- android:actionProviderClass="com.actionbarsherlock.widget.ShareActionProvider" -->
     </group>
 
 </menu>

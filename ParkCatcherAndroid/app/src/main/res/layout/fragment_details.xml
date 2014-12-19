@@ -41,7 +41,7 @@
 
             <ProgressBar
                 android:id="@+id/details_progressbar"
-                style="@style/Widget.Sherlock.ProgressBar"
+                style="@style/Widget.AppCompat.ProgressBar"
                 android:layout_width="@dimen/details_progress"
                 android:layout_height="@dimen/details_progress"
                 android:indeterminateOnly="true" />

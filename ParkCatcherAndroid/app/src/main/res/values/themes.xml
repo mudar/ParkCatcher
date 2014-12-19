@@ -24,7 +24,7 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppBaseTheme" parent="@style/Theme.Sherlock">
+    <style name="AppBaseTheme" parent="@style/Theme.AppCompat">
 
         <!-- ActionBar -->
         <!-- File created by the Android Action Bar Style Generator -->
@@ -63,6 +63,12 @@
 
     <style name="AppTheme" parent="AppBaseTheme">
         <item name="android:windowBackground">@drawable/layer_list_background_asphalt</item>
+        <item name="colorPrimary">@color/theme_primary</item>
+        <item name="colorPrimaryDark">@color/theme_primary_dark</item>
+        <item name="colorAccent">@color/theme_accent_1</item>
+        <item name="windowActionBar">false</item>
+        <item name="drawerArrowStyle">@style/MyDrawerArrowToggle</item>
+        <item name="android:textColorLink">@color/theme_link_color</item>
     </style>
 
     <!-- Main -->
@@ -88,10 +94,15 @@
     </style>
 
     <!-- Preferences -->
-    <style name="AppTheme.Preferences" parent="@style/AppBaseTheme">
+    <style name="AppTheme.Preferences" parent="@style/Theme.AppCompat">
+        <item name="colorPrimary">@color/theme_primary</item>
+        <item name="colorPrimaryDark">@color/theme_primary_dark</item>
+        <item name="colorAccent">@color/theme_accent_1</item>
+        <item name="windowActionBar">false</item>
+        <item name="drawerArrowStyle">@style/MyDrawerArrowToggle</item>
 
-        <!-- <item name="android:listViewStyle">@style/PrefsListView</item> -->
         <item name="android:listSeparatorTextViewStyle">@style/PrefsCategory</item>
+        <!-- <item name="android:listViewStyle">@style/PrefsListView</item> -->
     </style>
 
 </resources>
