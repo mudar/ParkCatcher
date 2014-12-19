@@ -23,21 +23,20 @@
 
 package ca.mudar.parkcatcher.ui.activities;
 
-import ca.mudar.parkcatcher.Const;
-import ca.mudar.parkcatcher.Const.LocalAssets;
-import ca.mudar.parkcatcher.R;
-
-import com.actionbarsherlock.app.SherlockActivity;
-
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class EulaActivity extends SherlockActivity {
+import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.Const.LocalAssets;
+import ca.mudar.parkcatcher.R;
+
+public class EulaActivity extends ActionBarActivity {
     @SuppressWarnings("unused")
     private static final String TAG = "EulaActivity";
 
@@ -61,14 +60,14 @@ public class EulaActivity extends SherlockActivity {
 
     public void acceptEula(View v) {
         Intent intent = new Intent();
-        setResult(Const.INTENT_REQ_CODE_EULA, intent);
+        setResult(Const.RequestCodes.EULA, intent);
         setResult(RESULT_OK, intent);
         this.finish();
     }
 
     public void declineEula(View v) {
         Intent intent = new Intent();
-        setResult(Const.INTENT_REQ_CODE_EULA, intent);
+        setResult(Const.RequestCodes.EULA, intent);
         setResult(RESULT_CANCELED, intent);
         this.finish();
     }

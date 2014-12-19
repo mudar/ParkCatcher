@@ -23,39 +23,37 @@
 
 package ca.mudar.parkcatcher.ui.activities;
 
-import ca.mudar.parkcatcher.ParkingApp;
-import ca.mudar.parkcatcher.ui.fragments.AboutFragment;
-import ca.mudar.parkcatcher.utils.ActivityHelper;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
-
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 
-public class AboutActivity extends SherlockFragmentActivity {
+import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.R;
+import ca.mudar.parkcatcher.ui.activities.base.NavdrawerActivity;
+import ca.mudar.parkcatcher.ui.fragments.AboutFragment;
+
+public class AboutActivity extends NavdrawerActivity {
     protected static final String TAG = "AboutActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle(R.string.activity_about);
+        setContentView(R.layout.activity_navdrawer);
+
+        getActionBarToolbar().setNavigationIcon(R.drawable.ic_action_arrow_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ((ParkingApp) getApplicationContext()).updateUiLanguage();
-
-        FragmentManager fm = getSupportFragmentManager();
-
-        if (fm.findFragmentById(android.R.id.content) == null) {
-            AboutFragment about = new AboutFragment();
-            fm.beginTransaction().add(android.R.id.content, about).commit();
+        if (savedInstanceState == null) {
+            final AboutFragment fragment = new AboutFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.content_frame, fragment)
+                    .commit();
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        ActivityHelper activityHelper = ActivityHelper.createInstance(this);
-
-        return (activityHelper.onOptionsItemSelected(item) || super.onOptionsItemSelected(item));
+    protected int getDefaultNavDrawerItem() {
+        return Const.NavdrawerSection.ABOUT;
     }
 }

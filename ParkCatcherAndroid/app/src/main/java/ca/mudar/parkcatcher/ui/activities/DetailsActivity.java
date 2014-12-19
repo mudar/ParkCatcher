@@ -23,33 +23,30 @@
 
 package ca.mudar.parkcatcher.ui.activities;
 
-import ca.mudar.parkcatcher.ParkingApp;
-import ca.mudar.parkcatcher.ui.fragments.DetailsFragment;
-import ca.mudar.parkcatcher.utils.ActivityHelper;
-
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 
-public class DetailsActivity extends SherlockFragmentActivity {
+import ca.mudar.parkcatcher.R;
+import ca.mudar.parkcatcher.ui.activities.base.ToolbarActivity;
+import ca.mudar.parkcatcher.ui.fragments.DetailsFragment;
+
+public class DetailsActivity extends ToolbarActivity {
     protected static final String TAG = "DetailsActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.activity_toolbar_header);
+        getActionBarToolbar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ((ParkingApp) getApplicationContext()).updateUiLanguage();
-
-        FragmentManager fm = getSupportFragmentManager();
-
-        if (fm.findFragmentById(android.R.id.content) == null) {
-            DetailsFragment details = new DetailsFragment();
-            fm.beginTransaction().add(android.R.id.content, details).commit();
+        if (savedInstanceState == null) {
+            final DetailsFragment fragment = new DetailsFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.content_frame, fragment)
+                    .commit();
         }
     }
 
@@ -57,12 +54,5 @@ public class DetailsActivity extends SherlockFragmentActivity {
     public void onNewIntent(Intent intent) {
         setIntent(intent);
         super.onNewIntent(intent);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        ActivityHelper activityHelper = ActivityHelper.createInstance(this);
-
-        return (activityHelper.onOptionsItemSelected(item) || super.onOptionsItemSelected(item));
     }
 }

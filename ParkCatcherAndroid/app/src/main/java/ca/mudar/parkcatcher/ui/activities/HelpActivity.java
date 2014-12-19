@@ -23,76 +23,45 @@
 
 package ca.mudar.parkcatcher.ui.activities;
 
-import ca.mudar.parkcatcher.Const.HelpPages;
+import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
+
+import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
-import ca.mudar.parkcatcher.ui.fragments.HelpFragment;
-import ca.mudar.parkcatcher.ui.widgets.HelpFragmentPagerAdapter;
-import ca.mudar.parkcatcher.utils.ActivityHelper;
+import ca.mudar.parkcatcher.ui.activities.base.NavdrawerActivity;
+import ca.mudar.parkcatcher.ui.fragments.HelpPagerFragment;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.MenuItem;
-import com.viewpagerindicator.TitlePageIndicator;
-
-import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.view.View;
-
-public class HelpActivity extends SherlockFragmentActivity implements
-        ViewPager.OnPageChangeListener {
+public class HelpActivity extends NavdrawerActivity {
     protected static final String TAG = "HelpActivity";
-
-    private HelpFragmentPagerAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         final ParkingApp parkingApp = (ParkingApp) getApplicationContext();
-        
-        parkingApp.updateUiLanguage();
         parkingApp.setHasViewedTutorial(true);
 
-        setContentView(R.layout.activity_help);
+        setTitle(R.string.activity_help);
+        setContentView(R.layout.activity_navdrawer);
 
-        mAdapter = new HelpFragmentPagerAdapter(
-                getSupportFragmentManager(), getResources());
+        getActionBarToolbar().setNavigationIcon(R.drawable.ic_action_arrow_back);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(mAdapter);
-        pager.setCurrentItem(HelpPages.STOPPING);
+        // Remove elevation, to be seamless with tabs
+        ViewCompat.setElevation(getActionBarToolbar(), 0);
 
-        final TitlePageIndicator indicator = (TitlePageIndicator) findViewById(R.id.indicator);
-        indicator.setViewPager(pager);
-
-        indicator.setOnPageChangeListener(this);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        ActivityHelper activityHelper = ActivityHelper.createInstance(this);
-
-        return (activityHelper.onOptionsItemSelected(item) || super.onOptionsItemSelected(item));
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        if (position == HelpPages.ARROW) {
-            HelpFragment arrowFragment = (HelpFragment) mAdapter.getItem(HelpPages.ARROW);
-            View root = findViewById(R.id.root_help_arrow);
-            if (root != null) {
-                arrowFragment.startLoadingImages(root, getResources());
-            }
+        if (savedInstanceState == null) {
+            final HelpPagerFragment fragment = new HelpPagerFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.content_frame, fragment)
+                    .commit();
         }
+    }
+
+    @Override
+    protected int getDefaultNavDrawerItem() {
+        return Const.NavdrawerSection.HELP;
     }
 }
