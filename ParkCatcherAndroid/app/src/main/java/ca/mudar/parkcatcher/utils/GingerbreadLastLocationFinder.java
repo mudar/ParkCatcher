@@ -22,8 +22,6 @@
 
 package ca.mudar.parkcatcher.utils;
 
-import ca.mudar.parkcatcher.utils.base.ILastLocationFinder;
-
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -38,6 +36,8 @@ import android.os.Build;
 import android.util.Log;
 
 import java.util.List;
+
+import ca.mudar.parkcatcher.utils.base.ILastLocationFinder;
 
 /**
  * Optimized implementation of Last Location Finder for devices running

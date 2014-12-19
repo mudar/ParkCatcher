@@ -22,8 +22,7 @@
 
 package ca.mudar.parkcatcher.io;
 
-import ca.mudar.parkcatcher.io.JsonHandler.HandlerException;
-import ca.mudar.parkcatcher.utils.ParserUtils;
+import android.content.ContentResolver;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -33,12 +32,13 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONTokener;
 import org.xmlpull.v1.XmlPullParser;
 
-import android.content.ContentResolver;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import ca.mudar.parkcatcher.io.JsonHandler.HandlerException;
+import ca.mudar.parkcatcher.utils.ParserUtils;
 
 /**
  * Executes an {@link HttpUriRequest} and passes the result as an

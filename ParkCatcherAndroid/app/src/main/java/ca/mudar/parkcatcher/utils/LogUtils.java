@@ -22,9 +22,9 @@
 
 package ca.mudar.parkcatcher.utils;
 
-import ca.mudar.parkcatcher.Const;
-
 import android.util.Log;
+
+import ca.mudar.parkcatcher.Const;
 
 /**
  * Helper methods that make logging more consistent throughout the app.

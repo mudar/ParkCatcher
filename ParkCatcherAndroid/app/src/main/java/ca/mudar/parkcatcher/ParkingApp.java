@@ -23,10 +23,6 @@
 
 package ca.mudar.parkcatcher;
 
-import ca.mudar.parkcatcher.Const.PrefsNames;
-import ca.mudar.parkcatcher.Const.PrefsValues;
-import ca.mudar.parkcatcher.service.DistanceUpdateService;
-
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
@@ -41,6 +37,10 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+
+import ca.mudar.parkcatcher.Const.PrefsNames;
+import ca.mudar.parkcatcher.Const.PrefsValues;
+import ca.mudar.parkcatcher.service.DistanceUpdateService;
 
 public class ParkingApp extends Application {
     protected static final String TAG = "ParkingApp";
@@ -220,23 +220,29 @@ public class ParkingApp extends Application {
         mParkingCalendar = calendar;
     }
 
-    public void resetParkingCalendar() {
+    public GregorianCalendar resetParkingCalendar() {
         mParkingCalendar = new GregorianCalendar();
         mParkingDuration = Const.DURATION_DEFAULT;
+
+        return mParkingCalendar;
     }
 
-    public void setParkingDate(int year, int month, int day) {
+    public GregorianCalendar setParkingDate(int year, int month, int day) {
         int hourOfDay = mParkingCalendar.get(Calendar.HOUR_OF_DAY);
         int minute = mParkingCalendar.get(Calendar.MINUTE);
         mParkingCalendar.set(year, month, day, hourOfDay, minute);
+
+        return mParkingCalendar;
     }
 
-    public void setParkingTime(int hourOfDay, int minute) {
+    public GregorianCalendar setParkingTime(int hourOfDay, int minute) {
         int year = mParkingCalendar.get(Calendar.YEAR);
         int month = mParkingCalendar.get(Calendar.MONTH);
         int day = mParkingCalendar.get(Calendar.DAY_OF_MONTH);
 
         mParkingCalendar.set(year, month, day, hourOfDay, minute);
+
+        return mParkingCalendar;
     }
 
     public int getParkingDuration() {

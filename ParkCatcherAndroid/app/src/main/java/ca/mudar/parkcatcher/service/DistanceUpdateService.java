@@ -23,13 +23,6 @@
 
 package ca.mudar.parkcatcher.service;
 
-import ca.mudar.parkcatcher.Const;
-import ca.mudar.parkcatcher.Const.PrefsNames;
-import ca.mudar.parkcatcher.provider.ParkingContract;
-import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
-import ca.mudar.parkcatcher.provider.ParkingContract.PostsColumns;
-import ca.mudar.parkcatcher.utils.Lists;
-
 import android.app.IntentService;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
@@ -46,6 +39,13 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 import java.util.ArrayList;
+
+import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.Const.PrefsNames;
+import ca.mudar.parkcatcher.provider.ParkingContract;
+import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
+import ca.mudar.parkcatcher.provider.ParkingContract.PostsColumns;
+import ca.mudar.parkcatcher.utils.Lists;
 
 public class DistanceUpdateService extends IntentService {
     private static final String TAG = "DistanceUpdateService";

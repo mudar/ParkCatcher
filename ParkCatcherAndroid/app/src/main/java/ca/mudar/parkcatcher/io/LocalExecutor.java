@@ -22,14 +22,12 @@
 
 package ca.mudar.parkcatcher.io;
 
-import ca.mudar.parkcatcher.io.JsonHandler.HandlerException;
-
-import org.json.JSONTokener;
-import org.xmlpull.v1.XmlPullParser;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.res.Resources;
+
+import org.json.JSONTokener;
+import org.xmlpull.v1.XmlPullParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,6 +36,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+
+import ca.mudar.parkcatcher.io.JsonHandler.HandlerException;
 
 /**
  * Opens a local {@link Resources#getXml(int)} and passes the resulting

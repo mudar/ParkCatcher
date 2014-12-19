@@ -24,8 +24,6 @@
 
 package ca.mudar.parkcatcher.utils;
 
-import ca.mudar.parkcatcher.utils.base.ILastLocationFinder;
-
 import android.content.Context;
 import android.location.Criteria;
 import android.location.Location;
@@ -34,6 +32,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import java.util.List;
+
+import ca.mudar.parkcatcher.utils.base.ILastLocationFinder;
 
 /**
  * Legacy implementation of Last Location Finder for all Android platforms down

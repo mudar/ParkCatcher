@@ -27,15 +27,15 @@
 
 package ca.mudar.parkcatcher.io;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONTokener;
-
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
 import android.content.OperationApplicationException;
 import android.os.RemoteException;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONTokener;
 
 import java.io.IOException;
 import java.util.ArrayList;

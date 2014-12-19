@@ -25,19 +25,15 @@
 
 package ca.mudar.parkcatcher.utils;
 
-import ca.mudar.parkcatcher.provider.ParkingContract;
-import ca.mudar.parkcatcher.provider.ParkingContract.SyncColumns;
-
-import org.apache.http.util.ByteArrayBuffer;
-import org.json.JSONException;
-import org.json.JSONTokener;
-
 import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.format.Time;
-import android.util.Log;
+
+import org.apache.http.util.ByteArrayBuffer;
+import org.json.JSONException;
+import org.json.JSONTokener;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -47,6 +43,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.regex.Pattern;
+
+import ca.mudar.parkcatcher.provider.ParkingContract;
+import ca.mudar.parkcatcher.provider.ParkingContract.SyncColumns;
 
 /**
  * Various utility methods used by {@link XmlHandler} implementations.

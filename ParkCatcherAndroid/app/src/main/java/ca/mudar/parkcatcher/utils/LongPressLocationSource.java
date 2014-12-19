@@ -23,12 +23,12 @@
 
 package ca.mudar.parkcatcher.utils;
 
+import android.location.Location;
+
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.model.LatLng;
-
-import android.location.Location;
 
 public class LongPressLocationSource implements LocationSource, OnMapLongClickListener {
     protected static final String TAG = "LongPressLocationSource";

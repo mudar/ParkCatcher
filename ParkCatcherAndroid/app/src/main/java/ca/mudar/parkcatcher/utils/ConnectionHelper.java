@@ -23,14 +23,14 @@
 
 package ca.mudar.parkcatcher.utils;
 
-import ca.mudar.parkcatcher.ParkingApp;
-import ca.mudar.parkcatcher.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
+
+import ca.mudar.parkcatcher.ParkingApp;
+import ca.mudar.parkcatcher.R;
 
 public class ConnectionHelper {
     public static boolean hasConnection(final Context context) {

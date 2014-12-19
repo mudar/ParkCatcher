@@ -23,11 +23,11 @@
 
 package ca.mudar.parkcatcher.provider;
 
-import ca.mudar.parkcatcher.Const.DbValues;
-import ca.mudar.parkcatcher.provider.ParkingDatabase.Tables;
-
 import android.net.Uri;
 import android.provider.BaseColumns;
+
+import ca.mudar.parkcatcher.Const.DbValues;
+import ca.mudar.parkcatcher.provider.ParkingDatabase.Tables;
 
 /**
  * Contract class for interacting with {@link ParkingProvider}. Unless otherwise

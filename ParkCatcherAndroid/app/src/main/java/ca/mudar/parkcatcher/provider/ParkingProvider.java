@@ -23,16 +23,6 @@
 
 package ca.mudar.parkcatcher.provider;
 
-import ca.mudar.parkcatcher.provider.ParkingContract.Favorites;
-import ca.mudar.parkcatcher.provider.ParkingContract.Panels;
-import ca.mudar.parkcatcher.provider.ParkingContract.PanelsCodes;
-import ca.mudar.parkcatcher.provider.ParkingContract.PanelsCodesRules;
-import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
-import ca.mudar.parkcatcher.provider.ParkingContract.PostsColumns;
-import ca.mudar.parkcatcher.provider.ParkingDatabase.Tables;
-import ca.mudar.parkcatcher.service.SyncService;
-import ca.mudar.parkcatcher.utils.SelectionBuilder;
-
 import android.app.Activity;
 import android.content.ContentProvider;
 import android.content.ContentProviderOperation;
@@ -51,6 +41,16 @@ import android.util.Log;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+
+import ca.mudar.parkcatcher.provider.ParkingContract.Favorites;
+import ca.mudar.parkcatcher.provider.ParkingContract.Panels;
+import ca.mudar.parkcatcher.provider.ParkingContract.PanelsCodes;
+import ca.mudar.parkcatcher.provider.ParkingContract.PanelsCodesRules;
+import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
+import ca.mudar.parkcatcher.provider.ParkingContract.PostsColumns;
+import ca.mudar.parkcatcher.provider.ParkingDatabase.Tables;
+import ca.mudar.parkcatcher.service.SyncService;
+import ca.mudar.parkcatcher.utils.SelectionBuilder;
 
 /**
  * Provider that stores {@link ParkingContract} data. Data is usually inserted

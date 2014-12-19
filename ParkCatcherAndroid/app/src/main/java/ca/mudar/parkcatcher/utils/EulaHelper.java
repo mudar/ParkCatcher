@@ -27,16 +27,16 @@
 
 package ca.mudar.parkcatcher.utils;
 
-import ca.mudar.parkcatcher.Const;
-import ca.mudar.parkcatcher.Const.PrefsNames;
-import ca.mudar.parkcatcher.ui.activities.EulaActivity;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.Const.PrefsNames;
+import ca.mudar.parkcatcher.ui.activities.EulaActivity;
 
 /**
  * A helper for showing EULAs and storing a {@link SharedPreferences} bit
@@ -61,7 +61,7 @@ public class EulaHelper {
 
     public static void showEula(final boolean accepted, final Activity activity) {
         Intent intent = new Intent(activity, EulaActivity.class);
-        activity.startActivityForResult(intent, Const.INTENT_REQ_CODE_EULA);
+        activity.startActivityForResult(intent, Const.RequestCodes.EULA);
     }
 
     public static boolean acceptEula(int resultCode, final Activity activity) {

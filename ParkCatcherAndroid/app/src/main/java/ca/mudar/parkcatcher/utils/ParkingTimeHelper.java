@@ -1,8 +1,6 @@
 
 package ca.mudar.parkcatcher.utils;
 
-import ca.mudar.parkcatcher.R;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
@@ -11,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+
+import ca.mudar.parkcatcher.R;
 
 @SuppressLint("DefaultLocale")
 public class ParkingTimeHelper {

@@ -23,11 +23,6 @@
 
 package ca.mudar.parkcatcher.utils;
 
-import ca.mudar.parkcatcher.Const;
-import ca.mudar.parkcatcher.Const.UnitsDisplay;
-import ca.mudar.parkcatcher.ParkingApp;
-import ca.mudar.parkcatcher.R;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Address;
@@ -35,6 +30,11 @@ import android.location.Geocoder;
 
 import java.io.IOException;
 import java.util.List;
+
+import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.Const.UnitsDisplay;
+import ca.mudar.parkcatcher.ParkingApp;
+import ca.mudar.parkcatcher.R;
 
 public class GeoHelper {
     private static final String TAG = "GeoHelper";

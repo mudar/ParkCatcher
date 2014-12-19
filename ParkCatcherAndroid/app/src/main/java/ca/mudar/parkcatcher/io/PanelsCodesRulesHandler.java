@@ -23,19 +23,19 @@
 
 package ca.mudar.parkcatcher.io;
 
-import ca.mudar.parkcatcher.provider.ParkingContract.PanelsCodesRules;
-import ca.mudar.parkcatcher.utils.Lists;
+import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import android.content.ContentProviderOperation;
-import android.content.ContentResolver;
-
 import java.io.IOException;
 import java.util.ArrayList;
+
+import ca.mudar.parkcatcher.provider.ParkingContract.PanelsCodesRules;
+import ca.mudar.parkcatcher.utils.Lists;
 
 public class PanelsCodesRulesHandler extends JsonHandler {
     @SuppressWarnings("unused")

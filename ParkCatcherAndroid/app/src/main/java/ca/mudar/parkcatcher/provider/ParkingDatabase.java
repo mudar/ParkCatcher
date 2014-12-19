@@ -23,20 +23,13 @@
 
 package ca.mudar.parkcatcher.provider;
 
-import ca.mudar.parkcatcher.Const;
-import ca.mudar.parkcatcher.provider.ParkingContract.FavoritesColumns;
-import ca.mudar.parkcatcher.provider.ParkingContract.PanelsCodesColumns;
-import ca.mudar.parkcatcher.provider.ParkingContract.PanelsCodesRulesColumns;
-import ca.mudar.parkcatcher.provider.ParkingContract.PanelsColumns;
-import ca.mudar.parkcatcher.provider.ParkingContract.PostsColumns;
-
-import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
+
+import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
@@ -44,6 +37,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLConnection;
+
+import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.provider.ParkingContract.FavoritesColumns;
+import ca.mudar.parkcatcher.provider.ParkingContract.PanelsCodesColumns;
+import ca.mudar.parkcatcher.provider.ParkingContract.PanelsCodesRulesColumns;
+import ca.mudar.parkcatcher.provider.ParkingContract.PanelsColumns;
+import ca.mudar.parkcatcher.provider.ParkingContract.PostsColumns;
 
 public class ParkingDatabase extends SQLiteAssetHelper {
     private static final String TAG = "ParkingDatabase";
