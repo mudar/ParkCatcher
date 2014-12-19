@@ -21,32 +21,32 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ca.mudar.parkcatcher.ui.fragments;
-
-import ca.mudar.parkcatcher.ParkingApp;
+package ca.mudar.parkcatcher.ui.dialogs;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.text.format.DateFormat;
-import android.widget.TimePicker;
+import android.support.v4.app.Fragment;
+import android.widget.DatePicker;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class TimePickerFragment extends DialogFragment
-        implements TimePickerDialog.OnTimeSetListener {
+import ca.mudar.parkcatcher.ParkingApp;
+
+public class DatePickerFragment extends DialogFragment
+        implements DatePickerDialog.OnDateSetListener {
 
     protected OnParkingCalendarChangedListener mListener;
 
     public interface OnParkingCalendarChangedListener {
-        // Parent activity is required to provide getter/setter for the parking
+        // Target Fragment or parent Activity are required to provide getter/setter for the parking
         // time.
         public GregorianCalendar getParkingCalendar();
 
-        public void setParkingTime(int hourOfDay, int minute);
+        public void setParkingDate(int year, int month, int day);
     }
 
     /**
@@ -56,7 +56,12 @@ public class TimePickerFragment extends DialogFragment
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnParkingCalendarChangedListener) activity;
+            final Fragment targetFragment = getTargetFragment();
+            if (targetFragment != null && (targetFragment instanceof  OnParkingCalendarChangedListener)) {
+                mListener = (OnParkingCalendarChangedListener) targetFragment;
+            } else {
+                mListener = (OnParkingCalendarChangedListener) activity;
+            }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnParkingCalendarChangedListener");
@@ -69,15 +74,14 @@ public class TimePickerFragment extends DialogFragment
         ((ParkingApp) getActivity().getApplicationContext()).updateUiLanguage();
 
         final GregorianCalendar c = mListener.getParkingCalendar();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
 
-        // Create a new instance of TimePickerDialog and return it
-        return new TimePickerDialog(getActivity(), this, hour, minute,
-                DateFormat.is24HourFormat(getActivity()));
+        return new DatePickerDialog(getActivity(), this, year, month, day);
     }
 
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        mListener.setParkingTime(hourOfDay, minute);
+    public void onDateSet(DatePicker view, int year, int month, int day) {
+        mListener.setParkingDate(year, month, day);
     }
 }

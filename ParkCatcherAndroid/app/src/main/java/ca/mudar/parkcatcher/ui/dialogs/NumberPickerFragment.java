@@ -21,11 +21,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ca.mudar.parkcatcher.ui.fragments;
-
-import ca.mudar.parkcatcher.Const;
-import ca.mudar.parkcatcher.ParkingApp;
-import ca.mudar.parkcatcher.R;
+package ca.mudar.parkcatcher.ui.dialogs;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -35,9 +31,14 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
+
+import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.ParkingApp;
+import ca.mudar.parkcatcher.R;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class NumberPickerFragment extends DialogFragment {
@@ -63,7 +64,12 @@ public class NumberPickerFragment extends DialogFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnParkingCalendarChangedListener) activity;
+            final Fragment targetFragment = getTargetFragment();
+            if (targetFragment != null && (targetFragment instanceof  OnParkingCalendarChangedListener)) {
+                mListener = (OnParkingCalendarChangedListener) targetFragment;
+            } else {
+                mListener = (OnParkingCalendarChangedListener) activity;
+            }
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnParkingCalendarChangedListener");
@@ -76,7 +82,7 @@ public class NumberPickerFragment extends DialogFragment {
         ((ParkingApp) getActivity().getApplicationContext()).updateUiLanguage();
 
         LayoutInflater factory = LayoutInflater.from(getActivity());
-        final View view = factory.inflate(R.layout.fragment_number_picker, null);
+        final View view = factory.inflate(R.layout.fragment_number_picker_old, null);
         final NumberPicker numberPicker = (NumberPicker) view
                 .findViewById(R.id.number_picker_duration);
 
@@ -103,7 +109,7 @@ public class NumberPickerFragment extends DialogFragment {
     /**
      * Update the app's duration value
      * 
-     * @param seekbar
+     * @param
      */
     private void onDurationSet(NumberPicker numberPicker) {
         int duration = numberPicker.getValue();
