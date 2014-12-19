@@ -23,17 +23,13 @@
 
 package ca.mudar.parkcatcher.ui.fragments;
 
-import ca.mudar.parkcatcher.Const;
-import ca.mudar.parkcatcher.Const.HelpPages;
-import ca.mudar.parkcatcher.R;
-
-import com.actionbarsherlock.app.SherlockFragment;
-
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +37,13 @@ import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
 
-public class HelpFragment extends SherlockFragment {
+import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.R;
+
+public class HelpFragment extends Fragment {
     private static final String TAG = "HelpFragment";
+
+    private View mView;
 
     public static HelpFragment newInstance(int index) {
         HelpFragment fragment = new HelpFragment();
@@ -59,8 +60,8 @@ public class HelpFragment extends SherlockFragment {
         super.onCreate(savedInstanceState);
 
         if ((savedInstanceState != null)
-                && savedInstanceState.containsKey(Const.KEY_BUNDLE_HELP_INDEX)) {
-            index = savedInstanceState.getInt(Const.KEY_BUNDLE_HELP_INDEX);
+                && savedInstanceState.containsKey(Const.SavedInstanceKeys.HELP_INDEX)) {
+            index = savedInstanceState.getInt(Const.SavedInstanceKeys.HELP_INDEX);
         }
     }
 
@@ -69,28 +70,28 @@ public class HelpFragment extends SherlockFragment {
 
         int res;
         switch (index) {
-            case HelpPages.RULES:
+            case Const.HelpTabs.RULES:
                 res = R.layout.fragment_help_rules;
                 break;
-            case HelpPages.STOPPING:
+            case Const.HelpTabs.STOPPING:
                 res = R.layout.fragment_help_stopping;
                 break;
-            case HelpPages.PARKING:
+            case Const.HelpTabs.PARKING:
                 res = R.layout.fragment_help_parking;
                 break;
-            case HelpPages.RESTRICTED:
+            case Const.HelpTabs.RESTRICTED:
                 res = R.layout.fragment_help_restricted;
                 break;
-            case HelpPages.SRRR:
+            case Const.HelpTabs.SRRR:
                 res = R.layout.fragment_help_srrr;
                 break;
-            case HelpPages.CELL:
+            case Const.HelpTabs.CELL:
                 res = R.layout.fragment_help_cell;
                 break;
-            case HelpPages.ARROW:
+            case Const.HelpTabs.ARROW:
                 res = R.layout.fragment_help_arrow;
                 break;
-            case HelpPages.PRIORITY:
+            case Const.HelpTabs.PRIORITY:
                 res = R.layout.fragment_help_priority;
                 break;
             // case HelpPages.APP:
@@ -99,13 +100,20 @@ public class HelpFragment extends SherlockFragment {
                 break;
         }
 
-        return inflater.inflate(res, container, false);
+        mView = inflater.inflate(res, container, false);
+        return mView;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(Const.KEY_BUNDLE_HELP_INDEX, index);
+        outState.putInt(Const.SavedInstanceKeys.HELP_INDEX, index);
+    }
+
+    public void startLoadingImages() {
+        if (getActivity() != null) {
+            startLoadingImages(mView, getActivity().getResources());
+        }
     }
 
     public void startLoadingImages(View view, Resources res) {

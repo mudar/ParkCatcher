@@ -23,102 +23,105 @@
 
 package ca.mudar.parkcatcher.ui.fragments;
 
-import ca.mudar.parkcatcher.Const;
-import ca.mudar.parkcatcher.ParkingApp;
-import ca.mudar.parkcatcher.R;
-import ca.mudar.parkcatcher.provider.ParkingContract.Favorites;
-import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
-import ca.mudar.parkcatcher.ui.activities.DetailsActivity;
-import ca.mudar.parkcatcher.ui.widgets.PostsCursorAdapter;
-
-import com.actionbarsherlock.app.SherlockListFragment;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-public class FavoritesFragment extends SherlockListFragment implements LoaderCallbacks<Cursor> {
+import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.ParkingApp;
+import ca.mudar.parkcatcher.R;
+import ca.mudar.parkcatcher.model.Queries;
+import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
+import ca.mudar.parkcatcher.ui.activities.DetailsActivity;
+import ca.mudar.parkcatcher.ui.adapters.PostsCursorAdapter;
+
+public class FavoritesFragment extends Fragment implements
+        LoaderCallbacks<Cursor>,
+        AdapterView.OnItemClickListener {
     protected static final String TAG = "FavoritesFragment";
 
     ParkingApp parkingApp;
 
-    private View rootView;
-    protected Cursor cursor = null;
+    private View mView;
     protected PostsCursorAdapter mAdapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setListAdapter(null);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        mView = inflater.inflate(R.layout.fragment_list_favorites, null);
 
-        parkingApp = (ParkingApp) getActivity().getApplicationContext();
+        ListView mListView = (ListView) mView.findViewById(android.R.id.list);
+
+        mListView.setAdapter(null);
+
 
         mAdapter = new PostsCursorAdapter(getActivity(),
                 R.layout.fragment_list_item_favorites,
-                cursor,
+                null,
                 new String[] {
-                        Favorites.LABEL, Posts.GEO_DISTANCE
+                        ca.mudar.parkcatcher.provider.ParkingContract.Favorites.LABEL, Posts.GEO_DISTANCE
                 },
                 new int[] {
                         R.id.favorite_name, R.id.favorite_distance
                 },
                 0);
 
-        setListAdapter(mAdapter);
+        mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(this);
+
+        return mView;
+    }
+
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        parkingApp = (ParkingApp) getActivity().getApplicationContext();
 
         Bundle args = new Bundle();
         args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION, getSelectionArgs());
 
-        getLoaderManager().initLoader(FavoritesQuery._TOKEN, args, this);
+        getLoaderManager().initLoader(Queries.Favorites._TOKEN, args, this);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        rootView = inflater.inflate(R.layout.fragment_list_favorites, null);
-
-        return rootView;
-    }
-
-    @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-
-        Cursor c = mAdapter.getCursor();
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        final Cursor c = mAdapter.getCursor();
 
         if ((position < 0) || (position == c.getCount())) {
             return;
         }
 
         c.moveToPosition(position);
-        int idPost = c.getInt(FavoritesQuery.ID_POST);
+        int idPost = c.getInt(Queries.Favorites.ID_POST);
 
-        Intent intent = new Intent(getSherlockActivity(), DetailsActivity.class);
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
         intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
-        getSherlockActivity().startActivity(intent);
+        getActivity().startActivity(intent);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
 
         String[] selectionArgs = null;
-        if (id == FavoritesQuery._TOKEN && args.containsKey(Const.KEY_BUNDLE_CURSOR_SELECTION)) {
+        if (id == Queries.Favorites._TOKEN && args.containsKey(Const.KEY_BUNDLE_CURSOR_SELECTION)) {
             selectionArgs = args.getStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION);
         }
 
-        return new CursorLoader(getSherlockActivity().getApplicationContext(),
+        return new CursorLoader(getActivity().getApplicationContext(),
                 Posts.CONTENT_STARRED_URI,
-                FavoritesQuery.FAVORITES_SUMMARY_PROJECTION,
+                Queries.Favorites.FAVORITES_SUMMARY_PROJECTION,
                 null,
                 selectionArgs,
                 Posts.FORBIDDEN_DISTANCE_SORT);
@@ -129,12 +132,12 @@ public class FavoritesFragment extends SherlockListFragment implements LoaderCal
         mAdapter.swapCursor(data);
 
         if ((data == null) || (data.getCount() == 0)) {
-            rootView.findViewById(android.R.id.empty).setVisibility(View.GONE);
-            rootView.findViewById(R.id.favorites_empty_list).setVisibility(View.VISIBLE);
+            mView.findViewById(android.R.id.empty).setVisibility(View.GONE);
+            mView.findViewById(R.id.favorites_empty_list).setVisibility(View.VISIBLE);
         }
         else {
-            rootView.findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
-            rootView.findViewById(R.id.favorites_empty_list).setVisibility(View.GONE);
+            mView.findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
+            mView.findViewById(R.id.favorites_empty_list).setVisibility(View.GONE);
         }
     }
 
@@ -147,7 +150,7 @@ public class FavoritesFragment extends SherlockListFragment implements LoaderCal
         Bundle args = new Bundle();
         args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION, getSelectionArgs());
 
-        getLoaderManager().restartLoader(FavoritesQuery._TOKEN, args, this);
+        getLoaderManager().restartLoader(Queries.Favorites._TOKEN, args, this);
     }
 
     private String[] getSelectionArgs() {
@@ -172,20 +175,6 @@ public class FavoritesFragment extends SherlockListFragment implements LoaderCal
         };
     }
 
-    public static interface FavoritesQuery {
-        int _TOKEN = 0x20;
 
-        final String[] FAVORITES_SUMMARY_PROJECTION = new String[] {
-                Posts._ID,
-                Posts.ID_POST,
-                Favorites.LABEL,
-                Posts.GEO_DISTANCE,
-                Posts.IS_FORBIDDEN,
-        };
-        final int _ID = 0;
-        final int ID_POST = 1;
-        final int LABEL = 2;
-        final int GEO_DISTANCE = 3;
-        final int IS_FORBIDDEN = 4;
-    }
+
 }
