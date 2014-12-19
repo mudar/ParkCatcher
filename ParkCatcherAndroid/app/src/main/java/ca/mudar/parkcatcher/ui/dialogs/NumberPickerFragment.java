@@ -82,7 +82,7 @@ public class NumberPickerFragment extends DialogFragment {
         ((ParkingApp) getActivity().getApplicationContext()).updateUiLanguage();
 
         LayoutInflater factory = LayoutInflater.from(getActivity());
-        final View view = factory.inflate(R.layout.fragment_number_picker_old, null);
+        final View view = factory.inflate(R.layout.dialog_number_picker, null);
         final NumberPicker numberPicker = (NumberPicker) view
                 .findViewById(R.id.number_picker_duration);
 

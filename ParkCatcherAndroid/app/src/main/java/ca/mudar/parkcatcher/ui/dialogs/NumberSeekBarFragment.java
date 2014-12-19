@@ -80,7 +80,7 @@ public class NumberSeekBarFragment extends DialogFragment {
         ((ParkingApp) getActivity().getApplicationContext()).updateUiLanguage();
 
         LayoutInflater factory = LayoutInflater.from(getActivity());
-        final View view = factory.inflate(R.layout.fragment_number_seekbar, null);
+        final View view = factory.inflate(R.layout.dialog_number_seekbar, null);
         final SeekBar seekbar = (SeekBar) view.findViewById(R.id.seekbar_duration);
         final TextView vDurationValue = (TextView) view.findViewById(R.id.duration_value);
 
