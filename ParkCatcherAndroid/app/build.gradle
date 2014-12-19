@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "ca.mudar.parkcatcher"
         minSdkVersion 10
-        targetSdkVersion 17
+        targetSdkVersion 21
         versionCode 9
         versionName "0.9.1"
     }
@@ -17,11 +17,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-    compile 'com.android.support:support-v4:18.0.+'
+    compile 'com.readystatesoftware.sqliteasset:sqliteassethelper:2.0.1'
+    compile 'com.android.support:support-v4:21.0.2'
+    compile 'com.android.support:appcompat-v7:21.0.2'
     compile 'com.google.android.gms:play-services:6.1.71'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.sothree.slidinguppanel:library:2.0.4'
 }
