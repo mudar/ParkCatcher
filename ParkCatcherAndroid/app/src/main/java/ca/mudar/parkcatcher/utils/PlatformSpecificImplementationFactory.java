@@ -21,13 +21,13 @@
 
 package ca.mudar.parkcatcher.utils;
 
-import ca.mudar.parkcatcher.Const;
-import ca.mudar.parkcatcher.utils.base.ILastLocationFinder;
-import ca.mudar.parkcatcher.utils.base.LocationUpdateRequester;
-
 import android.app.AlarmManager;
 import android.content.Context;
 import android.location.LocationManager;
+
+import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.utils.base.ILastLocationFinder;
+import ca.mudar.parkcatcher.utils.base.LocationUpdateRequester;
 
 /**
  * Factory class to create the correct instances of a variety of classes with
