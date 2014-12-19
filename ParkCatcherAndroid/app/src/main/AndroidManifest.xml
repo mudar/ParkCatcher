@@ -26,11 +26,7 @@
     package="ca.mudar.parkcatcher"
     android:installLocation="auto"
     android:versionCode="9"
-    android:versionName="@string/app_version" >
-
-    <uses-sdk
-        android:minSdkVersion="8"
-        android:targetSdkVersion="17" />
+    android:versionName="@string/app_version">
 
     <permission
         android:name="ca.mudar.parkcatcher.permission.MAPS_RECEIVE"
@@ -67,16 +63,20 @@
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.Main" >
+            android:theme="@style/AppTheme.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -106,10 +106,19 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.activities.FavoritesActivity"
+            android:exported="false"
+            android:label="@string/activity_favorites"
+            android:parentActivityName=".ui.activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
+        </activity>
+        <activity
             android:name=".ui.activities.DetailsActivity"
             android:label="@string/activity_details"
             android:launchMode="singleTop"
-            android:uiOptions="splitActionBarWhenNarrow" >
+            android:parentActivityName=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -132,18 +141,21 @@
                     android:pathPrefix="/spot"
                     android:scheme="http" />
             </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
             android:name=".ui.activities.EulaActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/activity_eula"
-            android:theme="@style/AppTheme.Eula" >
-        </activity>
+            android:theme="@style/AppTheme.Eula" />
         <activity
             android:name=".ui.activities.AboutActivity"
             android:exported="false"
-            android:label="@string/activity_about" >
+            android:label="@string/activity_about"
+            android:parentActivityName=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -166,12 +178,17 @@
                     android:pathPrefix="/a-propos"
                     android:scheme="http" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
             android:name=".ui.activities.HelpActivity"
             android:exported="false"
             android:label="@string/activity_help"
-            android:theme="@style/AppTheme.Help" >
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:theme="@style/AppTheme.Help">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -194,28 +211,20 @@
                     android:pathPrefix="/aide"
                     android:scheme="http" />
             </intent-filter>
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.activities.MyPreferenceActivity"
+            android:name=".ui.activities.SettingsActivity"
             android:exported="false"
             android:label="@string/activity_preferences"
-            android:theme="@style/AppTheme.Preferences" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.PREFERENCE" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.activities.MyPreferenceActivityHC"
-            android:exported="false"
-            android:label="@string/activity_preferences"
-            android:theme="@style/AppTheme.Preferences" >
-            <intent-filter>
-                <action android:name="android.intent.action.MANAGE_NETWORK_USAGE" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:theme="@style/AppTheme.Preferences">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -230,12 +239,12 @@
         <receiver android:name="ca.mudar.parkcatcher.receiver.PassiveLocationChangedReceiver" />
         <receiver
             android:name="ca.mudar.parkcatcher.receiver.ConnectivityChangedReceiver"
-            android:enabled="false" >
+            android:enabled="false">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-        <receiver android:name="ca.mudar.parkcatcher.receiver.PowerStateChangedReceiver" >
+        <receiver android:name="ca.mudar.parkcatcher.receiver.PowerStateChangedReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BATTERY_LOW" />
                 <action android:name="android.intent.action.BATTERY_OKAY" />
@@ -247,7 +256,6 @@
             android:authorities="ca.mudar.parkcatcher"
             android:exported="false" />
 
-        <activity android:name="com.crittercism.NotificationActivity" />
     </application>
 
 </manifest>
