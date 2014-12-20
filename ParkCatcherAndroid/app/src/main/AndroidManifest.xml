@@ -235,22 +235,6 @@
         <service android:name="ca.mudar.parkcatcher.service.SyncService" />
         <service android:name="ca.mudar.parkcatcher.service.DistanceUpdateService" />
 
-        <receiver android:name="ca.mudar.parkcatcher.receiver.LocationChangedReceiver" />
-        <receiver android:name="ca.mudar.parkcatcher.receiver.PassiveLocationChangedReceiver" />
-        <receiver
-            android:name="ca.mudar.parkcatcher.receiver.ConnectivityChangedReceiver"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name="ca.mudar.parkcatcher.receiver.PowerStateChangedReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BATTERY_LOW" />
-                <action android:name="android.intent.action.BATTERY_OKAY" />
-            </intent-filter>
-        </receiver>
-
         <provider
             android:name=".provider.ParkingProvider"
             android:authorities="ca.mudar.parkcatcher"
