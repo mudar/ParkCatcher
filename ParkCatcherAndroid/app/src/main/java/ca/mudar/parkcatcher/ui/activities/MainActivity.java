@@ -23,254 +23,111 @@
 
 package ca.mudar.parkcatcher.ui.activities;
 
-import ca.mudar.parkcatcher.Const;
-import ca.mudar.parkcatcher.ParkingApp;
-import ca.mudar.parkcatcher.R;
-import ca.mudar.parkcatcher.service.SyncService;
-import ca.mudar.parkcatcher.ui.fragments.DatePickerFragment;
-import ca.mudar.parkcatcher.ui.fragments.FavoritesFragment;
-import ca.mudar.parkcatcher.ui.fragments.MapFragment;
-import ca.mudar.parkcatcher.ui.fragments.NumberPickerFragment;
-import ca.mudar.parkcatcher.ui.fragments.NumberSeekBarFragment;
-import ca.mudar.parkcatcher.ui.fragments.TimePickerFragment;
-import ca.mudar.parkcatcher.utils.ActivityHelper;
-import ca.mudar.parkcatcher.utils.ConnectionHelper;
-import ca.mudar.parkcatcher.utils.EulaHelper;
-import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.Tab;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
-import com.crittercism.app.Crittercism;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.SlidingDrawer;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class MainActivity extends LocationFragmentActivity implements ActionBar.TabListener,
-        DatePickerFragment.OnParkingCalendarChangedListener,
-        TimePickerFragment.OnParkingCalendarChangedListener,
-        NumberSeekBarFragment.OnParkingCalendarChangedListener,
-        NumberPickerFragment.OnParkingCalendarChangedListener,
-        MapFragment.OnMyLocationChangedListener {
-    protected static final String TAG = "MainActivity";
+import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.ParkingApp;
+import ca.mudar.parkcatcher.R;
+import ca.mudar.parkcatcher.service.SyncService;
+import ca.mudar.parkcatcher.ui.activities.base.NavdrawerActivity;
+import ca.mudar.parkcatcher.ui.fragments.MainMapFragment;
+import ca.mudar.parkcatcher.ui.fragments.MapErrorFragment;
+import ca.mudar.parkcatcher.ui.views.SlidingUpCalendar;
+import ca.mudar.parkcatcher.utils.ConnectionHelper;
+import ca.mudar.parkcatcher.utils.EulaHelper;
 
-    MapFragment mMapFragment;
-    FavoritesFragment mFavoritesFragment;
+public class MainActivity extends NavdrawerActivity implements
+        MainMapFragment.OnMyLocationChangedListener {
+    private static final String TAG = "MainActivity";
+
+    ParkingApp parkingApp;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private SlidingUpCalendar mSlidingUpCalendar;
+    private MainMapFragment mMainMapFragment;
     private Location initLocation;
     private boolean isCenterOnMyLocation = true;
-    private boolean isPlayservicesOutdated;
-    private boolean hasLoadedData;
+    private boolean isPlayservicesOutdated = true;
 
-    ActivityHelper activityHelper;
-    ParkingApp parkingApp;
-
-    @SuppressWarnings("deprecation")
-    SlidingDrawer mDrawer;
-
-    @SuppressWarnings("deprecation")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (!Const.IS_DEBUG) {
-            Crittercism.init(getApplicationContext(), Const.CRITTERCISM_APP_ID);
-        }
-
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
-        activityHelper = ActivityHelper.createInstance(this);
-
+        setTitle(R.string.activity_map);
         parkingApp = (ParkingApp) getApplicationContext();
-        parkingApp.updateUiLanguage();
 
-        /**
-         * Display the GPLv3 licence
-         */
-        if (!EulaHelper.hasAcceptedEula(this)) {
+        final int startupStatus = verifyStartupStatus();
+        downloadDataIfNeeded(startupStatus);
 
-            if (ConnectionHelper.hasConnection(this)) {
-                EulaHelper.showEula(false, this);
-            }
-            else {
-                setContentView(R.layout.activity_no_connection);
-                setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
-                return;
-            }
+        setContentView(R.layout.activity_main_map);
+        getActionBarToolbar();
+
+        // Initialize views
+        mSlidingUpCalendar = (SlidingUpCalendar) findViewById(R.id.sliding_layout);
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setEnabled(false);
         }
 
-        hasLoadedData = parkingApp.hasLoadedData();
-
-        if (!hasLoadedData) {
-            hasLoadedData = true;
-
-            // The service runs in the background with no listener
-            Intent intent = new Intent(Intent.ACTION_SYNC, null, getApplicationContext(),
-                    SyncService.class);
-            intent.putExtra(Const.INTENT_EXTRA_SERVICE_LOCAL, false);
-            intent.putExtra(Const.INTENT_EXTRA_SERVICE_REMOTE, true);
-            startService(intent);
-        }
-
-        isPlayservicesOutdated = (GooglePlayServicesUtil
-                .isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS);
-
-        if (isPlayservicesOutdated) {
-            disableLocationUpdates();
+        if (startupStatus != Const.StartupStatus.OK) {
+            /**
+             * Special error case when EULA not accepted and internet connection is unavailable.
+             */
             isCenterOnMyLocation = false;
+            hideSlidingUpCalendar();
 
-            setContentView(R.layout.activity_playservices_update);
-            setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
-
+            final Fragment fragment = MapErrorFragment.newInstance(startupStatus);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.content_frame, fragment, Const.FragmentTags.ERROR)
+                    .commit();
+            // Stop here!
             return;
         }
-        else {
-            setContentView(R.layout.activity_main);
-            setSupportProgressBarIndeterminateVisibility(Boolean.FALSE);
+
+        if (savedInstanceState == null) {
+            mMainMapFragment = new MainMapFragment();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.content_frame, mMainMapFragment, Const.FragmentTags.MAP)
+                    .commit();
+        } else {
+            mMainMapFragment = (MainMapFragment) getSupportFragmentManager()
+                    .findFragmentByTag(Const.FragmentTags.MAP);
         }
 
-        // Set the layout containing the two fragments
+        // Enable interaction between the Map and sliding-up Calendar filter
+        final Fragment calendarFilterFragment = getSupportFragmentManager()
+                .findFragmentByTag(Const.FragmentTags.SLIDING_UP_CALENDAR);
+        calendarFilterFragment.setTargetFragment(mMainMapFragment, Const.RequestCodes.MAP);
 
-        // Get the fragments
-        FragmentManager fm = getSupportFragmentManager();
-        mMapFragment = (MapFragment) fm.findFragmentByTag(Const.TAG_FRAGMENT_MAP);
-        mFavoritesFragment = (FavoritesFragment) fm.findFragmentByTag(Const.TAG_FRAGMENT_FAVORITES);
+        initLocation = getLocationFromIntent(getIntent());
 
-        // Create the actionbar tabs
-        final ActionBar ab = getSupportActionBar();
-
-        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        ab.addTab(ab.newTab().setText(R.string.tab_map).setTabListener(this)
-                .setTag(Const.TAG_TABS_MAP));
-        ab.addTab(ab.newTab().setText(R.string.tab_favorites).setTabListener(this)
-                .setTag(Const.TAG_TABS_FAVORITES));
-
-        initLocation = null;
-
-        double latitude = getIntent().getDoubleExtra(Const.INTENT_EXTRA_GEO_LAT, Double.MIN_VALUE);
-        double longitude = getIntent().getDoubleExtra(Const.INTENT_EXTRA_GEO_LNG, Double.MIN_VALUE);
-
-        if (Double.compare(latitude, Double.MIN_VALUE) != 0
-                && Double.compare(latitude, Double.MIN_VALUE) != 0) {
-            initLocation = new Location(Const.LOCATION_PROVIDER_INTENT);
-
-            initLocation.setLatitude(latitude);
-            initLocation.setLongitude(longitude);
-
-            isCenterOnMyLocation = false;
-        }
-        else {
+        if (initLocation == null) {
             isCenterOnMyLocation = true;
 
             // Initialize the displayed values. This is not done when
             // MainActivity is called from Details activity, to keep the same
             // Calendar.
             parkingApp.resetParkingCalendar();
-        }
-
-        updateParkingTimeTitle();
-        updateParkingDateButton();
-        updateParkingTimeButton();
-        updateParkingDurationButton();
-        mFavoritesFragment.refreshList();
-
-        mDrawer = (SlidingDrawer) findViewById(R.id.drawer_time);
-        mDrawer.animateOpen();
-    }
-
-    @Override
-    public void onNewIntent(Intent intent) {
-        initLocation = null;
-
-        Double latitude = intent.getDoubleExtra(Const.INTENT_EXTRA_GEO_LAT, Double.NaN);
-        Double longitude = intent.getDoubleExtra(Const.INTENT_EXTRA_GEO_LNG, Double.NaN);
-
-        if (!latitude.equals(Double.NaN) && !longitude.equals(Double.NaN)) {
-            initLocation = new Location(Const.LOCATION_PROVIDER_INTENT);
-            initLocation.setLatitude(latitude);
-            initLocation.setLongitude(longitude);
+        } else {
+            // Map will be centred on initLocation instead
             isCenterOnMyLocation = false;
-        }
-        else {
-            isCenterOnMyLocation = true;
-        }
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        try {
-            outState.putString(Const.KEY_BUNDLE_SELECTED_TAB,
-                    getSupportActionBar().getSelectedTab().getTag().toString());
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        isCenterOnMyLocation = false;
-
-        if (getIntent().hasExtra(Const.INTENT_EXTRA_POST_ID)) {
-            try {
-                final ActionBar ab = getSupportActionBar();
-                if (ab.getSelectedTab().getPosition() != Const.TABS_INDEX_MAP) {
-                    ab.setSelectedNavigationItem(Const.TABS_INDEX_MAP);
-                }
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
-        else if ((savedInstanceState != null)
-                && (savedInstanceState.containsKey(Const.KEY_BUNDLE_SELECTED_TAB))) {
-            if (savedInstanceState.getString(Const.KEY_BUNDLE_SELECTED_TAB)
-                    .equals(Const.TAG_TABS_FAVORITES)) {
-                try {
-                    final ActionBar ab = getSupportActionBar();
-                    if (ab.getSelectedTab().getPosition() != Const.TABS_INDEX_FAVORITES) {
-                        ab.setSelectedNavigationItem(Const.TABS_INDEX_FAVORITES);
-                    }
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == Const.INTENT_REQ_CODE_EULA) {
-            boolean hasAcceptedEula = EulaHelper.acceptEula(resultCode, this);
-            if (!hasAcceptedEula) {
-                this.finish();
-            }
         }
     }
 
@@ -280,17 +137,8 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
 
         // Check Playservices status
         if (isPlayservicesOutdated) {
-            if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS) {
-                // Still out of date, interrupt onResume()
-                disableLocationUpdates();
-            }
-            else {
-                // Playservice updated, display message and restart activity
-                parkingApp.showToastText(R.string.toast_playservices_restart, Toast.LENGTH_LONG);
-                final Intent intent = getIntent();
-                this.finish();
-                startActivity(intent);
-            }
+            handlePlayservicesError();
+            // Stop here!
             return;
         }
 
@@ -298,37 +146,20 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
             ConnectionHelper.showDialogNoConnection(this);
         }
 
-        // TODO Optimize this using savedInstanceState to avoid reload of
-        // identical data onResume
+        // TODO Optimize this using savedInstanceState to avoid reloading identical data
         final Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             updateParkingTimeFromUri(intent.getData());
-
-            updateParkingTimeTitle();
-            updateParkingDateButton();
-            updateParkingTimeButton();
-            updateParkingDurationButton();
-            mFavoritesFragment.refreshList();
         }
 
-        // if
-        // (getSupportActionBar().getSelectedTab().getTag().equals(Const.TAG_TABS_MAP)
-        // || isCenterOnMyLocation) {
         if (initLocation != null || isCenterOnMyLocation) {
             try {
-                mMapFragment.setMapCenter(initLocation);
+                mMainMapFragment.setMapCenter(initLocation);
                 isCenterOnMyLocation = false;
-
-                final ActionBar ab = getSupportActionBar();
-                if (ab.getSelectedTab().getPosition() != Const.TABS_INDEX_MAP) {
-                    ab.setSelectedNavigationItem(Const.TABS_INDEX_MAP);
-                }
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
-        // }
-
     }
 
     @Override
@@ -339,241 +170,173 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getSupportMenuInflater().inflate(R.menu.activity_main, menu);
+    public void onNewIntent(Intent intent) {
+        initLocation = getLocationFromIntent(intent);
 
-        return true;
+        isCenterOnMyLocation = (initLocation == null);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return (activityHelper.onOptionsItemSelected(item) || super.onOptionsItemSelected(item));
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Const.RequestCodes.EULA) {
+            boolean hasAcceptedEula = EulaHelper.acceptEula(resultCode, this);
+            if (!hasAcceptedEula) {
+                this.finish();
+            }
+        }
     }
 
+    @Override
+    protected void onNavdrawerStateChanged(int newState) {
+        if (DrawerLayout.STATE_DRAGGING == newState || DrawerLayout.STATE_SETTLING == newState) {
+            collapseSlidingUpCalendar();
+        }
+    }
+
+    /**
+     * Toggle searchView for Search physical button
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-
-        if (mMapFragment != null) {
-            if (keyCode == KeyEvent.KEYCODE_MENU) {
-                mMapFragment.searchToggle(false);
-            }
-            else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
-                mMapFragment.searchToggle(true);
-            }
+        if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            expandMapSearchView();
         }
 
         return super.onKeyUp(keyCode, event);
     }
 
-    @SuppressWarnings("deprecation")
+    /**
+     * BaseActivity implementation
+     *
+     * @return
+     */
     @Override
-    public void onTabSelected(Tab tab, FragmentTransaction fragmentTransaction) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+    protected int getDefaultNavDrawerItem() {
+        return Const.NavdrawerSection.MAP;
+    }
 
-        if (tab.getTag().equals(Const.TAG_TABS_MAP)) {
-            if (mDrawer != null) {
-                mDrawer.setVisibility(View.VISIBLE);
+    /**
+     * MainMapFragment implementation
+     */
+    @Override
+    public void onSearchClickListener() {
+        collapseSlidingUpCalendar();
+    }
+
+    /**
+     * MainMapFragment implementation
+     */
+    @Override
+    public void onCameraChangeListener(boolean isLoading) {
+        toggleProgressBar(isLoading);
+    }
+
+    private void toggleProgressBar(boolean isLoading) {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(isLoading);
+        }
+    }
+
+    private void hideSlidingUpCalendar() {
+        if (mSlidingUpCalendar != null) {
+            mSlidingUpCalendar.hidePanel();
+        }
+    }
+
+    private void collapseSlidingUpCalendar() {
+        if (mSlidingUpCalendar != null) {
+            mSlidingUpCalendar.collapsePanel();
+        }
+    }
+
+    private void expandMapSearchView() {
+        if (mMainMapFragment != null) {
+            mMainMapFragment.toggleSearchView(true);
+        }
+    }
+
+    /**
+     * Verify EULA and Google Play Services availability.
+     * Database and Map data are loaded on startup while showing EULA.
+     *
+     * @return int Status code.
+     */
+    private int verifyStartupStatus() {
+        if (!EulaHelper.hasAcceptedEula(this)) {
+            if (ConnectionHelper.hasConnection(this)) {
+                EulaHelper.showEula(false, this);
+            } else {
+                return Const.StartupStatus.ERROR_CONNECTION;
             }
-
-            // ft.show(mMapFragment);
-            ft.hide(mFavoritesFragment);
-            ft.commit();
-        }
-        else if (tab.getTag().equals(Const.TAG_TABS_FAVORITES)) {
-
-            if (mDrawer != null) {
-                mDrawer.setVisibility(View.GONE);
-            }
-
-            ft.show(mFavoritesFragment);
-            // ft.hide(mMapFragment);
-            ft.commit();
         }
 
-        if (mDrawer != null && mDrawer.isOpened()) {
-            mDrawer.animateClose();
+        // If EULA can be displayed with an internet connection, continue to check PlayServices status
+        isPlayservicesOutdated = (GooglePlayServicesUtil
+                .isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS);
+        if (isPlayservicesOutdated) {
+            return Const.StartupStatus.ERROR_PLAYSERVICES;
         }
+
+        return Const.StartupStatus.OK;
     }
 
-    @Override
-    public void onTabUnselected(Tab tab, FragmentTransaction fragmentTransaction) {
-        // FragmentTransaction ft =
-        // getSupportFragmentManager().beginTransaction();
-        //
-        // if (tab.getTag().equals(Const.TAG_TABS_MAP)) {
-        // ft.hide(mMapFragment);
-        // ft.commit();
-        // }
-        // else if (tab.getTag().equals(Const.TAG_TABS_FAVORITES)) {
-        // ft.hide(mFavoritesFragment);
-        // ft.commit();
-        // }
-    }
-
-    @Override
-    public void onTabReselected(Tab tab, FragmentTransaction fragmentTransaction) {
-        if (tab.getTag().equals(Const.TAG_TABS_MAP)) {
-            isCenterOnMyLocation = true;
-
-            mMapFragment.resetMapCenter();
-            parkingApp.resetParkingCalendar();
-
-            updateParkingTimeTitle();
-            updateParkingDateButton();
-            updateParkingTimeButton();
-            updateParkingDurationButton();
-            mFavoritesFragment.refreshList();
-
-            mMapFragment.updateOverlaysForced();
-        }
-        else if (tab.getTag().equals(Const.TAG_TABS_FAVORITES)) {
-            // TODO handle reselection of tab
-            Log.v(TAG, "TODO: scroll favorites to top and refresh?");
-        }
-    }
-
-    @Override
-    public GregorianCalendar getParkingCalendar() {
-        return parkingApp.getParkingCalendar();
-    }
-
-    @Override
-    public int getParkingDuration() {
-        return parkingApp.getParkingDuration();
-    }
-
-    @Override
-    public void setParkingDate(int year, int month, int day) {
-
-        parkingApp.setParkingDate(year, month, day);
-
-        updateParkingDateButton();
-
-        updateParkingTimeTitle();
-        mFavoritesFragment.refreshList();
-
-        mMapFragment.updateOverlaysForced();
-    }
-
-    @Override
-    public void setParkingTime(int hourOfDay, int minute) {
-        parkingApp.setParkingTime(hourOfDay, minute);
-
-        updateParkingTimeButton();
-
-        updateParkingTimeTitle();
-        mFavoritesFragment.refreshList();
-
-        mMapFragment.updateOverlaysForced();
-    }
-
-    @Override
-    public void setParkingDuration(int duration) {
-        parkingApp.setParkingDuration(duration);
-
-        updateParkingDurationButton();
-
-        updateParkingTimeTitle();
-        mFavoritesFragment.refreshList();
-
-        mMapFragment.updateOverlaysForced();
-    }
-
-    @Override
-    public void OnMyLocationChanged(final Location location) {
-        /**
-         * Following code allows the background listener to modify the UI's
-         * menu.
-         */
-        runOnUiThread(new Runnable() {
-            public void run() {
-                // TODO: verify that new location is sent to service & favorites
-                // fragment
-                ((ParkingApp) getApplicationContext())
-                        .setLocation(location);
-                Log.v(TAG, "TODO: OnMyLocationChanged on UI");
-                // invalidateOptionsMenu();
-            }
-        });
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void OnMyMapClickListener() {
-        if (mDrawer.isOpened()) {
-            mDrawer.animateClose();
-        }
-    }
-
-    @Override
-    public void OnSearchClickListener() {
-        OnMyMapClickListener();
-    }
-
-    public void retryConnection(View v) {
-        if (ConnectionHelper.hasConnection(this)) {
-            parkingApp.showToastText(R.string.map_no_connection_restart, Toast.LENGTH_LONG);
+    private void handlePlayservicesError() {
+        if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS) {
+            // Still out of date, interrupt onResume()
+            disableLocationUpdates();
+        } else {
+            // Playservice updated, display message and restart activity
+            parkingApp.showToastText(R.string.toast_playservices_restart, Toast.LENGTH_LONG);
             final Intent intent = getIntent();
             this.finish();
             startActivity(intent);
         }
-        else {
-            ConnectionHelper.showDialogNoConnection(this);
+    }
+
+    /**
+     * Download the remote Database
+     */
+    private void downloadDataIfNeeded(int startupStatus) {
+        if (startupStatus != Const.StartupStatus.ERROR_CONNECTION
+                && !parkingApp.hasLoadedData()) {
+            // The service runs in the background with no listener
+            final Intent intent = new Intent(Intent.ACTION_SYNC, null, getApplicationContext(),
+                    SyncService.class);
+            intent.putExtra(Const.INTENT_EXTRA_SERVICE_LOCAL, false);
+            intent.putExtra(Const.INTENT_EXTRA_SERVICE_REMOTE, true);
+            startService(intent);
         }
     }
 
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), Const.TAG_FRAGMENT_PICKER_DATE);
+    private Location getLocationFromIntent(Intent intent) {
+        Location location = null;
+
+        final double latitude = intent.getDoubleExtra(Const.INTENT_EXTRA_GEO_LAT, Double.MIN_VALUE);
+        final double longitude = intent.getDoubleExtra(Const.INTENT_EXTRA_GEO_LNG, Double.MIN_VALUE);
+
+        if (Double.compare(latitude, Double.MIN_VALUE) != 0
+                && Double.compare(latitude, Double.MIN_VALUE) != 0) {
+            location = new Location(Const.LOCATION_PROVIDER_INTENT);
+
+            location.setLatitude(latitude);
+            location.setLongitude(longitude);
+        }
+
+        return location;
     }
 
-    public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getSupportFragmentManager(), Const.TAG_FRAGMENT_PICKER_TIME);
-    }
-
-    // Build < v11
-    public void showNumberSeekBarDialog(View v) {
-        DialogFragment newFragment = new NumberSeekBarFragment();
-        newFragment.show(getSupportFragmentManager(), Const.TAG_FRAGMENT_SEEKBAR_NUMBER);
-    }
-
-    // Build >= 11
-    public void showNumberPickerDialog(View v) {
-        DialogFragment newFragment = new NumberPickerFragment();
-        newFragment.show(getSupportFragmentManager(), Const.TAG_FRAGMENT_PICKER_NUMBER);
-    }
-
-    @SuppressLint("DefaultLocale")
-    private void updateParkingTimeTitle() {
-        final GregorianCalendar c = parkingApp.getParkingCalendar();
-        final int duration = parkingApp.getParkingDuration();
-
-        ((TextView) findViewById(R.id.drawer_time_title)).setText(
-                ParkingTimeHelper.getTitle(this, c, duration));
-    }
-
-    private void updateParkingDateButton() {
-        final GregorianCalendar c = parkingApp.getParkingCalendar();
-
-        ((Button) findViewById(R.id.btn_day)).setText(ParkingTimeHelper.getDate(this, c));
-    }
-
-    private void updateParkingTimeButton() {
-        final GregorianCalendar c = parkingApp.getParkingCalendar();
-
-        ((Button) findViewById(R.id.btn_start)).setText(ParkingTimeHelper.getTime(this, c));
-    }
-
-    private void updateParkingDurationButton() {
-        final int duration = parkingApp.getParkingDuration();
-
-        ((Button) findViewById(R.id.btn_duration)).setText(ParkingTimeHelper.getDuration(this,
-                duration));
+    @Deprecated
+    private void disableLocationUpdates() {
+        Log.e(TAG, "disableLocationUpdates");
     }
 
     private void updateParkingTimeFromUri(Uri uri) {
-        Log.v(TAG, "updateParkingTimeFromUri");
         List<String> pathSegments = uri.getPathSegments();
 
         // http://www.capteurdestationnement.com/map/search/2/15.5/12
@@ -604,5 +367,4 @@ public class MainActivity extends LocationFragmentActivity implements ActionBar.
             }
         }
     }
-
 }
