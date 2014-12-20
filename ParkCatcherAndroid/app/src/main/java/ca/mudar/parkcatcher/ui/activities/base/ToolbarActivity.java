@@ -39,9 +39,9 @@ public abstract class ToolbarActivity extends ActionBarActivity {
     protected Toolbar getActionBarToolbar() {
         if (mActionBarToolbar == null) {
             mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-            ViewCompat.setElevation(mActionBarToolbar,
-                    getResources().getDimensionPixelSize(R.dimen.headerbar_elevation));
             if (mActionBarToolbar != null) {
+                ViewCompat.setElevation(mActionBarToolbar,
+                        getResources().getDimensionPixelSize(R.dimen.headerbar_elevation));
                 setSupportActionBar(mActionBarToolbar);
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             }
