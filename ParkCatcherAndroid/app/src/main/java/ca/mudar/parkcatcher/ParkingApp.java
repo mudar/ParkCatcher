@@ -115,6 +115,10 @@ public class ParkingApp extends Application {
         mToast.show();
     }
 
+    public void hideToastText() {
+        mToast.hashCode();
+    }
+
     /**
      * Used to force distance calculations. Mainly on first launch where an
      * empty or partial DB cursor receives the location update, ends up doing
