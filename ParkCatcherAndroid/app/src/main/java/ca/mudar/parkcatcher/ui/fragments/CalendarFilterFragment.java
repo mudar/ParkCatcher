@@ -127,7 +127,9 @@ public class CalendarFilterFragment extends Fragment implements
         updateParkingTimeTitle();
 
         // Update listener
-        mListener.updateCalendarFilter(parkingApp.getParkingCalendar(), duration);
+        if (mListener != null) {
+            mListener.updateCalendarFilter(parkingApp.getParkingCalendar(), duration);
+        }
     }
 
     @Override
@@ -139,7 +141,9 @@ public class CalendarFilterFragment extends Fragment implements
         updateParkingTimeTitle();
 
         // Update listener
-        mListener.updateCalendarFilter(calendar, parkingApp.getParkingDuration());
+        if (mListener != null) {
+            mListener.updateCalendarFilter(calendar, parkingApp.getParkingDuration());
+        }
     }
 
     @Override
@@ -151,7 +155,9 @@ public class CalendarFilterFragment extends Fragment implements
         updateParkingTimeTitle();
 
         // Update listener
-        mListener.updateCalendarFilter(calendar, parkingApp.getParkingDuration());
+        if (mListener != null) {
+            mListener.updateCalendarFilter(calendar, parkingApp.getParkingDuration());
+        }
     }
 
     private void updateParkingTimeTitle() {
