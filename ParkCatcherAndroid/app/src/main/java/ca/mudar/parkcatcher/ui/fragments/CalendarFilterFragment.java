@@ -27,7 +27,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,8 +63,6 @@ public class CalendarFilterFragment extends Fragment implements
      */
     @Override
     public void onAttach(Activity activity) {
-        Log.v(TAG, "onAttach");
-
         super.onAttach(activity);
 
         if (activity instanceof OnCalendarFilterChangedListener) {
