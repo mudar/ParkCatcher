@@ -34,7 +34,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -116,7 +115,7 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
     protected void onFinishInflate() {
         super.onFinishInflate();
 
-        setDragView(findViewById(R.id.drag_handle));
+//        setDragView(findViewById(R.id.drawer_time_title));
         updateParkingCalendar();
 
         setClickListeners();
@@ -126,34 +125,18 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         final boolean intercept = super.onInterceptTouchEvent(ev);
 
-        if (!intercept && isPanelAnchored()) {
+        if (!intercept && (isPanelExpanded() || isPanelAnchored())) {
             // collapse if shadow touched
             final int action = MotionEventCompat.getActionMasked(ev);
             if (action == MotionEvent.ACTION_DOWN) {
                 if (isShadowUnder((int) ev.getY())) {
                     collapsePanel();
-                    return true;
+                    return false;
                 }
             }
         }
 
         return intercept;
-    }
-
-    @Override
-    public void showPanel() {
-        if (getChildCount() == CHILDREN_COUNT) {
-            getChildAt(0).setPadding(0, 0, 0, layoutHeightMin);
-        }
-        super.showPanel();
-    }
-
-    @Override
-    public void hidePanel() {
-        if (getChildCount() == CHILDREN_COUNT) {
-            getChildAt(0).setPadding(0, 0, 0, 0);
-        }
-        super.hidePanel();
     }
 
     @Override
@@ -206,13 +189,15 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
      * @return Shadow Drawable is under the TouchEvent
      */
     private boolean isShadowUnder(int y) {
-        View dragView = findViewById(R.id.drag_handle);
-        if (dragView == null) return false;
+        final View dragView = findViewById(R.id.drawer_time_title);
+        if (dragView == null) {
+            return false;
+        }
         int[] viewLocation = new int[2];
         dragView.getLocationOnScreen(viewLocation);
         int[] parentLocation = new int[2];
         this.getLocationOnScreen(parentLocation);
-        int screenY = parentLocation[1] + y;
+        final int screenY = parentLocation[1] + y;
         return screenY < viewLocation[1];
     }
 
@@ -232,7 +217,11 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
         findViewById(R.id.btn_duration).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                showNumberPickerDialog(v);
+                if (!Const.SUPPORTS_HONEYCOMB) {
+                    showNumberSeekBarDialog(v);
+                } else {
+                    showNumberPickerDialog(v);
+                }
             }
         });
     }
@@ -277,7 +266,6 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
     }
 
     public void updateParkingTimeFromUri(Uri uri) {
-        Log.v(TAG, "updateParkingTimeFromUri");
         List<String> pathSegments = uri.getPathSegments();
 
         // http://www.capteurdestationnement.com/map/search/2/15.5/12
