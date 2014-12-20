@@ -364,6 +364,7 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
     protected void onNavdrawerClosed(View drawerView) {
 
     }
+
     protected void onNavdrawerOpened(View drawerView) {
 
     }
