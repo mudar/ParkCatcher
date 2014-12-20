@@ -37,6 +37,7 @@ public class DetailsActivity extends ToolbarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle(R.string.activity_details);
         setContentView(R.layout.activity_toolbar_header);
         getActionBarToolbar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
