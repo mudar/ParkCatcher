@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00000000"
+    android:clipChildren="false"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/slider_top_padding"
+        android:clipToPadding="false">
+
+        <TextView
+            android:id="@+id/drawer_time_title"
+            style="@style/DrawerTitle"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/slider_collapsed_height"
+            android:background="@color/theme_bg_primary" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="28dp"
+            android:layout_marginTop="@dimen/slider_top_margin"
+            android:background="@drawable/bg_floating_parking"
+            android:clickable="false"
+            android:elevation="@dimen/floating_btn_elevation"
+            android:focusable="true"
+            android:padding="16dp"
+            android:src="@drawable/ic_parking" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/drawer_time_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:background="@color/theme_bg_secondary"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/btn_day"
+            style="@style/DrawerButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_calendar" />
+
+        <Button
+            android:id="@+id/btn_start"
+            style="@style/DrawerButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_time" />
+
+
+        <Button
+            android:id="@+id/btn_duration"
+            style="@style/DrawerButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_timer" />
+
+    </LinearLayout>
+
+</LinearLayout>
