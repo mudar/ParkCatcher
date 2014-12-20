@@ -162,21 +162,19 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
                 R.string.navdrawer_close  /* "close drawer" description for accessibility */
         ) {
             @Override
-            public void onDrawerClosed(View view) {
-                supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            public void onDrawerClosed(View drawerView) {
                 mDrawerToggle.syncState();
+                onNavdrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                supportInvalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                onNavdrawerOpened(drawerView);
             }
 
             @Override
             public void onDrawerStateChanged(int newState) {
-                if (DrawerLayout.STATE_DRAGGING == newState || DrawerLayout.STATE_SETTLING == newState) {
-//                    mSlidingUpQueue.collapsePanel();
-                }
+                onNavdrawerStateChanged(newState);
             }
 
             @Override
@@ -317,7 +315,7 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
 
     private void onNavDrawerItemClicked(int position) {
         if (position == mLastCheckedItem) {
-            return;
+            // Nothing to do here
         } else if (position == Const.NavdrawerSection.MAP) {
             showMapActivity();
         } else if (position == Const.NavdrawerSection.FAVORITES) {
@@ -361,5 +359,16 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
     private void showSettingActivity() {
         final Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
+    }
+
+    protected void onNavdrawerClosed(View drawerView) {
+
+    }
+    protected void onNavdrawerOpened(View drawerView) {
+
+    }
+
+    protected void onNavdrawerStateChanged(int newState) {
+
     }
 }
