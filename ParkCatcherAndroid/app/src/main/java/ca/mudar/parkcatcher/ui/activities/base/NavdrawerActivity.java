@@ -262,6 +262,11 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
         if (itemId < 0 || itemId >= NAVDRAWER_ICON_RES_ID.length) {
             return view;
         }
+        if (itemId == Const.NavdrawerSection.SETTINGS && !Const.SUPPORTS_ICS) {
+            // Skip settings for non-ICS devices
+            view.setVisibility(View.GONE);
+            return view;
+        }
 
         final ImageView iconView = (ImageView) view.findViewById(R.id.icon);
         final TextView titleView = (TextView) view.findViewById(R.id.title);
