@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Park Catcher Montréal
     Find a free parking in the nearest residential street when driving in
     Montréal. A Montréal Open Data project.
@@ -25,9 +24,9 @@
     android:id="@+id/root"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:layout_gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:gravity="center"
+    android:orientation="vertical">
 
     <TextView
         style="@style/NoConnectionTitle"
@@ -36,10 +35,10 @@
         android:text="@string/map_no_connection" />
 
     <Button
+        android:id="@+id/btn_retry_connection"
         style="@style/DrawerButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/map_retry_btn" 
-        android:onClick="retryConnection"/>
+        android:text="@string/map_retry_btn" />
 
 </LinearLayout>

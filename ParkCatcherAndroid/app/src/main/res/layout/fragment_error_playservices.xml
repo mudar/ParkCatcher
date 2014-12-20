@@ -40,7 +40,6 @@
             android:src="@drawable/logo_about" />
 
         <fragment
-            android:id="@+id/map"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/padding_normal"
