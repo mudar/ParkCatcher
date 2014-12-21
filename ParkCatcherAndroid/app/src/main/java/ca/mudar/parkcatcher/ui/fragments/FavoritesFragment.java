@@ -60,7 +60,7 @@ public class FavoritesFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mView = inflater.inflate(R.layout.fragment_list_favorites, null);
+        mView = inflater.inflate(R.layout.fragment_list_favorites, container, false);
 
         ListView mListView = (ListView) mView.findViewById(android.R.id.list);
 
