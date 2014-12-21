@@ -23,7 +23,6 @@
 
 package ca.mudar.parkcatcher.ui.adapters;
 
-import android.app.Activity;
 import android.text.SpannableString;
 import android.view.View;
 import android.widget.TextView;
@@ -33,13 +32,13 @@ import com.google.android.gms.maps.model.Marker;
 
 import ca.mudar.parkcatcher.R;
 
-public class MyInfoWindowAdapter implements InfoWindowAdapter {
+public class ParkingInfoWindowAdapter implements InfoWindowAdapter {
 
-    private final View mView;
+    private final View view;
 
-    public MyInfoWindowAdapter(Activity activity) {
+    public ParkingInfoWindowAdapter(View view) {
 
-        mView = activity.getLayoutInflater().inflate(R.layout.custom_info_window, null);
+        this.view = view;
     }
 
     /**
@@ -51,9 +50,9 @@ public class MyInfoWindowAdapter implements InfoWindowAdapter {
 
         String title = marker.getTitle();
         final String snippet = marker.getSnippet();
-        final TextView titleUi = (TextView) mView.findViewById(R.id.title);
-        final View subtitleUi = mView.findViewById(R.id.subtitle);
-        final TextView snippetUi = ((TextView) mView.findViewById(R.id.snippet));
+        final TextView titleUi = (TextView) view.findViewById(R.id.title);
+        final View subtitleUi = view.findViewById(R.id.subtitle);
+        final TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
 
         /**
          * TWEAK: to enable use of the OnInfoWindowClickListener, the title
@@ -88,7 +87,7 @@ public class MyInfoWindowAdapter implements InfoWindowAdapter {
             final SpannableString snippetText = new SpannableString(snippet);
             snippetUi.setText(snippetText);
         }
-        return mView;
+        return view;
     }
 
     @Override
