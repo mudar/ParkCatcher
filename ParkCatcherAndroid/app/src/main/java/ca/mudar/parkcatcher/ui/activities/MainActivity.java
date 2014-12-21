@@ -36,6 +36,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -51,17 +53,18 @@ import ca.mudar.parkcatcher.ui.fragments.MapErrorFragment;
 import ca.mudar.parkcatcher.ui.views.SlidingUpCalendar;
 import ca.mudar.parkcatcher.utils.ConnectionHelper;
 import ca.mudar.parkcatcher.utils.EulaHelper;
+import ca.mudar.parkcatcher.utils.LocationHelper;
 
 public class MainActivity extends NavdrawerActivity implements
-        MainMapFragment.OnMyLocationChangedListener {
+        MainMapFragment.OnMyLocationChangedListener,
+        GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = "MainActivity";
-
-    ParkingApp parkingApp;
+    GoogleApiClient mGoogleApiClient;
+    private ParkingApp parkingApp;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private SlidingUpCalendar mSlidingUpCalendar;
     private MainMapFragment mMainMapFragment;
-    private Location initLocation;
-    private boolean isCenterOnMyLocation = true;
     private boolean isPlayservicesOutdated = true;
 
     @Override
@@ -88,7 +91,6 @@ public class MainActivity extends NavdrawerActivity implements
             /**
              * Special error case when EULA not accepted and internet connection is unavailable.
              */
-            isCenterOnMyLocation = false;
             hideSlidingUpCalendar();
 
             final Fragment fragment = MapErrorFragment.newInstance(startupStatus);
@@ -99,6 +101,8 @@ public class MainActivity extends NavdrawerActivity implements
             // Stop here!
             return;
         }
+
+        connectGoogleApiClient();
 
         if (savedInstanceState == null) {
             mMainMapFragment = new MainMapFragment();
@@ -116,19 +120,7 @@ public class MainActivity extends NavdrawerActivity implements
                 .findFragmentByTag(Const.FragmentTags.SLIDING_UP_CALENDAR);
         calendarFilterFragment.setTargetFragment(mMainMapFragment, Const.RequestCodes.MAP);
 
-        initLocation = getLocationFromIntent(getIntent());
-
-        if (initLocation == null) {
-            isCenterOnMyLocation = true;
-
-            // Initialize the displayed values. This is not done when
-            // MainActivity is called from Details activity, to keep the same
-            // Calendar.
-            parkingApp.resetParkingCalendar();
-        } else {
-            // Map will be centred on initLocation instead
-            isCenterOnMyLocation = false;
-        }
+        setInitialMapCenter(LocationHelper.getLocationFromIntent(getIntent()));
     }
 
     @Override
@@ -151,29 +143,18 @@ public class MainActivity extends NavdrawerActivity implements
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
             updateParkingTimeFromUri(intent.getData());
         }
-
-        if (initLocation != null || isCenterOnMyLocation) {
-            try {
-                mMainMapFragment.setMapCenter(initLocation);
-                isCenterOnMyLocation = false;
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        initLocation = null;
-        isCenterOnMyLocation = false;
+    public void onDestroy() {
+        super.onDestroy();
+
+        disconnectGoogleApiClient();
     }
 
     @Override
     public void onNewIntent(Intent intent) {
-        initLocation = getLocationFromIntent(intent);
-
-        isCenterOnMyLocation = (initLocation == null);
+        setInitialMapCenter(LocationHelper.getLocationFromIntent(intent));
     }
 
     @Override
@@ -181,8 +162,7 @@ public class MainActivity extends NavdrawerActivity implements
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == Const.RequestCodes.EULA) {
-            boolean hasAcceptedEula = EulaHelper.acceptEula(resultCode, this);
-            if (!hasAcceptedEula) {
+            if (!EulaHelper.acceptEula(resultCode, this)) {
                 this.finish();
             }
         }
@@ -209,6 +189,37 @@ public class MainActivity extends NavdrawerActivity implements
         }
 
         return super.onKeyUp(keyCode, event);
+    }
+
+    /**
+     * GoogleApiClient implementation
+     *
+     * @param bundle
+     */
+    @Override
+    public void onConnected(Bundle bundle) {
+        final Location lastKnownLocation = LocationServices.FusedLocationApi
+                .getLastLocation(mGoogleApiClient);
+
+        parkingApp.setLocation(lastKnownLocation);
+    }
+
+    /**
+     * GoogleApiClient implementation
+     *
+     * @param i
+     */
+    @Override
+    public void onConnectionSuspended(int i) {
+    }
+
+    /**
+     * GoogleApiClient implementation
+     *
+     * @param connectionResult
+     */
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
     }
 
     /**
@@ -314,21 +325,33 @@ public class MainActivity extends NavdrawerActivity implements
         }
     }
 
-    private Location getLocationFromIntent(Intent intent) {
-        Location location = null;
+    private synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
 
-        final double latitude = intent.getDoubleExtra(Const.INTENT_EXTRA_GEO_LAT, Double.MIN_VALUE);
-        final double longitude = intent.getDoubleExtra(Const.INTENT_EXTRA_GEO_LNG, Double.MIN_VALUE);
-
-        if (Double.compare(latitude, Double.MIN_VALUE) != 0
-                && Double.compare(latitude, Double.MIN_VALUE) != 0) {
-            location = new Location(Const.LOCATION_PROVIDER_INTENT);
-
-            location.setLatitude(latitude);
-            location.setLongitude(longitude);
+    private void connectGoogleApiClient() {
+        if (mGoogleApiClient == null) {
+            buildGoogleApiClient();
         }
+        if (mGoogleApiClient != null && !(mGoogleApiClient.isConnected() || mGoogleApiClient.isConnecting())) {
+            mGoogleApiClient.connect();
+        }
+    }
 
-        return location;
+    private void disconnectGoogleApiClient() {
+        if (mGoogleApiClient != null && (mGoogleApiClient.isConnected() || mGoogleApiClient.isConnecting())) {
+            mGoogleApiClient.disconnect();
+        }
+    }
+
+    private void setInitialMapCenter(Location location) {
+        if (mMainMapFragment != null && location != null) {
+            mMainMapFragment.setMapCenter(location);
+        }
     }
 
     @Deprecated
@@ -367,4 +390,5 @@ public class MainActivity extends NavdrawerActivity implements
             }
         }
     }
+
 }
