@@ -120,28 +120,18 @@ public class MainActivity extends NavdrawerActivity implements
                 .findFragmentByTag(Const.FragmentTags.SLIDING_UP_CALENDAR);
         calendarFilterFragment.setTargetFragment(mMainMapFragment, Const.RequestCodes.MAP);
 
-        setInitialMapCenter(LocationHelper.getLocationFromIntent(getIntent()));
+        handleIntent(getIntent());
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        // Check Playservices status
         if (isPlayservicesOutdated) {
+            // Re-check Playservices status
             handlePlayservicesError();
-            // Stop here!
-            return;
-        }
-
-        if (!ConnectionHelper.hasConnection(this)) {
+        } else if (!ConnectionHelper.hasConnection(this)) {
             ConnectionHelper.showDialogNoConnection(this);
-        }
-
-        // TODO Optimize this using savedInstanceState to avoid reloading identical data
-        final Intent intent = getIntent();
-        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-            updateParkingTimeFromUri(intent.getData());
         }
     }
 
@@ -154,7 +144,7 @@ public class MainActivity extends NavdrawerActivity implements
 
     @Override
     public void onNewIntent(Intent intent) {
-        setInitialMapCenter(LocationHelper.getLocationFromIntent(intent));
+        handleIntent(intent);
     }
 
     @Override
@@ -357,6 +347,17 @@ public class MainActivity extends NavdrawerActivity implements
     @Deprecated
     private void disableLocationUpdates() {
         Log.e(TAG, "disableLocationUpdates");
+    }
+
+    private void handleIntent(Intent intent) {
+        if (intent == null) {
+            return;
+        }
+
+        setInitialMapCenter(LocationHelper.getLocationFromIntent(intent));
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            updateParkingTimeFromUri(intent.getData());
+        }
     }
 
     private void updateParkingTimeFromUri(Uri uri) {
