@@ -49,6 +49,7 @@ public class ParkingApp extends Application {
 
     private String mUnits;
     private String mLanguage;
+    private String mLastToast;
     private Toast mToast;
     private boolean mHasLoadedData;
     private boolean mHasViewedTutorial;
@@ -104,19 +105,32 @@ public class ParkingApp extends Application {
     }
 
     public void showToastText(int res, int duration) {
+        mLastToast = getResources().getString(res);
+
         mToast.setText(res);
         mToast.setDuration(duration);
         mToast.show();
     }
 
     public void showToastText(String msg, int duration) {
+        mLastToast = msg;
         mToast.setText(msg);
         mToast.setDuration(duration);
         mToast.show();
     }
 
     public void hideToastText() {
-        mToast.hashCode();
+        hideToastText(null);
+    }
+
+    public void hideToastText(int res) {
+        hideToastText(getResources().getString(res));
+    }
+
+    public void hideToastText(String msg) {
+        if (msg == null || msg.equals(mLastToast)) {
+            mToast.cancel();
+        }
     }
 
     /**
@@ -133,7 +147,7 @@ public class ParkingApp extends Application {
         prefsEditor.putFloat(PrefsNames.LAST_UPDATE_LAT, Float.NaN);
         prefsEditor.putFloat(PrefsNames.LAST_UPDATE_LNG, Float.NaN);
         prefsEditor.putLong(PrefsNames.LAST_UPDATE_TIME_GEO, System.currentTimeMillis());
-        prefsEditor.commit();
+        prefsEditor.apply();
     }
 
     public Location getLocation() {
@@ -202,7 +216,7 @@ public class ParkingApp extends Application {
     public void setHasLoadedData(boolean hasLoadedData) {
         this.mHasLoadedData = hasLoadedData;
         Editor prefsEditor = prefs.edit();
-        prefsEditor.putBoolean(PrefsNames.HAS_LOADED_DATA, mHasLoadedData).commit();
+        prefsEditor.putBoolean(PrefsNames.HAS_LOADED_DATA, mHasLoadedData).apply();
     }
     
 
@@ -213,7 +227,7 @@ public class ParkingApp extends Application {
     public void setHasViewedTutorial(boolean hasViewedTutorial) {
         this.mHasViewedTutorial = hasViewedTutorial;
         Editor prefsEditor = prefs.edit();
-        prefsEditor.putBoolean(PrefsNames.HAS_VIEWED_TUTORIAL, mHasViewedTutorial).commit();
+        prefsEditor.putBoolean(PrefsNames.HAS_VIEWED_TUTORIAL, mHasViewedTutorial).apply();
     }
 
     public GregorianCalendar getParkingCalendar() {
