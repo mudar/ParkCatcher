@@ -23,32 +23,32 @@
 
 package ca.mudar.parkcatcher.utils;
 
-import android.os.Handler;
-import android.os.Message;
+import android.net.Uri;
 
-import java.lang.ref.WeakReference;
+import java.util.List;
 
-public class SearchMessageHandler extends Handler {
+import ca.mudar.parkcatcher.Const;
 
-    private final WeakReference<SearchHandlerCallbacks> mListener;
+public class WebsiteUriHelper {
 
-    /**
-     * Caller must implement this interface to receive the handler's message
-     */
-    public interface SearchHandlerCallbacks {
-        public void onSearchResults(Message msg);
-    }
+    public static String getAddressFromUri(Uri uri) {
+        String address = null;
 
-    public SearchMessageHandler(SearchHandlerCallbacks target) {
-        mListener = new WeakReference<SearchHandlerCallbacks>(target);
-    }
+        List<String> pathSegments = uri.getPathSegments();
 
-    @Override
-    public void handleMessage(Message msg)
-    {
-        SearchHandlerCallbacks target = mListener.get();
-        if (target != null) {
-            target.onSearchResults(msg);
+        // http://www.capteurdestationnement.com/map/search/2/15.5/12/h2w2e7
+
+        if ((pathSegments.size() == 6)
+                && (pathSegments.get(0).equals(Const.INTENT_EXTRA_URL_PATH_MAP))
+                && (pathSegments.get(1).equals(Const.INTENT_EXTRA_URL_PATH_SEARCH))) {
+
+            try {
+                address = pathSegments.get(5);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
         }
+
+        return address;
     }
 }

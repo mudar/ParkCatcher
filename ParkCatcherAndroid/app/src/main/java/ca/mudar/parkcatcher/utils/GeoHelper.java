@@ -44,9 +44,9 @@ public class GeoHelper {
         Geocoder geocoder = new Geocoder(c);
         List<Address> adr;
 
-        adr = geocoder.getFromLocationName(name, MAX_RESULTS, Const.MAPS_GEOCODER_LIMITS[0],
-                Const.MAPS_GEOCODER_LIMITS[1], Const.MAPS_GEOCODER_LIMITS[2],
-                Const.MAPS_GEOCODER_LIMITS[3]);
+        adr = geocoder.getFromLocationName(name, MAX_RESULTS, Const.MONTREAL_GEOCODER_LIMITS[0],
+                Const.MONTREAL_GEOCODER_LIMITS[1], Const.MONTREAL_GEOCODER_LIMITS[2],
+                Const.MONTREAL_GEOCODER_LIMITS[3]);
 
         if (!adr.isEmpty()) {
             final int nbAdresses = adr.size();
@@ -55,13 +55,13 @@ public class GeoHelper {
                 Address address = adr.get(i);
 
                 if (address.hasLatitude() && address.hasLongitude()) {
-                    if (Double.compare(address.getLatitude(), Const.MAPS_GEOCODER_LIMITS[0]) >= 0
+                    if (Double.compare(address.getLatitude(), Const.MONTREAL_GEOCODER_LIMITS[0]) >= 0
                             &&
-                            Double.compare(address.getLongitude(), Const.MAPS_GEOCODER_LIMITS[1]) >= 0
+                            Double.compare(address.getLongitude(), Const.MONTREAL_GEOCODER_LIMITS[1]) >= 0
                             &&
-                            Double.compare(address.getLatitude(), Const.MAPS_GEOCODER_LIMITS[2]) <= 0
+                            Double.compare(address.getLatitude(), Const.MONTREAL_GEOCODER_LIMITS[2]) <= 0
                             &&
-                            Double.compare(address.getLongitude(), Const.MAPS_GEOCODER_LIMITS[3]) <= 0) {
+                            Double.compare(address.getLongitude(), Const.MONTREAL_GEOCODER_LIMITS[3]) <= 0) {
 
                         return address;
                     }

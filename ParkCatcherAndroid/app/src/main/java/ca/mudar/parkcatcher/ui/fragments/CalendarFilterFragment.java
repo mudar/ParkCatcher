@@ -56,7 +56,7 @@ public class CalendarFilterFragment extends Fragment implements
     private Button vBtnDay;
     private Button vBtnStart;
     private Button vBtnDuration;
-    private OnCalendarFilterChangedListener mListener;
+    private CalendarFilterUpdatedListener mListener;
 
     /**
      * Attach a listener.
@@ -65,8 +65,8 @@ public class CalendarFilterFragment extends Fragment implements
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        if (activity instanceof OnCalendarFilterChangedListener) {
-            mListener = (OnCalendarFilterChangedListener) activity;
+        if (activity instanceof CalendarFilterUpdatedListener) {
+            mListener = (CalendarFilterUpdatedListener) activity;
         }
     }
 
@@ -75,10 +75,10 @@ public class CalendarFilterFragment extends Fragment implements
         super.setTargetFragment(fragment, requestCode);
         if (mListener == null) {
             try {
-                mListener = (OnCalendarFilterChangedListener) fragment;
+                mListener = (CalendarFilterUpdatedListener) fragment;
             } catch (ClassCastException e) {
                 throw new ClassCastException(fragment.toString()
-                        + " must implement OnCalendarFilterChangedListener");
+                        + " must implement CalendarFilterUpdatedListener");
             }
         }
     }
@@ -125,7 +125,7 @@ public class CalendarFilterFragment extends Fragment implements
 
         // Update listener
         if (mListener != null) {
-            mListener.updateCalendarFilter(parkingApp.getParkingCalendar(), duration);
+            mListener.onCalendarFilterChanged(parkingApp.getParkingCalendar(), duration);
         }
     }
 
@@ -139,7 +139,7 @@ public class CalendarFilterFragment extends Fragment implements
 
         // Update listener
         if (mListener != null) {
-            mListener.updateCalendarFilter(calendar, parkingApp.getParkingDuration());
+            mListener.onCalendarFilterChanged(calendar, parkingApp.getParkingDuration());
         }
     }
 
@@ -153,7 +153,7 @@ public class CalendarFilterFragment extends Fragment implements
 
         // Update listener
         if (mListener != null) {
-            mListener.updateCalendarFilter(calendar, parkingApp.getParkingDuration());
+            mListener.onCalendarFilterChanged(calendar, parkingApp.getParkingDuration());
         }
     }
 
@@ -182,8 +182,8 @@ public class CalendarFilterFragment extends Fragment implements
         vBtnDuration.setText(ParkingTimeHelper.getDuration(mContext, duration));
     }
 
-    public interface OnCalendarFilterChangedListener {
-        public void updateCalendarFilter(GregorianCalendar calendar, int duration);
+    public interface CalendarFilterUpdatedListener {
+        public void onCalendarFilterChanged(GregorianCalendar calendar, int duration);
     }
 
 }

@@ -19,6 +19,8 @@ package ca.mudar.parkcatcher.utils;
 import android.content.Intent;
 import android.location.Location;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import ca.mudar.parkcatcher.Const;
 
 public class LocationHelper {
@@ -39,4 +41,43 @@ public class LocationHelper {
 
         return location;
     }
+
+    public static Location createSearchLocation(double latitude, double longitude) {
+
+        return createLocation(Const.LOCATION_PROVIDER_SEARCH, latitude, longitude);
+    }
+
+    public static Location createDefaultLocation() {
+
+        return createLocation(Const.LOCATION_PROVIDER_DEFAULT,
+                Const.MONTREAL_GEO_LAT_LNG.latitude,
+                Const.MONTREAL_GEO_LAT_LNG.longitude);
+    }
+
+    public static boolean isLocationNearMontreal(Location location) {
+        if (location != null) {
+            final Location cityCenter = createDefaultLocation();
+
+            return cityCenter.distanceTo(location) < Const.MAPS_MIN_DISTANCE;
+        }
+
+        return false;
+    }
+
+    public static Location createLocation(String provider, double latitude, double longitude) {
+        final Location location = new Location(Const.LOCATION_PROVIDER_SEARCH);
+        location.setLatitude(latitude);
+        location.setLongitude(longitude);
+
+        return location;
+    }
+
+    public static LatLng getLocationLatLng(Location location) {
+        if (location != null) {
+            return new LatLng(location.getLatitude(), location.getLongitude());
+        }
+
+        return null;
+    }
+
 }

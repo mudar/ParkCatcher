@@ -69,7 +69,7 @@ import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 import ca.mudar.parkcatcher.utils.SearchMessageHandler;
 
 public class DetailsFragment extends Fragment implements LoaderCallbacks<Cursor>,
-        SearchMessageHandler.OnMessageHandledListener,
+        SearchMessageHandler.SearchHandlerCallbacks,
         NotifyingAsyncQueryHandler.AsyncQueryListener,
         Runnable {
     private static final String TAG = "DetailsFragment";
@@ -418,7 +418,7 @@ public class DetailsFragment extends Fragment implements LoaderCallbacks<Cursor>
      * Implementation of SearchMessageHandler.OnMessageHandledListener
      */
     @Override
-    public void OnMessageHandled(Message msg) {
+    public void onSearchResults(Message msg) {
         final Bundle b = msg.getData();
 
         mView.findViewById(R.id.details_progress_address).setVisibility(View.GONE);

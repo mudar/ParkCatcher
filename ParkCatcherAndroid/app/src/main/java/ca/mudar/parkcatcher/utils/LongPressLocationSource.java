@@ -71,13 +71,11 @@ public class LongPressLocationSource implements
         }
     }
 
-    public void onPause() {
-        mEnabled = false;
-        googleMap.setLocationSource(null);
-    }
-
-    public void onResume() {
-        mEnabled = true;
+    public void setEnabled(boolean enabled) {
+        mEnabled = enabled;
+        if (!enabled) {
+            googleMap.setLocationSource(null);
+        }
     }
 
 }

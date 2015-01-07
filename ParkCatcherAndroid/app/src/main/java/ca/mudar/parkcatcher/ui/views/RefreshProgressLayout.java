@@ -21,34 +21,39 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ca.mudar.parkcatcher.utils;
+package ca.mudar.parkcatcher.ui.views;
 
-import android.os.Handler;
-import android.os.Message;
+import android.content.Context;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
 
-import java.lang.ref.WeakReference;
+import ca.mudar.parkcatcher.R;
 
-public class SearchMessageHandler extends Handler {
+public class RefreshProgressLayout extends SwipeRefreshLayout {
 
-    private final WeakReference<SearchHandlerCallbacks> mListener;
-
-    /**
-     * Caller must implement this interface to receive the handler's message
-     */
-    public interface SearchHandlerCallbacks {
-        public void onSearchResults(Message msg);
+    public RefreshProgressLayout(Context context) {
+        this(context, null);
     }
 
-    public SearchMessageHandler(SearchHandlerCallbacks target) {
-        mListener = new WeakReference<SearchHandlerCallbacks>(target);
+    public RefreshProgressLayout(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setColorSchemeResources(R.color.refresh_color_1, R.color.refresh_color_2, R.color.refresh_color_1, R.color.refresh_color_2);
     }
 
     @Override
-    public void handleMessage(Message msg)
-    {
-        SearchHandlerCallbacks target = mListener.get();
-        if (target != null) {
-            target.onSearchResults(msg);
-        }
+    public boolean canChildScrollUp() {
+        return true;
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        return false;
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        return true;
     }
 }

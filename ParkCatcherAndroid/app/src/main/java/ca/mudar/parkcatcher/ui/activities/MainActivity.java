@@ -29,7 +29,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -50,19 +49,21 @@ import ca.mudar.parkcatcher.service.SyncService;
 import ca.mudar.parkcatcher.ui.activities.base.NavdrawerActivity;
 import ca.mudar.parkcatcher.ui.fragments.MainMapFragment;
 import ca.mudar.parkcatcher.ui.fragments.MapErrorFragment;
+import ca.mudar.parkcatcher.ui.views.RefreshProgressLayout;
 import ca.mudar.parkcatcher.ui.views.SlidingUpCalendar;
 import ca.mudar.parkcatcher.utils.ConnectionHelper;
 import ca.mudar.parkcatcher.utils.EulaHelper;
 import ca.mudar.parkcatcher.utils.LocationHelper;
+import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 
 public class MainActivity extends NavdrawerActivity implements
-        MainMapFragment.OnMyLocationChangedListener,
+        MainMapFragment.MapEventsListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = "MainActivity";
     GoogleApiClient mGoogleApiClient;
     private ParkingApp parkingApp;
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private RefreshProgressLayout mRefreshProgressLayout;
     private SlidingUpCalendar mSlidingUpCalendar;
     private MainMapFragment mMainMapFragment;
     private boolean isPlayservicesOutdated = true;
@@ -82,10 +83,7 @@ public class MainActivity extends NavdrawerActivity implements
 
         // Initialize views
         mSlidingUpCalendar = (SlidingUpCalendar) findViewById(R.id.sliding_layout);
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setEnabled(false);
-        }
+        mRefreshProgressLayout = (RefreshProgressLayout) findViewById(R.id.swipe_refresh);
 
         if (startupStatus != Const.StartupStatus.OK) {
             /**
@@ -174,8 +172,10 @@ public class MainActivity extends NavdrawerActivity implements
      */
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_SEARCH) {
-            expandMapSearchView();
+        if (keyCode == KeyEvent.KEYCODE_MENU) {
+            toggleMapSearchView(false);
+        } else if (keyCode == KeyEvent.KEYCODE_SEARCH) {
+            toggleMapSearchView(true);
         }
 
         return super.onKeyUp(keyCode, event);
@@ -226,7 +226,7 @@ public class MainActivity extends NavdrawerActivity implements
      * MainMapFragment implementation
      */
     @Override
-    public void onSearchClickListener() {
+    public void onMapSearchClick() {
         collapseSlidingUpCalendar();
     }
 
@@ -234,13 +234,13 @@ public class MainActivity extends NavdrawerActivity implements
      * MainMapFragment implementation
      */
     @Override
-    public void onCameraChangeListener(boolean isLoading) {
-        toggleProgressBar(isLoading);
+    public void onMapDataProcessing(boolean isProcessing) {
+        toggleProgressBar(isProcessing);
     }
 
     private void toggleProgressBar(boolean isLoading) {
-        if (mSwipeRefreshLayout != null) {
-            mSwipeRefreshLayout.setRefreshing(isLoading);
+        if (mRefreshProgressLayout != null) {
+            mRefreshProgressLayout.setRefreshing(isLoading);
         }
     }
 
@@ -256,9 +256,9 @@ public class MainActivity extends NavdrawerActivity implements
         }
     }
 
-    private void expandMapSearchView() {
+    private void toggleMapSearchView(boolean expanded) {
         if (mMainMapFragment != null) {
-            mMainMapFragment.toggleSearchView(true);
+            mMainMapFragment.toggleSearchView(expanded);
         }
     }
 
@@ -340,7 +340,7 @@ public class MainActivity extends NavdrawerActivity implements
 
     private void setInitialMapCenter(Location location) {
         if (mMainMapFragment != null && location != null) {
-            mMainMapFragment.setMapCenter(location);
+            mMainMapFragment.setInitialMapCenter(location);
         }
     }
 
