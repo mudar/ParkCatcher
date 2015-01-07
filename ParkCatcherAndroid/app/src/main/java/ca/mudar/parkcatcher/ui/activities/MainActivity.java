@@ -371,16 +371,16 @@ public class MainActivity extends NavdrawerActivity implements
                 && (pathSegments.get(1).equals(Const.INTENT_EXTRA_URL_PATH_SEARCH))) {
 
             try {
-                final int day = Integer.valueOf(pathSegments.get(2));
-                final double time = Double.valueOf(pathSegments.get(3));
+                final int dayOfWeekIso = Integer.valueOf(pathSegments.get(2));
+                final double clockTime = Double.valueOf(pathSegments.get(3));
                 final int duration = Integer.valueOf(pathSegments.get(4));
 
-                final int hourOfDay = (int) time;
-                final int minute = (int) ((time - hourOfDay) * 60);
+                final int hourOfDay = ParkingTimeHelper.getHoursFromClockTime(clockTime);
+                final int minute = ParkingTimeHelper.getMintuesFromClockTime(clockTime);
 
                 GregorianCalendar calendar = new GregorianCalendar();
 
-                calendar.set(Calendar.DAY_OF_WEEK, day == 7 ? Calendar.SUNDAY : day + 1);
+                calendar.set(Calendar.DAY_OF_WEEK, ParkingTimeHelper.getDayOfWeek(dayOfWeekIso));
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
 

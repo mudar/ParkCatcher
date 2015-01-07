@@ -292,10 +292,8 @@ public class DetailsFragment extends Fragment implements LoaderCallbacks<Cursor>
 
             final GregorianCalendar parkingCalendar = parkingApp.getParkingCalendar();
 
-            final int dayOfWeek = (parkingCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? 7
-                    : parkingCalendar.get(Calendar.DAY_OF_WEEK) - 1);
-            final double parkingHour = parkingCalendar.get(Calendar.HOUR_OF_DAY)
-                    + Math.round(parkingCalendar.get(Calendar.MINUTE) / 0.6) / 100.00d;
+            final int dayOfWeek = ParkingTimeHelper.getIsoDayOfWeek(parkingCalendar);
+            final double parkingHour = ParkingTimeHelper.getHourRounded(parkingCalendar);
 
             // final int duration = parkingApp.getParkingDuration();
 
@@ -330,15 +328,10 @@ public class DetailsFragment extends Fragment implements LoaderCallbacks<Cursor>
 
         final GregorianCalendar parkingCalendar = parkingApp.getParkingCalendar();
 
-        final int dayOfWeek = (parkingCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? 7
-                : parkingCalendar.get(Calendar.DAY_OF_WEEK) - 1);
-        final double parkingHour = parkingCalendar.get(Calendar.HOUR_OF_DAY)
-                + Math.round(parkingCalendar.get(Calendar.MINUTE) / 0.6) / 100.00d;
-
-        final double hourOfWeek = parkingHour + (dayOfWeek - 1) * 24;
+        final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(parkingCalendar);
 
         // API uses values 0-365 (or 364)
-        final int dayOfYear = parkingCalendar.get(Calendar.DAY_OF_YEAR) - 1;
+        final int dayOfYear = ParkingTimeHelper.getIsoDayOfYear(parkingCalendar);
 
         final int duration = parkingApp.getParkingDuration();
 
@@ -553,16 +546,16 @@ public class DetailsFragment extends Fragment implements LoaderCallbacks<Cursor>
 
             try {
                 postId = Integer.parseInt(pathSegments.get(1));
-                final int day = Integer.valueOf(pathSegments.get(2));
-                final double time = Double.valueOf(pathSegments.get(3));
+                final int dayOfWeekIso = Integer.valueOf(pathSegments.get(2));
+                final double clockTime = Double.valueOf(pathSegments.get(3));
                 final int duration = Integer.valueOf(pathSegments.get(4));
 
-                final int hourOfDay = (int) time;
-                final int minute = (int) ((time - hourOfDay) * 60);
+                final int hourOfDay = ParkingTimeHelper.getHoursFromClockTime(clockTime);
+                final int minute = ParkingTimeHelper.getMintuesFromClockTime(clockTime);
 
                 GregorianCalendar calendar = new GregorianCalendar();
 
-                calendar.set(Calendar.DAY_OF_WEEK, day == 7 ? Calendar.SUNDAY : day + 1);
+                calendar.set(Calendar.DAY_OF_WEEK, ParkingTimeHelper.getDayOfWeek(dayOfWeekIso));
                 calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 calendar.set(Calendar.MINUTE, minute);
 

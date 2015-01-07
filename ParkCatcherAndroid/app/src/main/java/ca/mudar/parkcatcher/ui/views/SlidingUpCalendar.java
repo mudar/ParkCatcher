@@ -25,7 +25,6 @@ package ca.mudar.parkcatcher.ui.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
@@ -41,9 +40,7 @@ import android.widget.TextView;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.ParkingApp;
@@ -263,38 +260,6 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
 
         ((Button) findViewById(R.id.btn_duration)).setText(ParkingTimeHelper.getDuration(context,
                 duration));
-    }
-
-    public void updateParkingTimeFromUri(Uri uri) {
-        List<String> pathSegments = uri.getPathSegments();
-
-        // http://www.capteurdestationnement.com/map/search/2/15.5/12
-        // http://www.capteurdestationnement.com/map/search/2/15.5/12/h2w2e7
-
-        if ((pathSegments.size() >= 5)
-                && (pathSegments.get(0).equals(Const.INTENT_EXTRA_URL_PATH_MAP))
-                && (pathSegments.get(1).equals(Const.INTENT_EXTRA_URL_PATH_SEARCH))) {
-
-            try {
-                final int day = Integer.valueOf(pathSegments.get(2));
-                final double time = Double.valueOf(pathSegments.get(3));
-                final int duration = Integer.valueOf(pathSegments.get(4));
-
-                final int hourOfDay = (int) time;
-                final int minute = (int) ((time - hourOfDay) * 60);
-
-                GregorianCalendar calendar = new GregorianCalendar();
-
-                calendar.set(Calendar.DAY_OF_WEEK, day == 7 ? Calendar.SUNDAY : day + 1);
-                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                calendar.set(Calendar.MINUTE, minute);
-
-                parkingApp.setParkingCalendar(calendar);
-                parkingApp.setParkingDuration(duration);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public void showDatePickerDialog(View v) {

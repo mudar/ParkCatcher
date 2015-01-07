@@ -36,7 +36,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import ca.mudar.parkcatcher.Const;
@@ -46,6 +45,7 @@ import ca.mudar.parkcatcher.model.Queries;
 import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
 import ca.mudar.parkcatcher.ui.activities.DetailsActivity;
 import ca.mudar.parkcatcher.ui.adapters.PostsCursorAdapter;
+import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 
 public class FavoritesFragment extends Fragment implements
         LoaderCallbacks<Cursor>,
@@ -157,14 +157,10 @@ public class FavoritesFragment extends Fragment implements
 
         final GregorianCalendar parkingCalendar = parkingApp.getParkingCalendar();
 
-        final int dayOfWeek = (parkingCalendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? 7
-                : parkingCalendar.get(Calendar.DAY_OF_WEEK) - 1);
-        final double parkingHour = parkingCalendar.get(Calendar.HOUR_OF_DAY)
-                + Math.round(parkingCalendar.get(Calendar.MINUTE) / 0.6) / 100.00d;
-        final double hourOfWeek = parkingHour + (dayOfWeek - 1) * 24;
+        final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(parkingCalendar);
 
         // API uses values 0-365 (or 364)
-        final int dayOfYear = parkingCalendar.get(Calendar.DAY_OF_YEAR) - 1;
+        final int dayOfYear = ParkingTimeHelper.getIsoDayOfYear(parkingCalendar);
 
         final int duration = parkingApp.getParkingDuration();
 
