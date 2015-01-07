@@ -48,7 +48,7 @@ import ca.mudar.parkcatcher.provider.ParkingContract;
 import ca.mudar.parkcatcher.provider.ParkingContract.SyncColumns;
 
 /**
- * Various utility methods used by {@link XmlHandler} implementations.
+ * Various utility methods used by JsonHandler implementations.
  */
 public class ParserUtils {
     protected static final String TAG = "ParserUtils";
@@ -94,10 +94,8 @@ public class ParserUtils {
     }
 
     /**
-     * @author Andrew Pearson {@link http
-     *         ://blog.andrewpearson.org/2010/07/android
-     *         -why-to-use-json-and-how-to-use.html}
-     * @param archiveQuery URL of JSON resources
+     * @author Andrew Pearson @link http://blog.andrewpearson.org/2010/07/android-why-to-use-json-and-how-to-use.html}
+     * @param input URL of JSON resources
      * @return String Raw content, requires use of JSONArray() and
      *         getJSONObject()
      * @throws IOException

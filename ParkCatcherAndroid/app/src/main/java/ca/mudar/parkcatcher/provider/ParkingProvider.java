@@ -636,7 +636,7 @@ public class ParkingProvider extends ContentProvider {
     }
 
     /**
-     * {@link ScheduleContract} fields that are fully qualified with a specific
+     * {@link ParkingContract} fields that are fully qualified with a specific
      * parent {@link Tables}. Used when needed to work around SQL ambiguity.
      */
     private interface Qualified {
