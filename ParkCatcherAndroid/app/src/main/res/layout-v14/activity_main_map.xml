@@ -12,12 +12,10 @@
 
         <include layout="@layout/toolbar_actionbar_with_headerbar" />
 
-        <android.support.v4.widget.SwipeRefreshLayout
+        <ca.mudar.parkcatcher.ui.views.RefreshProgressLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="false"
-            android:focusableInTouchMode="false">
+            android:layout_height="match_parent">
 
             <ca.mudar.parkcatcher.ui.views.SlidingUpCalendar xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/sliding_layout"
@@ -44,7 +42,7 @@
 
             </ca.mudar.parkcatcher.ui.views.SlidingUpCalendar>
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+        </ca.mudar.parkcatcher.ui.views.RefreshProgressLayout>
 
     </LinearLayout>
 
