@@ -24,31 +24,29 @@
 package ca.mudar.parkcatcher.ui.fragments;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Point;
 import android.location.Address;
 import android.location.Location;
-import android.location.LocationManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
-import com.google.android.gms.maps.LocationSource.OnLocationChangedListener;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
@@ -59,7 +57,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.VisibleRegion;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -70,7 +67,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -83,67 +80,62 @@ import ca.mudar.parkcatcher.model.Post;
 import ca.mudar.parkcatcher.model.Queries;
 import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
 import ca.mudar.parkcatcher.ui.activities.DetailsActivity;
-import ca.mudar.parkcatcher.ui.adapters.MyInfoWindowAdapter;
+import ca.mudar.parkcatcher.ui.adapters.ParkingInfoWindowAdapter;
+import ca.mudar.parkcatcher.ui.listeners.SearchViewQueryListener;
 import ca.mudar.parkcatcher.utils.ConnectionHelper;
 import ca.mudar.parkcatcher.utils.GeoHelper;
+import ca.mudar.parkcatcher.utils.LocationHelper;
 import ca.mudar.parkcatcher.utils.LongPressLocationSource;
+import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 import ca.mudar.parkcatcher.utils.SearchMessageHandler;
+import ca.mudar.parkcatcher.utils.WebsiteUriHelper;
 
 import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
 
 public class MainMapFragment extends SupportMapFragment implements
-        CalendarFilterFragment.OnCalendarFilterChangedListener,
-        SearchView.OnQueryTextListener,
-        SearchMessageHandler.OnMessageHandledListener,
+        CalendarFilterFragment.CalendarFilterUpdatedListener,
+        SearchMessageHandler.SearchHandlerCallbacks,
         GoogleMap.OnMapClickListener,
         GoogleMap.OnMarkerClickListener,
         GoogleMap.OnInfoWindowClickListener,
-        Runnable {
+        SearchViewQueryListener.SearchViewListener,
+        GoogleMap.OnMyLocationChangeListener,
+        GoogleMap.OnMapLoadedCallback,
+        OnMapReadyCallback {
     protected static final String TAG = "MainMapFragment";
-
-    protected OnMyLocationChangedListener mListener;
-
-    protected static final int INDEX_OVERLAY_MY_LOCATION = 0x0;
-    protected static final int INDEX_OVERLAY_PLACEMARKS = 0x1;
-
-    // protected static final float ZOOM_DEFAULT = 12f;
+    protected static final float ZOOM_DEFAULT = 11f;
     private static final float ZOOM_NEAR = 17f;
     private static final float ZOOM_MIN = 16f;
-    private static final float HUE_MARKER = 94f;
+    private static final float HUE_MARKER = 94.0f;
     private static final float HUE_MARKER_STARRED = BitmapDescriptorFactory.HUE_YELLOW;
     private static final float DISTANCE_MARKER_HINT = 50f;
 
+    protected MapEventsListener mListener;
     private GoogleMap mMap;
     private LongPressLocationSource mLongPressLocationSource;
 
-    protected LocationManager mLocationManager;
-    private OnLocationChangedListener onLocationChangedListener;
+    private SearchViewQueryListener mSearchViewQueryListener;
+    private View viewMarkerInfoWindow;
 
-    private Location initLocation = null;
+    private int mScreenWidth = 0;
+    private int mScreenHeight = 0;
     private Location mMapCenter = null;
     private LatLng screenCenter = null;
     private Marker clickedMarker = null;
     private Marker searchedMarker = null;
-    private boolean hasHintMarker = true;
+    private boolean mIsLocationNearMontreal = false;
+    private Location mInitialLocation;
+    private boolean mIsMyLocationFound = false;
+    private boolean mIsMapLoaded = false;
+    private boolean mHasTriedInitialZoom = false;
 
-    ParkingApp parkingApp;
+    private ParkingApp parkingApp;
 
-    private Handler handler;
+    private SearchMessageHandler searchMessageHandler;
     private JsonAsyncTask jsonAsyncTask = null;
     private DbAsyncTask dbAsyncTask = null;
 
     private MenuItem searchItem;
-    private String postalCode;
-
-    /**
-     * Container Activity must implement this interface to receive the list item
-     * clicks.
-     */
-    public interface OnMyLocationChangedListener {
-        public void onSearchClickListener();
-
-        public void onCameraChangeListener(boolean isLoading);
-    }
 
     /**
      * Attach a listener.
@@ -152,10 +144,10 @@ public class MainMapFragment extends SupportMapFragment implements
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            mListener = (OnMyLocationChangedListener) activity;
+            mListener = (MapEventsListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement OnMyLocationChangedListener");
+                    + " must implement MapEventsListener");
         }
     }
 
@@ -165,50 +157,18 @@ public class MainMapFragment extends SupportMapFragment implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (handler == null) {
-            handler = new SearchMessageHandler(this);
-        }
 
         setRetainInstance(true);
     }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater,
-//                             ViewGroup view,
-//                             Bundle savedInstance) {
-//
-//        View layout = super.onCreateView(inflater, view, savedInstance);
-//        FrameLayout frameLayout = new FrameLayout(getActivity());
-//        frameLayout.setBackgroundColor(
-//                getResources().getColor(android.R.color.transparent));
-//        ((ViewGroup) layout).addView(frameLayout,
-//                new ViewGroup.LayoutParams(
-//                        RelativeLayout.LayoutParams.MATCH_PARENT,
-//                        RelativeLayout.LayoutParams.MATCH_PARENT
-//                )
-//        );
-//        return layout;
-//    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        super.onCreateView(inflater, container, savedInstanceState);
-//        View view = inflater.inflate(R.layout.fragment_map, container, false);
-//
-//        //
-//        activityHelper = ActivityHelper.createInstance(getActivity());
-//        parkingApp = (ParkingApp) getActivity().getApplicationContext();
-//        //
-//        setRetainInstance(true);
-//
-//        // mMap.set
-////        CameraUpdate tilted = new CameraUpdate();
-////
-////        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-//
-//        return view;
-//    }
+        viewMarkerInfoWindow = inflater.inflate(R.layout.custom_info_window, container, false);
+
+        return view;
+    }
 
     /**
      * Initialize map and LocationManager
@@ -217,39 +177,12 @@ public class MainMapFragment extends SupportMapFragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        setHasOptionsMenu(true);
-
         parkingApp = (ParkingApp) getActivity().getApplicationContext();
 
         setUpMapIfNeeded();
+        initializeSearchListeners();
 
-        // mMapView.setClickable(true);
-        // mMapView.setMultiTouchControls(true);
-
-        // mMapController = mMapView.getController();
-
-        mLocationManager = (LocationManager) getActivity().getApplicationContext()
-                .getSystemService(Context.LOCATION_SERVICE);
-
-        // CameraPosition cameraPos = mMap.getCameraPosition();
-        //
-        // final CameraPosition cameraPosFrom = new CameraPosition.Builder()
-        // .target(cameraPos.target)
-        // .zoom(cameraPos.zoom)
-        // .bearing(cameraPos.bearing)
-        // .tilt(45f)
-        // .build();
-        // final CameraPosition cameraPosTo = new CameraPosition.Builder()
-        // .target(cameraPos.target)
-        // .zoom(cameraPos.zoom)
-        // .bearing(cameraPos.bearing)
-        // .tilt(0)
-        // .build();
-        // Log.v(TAG, "onResume moveCamera animateCamera");
-        // mMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosFrom));
-        // mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosTo));
-
-        initMap();
+        setHasOptionsMenu(true);
     }
 
     /**
@@ -257,34 +190,12 @@ public class MainMapFragment extends SupportMapFragment implements
      */
     @Override
     public void onResume() {
-
-        // mLocationOverlay.enableMyLocation();
         super.onResume();
 
-        // TODO Optimize this using savedInstanceState to avoid reload of
-        // identical data onResume
-        if (ConnectionHelper.hasConnection(getActivity())) {
-            final Intent intent = getActivity().getIntent();
-            if (Intent.ACTION_VIEW.equals(intent.getAction())) {
-                final String query = getAddressFromUri(intent.getData());
-                if (query != null) {
-                    postalCode = query;
-                    showSearchProcessing();
-                }
-            }
+        handleIntent();
 
-        }
-
-        setUpMapIfNeeded();
-
-        if (mLongPressLocationSource != null) {
-            mLongPressLocationSource.onResume();
-        }
-
-        // if (mLocationSource != null) {
-        // mLocationSource.onResume();
-        // }
-
+        resetScreenDimensions();
+        toggleLongPressLocationSource(true);
     }
 
     /**
@@ -292,49 +203,30 @@ public class MainMapFragment extends SupportMapFragment implements
      */
     @Override
     public void onPause() {
-        // mLocationOverlay.disableMyLocation();
         super.onPause();
 
-        if (mLongPressLocationSource != null) {
-            mLongPressLocationSource.onPause();
-        }
-        // if (mLongPressLocationSource != null) {
-        // mLocationSource.onPause();
-        // }
+        toggleLongPressLocationSource(false);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_map, menu);
+
+        searchItem = menu.findItem(R.id.action_search);
+        mSearchViewQueryListener.setSearchMenuItem(searchItem);
     }
 
     /**
-     * Create the fragment's Address Search MenuItem, from code.
+     * Implements OnMapReadyCallback
+     *
+     * @param googleMap
      */
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-
-        // TWEAK: FC when inflated from XML
-        searchItem = menu.add(getResources().getString(R.string.menu_search));
-        // TODO setIcon replace asset
-        searchItem.setIcon(R.drawable.ic_action_search);
-        MenuItemCompat.setShowAsAction(searchItem,
-                MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-
-        // Create the SearchView
-        SearchView searchView = new SearchView(getActivity());
-        searchView.setQueryHint(getResources().getString(R.string.search_hint));
-        searchView.setOnQueryTextListener(this);
-        // Collapse when focus lost
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    mListener.onSearchClickListener();
-                } else {
-                    MenuItemCompat.collapseActionView(searchItem);
-                }
-            }
-        });
-
-        // Assign the SearchView to the menuItem
-        MenuItemCompat.setActionView(searchItem, searchView);
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        if (checkReady()) {
+            setUpMap();
+        }
     }
 
     /**
@@ -355,6 +247,27 @@ public class MainMapFragment extends SupportMapFragment implements
     }
 
     /**
+     * Implementation of GoogleMap.OnMyLocationChangeListener
+     *
+     * @param location
+     */
+    @Override
+    public void onMyLocationChange(Location location) {
+        mIsMyLocationFound = true;
+        updateMyLocation(location);
+        zoomToInitialLocationIfNeeded();
+    }
+
+    /**
+     * Implementation of GoogleMap.OnMapLoadedCallback
+     */
+    @Override
+    public void onMapLoaded() {
+        mIsMapLoaded = true;
+        zoomToInitialLocationIfNeeded();
+    }
+
+    /**
      * Implementation of GoogleMap.OnInfoWindowClickListener
      */
     @Override
@@ -363,10 +276,7 @@ public class MainMapFragment extends SupportMapFragment implements
 
         try {
             final int idPost = Integer.valueOf(title);
-
-            Intent intent = new Intent(getActivity(), DetailsActivity.class);
-            intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
-            getActivity().startActivity(intent);
+            showSpotDetails(idPost);
         } catch (NumberFormatException e) {
             // Selected marker is not a post.
             // e.printStackTrace();
@@ -374,79 +284,36 @@ public class MainMapFragment extends SupportMapFragment implements
     }
 
     /**
-     * Implementation of SearchView.OnQueryTextListener. Handle the Address
-     * Search query
+     * Implementation of SearchMessageHandler.SearchHandlerCallbacks
+     *
+     * @param query
      */
     @Override
-    public boolean onQueryTextSubmit(String query) {
-        postalCode = query;
-
-        MenuItemCompat.collapseActionView(searchItem);
-        if (ConnectionHelper.hasConnection(getActivity())) {
-            showSearchProcessing();
-        } else {
-            parkingApp.showToastText(R.string.toast_search_network_connection_error,
-                    Toast.LENGTH_LONG);
-        }
-
-        return true;
+    public void onSearchSubmit(String query) {
+        startAddressSearch(query);
     }
 
     /**
-     * SearchView.OnQueryTextListener
+     * Implementation of SearchMessageHandler.SearchHandlerCallbacks
+     *
+     * @param hasFocus
      */
     @Override
-    public boolean onQueryTextChange(String newText) {
-        // TODO: use for address suggestions or auto-complete
-        return false;
+    public void onSearchFocusChange(boolean hasFocus) {
+        if (hasFocus) {
+            mListener.onMapSearchClick();
+        }
     }
 
     /**
-     * Implementation of Runnable. This runnable thread gets the Geocode search
-     * value in the background. Results are sent to the handler.
-     */
-    @Override
-    public void run() {
-
-        Address address = null;
-        try {
-            /**
-             * Geocode search. Takes time and not very reliable!
-             */
-            address = GeoHelper.findAddressFromName(getActivity(), postalCode);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        final Message msg = handler.obtainMessage();
-        final Bundle b = new Bundle();
-
-        if (address == null) {
-            /**
-             * Send error message to handler.
-             */
-            b.putInt(Const.KEY_BUNDLE_SEARCH_ADDRESS, Const.BUNDLE_SEARCH_ADDRESS_ERROR);
-        } else {
-            /**
-             * Send success message to handler with the found geocoordinates.
-             */
-            b.putInt(Const.KEY_BUNDLE_SEARCH_ADDRESS, Const.BUNDLE_SEARCH_ADDRESS_SUCCESS);
-            b.putDouble(Const.KEY_BUNDLE_ADDRESS_LAT, address.getLatitude());
-            b.putDouble(Const.KEY_BUNDLE_ADDRESS_LNG, address.getLongitude());
-            b.putString(Const.KEY_BUNDLE_ADDRESS_DESC, address.getAddressLine(0));
-        }
-        msg.setData(b);
-
-        handler.sendMessage(msg);
-    }
-
-    /**
-     * Implementation of SearchMessageHandler.OnMessageHandledListener. Handle
-     * the runnable thread results. This hides the indeterminate progress bar
+     * Implementation of SearchMessageHandler.OnMessageHandledListener.
+     * Handle the runnable thread results. This hides the indeterminate progressbar
      * then centers map on found location or displays error message.
+     *
+     * @param msg
      */
     @Override
-    public void OnMessageHandled(Message msg) {
+    public void onSearchResults(Message msg) {
         if (getActivity() == null) {
             return;
         }
@@ -454,67 +321,95 @@ public class MainMapFragment extends SupportMapFragment implements
         setIndeterminateProgressVisibilty(false);
 
         final Bundle b = msg.getData();
+        final String desc = b.getString(Const.KEY_BUNDLE_ADDRESS_DESC);
 
         if (b.getInt(Const.KEY_BUNDLE_SEARCH_ADDRESS) == Const.BUNDLE_SEARCH_ADDRESS_SUCCESS) {
             /**
-             * Address is found, center map on location.
+             * Address is found, center map on location and add a marker
              */
-            final Location location = new Location(Const.LOCATION_PROVIDER_SEARCH);
-            location.setLatitude(b.getDouble(Const.KEY_BUNDLE_ADDRESS_LAT));
-            location.setLongitude(b.getDouble(Const.KEY_BUNDLE_ADDRESS_LNG));
-            final String desc = b.getString(Const.KEY_BUNDLE_ADDRESS_DESC);
+            final Location location = LocationHelper.createSearchLocation(
+                    b.getDouble(Const.KEY_BUNDLE_ADDRESS_LAT),
+                    b.getDouble(Const.KEY_BUNDLE_ADDRESS_LNG));
 
-            setMapCenterZoomed(location);
-
-            /**
-             * Add marker for found location
-             */
-
-            searchedMarker = mMap.addMarker(new MarkerOptions()
-
-                    .position(new LatLng(location.getLatitude(), location.getLongitude()))
-                    .title(desc)
-                    .snippet(null)
-                    .icon(BitmapDescriptorFactory
-                            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).visible(true));
-            searchedMarker.showInfoWindow();
-
+            moveCameraToLocation(location, true);
+            addSearchedLocationMarker(location, desc);
         } else {
             /**
              * Address not found! Display error message.
              */
-            final String errorMsg = String.format(getResources().getString(
-                            R.string.toast_search_error),
-                    postalCode);
-            ((ParkingApp) getActivity().getApplicationContext()).showToastText(
-                    errorMsg, Toast.LENGTH_LONG);
+            try {
+                parkingApp.showToastText(String.format(
+                        getResources().getString(R.string.toast_search_error),
+                        desc), Toast.LENGTH_LONG);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
         }
     }
 
+
+    /**
+     * Implementation of CalendarFilterFragment.CalendarFilterUpdatedListener
+     *
+     * @param calendar
+     * @param duration
+     */
     @Override
-    public void updateCalendarFilter(GregorianCalendar calendar, int duration) {
-        screenCenter = null;
+    public void onCalendarFilterChanged(GregorianCalendar calendar, int duration) {
+        updateScreenCenter(null);
         updateOverlays(calendar, duration);
     }
 
-    // @Override
-    // public void onLocationChanged(final Location location) {
-    // Log.v(TAG, "onLocationChanged");
-    // parkingApp.setLocation(location);
-    // onLocationChangedListener.onLocationChanged(location);
-    //
-    // }
+    /**
+     * Called from the activity to handle onKeyUp
+     */
+    public void toggleSearchView(boolean isDisplayed) {
+        if (isVisible()) {
+            if (isDisplayed) {
+                MenuItemCompat.expandActionView(searchItem);
+            } else {
+                MenuItemCompat.collapseActionView(searchItem);
+            }
+        }
+    }
+
+    /**
+     * Call
+     *
+     * @param mapCenter
+     */
+    public void setInitialMapCenter(Location mapCenter) {
+        mInitialLocation = mapCenter;
+        skipInitialLocationZoom();
+        moveCameraToLocation(mapCenter, false);
+    }
+
+    private void toggleLongPressLocationSource(boolean enabled) {
+        if (mLongPressLocationSource != null) {
+            mLongPressLocationSource.setEnabled(enabled);
+        }
+    }
+
+    private void initializeSearchListeners() {
+        if (searchMessageHandler == null) {
+            searchMessageHandler = new SearchMessageHandler(this);
+        }
+        mSearchViewQueryListener = new SearchViewQueryListener(getActivity(), this);
+    }
+
+    private boolean checkReady() {
+        if (mMap == null) {
+            parkingApp.showToastText(R.string.toast_map_not_ready, Toast.LENGTH_SHORT);
+            return false;
+        }
+        return true;
+    }
 
     private void setUpMapIfNeeded() {
-        // Do a null check to confirm that we have not already instantiated the
-        // map.
+        // Do a null check to confirm that we have not already instantiated the map.
         if (!checkReady()) {
             // Try to obtain the map from the SupportMapFragment.
-            mMap = getMap();
-            // Check if we were successful in obtaining the map.
-            if (checkReady()) {
-                setUpMap();
-            }
+            getMapAsync(this);
         }
     }
 
@@ -527,21 +422,35 @@ public class MainMapFragment extends SupportMapFragment implements
         mMap.setMyLocationEnabled(true);
         mMap.setMapType(MAP_TYPE_NORMAL);
 
-        UiSettings uiSettings = mMap.getUiSettings();
+        final UiSettings uiSettings = mMap.getUiSettings();
         uiSettings.setCompassEnabled(true);
         uiSettings.setZoomControlsEnabled(false);
-        uiSettings.setMyLocationButtonEnabled(true);
+        uiSettings.setMyLocationButtonEnabled(false);
         uiSettings.setAllGesturesEnabled(true);
+        uiSettings.setMapToolbarEnabled(false);
+
         mMap.moveCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder()
-                .bearing(-34)
-                .zoom(10f)
-                .target(new LatLng(45.5, -73.666667))
+                .bearing(Const.MONTREAL_NATURAL_NORTH_ROTATION)
+                .zoom(ZOOM_DEFAULT)
+                .target(Const.MONTREAL_GEO_LAT_LNG)
                 .build()));
 
         mMap.setLocationSource(null);
 
-        mMap.setInfoWindowAdapter(new MyInfoWindowAdapter(getActivity()));
+        mMap.setInfoWindowAdapter(new ParkingInfoWindowAdapter(viewMarkerInfoWindow));
 
+        if (mInitialLocation == null) {
+            mMap.setOnMapLoadedCallback(this);
+        } else {
+            moveCameraToLocation(mInitialLocation, false);
+            mInitialLocation = null;
+        }
+
+        setUpMapListeners();
+    }
+
+    private void setUpMapListeners() {
+        mMap.setOnMyLocationChangeListener(this);
         mMap.setOnMapClickListener(this);
         mMap.setOnMarkerClickListener(this);
         mMap.setOnInfoWindowClickListener(this);
@@ -551,29 +460,391 @@ public class MainMapFragment extends SupportMapFragment implements
                 updateOverlays();
             }
         });
-
-
     }
 
-    private boolean checkReady() {
-        if (mMap == null) {
-            parkingApp.showToastText(R.string.toast_map_not_ready, Toast.LENGTH_SHORT);
-            return false;
+    private void handleIntent() {
+        // TODO Optimize this using savedInstanceState to avoid reload of
+        // identical data onResume
+        final Intent intent = getActivity().getIntent();
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            final String query = WebsiteUriHelper.getAddressFromUri(intent.getData());
+            if (query != null) {
+                // To skip initial zoom to user location
+                skipInitialLocationZoom();
+            }
+            startAddressSearch(query);
         }
-        return true;
     }
 
     private void setIndeterminateProgressVisibilty(boolean isLoading) {
-        mListener.onCameraChangeListener(isLoading);
+        mListener.onMapDataProcessing(isLoading);
     }
 
-    private class DbAsyncTask extends AsyncTask<Object, Void, Cursor> {
+    private void updateOverlays() {
+        updateOverlays(parkingApp.getParkingCalendar(), parkingApp.getParkingDuration());
+    }
+
+    private void updateOverlays(GregorianCalendar calendar, int duration) {
+        if (mMap.getCameraPosition().zoom < ZOOM_MIN) {
+            if (mIsMapLoaded) {
+                parkingApp.showToastText(R.string.toast_map_zoom_to_update, Toast.LENGTH_SHORT);
+            }
+            return;
+        } else {
+            parkingApp.hideToastText(R.string.toast_map_zoom_to_update);
+        }
+
+        final Projection projection = mMap.getProjection();
+
+        final boolean updated = updateScreenCenter(projection);
+        if (!updated) {
+            // No refresh needed
+            return;
+        }
+
+        // Get arguments for API call
+        final LatLngBounds bounds = projection.getVisibleRegion().latLngBounds;
+        final int day = ParkingTimeHelper.getIsoDayOfWeek(calendar);
+        final double parkingHour = ParkingTimeHelper.getHourRounded(calendar);
+
+        if (Const.HAS_OFFLINE) {
+            queryOverlays(day, parkingHour, duration, bounds.northeast, bounds.southwest);
+        } else {
+            downloadOverlays(day, parkingHour, duration, bounds.northeast, bounds.southwest);
+        }
+    }
+
+    private void queryOverlays(int day, double parkingHour, int duration, LatLng NE, LatLng SW) {
+        if (dbAsyncTask != null) {
+            dbAsyncTask.cancel(true);
+        }
+
+        dbAsyncTask = new DbAsyncTask();
+        dbAsyncTask.execute(day, parkingHour, duration, NE, SW);
+    }
+
+    @Deprecated
+    private void downloadOverlays(int day, double parkingHour, int duration, LatLng NE, LatLng SW) {
+        final String fetchUrl = String.format(Const.Api.POSTS_LIVE,
+                day, parkingHour, duration,
+                NE.latitude, SW.longitude, SW.latitude, NE.longitude);
+
+        URL apiURL = null;
+        try {
+            apiURL = new URL(fetchUrl);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        if (jsonAsyncTask != null) {
+            jsonAsyncTask.cancel(true);
+        }
+        jsonAsyncTask = new JsonAsyncTask();
+        jsonAsyncTask.execute(apiURL);
+    }
+
+    /**
+     * screenCenter is used to display the nearest hintMarker and to calculate when to trigger
+     * data updates on far-enough camera movements.
+     *
+     * @param projection
+     * @return boolean true if screenCenter was updated
+     */
+    private boolean updateScreenCenter(Projection projection) {
+        if (projection == null) {
+            screenCenter = null;
+            return true;
+        }
+
+        if (screenCenter == null) {
+            // We don't have a previous value for screenCenter
+            screenCenter = mMap.getCameraPosition().target;
+            return true;
+        } else {
+            // TODO: get screen center without repeated use of Projection
+            final LatLng cameraTarget = mMap.getCameraPosition().target;
+            final Point oldCenterPoint = projection.toScreenLocation(screenCenter);
+
+            updateScreenDimensions(projection, cameraTarget);
+
+            if ((oldCenterPoint.x > mScreenWidth * 0.75)
+                    || (oldCenterPoint.x < mScreenWidth * 0.25)
+                    || (oldCenterPoint.y > mScreenHeight * 0.75)
+                    || (oldCenterPoint.y < mScreenHeight * 0.25)) {
+                // Refresh is needed only on significant camera re-positioning
+                screenCenter = cameraTarget;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Screen width/height are used to trigger data updates on far-enough camera movements.
+     *
+     * @param projection
+     * @param cameraTarget
+     */
+    private void updateScreenDimensions(Projection projection, LatLng cameraTarget) {
+        if (projection == null) {
+            mScreenWidth = 0;
+            mScreenHeight = 0;
+        } else if (mScreenWidth == 0 || mScreenHeight == 0) {
+            // Reduce calls to the expensive toScreenLocation()
+            final Point cameraCenterPoint = projection.toScreenLocation(cameraTarget);
+            mScreenWidth = cameraCenterPoint.x * 2;
+            mScreenHeight = cameraCenterPoint.y * 2;
+        }
+    }
+
+    private void resetScreenDimensions() {
+        updateScreenDimensions(null, null);
+    }
+
+    /**
+     * Set new map center.
+     *
+     * @param mapCenter
+     */
+    private void moveCameraToLocation(Location mapCenter, boolean animated) {
+        if (mMap == null || mapCenter == null) {
+            return;
+        }
+
+        final CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(
+                mapCenter.getLatitude(), mapCenter.getLongitude()), ZOOM_NEAR);
+        if (animated) {
+            mMap.animateCamera(cameraUpdate);
+        } else {
+            mMap.moveCamera(cameraUpdate);
+        }
+    }
+
+    /**
+     * Initial map center animation on detected user location. If user is more
+     * than minimum-distance from the city, center the map on Downtown. Also
+     * defines the zoom.
+     */
+    @Deprecated
+    private void initialAnimateToPoint() {
+        final Location userLocation = parkingApp.getLocation();
+        if (userLocation != null) {
+            /**
+             * Center on app's user location.
+             */
+            // Log.v(TAG, "initialAnimateToPoint lat = " +
+            // userLocation.getLatitude() + ". Lon = "
+            // + userLocation.getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(
+                    userLocation.getLatitude(), userLocation.getLongitude())));
+        } else {
+            /**
+             * Center on Downtown.
+             */
+            // Log.v(TAG, "initialAnimateToPoint. Center on Downtown");
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(Const.MONTREAL_GEO_LAT_LNG));
+        }
+
+        if (mMapCenter != null) {
+            /**
+             * The AppHelper knows the user location from a previous query, so
+             * use the saved value.
+             */
+            // Log.v(TAG, "initialAnimateToPoint. mMapCenter != null");
+            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(
+                    mMapCenter.getLatitude(), mMapCenter.getLongitude())));
+        }
+    }
+
+    /**
+     * Check if user is near Montreal. We stop checking after first true value (default is false).
+     *
+     * @param myLocation
+     */
+    private void updateMyLocation(Location myLocation) {
+        parkingApp.setLocation(myLocation);
+
+        if (mIsMyLocationFound && !mIsLocationNearMontreal) {
+            mIsLocationNearMontreal = LocationHelper.isLocationNearMontreal(myLocation);
+            toggleMyLocationUiButton(mIsLocationNearMontreal);
+        }
+    }
+
+    /**
+     * Called by both onMyLocationChange() and onMapLoaded(), runs only if both have been called
+     */
+    private void zoomToInitialLocationIfNeeded() {
+        if (mHasTriedInitialZoom) {
+            return;
+        }
+
+        if (mIsMyLocationFound && mIsMapLoaded) {
+            skipInitialLocationZoom();
+            if (mIsLocationNearMontreal) {
+                moveCameraToLocation(parkingApp.getLocation(), true);
+            } else {
+                moveCameraToLocation(LocationHelper.createDefaultLocation(), true);
+            }
+        } else if (mIsMapLoaded) {
+            if (LocationHelper.isLocationNearMontreal(parkingApp.getLocation())) {
+                // This is a first zoom to lastKnownLocation. Will move again once MyLocation is found
+                moveCameraToLocation(parkingApp.getLocation(), true);
+            }
+        }
+    }
+
+    private void skipInitialLocationZoom() {
+        mHasTriedInitialZoom = true;
+    }
+
+    /**
+     * Enables the map's MyLocation button for Montreal users only.
+     *
+     * @param enabled
+     */
+    private void toggleMyLocationUiButton(boolean enabled) {
+        if (mMap != null) {
+            final UiSettings uiSettings = mMap.getUiSettings();
+            if (uiSettings.isMyLocationButtonEnabled() != enabled) {
+                uiSettings.setMyLocationButtonEnabled(enabled);
+            }
+        }
+    }
+
+    /**
+     * Add marker for found location, using LatLng
+     *
+     * @param latLng
+     * @param title
+     */
+    private void addSearchedLocationMarker(LatLng latLng, String title) {
+        searchedMarker = mMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(title)
+                .snippet(null)
+                .icon(BitmapDescriptorFactory
+                        .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).visible(true));
+        searchedMarker.showInfoWindow();
+    }
+
+    /**
+     * Add marker for found location, using Location
+     *
+     * @param location
+     * @param title
+     */
+    private void addSearchedLocationMarker(Location location, String title) {
+        addSearchedLocationMarker(new LatLng(location.getLatitude(), location.getLongitude()), title);
+    }
+
+    /**
+     * Show the Indeterminate ProgressBar and start the Geocode search thread.
+     */
+    private void startAddressSearch(String query) {
+        if (query != null) {
+            if (ConnectionHelper.hasConnection(getActivity())) {
+                setIndeterminateProgressVisibilty(true);
+                // Start the background search
+                new Thread(new AddressSearchRunnable(query)).start();
+            } else {
+                parkingApp.showToastText(R.string.toast_search_network_connection_error,
+                        Toast.LENGTH_LONG);
+            }
+        }
+    }
+
+    private void showSpotDetails(int idPost) {
+        final Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
+        getActivity().startActivity(intent);
+    }
+
+
+    /**
+     * Container Activity must implement this interface to receive the list item
+     * clicks.
+     */
+    public interface MapEventsListener {
+        public void onMapSearchClick();
+
+        public void onMapDataProcessing(boolean isProcessing);
+    }
+
+    /**
+     * 3 background operation: address search, database load, json download
+     */
+
+    /**
+     * Runnable tp get the Geocode search value in the background.
+     * Results are sent to the handler.
+     */
+    private class AddressSearchRunnable implements Runnable {
+
+        private final String query;
+
+        private AddressSearchRunnable(String query) {
+            this.query = query;
+        }
+
+        @Override
+        public void run() {
+            Address address = null;
+            try {
+                /**
+                 * Geocode search. Takes time and not very reliable!
+                 */
+                address = GeoHelper.findAddressFromName(getActivity(), query);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            final Message msg = searchMessageHandler.obtainMessage();
+            final Bundle b = new Bundle();
+
+            if (address == null) {
+                /**
+                 * Send error message to handler.
+                 */
+                b.putInt(Const.KEY_BUNDLE_SEARCH_ADDRESS, Const.BUNDLE_SEARCH_ADDRESS_ERROR);
+                b.putString(Const.KEY_BUNDLE_ADDRESS_DESC, query);
+            } else {
+                /**
+                 * Send success message to handler with the found geocoordinates.
+                 */
+                b.putInt(Const.KEY_BUNDLE_SEARCH_ADDRESS, Const.BUNDLE_SEARCH_ADDRESS_SUCCESS);
+                b.putDouble(Const.KEY_BUNDLE_ADDRESS_LAT, address.getLatitude());
+                b.putDouble(Const.KEY_BUNDLE_ADDRESS_LNG, address.getLongitude());
+                b.putString(Const.KEY_BUNDLE_ADDRESS_DESC, address.getAddressLine(0));
+            }
+            msg.setData(b);
+
+            searchMessageHandler.sendMessage(msg);
+        }
+    }
+
+    /**
+     * Query database to load posts/markers then add them to the map.
+     */
+    private class DbAsyncTask extends AsyncTask<Object, Void, List<MarkerOptions>> {
+
+        private boolean hasHintMarker;
+        private int mIndexInfoWindow;
+        private LatLng clickedLatLng;
+        private Cursor mCursor;
 
         // TODO: use WeakReference
 
         @Override
         protected void onPreExecute() {
             try {
+                hasHintMarker = true;
+                mIndexInfoWindow = -1;
+                if (clickedMarker != null) {
+                    clickedLatLng = clickedMarker.getPosition();
+                } else {
+                    clickedLatLng = null;
+                }
                 setIndeterminateProgressVisibilty(true);
 
             } catch (NullPointerException e) {
@@ -582,10 +853,10 @@ public class MainMapFragment extends SupportMapFragment implements
         }
 
         @Override
-        protected Cursor doInBackground(Object... params) {
-
+        protected List<MarkerOptions> doInBackground(Object... params) {
             final int dayOfWeek = (Integer) params[0];
-            final double hourOfWeek = (Double) params[1] + (dayOfWeek - 1) * 24;
+            final double parkingHour = (Double) params[1];
+            final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(dayOfWeek, parkingHour);
             final int duration = (Integer) params[2];
 
             final LatLng NE = (LatLng) params[3];
@@ -593,10 +864,10 @@ public class MainMapFragment extends SupportMapFragment implements
 
             final GregorianCalendar calendar = parkingApp.getParkingCalendar();
             // API uses values 0-365 (or 364)
-            final int dayOfYear = calendar.get(Calendar.DAY_OF_YEAR) - 1;
+            final int dayOfYear = ParkingTimeHelper.getIsoDayOfYear(calendar);
 
             try {
-                Cursor cur = getActivity()
+                mCursor = getActivity()
                         .getApplicationContext()
                         .getContentResolver()
                         .query(Posts.CONTENT_ALLOWED_URI,
@@ -616,7 +887,12 @@ public class MainMapFragment extends SupportMapFragment implements
                                         Integer.toString(dayOfYear)
                                 },
                                 null);
-                return cur;
+                final List<MarkerOptions> markerOptions = buildMarkers(mCursor);
+                if (mCursor != null && !mCursor.isClosed()) {
+                    mCursor.close();
+                }
+
+                return markerOptions;
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
@@ -625,49 +901,63 @@ public class MainMapFragment extends SupportMapFragment implements
         }
 
         @Override
-        protected void onCancelled(Cursor cursor) {
-            if (cursor != null && !cursor.isClosed()) {
-                cursor.close();
+        protected void onCancelled(List<MarkerOptions> markerOptions) {
+            if (mCursor != null && !mCursor.isClosed()) {
+                mCursor.close();
             }
         }
 
         @Override
-        protected void onPostExecute(Cursor cursor) {
+        protected void onPostExecute(List<MarkerOptions> markerOptions) {
             try {
                 setIndeterminateProgressVisibilty(false);
+
+                if (markerOptions == null) {
+                    return;
+                }
+
+                final int totalMarkers = markerOptions.size();
+                if (totalMarkers == 0 || isCancelled()) {
+                    return;
+                }
+
+                mMap.clear();
+
+                // TODO: use same following code between DB and JSON
+                if (searchedMarker != null) {
+                    addSearchedLocationMarker(searchedMarker.getPosition(), searchedMarker.getTitle());
+                }
+
+                for (int i = 0; i < totalMarkers; i++) {
+                    if (isCancelled()) {
+                        return;
+                    }
+                    final Marker marker = mMap.addMarker(markerOptions.get(i));
+                    if (i == mIndexInfoWindow) {
+                        marker.showInfoWindow();
+                        clickedMarker = marker;
+                    }
+                    markerOptions.set(i, null);
+                }
+
             } catch (NullPointerException e) {
                 e.printStackTrace();
-                return;
             }
+        }
 
+        private List<MarkerOptions> buildMarkers(Cursor cursor) {
             if (cursor == null) {
-                return;
+                return null;
             }
 
             final int totalMarkers = cursor.getCount();
             if (totalMarkers == 0 || isCancelled()) {
-                cursor.close();
-                return;
+                return null;
             }
 
-            mMap.clear();
+            hasHintMarker = (screenCenter != null) && (searchedMarker == null) && (clickedMarker == null);
 
-            // TODO: use same following code between DB and JSON
-            if (searchedMarker != null) {
-                searchedMarker = mMap.addMarker(new MarkerOptions()
-                        .position(searchedMarker.getPosition())
-                        .title(searchedMarker.getTitle())
-                        .snippet(null)
-                        .icon(BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).visible(true));
-                searchedMarker.showInfoWindow();
-                hasHintMarker = false;
-            }
-
-            if (screenCenter == null || clickedMarker != null) {
-                hasHintMarker = false;
-            }
-            Location locationCenter = new Location(Const.LOCATION_PROVIDER_DEFAULT);
+            final Location locationCenter = new Location(Const.LOCATION_PROVIDER_DEFAULT);
             if (hasHintMarker) {
                 locationCenter.setLatitude(screenCenter.latitude);
                 locationCenter.setLongitude(screenCenter.longitude);
@@ -676,11 +966,11 @@ public class MainMapFragment extends SupportMapFragment implements
             final BitmapDescriptor defaultMarker = BitmapDescriptorFactory.defaultMarker(HUE_MARKER);
             final BitmapDescriptor starredMarker = BitmapDescriptorFactory.defaultMarker(HUE_MARKER_STARRED);
 
+            final List<MarkerOptions> markersArray = new ArrayList<MarkerOptions>();
             cursor.moveToFirst();
             do {
                 if (isCancelled()) {
-                    cursor.close();
-                    return;
+                    return markersArray;
                 }
 
                 final int idPost = cursor.getInt(Queries.PostsOverlays.ID_POST);
@@ -689,36 +979,44 @@ public class MainMapFragment extends SupportMapFragment implements
                 final String desc = cursor.getString(Queries.PostsOverlays.CONCAT_DESCRIPTION)
                         .replace(DbValues.CONCAT_SEPARATOR, Const.LINE_SEPARATOR);
                 final int isStarred = cursor.getInt(Queries.PostsOverlays.IS_STARRED);
-                final Marker marker = mMap.addMarker(new MarkerOptions()
+
+                final LatLng latLng = new LatLng(lat, lng);
+                markersArray.add(new MarkerOptions()
                         .title(String.valueOf(idPost))
-                        .position(new LatLng(lat, lng))
+                        .position(latLng)
                         .snippet(desc)
                         .icon(isStarred == 1 ? starredMarker : defaultMarker)
                         .visible(true));
 
-                if (clickedMarker != null) {
-                    if (clickedMarker.getPosition().equals(marker.getPosition())) {
-                        marker.showInfoWindow();
+                if (clickedLatLng != null) {
+                    if (clickedLatLng.equals(latLng)) {
+                        mIndexInfoWindow = markersArray.size() - 1;
                     }
                 } else if (hasHintMarker) {
                     Location locationMarker = new Location(Const.LOCATION_PROVIDER_DEFAULT);
-                    locationMarker.setLatitude(marker.getPosition().latitude);
-                    locationMarker.setLongitude(marker.getPosition().longitude);
+                    locationMarker.setLatitude(lat);
+                    locationMarker.setLongitude(lng);
 
                     if (locationCenter.distanceTo(locationMarker) < DISTANCE_MARKER_HINT) {
-                        marker.showInfoWindow();
+                        mIndexInfoWindow = markersArray.size() - 1;
                         hasHintMarker = false;
-                        clickedMarker = marker;
                     }
                 }
 
             } while (cursor.moveToNext());
-            cursor.close();
+
+            return markersArray;
         }
 
     }
 
+    /**
+     * Query GeoJSON API to load posts/markers then add them to the map.
+     */
+    @Deprecated
     private class JsonAsyncTask extends AsyncTask<URL, Void, GeoJSON> {
+
+        private boolean hasHintMarker = true;
 
         // TODO: use WeakReference
 
@@ -796,10 +1094,7 @@ public class MainMapFragment extends SupportMapFragment implements
                 return;
             }
 
-            // Log.v(TAG, "geoJson  = " + geoJson.toString());
-
             final int totalMarkers = geoJson.getFeatures().size();
-            // Log.v(TAG, "totalMarkers = " + totalMarkers);
 
             if (isCancelled()) {
                 return;
@@ -809,13 +1104,7 @@ public class MainMapFragment extends SupportMapFragment implements
 
             // TODO: use same following code between DB and JSON
             if (searchedMarker != null) {
-                searchedMarker = mMap.addMarker(new MarkerOptions()
-                        .position(searchedMarker.getPosition())
-                        .title(searchedMarker.getTitle())
-                        .snippet(null)
-                        .icon(BitmapDescriptorFactory
-                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)).visible(true));
-                searchedMarker.showInfoWindow();
+                addSearchedLocationMarker(searchedMarker.getPosition(), searchedMarker.getTitle());
             }
 
             if (screenCenter == null || clickedMarker != null) {
@@ -858,341 +1147,6 @@ public class MainMapFragment extends SupportMapFragment implements
                 }
             }
         }
-    }
-
-    @Deprecated
-    public void updateOverlaysForced() {
-        Log.e(TAG, "updateOverlaysForced");
-    }
-
-    private void updateOverlays() {
-        updateOverlays(parkingApp.getParkingCalendar(), parkingApp.getParkingDuration());
-    }
-
-    private void updateOverlays(GregorianCalendar calendar, int duration) {
-        // Log.v(TAG, "current zoom = " + mMap.getCameraPosition().zoom);
-
-        if (mMap.getCameraPosition().zoom < ZOOM_MIN) {
-            parkingApp.showToastText(R.string.toast_map_zoom_to_update, Toast.LENGTH_LONG);
-            return;
-        }
-
-        final Projection projection = mMap.getProjection();
-
-        if (screenCenter == null) {
-            screenCenter = mMap.getCameraPosition().target;
-        } else {
-            // TODO: get screen center without repeated use of Projection
-            final LatLng cameraTarget = mMap.getCameraPosition().target;
-            final Point cameraCenterPoint = projection.toScreenLocation(cameraTarget);
-            final int screenWidth = cameraCenterPoint.x * 2;
-            final int screenHeight = cameraCenterPoint.y * 2;
-
-            final Point oldCenterPoint = projection.toScreenLocation(screenCenter);
-
-            // Log.v(TAG, "cameraCenterPoint = " + cameraCenterPoint
-            // + ". width = " + screenWidth
-            // + ". height = " + screenHeight);
-            if ((oldCenterPoint.x > screenWidth * 0.75)
-                    || (oldCenterPoint.x < screenWidth * 0.25)
-                    || (oldCenterPoint.y > screenHeight * 0.75)
-                    || (oldCenterPoint.y < screenHeight * 0.25)) {
-                // Log.e(TAG, "screenCenter redefined");
-                screenCenter = cameraTarget;
-            } else {
-                // Log.v(TAG, "No refresh needed");
-                return;
-            }
-
-        }
-
-        final VisibleRegion region = projection.getVisibleRegion();
-        final LatLngBounds bounds = region.latLngBounds;
-        final LatLng SW = bounds.southwest;
-        final LatLng NE = bounds.northeast;
-
-        // Log.e(TAG, "new bounds = " + bounds.toString());
-
-        // Get arguments for API call
-        final int day = (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ? 7
-                : calendar.get(Calendar.DAY_OF_WEEK) - 1);
-        final double parkingHour = calendar.get(Calendar.HOUR_OF_DAY)
-                + Math.round(calendar.get(Calendar.MINUTE) / 0.6) / 100.00d;
-
-        if (Const.HAS_OFFLINE) {
-            queryOverlays(day, parkingHour, duration, NE, SW);
-        } else {
-            downloadOverlays(day, parkingHour, duration, NE, SW);
-        }
-
-    }
-
-    private void queryOverlays(int day, double parkingHour, int duration, LatLng NE, LatLng SW) {
-        if (dbAsyncTask != null) {
-            dbAsyncTask.cancel(true);
-        }
-
-        dbAsyncTask = new DbAsyncTask();
-        dbAsyncTask.execute(day, parkingHour, duration, NE, SW);
-    }
-
-    private void downloadOverlays(int day, double parkingHour, int duration, LatLng NE, LatLng SW) {
-        final String fetchUrl = String.format(Const.Api.POSTS_LIVE,
-                day, parkingHour, duration,
-                NE.latitude, SW.longitude, SW.latitude, NE.longitude);
-
-        URL apiURL = null;
-        try {
-            apiURL = new URL(fetchUrl);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return;
-        }
-
-        if (jsonAsyncTask != null) {
-            jsonAsyncTask.cancel(true);
-        }
-        jsonAsyncTask = new JsonAsyncTask();
-        jsonAsyncTask.execute(apiURL);
-    }
-
-    /**
-     * Initialize Map: centre and load posts
-     */
-    protected void initMap() {
-
-        // mLocationOverlay = new
-        // MyLocationOverlay(getActivity().getApplicationContext(), mMapView);
-        // mLocationOverlay.enableCompass();
-        // mLocationOverlay.enableMyLocation();
-        // mMapView.getOverlays().add(INDEX_OVERLAY_MY_LOCATION,
-        // mLocationOverlay);
-
-        // ArrayList<MapMarker> mapMarkers = fetchMapMarkers();
-        //
-        // Drawable drawable =
-        // this.getResources().getDrawable(R.drawable.ic_map_default_marker);
-        // MyItemizedOverlay mItemizedOverlay = new MyItemizedOverlay(drawable,
-        // mMapView);
-        //
-        // if (mapMarkers.size() > 0) {
-        // for (MapMarker marker : mapMarkers) {
-        //
-        // MyOverlayItem overlayitem = new MyOverlayItem(marker.geoPoint,
-        // marker.name,
-        // marker.address, marker.id, marker.extra);
-        // mItemizedOverlay.addOverlay(overlayitem);
-        // }
-        // mMapView.getOverlays().add(INDEX_OVERLAY_PLACEMARKS,
-        // mItemizedOverlay);
-        // }
-
-    }
-
-    /**
-     * Set new map center.
-     *
-     * @param mapCenter
-     */
-    protected void animateToPoint(Location mapCenter) {
-        Log.v(TAG, "animateToPoint "
-                + String.format("mapCenter = %s", mapCenter));
-
-
-        if (mMap == null) {
-            return;
-        }
-        if (mapCenter != null) {
-            // Log.v(TAG, "ZOOM_NEAR");
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(
-                    mapCenter.getLatitude(), mapCenter.getLongitude()), ZOOM_NEAR));
-        } else {
-            // Log.v(TAG, "ZOOM_DEFAULT + initialAnimateToPoint");
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(ZOOM_NEAR));
-            initialAnimateToPoint();
-        }
-    }
-
-    /**
-     * Initial map center animation on detected user location. If user is more
-     * than minimum-distance from the city, center the map on Downtown. Also
-     * defines the zoom.
-     */
-    protected void initialAnimateToPoint() {
-        final List<String> enabledProviders = mLocationManager.getProviders(true);
-
-        double coordinates[] = Const.MAPS_DEFAULT_COORDINATES;
-        final double lat = coordinates[0];
-        final double lng = coordinates[1];
-
-        final Location userLocation = parkingApp.getLocation();
-        if (userLocation != null) {
-            /**
-             * Center on app's user location.
-             */
-            // Log.v(TAG, "initialAnimateToPoint lat = " +
-            // userLocation.getLatitude() + ". Lon = "
-            // + userLocation.getLongitude());
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(
-                    userLocation.getLatitude(), userLocation.getLongitude())));
-        } else {
-            /**
-             * Center on Downtown.
-             */
-            // Log.v(TAG, "initialAnimateToPoint. Center on Downtown");
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lng)));
-        }
-
-        if ((mMapCenter == null) && enabledProviders.contains(LocationManager.NETWORK_PROVIDER)) {
-            /**
-             * Get user current location then display on map.
-             */
-            // mLocationOverlay.runOnFirstFix(new Runnable() {
-            // public void run() {
-            // GeoPoint userGeoPoint = mLocationOverlay.getMyLocation();
-            //
-            // if (mListener != null) {
-            // mListener.onMyLocationChanged(userGeoPoint);
-            // onMyLocationChanged(userGeoPoint);
-            // }
-            //
-            // /**
-            // * If user is very far from Montreal (> 25km) we center the
-            // * map on Downtown.
-            // */
-            // final float[] resultDistance = new float[1];
-            // android.location.Location.distanceBetween(lat, lng,
-            // (userGeoPoint.getLatitudeE6() / 1E6),
-            // (userGeoPoint.getLongitudeE6() / 1E6), resultDistance);
-            //
-            // if (resultDistance[0] > Const.MAPS_MIN_DISTANCE) {
-            // userGeoPoint = new GeoPoint((int) (lat * 1E6), (int) (lng *
-            // 1E6));
-            // }
-            //
-            // mMapCenter = userGeoPoint;
-            // if (userGeoPoint != null) {
-            // mMapController.animateTo(userGeoPoint);
-            // }
-            // }
-            // });
-        } else if (mMapCenter != null) {
-            /**
-             * The AppHelper knows the user location from a previous query, so
-             * use the saved value.
-             */
-            // Log.v(TAG, "initialAnimateToPoint. mMapCenter != null");
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(
-                    mMapCenter.getLatitude(), mMapCenter.getLongitude())));
-        }
-    }
-
-    /**
-     * Setter for the MapCenter GeoPoint. Centers map on the new location and
-     * displays the ViewBallooon.
-     *
-     * @param mapCenter The new location
-     */
-    public void setMapCenter(Location mapCenter) {
-        Log.v(TAG, "setMapCenter "
-                + String.format("mapCenter = %s", mapCenter));
-
-        initLocation = mapCenter;
-        animateToPoint(mapCenter);
-
-        // if (mapCenter != null) {
-        // Overlay overlayPlacemarks =
-        // mMapView.getOverlays().get(INDEX_OVERLAY_PLACEMARKS);
-        // overlayPlacemarks.onTap(mapCenter, mMapView);
-        // }
-    }
-
-    @Deprecated
-    private void onMyLocationChanged(final Location location) {
-        getActivity().runOnUiThread(new Runnable() {
-            public void run() {
-                // TODO: verify that new location is sent to service & favorites
-                // fragment
-                parkingApp.setLocation(location);
-                Log.v(TAG, "TODO: onMyLocationChanged on UI");
-                // invalidateOptionsMenu();
-            }
-        });
-    }
-
-    /**
-     * Sets the map center on the user real location with a near zoom. Used for
-     * Tab re-selection.
-     */
-    public void resetMapCenter() {
-        searchedMarker = null;
-        if (!mMap.isMyLocationEnabled()) {
-            mMap.setMyLocationEnabled(true);
-        }
-        // mMap.setLocationSource(mLocationSource);
-        mMap.setLocationSource(null);
-        setMapCenterZoomed(parkingApp.getLocation());
-    }
-
-    /**
-     * Sets the map center on the location with a near zoom. Used for Address
-     * Search and Tab re-selection.
-     */
-    private void setMapCenterZoomed(Location mapCenter) {
-        // mMapController.setZoom(ZOOM_NEAR);
-        setMapCenter(mapCenter);
-    }
-
-    /**
-     * Called from the activity to handle onKeyUp
-     */
-    public void toggleSearchView(boolean isDisplayed) {
-        if (isVisible() && isDisplayed) {
-            MenuItemCompat.expandActionView(searchItem);
-        } else {
-            MenuItemCompat.collapseActionView(searchItem);
-        }
-    }
-
-    /**
-     * Show the Indeterminate ProgressBar and start the Geocode search thread.
-     */
-    protected void showSearchProcessing() {
-        setIndeterminateProgressVisibilty(true);
-
-        // TODO x
-//        try {
-//            final ActionBar ab = getActivity().getActionBar();
-//            if (ab.getSelectedTab().getPosition() != Const.TABS_INDEX_MAP) {
-//                ab.setSelectedNavigationItem(Const.TABS_INDEX_MAP);
-//            }
-//        } catch (NullPointerException e) {
-//            e.printStackTrace();
-//        }
-
-        final Thread thread = new Thread(this);
-        thread.start();
-    }
-
-    private String getAddressFromUri(Uri uri) {
-        String address = null;
-
-        List<String> pathSegments = uri.getPathSegments();
-
-        // http://www.capteurdestationnement.com/map/search/2/15.5/12/h2w2e7
-
-        if ((pathSegments.size() == 6)
-                && (pathSegments.get(0).equals(Const.INTENT_EXTRA_URL_PATH_MAP))
-                && (pathSegments.get(1).equals(Const.INTENT_EXTRA_URL_PATH_SEARCH))) {
-
-            try {
-                address = pathSegments.get(5);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return address;
     }
 
 }
