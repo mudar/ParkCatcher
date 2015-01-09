@@ -134,8 +134,8 @@ public class MainActivity extends NavdrawerActivity implements
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onStop() {
+        super.onStop();
 
         disconnectGoogleApiClient();
     }
@@ -192,6 +192,7 @@ public class MainActivity extends NavdrawerActivity implements
                 .getLastLocation(mGoogleApiClient);
 
         parkingApp.setLocation(lastKnownLocation);
+        disconnectGoogleApiClient();
     }
 
     /**
