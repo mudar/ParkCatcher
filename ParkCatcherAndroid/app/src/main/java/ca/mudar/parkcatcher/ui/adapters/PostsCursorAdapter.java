@@ -36,30 +36,28 @@ import ca.mudar.parkcatcher.utils.GeoHelper;
 public class PostsCursorAdapter extends SimpleCursorAdapter {
     protected static final String TAG = "PostsCursorAdapter";
 
-    int colorAllowed;
-    int colorForbidden;
+    final int colorAllowed;
+    final int colorForbidden;
 
-    public PostsCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to) {
-        this(context, layout, c, from, to, 0);
-    }
-    
     public PostsCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to,
             int flags) {
         super(context, layout, c, from, to, flags);
 
-        colorAllowed = context.getResources().getColor(R.color.listview_text_1);
-        colorForbidden = context.getResources().getColor(R.color.listview_text_2);
+        this.colorAllowed = context.getResources().getColor(R.color.listview_text_1);
+        this.colorForbidden = context.getResources().getColor(R.color.listview_text_2);
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         super.bindView(view, context, cursor);
 
-        int distance = cursor.getInt(Queries.Favorites.GEO_DISTANCE);
-        String sDistance = (distance > 0 ? GeoHelper.getDistanceDisplay(context, distance) : "");
+        final int distance = cursor.getInt(Queries.Favorites.GEO_DISTANCE);
+        final boolean isForbidden = cursor.getInt(Queries.Favorites.IS_FORBIDDEN) == 1;
+
+        final String sDistance = (distance > 0 ? GeoHelper.getDistanceDisplay(context, distance) : "");
         ((TextView) view.findViewById(R.id.favorite_distance)).setText(sDistance);
 
-        if (cursor.getInt(Queries.Favorites.IS_FORBIDDEN) == 1) {
+        if (isForbidden) {
             view.findViewById(R.id.favorite_is_forbidden).setVisibility(View.VISIBLE);
             ((TextView) view.findViewById(R.id.favorite_name)).setTextColor(colorForbidden);
         }
@@ -67,7 +65,5 @@ public class PostsCursorAdapter extends SimpleCursorAdapter {
             view.findViewById(R.id.favorite_is_forbidden).setVisibility(View.GONE);
             ((TextView) view.findViewById(R.id.favorite_name)).setTextColor(colorAllowed);
         }
-
     }
-
 }
