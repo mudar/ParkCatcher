@@ -37,7 +37,7 @@ public class FavoritesActivity extends NavdrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTitle(R.string.activity_about);
+        setTitle(R.string.activity_favorites);
         setContentView(R.layout.activity_navdrawer);
 
         getActionBarToolbar().setNavigationIcon(R.drawable.ic_action_arrow_back);
