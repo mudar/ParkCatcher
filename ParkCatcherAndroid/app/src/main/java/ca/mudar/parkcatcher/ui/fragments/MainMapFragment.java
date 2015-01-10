@@ -33,7 +33,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.view.MenuItemCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -64,6 +63,7 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -622,42 +622,6 @@ public class MainMapFragment extends SupportMapFragment implements
     }
 
     /**
-     * Initial map center animation on detected user location. If user is more
-     * than minimum-distance from the city, center the map on Downtown. Also
-     * defines the zoom.
-     */
-    @Deprecated
-    private void initialAnimateToPoint() {
-        final Location userLocation = parkingApp.getLocation();
-        if (userLocation != null) {
-            /**
-             * Center on app's user location.
-             */
-            // Log.v(TAG, "initialAnimateToPoint lat = " +
-            // userLocation.getLatitude() + ". Lon = "
-            // + userLocation.getLongitude());
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(
-                    userLocation.getLatitude(), userLocation.getLongitude())));
-        } else {
-            /**
-             * Center on Downtown.
-             */
-            // Log.v(TAG, "initialAnimateToPoint. Center on Downtown");
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(Const.MONTREAL_GEO_LAT_LNG));
-        }
-
-        if (mMapCenter != null) {
-            /**
-             * The AppHelper knows the user location from a previous query, so
-             * use the saved value.
-             */
-            // Log.v(TAG, "initialAnimateToPoint. mMapCenter != null");
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(new LatLng(
-                    mMapCenter.getLatitude(), mMapCenter.getLongitude())));
-        }
-    }
-
-    /**
      * Check if user is near Montreal. We stop checking after first true value (default is false).
      *
      * @param myLocation
@@ -831,9 +795,7 @@ public class MainMapFragment extends SupportMapFragment implements
         private boolean hasHintMarker;
         private int mIndexInfoWindow;
         private LatLng clickedLatLng;
-        private Cursor mCursor;
-
-        // TODO: use WeakReference
+        private WeakReference<Cursor> mCursor;
 
         @Override
         protected void onPreExecute() {
@@ -867,7 +829,7 @@ public class MainMapFragment extends SupportMapFragment implements
             final int dayOfYear = ParkingTimeHelper.getIsoDayOfYear(calendar);
 
             try {
-                mCursor = getActivity()
+                mCursor = new WeakReference<Cursor>(getActivity()
                         .getApplicationContext()
                         .getContentResolver()
                         .query(Posts.CONTENT_ALLOWED_URI,
@@ -886,11 +848,10 @@ public class MainMapFragment extends SupportMapFragment implements
                                         Integer.toString(duration),
                                         Integer.toString(dayOfYear)
                                 },
-                                null);
-                final List<MarkerOptions> markerOptions = buildMarkers(mCursor);
-                if (mCursor != null && !mCursor.isClosed()) {
-                    mCursor.close();
-                }
+                                null));
+                final List<MarkerOptions> markerOptions = buildMarkers();
+
+                closeCursorIfNecessary();
 
                 return markerOptions;
             } catch (NullPointerException e) {
@@ -902,9 +863,7 @@ public class MainMapFragment extends SupportMapFragment implements
 
         @Override
         protected void onCancelled(List<MarkerOptions> markerOptions) {
-            if (mCursor != null && !mCursor.isClosed()) {
-                mCursor.close();
-            }
+            closeCursorIfNecessary();
         }
 
         @Override
@@ -928,24 +887,28 @@ public class MainMapFragment extends SupportMapFragment implements
                     addSearchedLocationMarker(searchedMarker.getPosition(), searchedMarker.getTitle());
                 }
 
-                for (int i = 0; i < totalMarkers; i++) {
+
+                int i = 0;
+                for (MarkerOptions item : markerOptions) {
                     if (isCancelled()) {
                         return;
                     }
-                    final Marker marker = mMap.addMarker(markerOptions.get(i));
+                    final Marker marker = mMap.addMarker(item);
                     if (i == mIndexInfoWindow) {
                         marker.showInfoWindow();
                         clickedMarker = marker;
                     }
                     markerOptions.set(i, null);
+                    i++;
                 }
-
+                markerOptions.clear();
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
 
-        private List<MarkerOptions> buildMarkers(Cursor cursor) {
+        private List<MarkerOptions> buildMarkers() {
+            Cursor cursor = mCursor.get();
             if (cursor == null) {
                 return null;
             }
@@ -1006,6 +969,16 @@ public class MainMapFragment extends SupportMapFragment implements
             } while (cursor.moveToNext());
 
             return markersArray;
+        }
+
+        private void closeCursorIfNecessary() {
+            if (mCursor != null) {
+                Cursor c = mCursor.get();
+                if (c != null && !c.isClosed()) {
+                    c.close();
+                }
+                mCursor.clear();
+            }
         }
 
     }
