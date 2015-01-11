@@ -45,7 +45,7 @@ import ca.mudar.parkcatcher.Const.PrefsValues;
 import ca.mudar.parkcatcher.service.DistanceUpdateService;
 
 public class ParkingApp extends Application {
-    protected static final String TAG = "ParkingApp";
+    private static final String TAG = "ParkingApp";
 
     private SharedPreferences prefs;
 

@@ -39,7 +39,7 @@ import ca.mudar.parkcatcher.ParkingApp;
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
-    protected OnParkingCalendarChangedListener mListener;
+    private OnParkingCalendarChangedListener mListener;
 
     public interface OnParkingCalendarChangedListener {
         // Target Fragment or parent Activity are required to provide getter/setter for the parking

@@ -33,7 +33,7 @@ import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.ui.fragments.HelpFragment;
 
 public class HelpPagerAdapter extends FragmentPagerAdapter {
-    protected static final String TAG = "HelpPagerAdapter";
+    private static final String TAG = "HelpPagerAdapter";
 
     private final String[] titles;
 

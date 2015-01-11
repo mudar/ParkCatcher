@@ -41,7 +41,7 @@ import ca.mudar.parkcatcher.R;
 
 public class NumberSeekBarFragment extends DialogFragment {
 
-    protected OnParkingCalendarChangedListener mListener;
+    private OnParkingCalendarChangedListener mListener;
 
     public NumberSeekBarFragment() {
 

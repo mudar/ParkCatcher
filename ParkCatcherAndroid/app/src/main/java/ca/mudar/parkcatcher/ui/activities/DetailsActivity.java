@@ -31,7 +31,7 @@ import ca.mudar.parkcatcher.ui.activities.base.ToolbarActivity;
 import ca.mudar.parkcatcher.ui.fragments.DetailsFragment;
 
 public class DetailsActivity extends ToolbarActivity {
-    protected static final String TAG = "DetailsActivity";
+    private static final String TAG = "DetailsActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

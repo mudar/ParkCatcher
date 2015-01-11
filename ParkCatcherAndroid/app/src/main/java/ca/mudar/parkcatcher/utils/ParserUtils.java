@@ -51,7 +51,7 @@ import ca.mudar.parkcatcher.provider.ParkingContract.SyncColumns;
  * Various utility methods used by JsonHandler implementations.
  */
 public class ParserUtils {
-    protected static final String TAG = "ParserUtils";
+    private static final String TAG = "ParserUtils";
 
     /** Used to sanitize a string to be {@link Uri} safe. */
     private static final Pattern sSanitizePattern = Pattern.compile("[^a-z0-9-_]");

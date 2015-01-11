@@ -102,8 +102,8 @@ public class MainMapFragment extends SupportMapFragment implements
         GoogleMap.OnMyLocationChangeListener,
         GoogleMap.OnMapLoadedCallback,
         OnMapReadyCallback {
-    protected static final String TAG = "MainMapFragment";
-    protected static final float ZOOM_DEFAULT = 11f;
+    private static final String TAG = "MainMapFragment";
+    private static final float ZOOM_DEFAULT = 11f;
     private static final float ZOOM_NEAR = 17f;
     private static final float ZOOM_MIN = 16f;
     private static final float HUE_MARKER = 94.0f;
@@ -164,6 +164,8 @@ public class MainMapFragment extends SupportMapFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        view.setPadding(0, 0, 0, getResources().getDimensionPixelSize(R.dimen.slider_collapsed_height));
 
         viewMarkerInfoWindow = inflater.inflate(R.layout.custom_info_window, container, false);
 
@@ -994,7 +996,7 @@ public class MainMapFragment extends SupportMapFragment implements
         // TODO: use WeakReference
 
         @SuppressWarnings("unused")
-        protected static final String TAG = "JsonAsyncTask";
+        private static final String TAG = "JsonAsyncTask";
 
         @Override
         protected void onPreExecute() {

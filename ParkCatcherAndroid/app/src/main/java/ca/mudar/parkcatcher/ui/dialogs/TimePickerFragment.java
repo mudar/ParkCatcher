@@ -40,7 +40,7 @@ import ca.mudar.parkcatcher.ParkingApp;
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
 
-    protected OnParkingCalendarChangedListener mListener;
+    private OnParkingCalendarChangedListener mListener;
 
     public interface OnParkingCalendarChangedListener {
         // Parent activity is required to provide getter/setter for the parking

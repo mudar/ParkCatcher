@@ -50,9 +50,8 @@ import ca.mudar.parkcatcher.utils.Lists;
 public class DistanceUpdateService extends IntentService {
     private static final String TAG = "DistanceUpdateService";
 
-    protected ContentResolver contentResolver;
-    protected SharedPreferences prefs;
-    protected Editor prefsEditor;
+    private ContentResolver contentResolver;
+    private SharedPreferences prefs;
 
     public DistanceUpdateService() {
         super(TAG);
@@ -64,7 +63,6 @@ public class DistanceUpdateService extends IntentService {
         contentResolver = getContentResolver();
 
         prefs = getSharedPreferences(Const.APP_PREFS_NAME, Context.MODE_PRIVATE);
-        prefsEditor = prefs.edit();
     }
 
     /**
@@ -154,21 +152,19 @@ public class DistanceUpdateService extends IntentService {
             /**
              * Save the last update time and place to the Shared Preferences.
              */
+            final Editor prefsEditor = prefs.edit();
             prefsEditor.putFloat(PrefsNames.LAST_UPDATE_LAT, latitude.floatValue());
             prefsEditor.putFloat(PrefsNames.LAST_UPDATE_LNG, longitude.floatValue());
             prefsEditor.putLong(PrefsNames.LAST_UPDATE_TIME_GEO, System.currentTimeMillis());
-            prefsEditor.commit();
+            prefsEditor.apply();
         }
         Log.v(TAG, "Distance calculation took " + (System.currentTimeMillis()
                 - startLocal) + " ms");
     }
 
-    protected ArrayList<ContentProviderOperation> updateDistance(Uri contentUri,
+    private ArrayList<ContentProviderOperation> updateDistance(Uri contentUri,
             double startLatitude, double startLongitude) {
         final ArrayList<ContentProviderOperation> batch = Lists.newArrayList();
-
-        ContentProviderOperation.Builder builder = ContentProviderOperation
-                .newUpdate(contentUri);
 
         Cursor queuedPosts = contentResolver.query(contentUri,
                 DistanceQuery.POSTS_SUMMARY_PROJECTION,
@@ -202,7 +198,7 @@ public class DistanceUpdateService extends IntentService {
                  */
                 if ((oldDistance == 0)
                         || (Math.abs(oldDistance - distance) > Const.DB_MAX_DISTANCE)) {
-                    builder = ContentProviderOperation.newUpdate(contentUri);
+                    final ContentProviderOperation.Builder builder = ContentProviderOperation.newUpdate(contentUri);
                     builder.withValue(PostsColumns.GEO_DISTANCE, distance);
                     builder.withSelection(selection, queuedId);
 

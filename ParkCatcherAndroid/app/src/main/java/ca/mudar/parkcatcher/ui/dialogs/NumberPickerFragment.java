@@ -43,7 +43,7 @@ import ca.mudar.parkcatcher.R;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class NumberPickerFragment extends DialogFragment {
 
-    protected OnParkingCalendarChangedListener mListener;
+    private OnParkingCalendarChangedListener mListener;
 
     public NumberPickerFragment() {
 

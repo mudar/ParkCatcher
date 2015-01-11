@@ -43,7 +43,7 @@ import ca.mudar.parkcatcher.ui.activities.EulaActivity;
  * indicating whether the user has accepted.
  */
 public class EulaHelper {
-    protected static String TAG = "EulaHelper";
+    private static String TAG = "EulaHelper";
 
     public static boolean hasAcceptedEula(final Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);

@@ -33,7 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 public class LongPressLocationSource implements
         LocationSource,
         OnMapLongClickListener {
-    protected static final String TAG = "LongPressLocationSource";
+    private static final String TAG = "LongPressLocationSource";
 
     private OnLocationChangedListener mListener;
     /**

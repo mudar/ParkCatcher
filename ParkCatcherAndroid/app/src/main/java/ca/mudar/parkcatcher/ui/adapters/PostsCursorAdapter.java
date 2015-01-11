@@ -34,7 +34,7 @@ import ca.mudar.parkcatcher.model.Queries;
 import ca.mudar.parkcatcher.utils.GeoHelper;
 
 public class PostsCursorAdapter extends SimpleCursorAdapter {
-    protected static final String TAG = "PostsCursorAdapter";
+    private static final String TAG = "PostsCursorAdapter";
 
     final int colorAllowed;
     final int colorForbidden;

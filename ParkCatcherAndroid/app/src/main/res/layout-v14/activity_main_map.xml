@@ -30,8 +30,7 @@
                 <FrameLayout
                     android:id="@+id/content_frame"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="@dimen/slider_collapsed_height" />
+                    android:layout_height="match_parent" />
 
                 <fragment
                     android:id="@+id/calendar_frame"

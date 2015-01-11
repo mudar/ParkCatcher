@@ -33,7 +33,7 @@ import ca.mudar.parkcatcher.ui.activities.base.NavdrawerActivity;
 import ca.mudar.parkcatcher.ui.fragments.HelpPagerFragment;
 
 public class HelpActivity extends NavdrawerActivity {
-    protected static final String TAG = "HelpActivity";
+    private static final String TAG = "HelpActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -38,9 +38,7 @@ import ca.mudar.parkcatcher.ui.fragments.SettingsFragment;
 
 public class SettingsActivity extends ToolbarActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
-    protected static final String TAG = "SettingsActivity";
-
-    protected ParkingApp mParkingApp;
+    private static final String TAG = "SettingsActivity";
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
@@ -52,8 +50,7 @@ public class SettingsActivity extends ToolbarActivity implements
         getActionBarToolbar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        mParkingApp = (ParkingApp) getApplicationContext();
+        final ParkingApp mParkingApp = (ParkingApp) getApplicationContext();
         mParkingApp.updateUiLanguage();
 
         getSharedPreferences(Const.APP_PREFS_NAME, Context.MODE_PRIVATE)

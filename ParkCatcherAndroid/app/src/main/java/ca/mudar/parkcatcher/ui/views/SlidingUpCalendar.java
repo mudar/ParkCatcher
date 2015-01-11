@@ -23,7 +23,6 @@
 
 package ca.mudar.parkcatcher.ui.views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -239,7 +238,6 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
         updateParkingDurationButton();
     }
 
-    @SuppressLint("DefaultLocale")
     public void updateParkingTimeTitle() {
         final GregorianCalendar c = parkingApp.getParkingCalendar();
         final int duration = parkingApp.getParkingDuration();

@@ -30,7 +30,7 @@ import java.util.List;
 import ca.mudar.parkcatcher.Const;
 
 public class Post {
-    protected static final String TAG = "Post";
+    private static final String TAG = "Post";
 
     private final PostGeometry geometry;
     private final String type;

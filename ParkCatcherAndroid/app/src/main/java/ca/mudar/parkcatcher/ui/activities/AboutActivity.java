@@ -31,7 +31,7 @@ import ca.mudar.parkcatcher.ui.activities.base.NavdrawerActivity;
 import ca.mudar.parkcatcher.ui.fragments.AboutFragment;
 
 public class AboutActivity extends NavdrawerActivity {
-    protected static final String TAG = "AboutActivity";
+    private static final String TAG = "AboutActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -42,7 +42,7 @@ import ca.mudar.parkcatcher.R;
 public class SettingsFragment extends PreferenceFragment implements
         SharedPreferences.OnSharedPreferenceChangeListener {
 
-    protected SharedPreferences mSharedPrefs;
+    private SharedPreferences mSharedPrefs;
 
     ListPreference tUnits;
     ListPreference tLanguage;

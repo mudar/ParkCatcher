@@ -34,8 +34,8 @@ import ca.mudar.parkcatcher.R;
 public class SearchViewQueryListener implements
         SearchView.OnQueryTextListener,
         View.OnFocusChangeListener {
-    protected static final String TAG = "SearchViewQueryListener";
-    protected static final int SEARCH_QUERY_MIN_LENGTH = 2;
+    private static final String TAG = "SearchViewQueryListener";
+    private static final int SEARCH_QUERY_MIN_LENGTH = 2;
     private final Context context;
     private SearchViewListener mListener;
     private MenuItem mSearchMenuItem;
