@@ -49,23 +49,23 @@ import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 
 public class FavoritesFragment extends Fragment implements
         LoaderCallbacks<Cursor>,
-        AdapterView.OnItemClickListener {
-    protected static final String TAG = "FavoritesFragment";
-
-    ParkingApp parkingApp;
+        AdapterView.OnItemClickListener,
+        CalendarFilterFragment.CalendarFilterUpdatedListener {
+    private static final String TAG = "FavoritesFragment";
 
     private View mView;
-    protected PostsCursorAdapter mAdapter;
+    private PostsCursorAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         mView = inflater.inflate(R.layout.fragment_list_favorites, container, false);
 
+        mView.setPadding(0, 0, 0, getResources().getDimensionPixelSize(R.dimen.slider_collapsed_height));
+
         ListView mListView = (ListView) mView.findViewById(android.R.id.list);
 
         mListView.setAdapter(null);
-
 
         mAdapter = new PostsCursorAdapter(getActivity(),
                 R.layout.fragment_list_item_favorites,
@@ -84,13 +84,15 @@ public class FavoritesFragment extends Fragment implements
         return mView;
     }
 
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        parkingApp = (ParkingApp) getActivity().getApplicationContext();
+        final ParkingApp parkingApp = (ParkingApp) getActivity().getApplicationContext();
 
-        Bundle args = new Bundle();
-        args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION, getSelectionArgs());
+        final Bundle args = new Bundle();
+        args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION,
+                getSelectionArgs(parkingApp.getParkingCalendar(), parkingApp.getParkingDuration()));
 
         getLoaderManager().initLoader(Queries.Favorites._TOKEN, args, this);
     }
@@ -106,14 +108,13 @@ public class FavoritesFragment extends Fragment implements
         c.moveToPosition(position);
         int idPost = c.getInt(Queries.Favorites.ID_POST);
 
-        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        final Intent intent = new Intent(getActivity(), DetailsActivity.class);
         intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
         getActivity().startActivity(intent);
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-
         String[] selectionArgs = null;
         if (id == Queries.Favorites._TOKEN && args.containsKey(Const.KEY_BUNDLE_CURSOR_SELECTION)) {
             selectionArgs = args.getStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION);
@@ -146,23 +147,22 @@ public class FavoritesFragment extends Fragment implements
         mAdapter.swapCursor(null);
     }
 
-    public void refreshList() {
-        Bundle args = new Bundle();
-        args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION, getSelectionArgs());
+    @Override
+    public void onCalendarFilterChanged(GregorianCalendar calendar, int duration) {
+        refreshList(calendar, duration);
+    }
+
+    private void refreshList(GregorianCalendar calendar, int duration) {
+        final Bundle args = new Bundle();
+        args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION,
+                getSelectionArgs(calendar,duration));
 
         getLoaderManager().restartLoader(Queries.Favorites._TOKEN, args, this);
     }
 
-    private String[] getSelectionArgs() {
-
-        final GregorianCalendar parkingCalendar = parkingApp.getParkingCalendar();
-
-        final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(parkingCalendar);
-
-        // API uses values 0-365 (or 364)
-        final int dayOfYear = ParkingTimeHelper.getIsoDayOfYear(parkingCalendar);
-
-        final int duration = parkingApp.getParkingDuration();
+    private String[] getSelectionArgs(GregorianCalendar calendar, int duration) {
+        final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(calendar);
+        final int dayOfYear = ParkingTimeHelper.getIsoDayOfYear(calendar);
 
         return new String[] {
                 Double.toString(hourOfWeek),
@@ -170,7 +170,5 @@ public class FavoritesFragment extends Fragment implements
                 Integer.toString(dayOfYear)
         };
     }
-
-
 
 }

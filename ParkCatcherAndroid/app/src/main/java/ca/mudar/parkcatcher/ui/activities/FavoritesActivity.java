@@ -24,36 +24,71 @@
 package ca.mudar.parkcatcher.ui.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 
 import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.ui.activities.base.NavdrawerActivity;
 import ca.mudar.parkcatcher.ui.fragments.FavoritesFragment;
+import ca.mudar.parkcatcher.ui.views.SlidingUpCalendar;
 
-public class FavoritesActivity extends NavdrawerActivity {
-    protected static final String TAG = "FavoritesActivity";
+public class FavoritesActivity extends NavdrawerActivity implements
+        SlidingUpCalendar.SlidingUpCalendarCallbacks {
+    private static final String TAG = "FavoritesActivity";
+
+    private SlidingUpCalendar mSlidingUpCalendar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setTitle(R.string.activity_favorites);
-        setContentView(R.layout.activity_navdrawer);
+        setContentView(R.layout.activity_favorites);
+
 
         getActionBarToolbar().setNavigationIcon(R.drawable.ic_action_arrow_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        FavoritesFragment favoritesFragment;
         if (savedInstanceState == null) {
-            final FavoritesFragment fragment = new FavoritesFragment();
+            favoritesFragment = new FavoritesFragment();
             getSupportFragmentManager()
                     .beginTransaction()
-                    .add(R.id.content_frame, fragment)
+                    .add(R.id.content_frame, favoritesFragment, Const.FragmentTags.FAVORITES)
                     .commit();
+        } else {
+            favoritesFragment = (FavoritesFragment) getSupportFragmentManager()
+                    .findFragmentByTag(Const.FragmentTags.FAVORITES);
         }
+
+        mSlidingUpCalendar = (SlidingUpCalendar) findViewById(R.id.sliding_layout);
+
+        // Enable interaction between the Map and sliding-up Calendar filter
+        final Fragment calendarFilterFragment = getSupportFragmentManager()
+                .findFragmentByTag(Const.FragmentTags.SLIDING_UP_CALENDAR);
+        calendarFilterFragment.setTargetFragment(favoritesFragment, Const.RequestCodes.FAVORITES);
     }
 
     @Override
     protected int getDefaultNavDrawerItem() {
         return Const.NavdrawerSection.FAVORITES;
+    }
+
+    @Override
+    protected void onNavdrawerStateChanged(int newState) {
+        if (DrawerLayout.STATE_DRAGGING == newState || DrawerLayout.STATE_SETTLING == newState) {
+            collapseSlidingUpCalendar();
+        }
+    }
+
+    @Override
+    public void hideSlidingUpCalendar() {
+        // Nothing here
+    }
+
+    @Override
+    public void collapseSlidingUpCalendar() {
+        mSlidingUpCalendar.collapsePanel();
     }
 }
