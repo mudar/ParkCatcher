@@ -73,7 +73,7 @@ import ca.mudar.parkcatcher.provider.ParkingContract;
 
 /**
  * Background {@link Service} that synchronizes data living in
- * {@link PlacemarkProvider}. Reads data from remote sources
+ * {@link ca.mudar.parkcatcher.provider.ParkingProvider}. Reads data from remote sources
  */
 public class SyncService extends IntentService {
     private static final String TAG = "SyncService";

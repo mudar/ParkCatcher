@@ -34,6 +34,8 @@ import android.location.Location;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -59,24 +61,12 @@ public class ParkingApp extends Application {
 
     private Location mLocation;
 
-    // TODO: verify possible memory leakage of the following code
-    private static ParkingApp instance = null;
-
-    public static ParkingApp getInstance() {
-        checkInstance();
-        return instance;
-    }
-
-    private static void checkInstance() {
-        if (instance == null)
-            throw new IllegalStateException("Application not created yet!");
-    }
-
     @SuppressLint("ShowToast")
     @Override
     public void onCreate() {
         super.onCreate();
-        instance = this;
+
+        startErrorReporting();
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         prefs = getSharedPreferences(Const.APP_PREFS_NAME, Context.MODE_PRIVATE);
@@ -281,6 +271,12 @@ public class ParkingApp extends Application {
         Locale.setDefault(locale);
         getBaseContext().getResources().updateConfiguration(config,
                 getBaseContext().getResources().getDisplayMetrics());
+    }
+
+    private void startErrorReporting() {
+        if (!BuildConfig.DEBUG) {
+            Crashlytics.start(this);
+        }
     }
 
 }
