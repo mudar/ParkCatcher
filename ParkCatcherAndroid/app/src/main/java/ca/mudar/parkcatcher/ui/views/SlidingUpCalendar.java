@@ -65,6 +65,11 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
     private int mLayoutLastHeight;
     private PanelSlideListener mSlidingUpCalendarListener;
 
+    public interface SlidingUpCalendarCallbacks {
+        public void hideSlidingUpCalendar();
+        public void collapseSlidingUpCalendar();
+    }
+
     public SlidingUpCalendar(Context context) {
         this(context, null);
     }

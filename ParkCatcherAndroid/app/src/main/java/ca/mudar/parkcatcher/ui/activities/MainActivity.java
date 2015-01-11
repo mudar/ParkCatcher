@@ -57,6 +57,7 @@ import ca.mudar.parkcatcher.utils.LocationHelper;
 import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 
 public class MainActivity extends NavdrawerActivity implements
+        SlidingUpCalendar.SlidingUpCalendarCallbacks,
         MainMapFragment.MapEventsListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -245,13 +246,15 @@ public class MainActivity extends NavdrawerActivity implements
         }
     }
 
-    private void hideSlidingUpCalendar() {
+    @Override
+    public void hideSlidingUpCalendar() {
         if (mSlidingUpCalendar != null) {
             mSlidingUpCalendar.hidePanel();
         }
     }
 
-    private void collapseSlidingUpCalendar() {
+    @Override
+    public void collapseSlidingUpCalendar() {
         if (mSlidingUpCalendar != null) {
             mSlidingUpCalendar.collapsePanel();
         }
