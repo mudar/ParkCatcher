@@ -27,7 +27,7 @@
         <bitmap
             android:antialias="false"
             android:filter="false"
-            android:src="@drawable/bg_asphalt"
+            android:src="@drawable/texture_asphalt"
             android:tileMode="repeat" />
     </item>
     <item>
