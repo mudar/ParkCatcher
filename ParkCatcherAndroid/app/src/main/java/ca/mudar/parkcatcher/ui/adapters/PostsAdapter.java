@@ -61,7 +61,7 @@ public class PostsAdapter extends ResourceCursorAdapter {
         final boolean isForbidden = cursor.getInt(Queries.Favorites.IS_FORBIDDEN) == 1;
 
         final String sDistance = (distance > 0 ? GeoHelper.getDistanceDisplay(context, distance) : "");
-        final TextView uiFavoriteName = (TextView) view.findViewById(R.id.favorite_name);
+        final TextView uiFavoriteName = (TextView) view.findViewById(R.id.favorite_label);
 
         uiFavoriteName.setText(label);
         ((TextView) view.findViewById(R.id.favorite_distance)).setText(sDistance);
