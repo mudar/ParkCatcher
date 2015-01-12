@@ -65,7 +65,7 @@ public class NumberPickerFragment extends DialogFragment {
         super.onAttach(activity);
         try {
             final Fragment targetFragment = getTargetFragment();
-            if (targetFragment != null && (targetFragment instanceof  OnParkingCalendarChangedListener)) {
+            if (targetFragment != null && (targetFragment instanceof OnParkingCalendarChangedListener)) {
                 mListener = (OnParkingCalendarChangedListener) targetFragment;
             } else {
                 mListener = (OnParkingCalendarChangedListener) activity;
@@ -96,8 +96,10 @@ public class NumberPickerFragment extends DialogFragment {
         return new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.dialog_title_duration))
                 .setView(view)
+                .setNegativeButton(R.string.dialog_cancel, null)
                 .setPositiveButton(R.string.dialog_done,
                         new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 onDurationSet(numberPicker);
                             }
@@ -108,7 +110,7 @@ public class NumberPickerFragment extends DialogFragment {
 
     /**
      * Update the app's duration value
-     * 
+     *
      * @param
      */
     private void onDurationSet(NumberPicker numberPicker) {
