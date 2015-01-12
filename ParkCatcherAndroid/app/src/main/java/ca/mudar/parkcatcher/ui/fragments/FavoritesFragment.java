@@ -59,16 +59,16 @@ public class FavoritesFragment extends Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mView = inflater.inflate(R.layout.fragment_list_favorites, container, false);
+        mView = inflater.inflate(R.layout.list_favorites, container, false);
 
         final ListView listView = (ListView) mView.findViewById(R.id.favorites_list);
-        final View footer = inflater.inflate(R.layout.favorites_footer_placeholder, listView, false);
+        final View footer = inflater.inflate(R.layout.list_footer_favorites, listView, false);
         listView.addFooterView(footer);
 
         listView.setAdapter(null);
 
         mAdapter = new PostsAdapter(getActivity(),
-                R.layout.fragment_list_item_favorites,
+                R.layout.list_item_favorites,
                 null,
                 0);
 
