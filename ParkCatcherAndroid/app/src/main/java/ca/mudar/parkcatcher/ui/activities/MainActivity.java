@@ -132,6 +132,9 @@ public class MainActivity extends NavdrawerActivity implements
         } else if (!ConnectionHelper.hasConnection(this)) {
             ConnectionHelper.showDialogNoConnection(this);
         }
+
+        // Update calendar to handle new values defined in Favorites
+        mSlidingUpCalendar.updateParkingCalendar();
     }
 
     @Override
