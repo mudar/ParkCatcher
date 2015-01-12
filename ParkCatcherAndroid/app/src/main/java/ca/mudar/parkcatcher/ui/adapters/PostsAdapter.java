@@ -24,8 +24,10 @@
 package ca.mudar.parkcatcher.ui.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
-import android.support.v4.widget.SimpleCursorAdapter;
+import android.graphics.drawable.Drawable;
+import android.support.v4.widget.ResourceCursorAdapter;
 import android.view.View;
 import android.widget.TextView;
 
@@ -33,37 +35,44 @@ import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.model.Queries;
 import ca.mudar.parkcatcher.utils.GeoHelper;
 
-public class PostsCursorAdapter extends SimpleCursorAdapter {
-    private static final String TAG = "PostsCursorAdapter";
+public class PostsAdapter extends ResourceCursorAdapter {
+    private static final String TAG = "PostsAdapter";
 
     final int colorAllowed;
     final int colorForbidden;
+    final Drawable drawableParkingAllowed;
+    final Drawable drawableParkingForbidden;
 
-    public PostsCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to,
-            int flags) {
-        super(context, layout, c, from, to, flags);
+    public PostsAdapter(Context context, int layout, Cursor c, int flags) {
+        super(context, layout, c, flags);
 
-        this.colorAllowed = context.getResources().getColor(R.color.listview_text_1);
-        this.colorForbidden = context.getResources().getColor(R.color.listview_text_2);
+        final Resources resources = context.getResources();
+        this.colorAllowed = resources.getColor(R.color.listview_text_1);
+        this.colorForbidden = resources.getColor(R.color.listview_text_2);
+        this.drawableParkingAllowed = resources.getDrawable(R.drawable.ic_parking_allowed);
+        this.drawableParkingForbidden = resources.getDrawable(R.drawable.ic_parking_forbidden);
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        super.bindView(view, context, cursor);
-
+        final int idPost = cursor.getInt(Queries.Favorites.ID_POST);
+        final String label = cursor.getString(Queries.Favorites.LABEL);
         final int distance = cursor.getInt(Queries.Favorites.GEO_DISTANCE);
         final boolean isForbidden = cursor.getInt(Queries.Favorites.IS_FORBIDDEN) == 1;
 
         final String sDistance = (distance > 0 ? GeoHelper.getDistanceDisplay(context, distance) : "");
+        final TextView uiFavoriteName = (TextView) view.findViewById(R.id.favorite_name);
+
+        uiFavoriteName.setText(label);
         ((TextView) view.findViewById(R.id.favorite_distance)).setText(sDistance);
 
         if (isForbidden) {
-            view.findViewById(R.id.favorite_is_forbidden).setVisibility(View.VISIBLE);
-            ((TextView) view.findViewById(R.id.favorite_name)).setTextColor(colorForbidden);
+            uiFavoriteName.setCompoundDrawablesWithIntrinsicBounds(drawableParkingForbidden, null, null, null);
+        } else {
+            uiFavoriteName.setCompoundDrawablesWithIntrinsicBounds(drawableParkingAllowed, null, null, null);
         }
-        else {
-            view.findViewById(R.id.favorite_is_forbidden).setVisibility(View.GONE);
-            ((TextView) view.findViewById(R.id.favorite_name)).setTextColor(colorAllowed);
-        }
+
+        // Set POST_ID for onItemClick
+        view.setTag(R.id.post_id_tag, idPost);
     }
 }

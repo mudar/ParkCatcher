@@ -27,7 +27,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
@@ -44,42 +44,36 @@ import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.model.Queries;
 import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
 import ca.mudar.parkcatcher.ui.activities.DetailsActivity;
-import ca.mudar.parkcatcher.ui.adapters.PostsCursorAdapter;
+import ca.mudar.parkcatcher.ui.adapters.PostsAdapter;
 import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 
 public class FavoritesFragment extends Fragment implements
-        LoaderCallbacks<Cursor>,
+        LoaderManager.LoaderCallbacks<Cursor>,
         AdapterView.OnItemClickListener,
         CalendarFilterFragment.CalendarFilterUpdatedListener {
     private static final String TAG = "FavoritesFragment";
 
     private View mView;
-    private PostsCursorAdapter mAdapter;
+    private PostsAdapter mAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         mView = inflater.inflate(R.layout.fragment_list_favorites, container, false);
 
-        mView.setPadding(0, 0, 0, getResources().getDimensionPixelSize(R.dimen.slider_collapsed_height));
+        final ListView listView = (ListView) mView.findViewById(R.id.favorites_list);
+        final View footer = inflater.inflate(R.layout.favorites_footer_placeholder, listView, false);
+        listView.addFooterView(footer);
 
-        ListView mListView = (ListView) mView.findViewById(android.R.id.list);
+        listView.setAdapter(null);
 
-        mListView.setAdapter(null);
-
-        mAdapter = new PostsCursorAdapter(getActivity(),
+        mAdapter = new PostsAdapter(getActivity(),
                 R.layout.fragment_list_item_favorites,
                 null,
-                new String[] {
-                        ca.mudar.parkcatcher.provider.ParkingContract.Favorites.LABEL, Posts.GEO_DISTANCE
-                },
-                new int[] {
-                        R.id.favorite_name, R.id.favorite_distance
-                },
                 0);
 
-        mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(this);
+        listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(this);
 
         return mView;
     }
@@ -99,18 +93,15 @@ public class FavoritesFragment extends Fragment implements
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        final Cursor c = mAdapter.getCursor();
+        final Object tagPostId = view.getTag(R.id.post_id_tag);
 
-        if ((position < 0) || (position == c.getCount())) {
-            return;
+        if (tagPostId instanceof Integer) {
+            int idPost = (Integer) tagPostId;
+
+            final Intent intent = new Intent(getActivity(), DetailsActivity.class);
+            intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
+            getActivity().startActivity(intent);
         }
-
-        c.moveToPosition(position);
-        int idPost = c.getInt(Queries.Favorites.ID_POST);
-
-        final Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
-        getActivity().startActivity(intent);
     }
 
     @Override
@@ -125,20 +116,20 @@ public class FavoritesFragment extends Fragment implements
                 Queries.Favorites.FAVORITES_SUMMARY_PROJECTION,
                 null,
                 selectionArgs,
-                Posts.FORBIDDEN_DISTANCE_SORT);
+                Posts.DISTANCE_SORT);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
 
+        mView.findViewById(R.id.favorites_loading).setVisibility(View.GONE);
         if ((data == null) || (data.getCount() == 0)) {
-            mView.findViewById(android.R.id.empty).setVisibility(View.GONE);
-            mView.findViewById(R.id.favorites_empty_list).setVisibility(View.VISIBLE);
-        }
-        else {
-            mView.findViewById(android.R.id.empty).setVisibility(View.VISIBLE);
-            mView.findViewById(R.id.favorites_empty_list).setVisibility(View.GONE);
+            mView.findViewById(R.id.favorites_list).setVisibility(View.GONE);
+            mView.findViewById(R.id.favorites_empty).setVisibility(View.VISIBLE);
+        } else {
+            mView.findViewById(R.id.favorites_list).setVisibility(View.VISIBLE);
+            mView.findViewById(R.id.favorites_empty).setVisibility(View.GONE);
         }
     }
 
@@ -155,7 +146,7 @@ public class FavoritesFragment extends Fragment implements
     private void refreshList(GregorianCalendar calendar, int duration) {
         final Bundle args = new Bundle();
         args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION,
-                getSelectionArgs(calendar,duration));
+                getSelectionArgs(calendar, duration));
 
         getLoaderManager().restartLoader(Queries.Favorites._TOKEN, args, this);
     }
@@ -164,11 +155,10 @@ public class FavoritesFragment extends Fragment implements
         final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(calendar);
         final int dayOfYear = ParkingTimeHelper.getIsoDayOfYear(calendar);
 
-        return new String[] {
+        return new String[]{
                 Double.toString(hourOfWeek),
                 Integer.toString(duration),
                 Integer.toString(dayOfYear)
         };
     }
-
 }

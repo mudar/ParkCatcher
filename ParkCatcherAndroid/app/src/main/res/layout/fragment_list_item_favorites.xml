@@ -26,28 +26,16 @@
     android:id="@+id/favorites_list_item"
     style="@style/FavoritesListItem"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight" >
+    android:layout_height="?android:attr/listPreferredItemHeight">
 
     <TextView
         android:id="@+id/favorite_name"
         style="@style/FavoritesListItemTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:lines="1"
-        android:scrollHorizontally="true" />
-
-    <TextView
-        android:id="@+id/favorite_is_forbidden"
-        style="@style/FavoritesListItemSummary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/favorite_name"
-        android:layout_toLeftOf="@+id/favorite_distance"
-        android:ellipsize="end"
-        android:lines="1"
-        android:scrollHorizontally="true"
-        android:text="@string/favroites_is_forbidden" />
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/favorite_distance" />
 
     <TextView
         android:id="@+id/favorite_distance"
@@ -55,7 +43,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/favorite_name"
-        android:paddingLeft="@dimen/padding_small" />
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>

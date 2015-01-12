@@ -22,38 +22,38 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/layer_list_background_asphalt"
+    android:background="@color/theme_bg_primary"
     android:cacheColorHint="@android:color/transparent"
     android:clickable="true"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <ListView
+        android:id="@+id/favorites_list"
         style="@style/FavoritesList"
-        android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:cacheColorHint="@android:color/transparent"
-        android:fastScrollEnabled="true" />
+        android:fastScrollEnabled="true"
+        android:visibility="gone" />
 
     <ProgressBar
-        android:id="@id/android:empty"
+        android:id="@+id/favorites_loading"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" >
-    </ProgressBar>
+        android:layout_gravity="center"></ProgressBar>
 
     <TextView
+        android:id="@+id/favorites_empty"
         style="@style/FavoritesListEmpty"
-        android:id="@+id/favorites_empty_list"
         android:layout_width="@dimen/listview_empty_width"
-        android:layout_gravity="center"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/favorites_empty_list"
         android:visibility="gone" />
 
-</LinearLayout>
+</FrameLayout>
