@@ -82,13 +82,33 @@ public class FavoritesActivity extends NavdrawerActivity implements
         }
     }
 
+    /**
+     * Implements SlidingUpCalendarCallbacks
+     */
     @Override
-    public void hideSlidingUpCalendar() {
-        // Nothing here
+    public void showSlidingUpCalendar() {
+        if (mSlidingUpCalendar != null) {
+            mSlidingUpCalendar.showPanel();
+        }
     }
 
+    /**
+     * Implements SlidingUpCalendarCallbacks
+     */
+    @Override
+    public void hideSlidingUpCalendar() {
+        if (mSlidingUpCalendar != null) {
+            mSlidingUpCalendar.hidePanel();
+        }
+    }
+
+    /**
+     * Implements SlidingUpCalendarCallbacks
+     */
     @Override
     public void collapseSlidingUpCalendar() {
-        mSlidingUpCalendar.collapsePanel();
+        if (mSlidingUpCalendar != null) {
+            mSlidingUpCalendar.collapsePanel();
+        }
     }
 }

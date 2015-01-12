@@ -45,6 +45,7 @@ import ca.mudar.parkcatcher.model.Queries;
 import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
 import ca.mudar.parkcatcher.ui.activities.DetailsActivity;
 import ca.mudar.parkcatcher.ui.adapters.PostsAdapter;
+import ca.mudar.parkcatcher.ui.views.SlidingUpCalendar;
 import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 
 public class FavoritesFragment extends Fragment implements
@@ -55,6 +56,17 @@ public class FavoritesFragment extends Fragment implements
 
     private View mView;
     private PostsAdapter mAdapter;
+
+    private static String[] getSelectionArgs(GregorianCalendar calendar, int duration) {
+        final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(calendar);
+        final int dayOfYear = ParkingTimeHelper.getIsoDayOfYear(calendar);
+
+        return new String[]{
+                Double.toString(hourOfWeek),
+                Integer.toString(duration),
+                Integer.toString(dayOfYear)
+        };
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -127,9 +139,11 @@ public class FavoritesFragment extends Fragment implements
         if ((data == null) || (data.getCount() == 0)) {
             mView.findViewById(R.id.favorites_list).setVisibility(View.GONE);
             mView.findViewById(R.id.favorites_empty).setVisibility(View.VISIBLE);
+            toggleSlidingUpCalendar(false);
         } else {
             mView.findViewById(R.id.favorites_list).setVisibility(View.VISIBLE);
             mView.findViewById(R.id.favorites_empty).setVisibility(View.GONE);
+            toggleSlidingUpCalendar(true);
         }
     }
 
@@ -151,14 +165,15 @@ public class FavoritesFragment extends Fragment implements
         getLoaderManager().restartLoader(Queries.Favorites._TOKEN, args, this);
     }
 
-    private String[] getSelectionArgs(GregorianCalendar calendar, int duration) {
-        final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(calendar);
-        final int dayOfYear = ParkingTimeHelper.getIsoDayOfYear(calendar);
-
-        return new String[]{
-                Double.toString(hourOfWeek),
-                Integer.toString(duration),
-                Integer.toString(dayOfYear)
-        };
+    private void toggleSlidingUpCalendar(boolean hasItems) {
+        if (getActivity() instanceof SlidingUpCalendar.SlidingUpCalendarCallbacks) {
+            SlidingUpCalendar.SlidingUpCalendarCallbacks listener =
+                    (SlidingUpCalendar.SlidingUpCalendarCallbacks) getActivity();
+            if (hasItems) {
+                listener.showSlidingUpCalendar();
+            } else {
+                listener.hideSlidingUpCalendar();
+            }
+        }
     }
 }

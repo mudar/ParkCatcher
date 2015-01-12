@@ -246,6 +246,19 @@ public class MainActivity extends NavdrawerActivity implements
         }
     }
 
+    /**
+     * Implements SlidingUpCalendarCallbacks
+     */
+    @Override
+    public void showSlidingUpCalendar() {
+        if (mSlidingUpCalendar != null) {
+            mSlidingUpCalendar.hidePanel();
+        }
+    }
+
+    /**
+     * Implements SlidingUpCalendarCallbacks
+     */
     @Override
     public void hideSlidingUpCalendar() {
         if (mSlidingUpCalendar != null) {
@@ -253,6 +266,9 @@ public class MainActivity extends NavdrawerActivity implements
         }
     }
 
+    /**
+     * Implements SlidingUpCalendarCallbacks
+     */
     @Override
     public void collapseSlidingUpCalendar() {
         if (mSlidingUpCalendar != null) {

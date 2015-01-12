@@ -65,6 +65,7 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
     private PanelSlideListener mSlidingUpCalendarListener;
 
     public interface SlidingUpCalendarCallbacks {
+        public void showSlidingUpCalendar();
         public void hideSlidingUpCalendar();
         public void collapseSlidingUpCalendar();
     }
