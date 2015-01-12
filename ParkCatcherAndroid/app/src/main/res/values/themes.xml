@@ -62,7 +62,7 @@
     </style>
 
     <style name="AppTheme" parent="AppBaseTheme">
-        <item name="android:windowBackground">@drawable/layer_list_background_asphalt</item>
+        <item name="android:windowBackground">@drawable/bg_big_logo</item>
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorPrimaryDark">@color/theme_primary_dark</item>
         <item name="colorAccent">@color/theme_accent_1</item>

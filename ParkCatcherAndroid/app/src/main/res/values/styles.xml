@@ -99,34 +99,42 @@
 
     <style name="FavoritesList">
         <item name="android:overScrollFooter">@null</item>
-        <item name="android:divider">@color/listview_divider</item>
-        <item name="android:dividerHeight">@dimen/listview_divider_height</item>
+        <item name="android:divider">@color/transparent</item>
+        <item name="android:dividerHeight">0dp</item>
     </style>
 
     <style name="FavoritesListItem">
         <item name="android:cacheColorHint">#660000</item>
-        <item name="android:background">@drawable/list_selector_favorites</item>
+        <!--<item name="android:background">@drawable/list_selector_favorites</item>-->
         <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
-        <item name="android:paddingLeft">@dimen/padding_normal</item>
-        <item name="android:paddingRight">@dimen/padding_normal</item>
+    </style>
+
+    <style name="FavoritesListItemTitle">
         <item name="android:gravity">center_vertical</item>
-    </style>
-
-    <style name="FavoritesListItemTitle" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/listview_text_1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:drawableLeft">@drawable/ic_parking_allowed</item>
     </style>
 
-    <style name="FavoritesListItemSummary" parent="@android:style/TextAppearance.Small">
-        <item name="android:textColor">@color/listview_text_2</item>
-        <item name="android:gravity">left</item>
-        <item name="android:layout_alignParentLeft">true</item>
-        <item name="android:visibility">gone</item>
-        <item name="android:textStyle">italic</item>
-    </style>
+    <!--<style name="FavoritesListItemSummary" parent="@android:style/TextAppearance.Small">-->
+        <!--<item name="android:textColor">@color/listview_text_2</item>-->
+        <!--<item name="android:gravity">left</item>-->
+        <!--<item name="android:layout_alignParentLeft">true</item>-->
+        <!--<item name="android:visibility">gone</item>-->
+        <!--<item name="android:textStyle">italic</item>-->
+    <!--</style>-->
 
-    <style name="FavoritesListItemDistance" parent="@android:style/TextAppearance.Small">
+    <style name="FavoritesListItemDistance">
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/listview_text_2</item>
         <item name="android:gravity">right</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
     </style>
 
     <style name="FavoritesListEmpty" parent="@android:style/TextAppearance.Medium">
@@ -181,6 +189,7 @@
 
     <!-- About -->
     <style name="TextContent">
+        <item name="android:textSize">14sp</item>
         <item name="android:padding">@dimen/padding_double</item>
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
@@ -191,13 +200,15 @@
         <item name="android:layout_marginBottom">@dimen/padding_double</item>
     </style>
 
-    <style name="AboutBoxText" parent="@android:style/TextAppearance.Medium">
+    <style name="AboutBoxText">
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/about_text</item>
         <item name="android:textColorLink">@color/hyperlink</item>
         <item name="android:focusableInTouchMode">false</item>
     </style>
 
-    <style name="AboutBoxFooter" parent="@android:style/TextAppearance.Small">
+    <style name="AboutBoxFooter">
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/hyperlink</item>
         <item name="android:textColorLink">@color/hyperlink</item>
         <item name="android:focusableInTouchMode">false</item>

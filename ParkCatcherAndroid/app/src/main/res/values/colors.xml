@@ -24,7 +24,6 @@
 <resources>
 
     <color name="green">#cc99cc00</color>
-    <color name="background">@color/theme_bg_primary</color>
 
     <!-- ActionBar -->
     <color name="pressed_parking">#CC99cc00</color>

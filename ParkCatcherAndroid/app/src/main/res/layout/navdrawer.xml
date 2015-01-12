@@ -4,7 +4,7 @@
     android:layout_width="@dimen/nav_drawer_width"
     android:layout_height="match_parent"
     android:layout_gravity="left"
-    android:background="@color/background"
+    android:background="@color/theme_bg_primary"
     android:fillViewport="true"
     android:fitsSystemWindows="true">
 

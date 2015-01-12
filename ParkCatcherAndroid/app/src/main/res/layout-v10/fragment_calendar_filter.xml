@@ -10,7 +10,7 @@
         style="@style/DrawerTitle"
         android:layout_width="match_parent"
         android:layout_height="@dimen/slider_collapsed_height"
-        android:background="@color/theme_bg_primary"
+        android:background="@color/theme_bg_secondary"
         android:drawableLeft="@drawable/ic_parking" />
 
     <LinearLayout
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="3"
-        android:background="@color/theme_bg_secondary"
+        android:background="@color/theme_bg_primary"
         android:orientation="horizontal"
         android:padding="16dp">
 
