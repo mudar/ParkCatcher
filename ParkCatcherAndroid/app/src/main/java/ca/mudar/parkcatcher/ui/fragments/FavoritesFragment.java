@@ -29,6 +29,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -48,11 +49,13 @@ import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 
 public class FavoritesFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>,
-        CalendarFilterFragment.CalendarFilterUpdatedListener {
+        CalendarFilterFragment.CalendarFilterUpdatedListener,
+        SwipeRefreshLayout.OnRefreshListener {
     private static final String TAG = "FavoritesFragment";
 
     private View mView;
     private FavoritesAdapter mAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private static String[] getSelectionArgs(GregorianCalendar calendar, int duration) {
         final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(calendar);
@@ -70,10 +73,11 @@ public class FavoritesFragment extends Fragment implements
         super.onCreateView(inflater, container, savedInstanceState);
         mView = inflater.inflate(R.layout.list_favorites, container, false);
 
+        mSwipeRefreshLayout = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh);
+        setUpSwipeRefreshLayout(mSwipeRefreshLayout);
+
         final RecyclerView recyclerView = (RecyclerView) mView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        final View footer = inflater.inflate(R.layout.list_footer_favorites, recyclerView, false);
-
         recyclerView.setAdapter(null);
 
         mAdapter = new FavoritesAdapter(getActivity(),
@@ -119,13 +123,14 @@ public class FavoritesFragment extends Fragment implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mAdapter.swapCursor(data);
 
+        toggleProgressBar(false);
         mView.findViewById(R.id.favorites_loading).setVisibility(View.GONE);
         if ((data == null) || (data.getCount() == 0)) {
-            mView.findViewById(R.id.recycler_view).setVisibility(View.GONE);
+            mView.findViewById(R.id.swipe_refresh).setVisibility(View.GONE);
             mView.findViewById(R.id.favorites_empty).setVisibility(View.VISIBLE);
             toggleSlidingUpCalendar(false);
         } else {
-            mView.findViewById(R.id.recycler_view).setVisibility(View.VISIBLE);
+            mView.findViewById(R.id.swipe_refresh).setVisibility(View.VISIBLE);
             mView.findViewById(R.id.favorites_empty).setVisibility(View.GONE);
             toggleSlidingUpCalendar(true);
         }
@@ -141,12 +146,37 @@ public class FavoritesFragment extends Fragment implements
         refreshList(calendar, duration);
     }
 
+    @Override
+    public void onRefresh() {
+        final ParkingApp parkingApp = (ParkingApp) getActivity().getApplicationContext();
+        refreshList(parkingApp.getParkingCalendar(), parkingApp.getParkingDuration());
+    }
+
     private void refreshList(GregorianCalendar calendar, int duration) {
+        toggleProgressBar(true);
+
         final Bundle args = new Bundle();
         args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION,
                 getSelectionArgs(calendar, duration));
 
         getLoaderManager().restartLoader(Queries.Favorites._TOKEN, args, this);
+    }
+
+    private void setUpSwipeRefreshLayout(SwipeRefreshLayout mSwipeRefreshLayout) {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setOnRefreshListener(this);
+            mSwipeRefreshLayout.setColorSchemeResources(
+                    R.color.refresh_color_1,
+                    R.color.refresh_color_2,
+                    R.color.refresh_color_1,
+                    R.color.refresh_color_2);
+        }
+    }
+
+    private void toggleProgressBar(boolean isLoading) {
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(isLoading);
+        }
     }
 
     private void toggleSlidingUpCalendar(boolean hasItems) {
