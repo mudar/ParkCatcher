@@ -23,18 +23,17 @@
 
 package ca.mudar.parkcatcher.ui.fragments;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import java.util.GregorianCalendar;
 
@@ -43,19 +42,17 @@ import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.model.Queries;
 import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
-import ca.mudar.parkcatcher.ui.activities.DetailsActivity;
-import ca.mudar.parkcatcher.ui.adapters.PostsAdapter;
+import ca.mudar.parkcatcher.ui.adapters.FavoritesAdapter;
 import ca.mudar.parkcatcher.ui.views.SlidingUpCalendar;
 import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 
 public class FavoritesFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>,
-        AdapterView.OnItemClickListener,
         CalendarFilterFragment.CalendarFilterUpdatedListener {
     private static final String TAG = "FavoritesFragment";
 
     private View mView;
-    private PostsAdapter mAdapter;
+    private FavoritesAdapter mAdapter;
 
     private static String[] getSelectionArgs(GregorianCalendar calendar, int duration) {
         final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(calendar);
@@ -73,19 +70,19 @@ public class FavoritesFragment extends Fragment implements
         super.onCreateView(inflater, container, savedInstanceState);
         mView = inflater.inflate(R.layout.list_favorites, container, false);
 
-        final ListView listView = (ListView) mView.findViewById(R.id.favorites_list);
-        final View footer = inflater.inflate(R.layout.list_footer_favorites, listView, false);
-        listView.addFooterView(footer);
+        final RecyclerView recyclerView = (RecyclerView) mView.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        final View footer = inflater.inflate(R.layout.list_footer_favorites, recyclerView, false);
 
-        listView.setAdapter(null);
+        recyclerView.setAdapter(null);
 
-        mAdapter = new PostsAdapter(getActivity(),
+        mAdapter = new FavoritesAdapter(getActivity(),
                 R.layout.list_item_favorites,
-                null,
-                0);
+                null
+        );
+        mAdapter.setFooterLayout(R.layout.list_footer_favorites);
 
-        listView.setAdapter(mAdapter);
-        listView.setOnItemClickListener(this);
+        recyclerView.setAdapter(mAdapter);
 
         return mView;
     }
@@ -101,19 +98,6 @@ public class FavoritesFragment extends Fragment implements
                 getSelectionArgs(parkingApp.getParkingCalendar(), parkingApp.getParkingDuration()));
 
         getLoaderManager().initLoader(Queries.Favorites._TOKEN, args, this);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        final Object tagPostId = view.getTag(R.id.post_id_tag);
-
-        if (tagPostId instanceof Integer) {
-            int idPost = (Integer) tagPostId;
-
-            final Intent intent = new Intent(getActivity(), DetailsActivity.class);
-            intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
-            getActivity().startActivity(intent);
-        }
     }
 
     @Override
@@ -137,11 +121,11 @@ public class FavoritesFragment extends Fragment implements
 
         mView.findViewById(R.id.favorites_loading).setVisibility(View.GONE);
         if ((data == null) || (data.getCount() == 0)) {
-            mView.findViewById(R.id.favorites_list).setVisibility(View.GONE);
+            mView.findViewById(R.id.recycler_view).setVisibility(View.GONE);
             mView.findViewById(R.id.favorites_empty).setVisibility(View.VISIBLE);
             toggleSlidingUpCalendar(false);
         } else {
-            mView.findViewById(R.id.favorites_list).setVisibility(View.VISIBLE);
+            mView.findViewById(R.id.recycler_view).setVisibility(View.VISIBLE);
             mView.findViewById(R.id.favorites_empty).setVisibility(View.GONE);
             toggleSlidingUpCalendar(true);
         }

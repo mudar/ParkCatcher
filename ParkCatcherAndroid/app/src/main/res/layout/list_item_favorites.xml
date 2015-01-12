@@ -26,10 +26,11 @@
     android:id="@+id/favorites_list_item"
     style="@style/FavoritesListItem"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight">
+    android:layout_height="?android:attr/listPreferredItemHeight"
+    android:background="?attr/selectableItemBackground">
 
     <TextView
-        android:id="@+id/favorite_name"
+        android:id="@+id/favorite_label"
         style="@style/FavoritesListItemTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

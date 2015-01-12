@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:gravity="bottom"
-            app:initialState="collapsed"
+            app:initialState="hidden"
             app:overlay="true"
             app:panelHeight="@dimen/slider_drag_height"
             app:shadowHeight="0dp">
