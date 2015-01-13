@@ -84,7 +84,6 @@ public class FavoritesFragment extends Fragment implements
                 R.layout.list_item_favorites,
                 null
         );
-        mAdapter.setFooterLayout(R.layout.list_footer_favorites);
 
         recyclerView.setAdapter(mAdapter);
 

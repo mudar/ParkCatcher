@@ -98,6 +98,9 @@
     </style>
 
     <style name="FavoritesList">
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">@dimen/slider_drag_height</item>
+        <item name="android:clipToPadding">false</item>
         <item name="android:overScrollFooter">@null</item>
         <item name="android:divider">@color/transparent</item>
         <item name="android:dividerHeight">0dp</item>

@@ -42,13 +42,9 @@ import ca.mudar.parkcatcher.utils.GeoHelper;
 
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder> {
     private static final String TAG = "FavoritesAdapter";
-    private static final int TYPE_POST = 1;
-    private static final int TYPE_FOOTER = 2;
 
     private final Context context;
     private final int layout;
-    private int layoutFooter;
-    private boolean hasFooter = false;
     private final Drawable drawableParkingAllowed;
     private final Drawable drawableParkingForbidden;
     private Cursor mCursor;
@@ -66,13 +62,9 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     @Override
     public FavoritesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View v = LayoutInflater.from(parent.getContext())
-                .inflate(
-                        viewType == TYPE_POST ? layout : layoutFooter,
-                        parent,
-                        false);
+        final View v = LayoutInflater.from(parent.getContext()).inflate(layout, parent, false);
 
-        return new FavoritesViewHolder(v, viewType);
+        return new FavoritesViewHolder(v);
     }
 
     @Override
@@ -101,21 +93,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
     @Override
     public int getItemCount() {
-        return (mCursor == null) ? 0 : (mCursor.getCount() + 1);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (hasFooter) {
-            return (position == getItemCount() - 1) ? TYPE_FOOTER : TYPE_POST;
-        } else {
-            return TYPE_POST;
-        }
-    }
-
-    public void setFooterLayout(int footerLayout) {
-        hasFooter = true;
-        this.layoutFooter = footerLayout;
+        return (mCursor == null) ? 0 : mCursor.getCount();
     }
 
     public void swapCursor(Cursor cursor) {
@@ -130,15 +108,13 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         private TextView label;
         private TextView distance;
 
-        public FavoritesViewHolder(View itemView, int viewType) {
+        public FavoritesViewHolder(View itemView) {
             super(itemView);
 
-            if (viewType == TYPE_POST) {
-                label = (TextView) itemView.findViewById(R.id.favorite_label);
-                distance = (TextView) itemView.findViewById(R.id.favorite_distance);
+            label = (TextView) itemView.findViewById(R.id.favorite_label);
+            distance = (TextView) itemView.findViewById(R.id.favorite_distance);
 
-                itemView.setOnClickListener(this);
-            }
+            itemView.setOnClickListener(this);
         }
 
         @Override
