@@ -22,19 +22,14 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/navdrawer"
-    android:layout_width="@dimen/nav_drawer_width"
-    android:layout_height="match_parent"
-    android:layout_gravity="left"
-    android:background="@color/theme_bg_primary"
-    android:fillViewport="true"
-    android:fitsSystemWindows="true">
-
-    <LinearLayout
-        android:id="@+id/navdrawer_items_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" />
-
-</ScrollView>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@color/theme_primary_dark"
+    android:paddingLeft="16dp"
+    android:paddingTop="24dp"
+    android:importantForAccessibility="no"
+    android:contentDescription="@string/app_name"
+    android:scaleType="fitStart"
+    android:src="@drawable/logo_navdrawer" />

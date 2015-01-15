@@ -228,6 +228,7 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
         mNavDrawerItems.clear();
 
         // Other items that are always in the nav drawer
+        mNavDrawerItems.add(Const.NavdrawerSection.HEADER);
         mNavDrawerItems.add(Const.NavdrawerSection.MAP);
         mNavDrawerItems.add(Const.NavdrawerSection.FAVORITES);
         mNavDrawerItems.add(Const.NavdrawerSection.HELP);
@@ -254,8 +255,10 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
     }
 
     private View makeNavDrawerItem(final int itemId, ViewGroup container) {
-        final int layoutToInflate = R.layout.navdrawer_item;
-        final View view = getLayoutInflater().inflate(layoutToInflate, container, false);
+        final boolean isHeader = (itemId == Const.NavdrawerSection.HEADER);
+        final View view = getLayoutInflater().inflate(
+                isHeader ? R.layout.navdrawer_header : R.layout.navdrawer_item,
+                container, false);
 
         if (itemId < 0 || itemId >= NAVDRAWER_ICON_RES_ID.length) {
             return view;
