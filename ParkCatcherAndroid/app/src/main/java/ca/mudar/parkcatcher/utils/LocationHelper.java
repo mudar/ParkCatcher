@@ -28,12 +28,12 @@ public class LocationHelper {
     public static Location getLocationFromIntent(Intent intent) {
         Location location = null;
 
-        final double latitude = intent.getDoubleExtra(Const.INTENT_EXTRA_GEO_LAT, Double.MIN_VALUE);
-        final double longitude = intent.getDoubleExtra(Const.INTENT_EXTRA_GEO_LNG, Double.MIN_VALUE);
+        final double latitude = intent.getDoubleExtra(Const.BundleExtras.GEO_LAT, Double.MIN_VALUE);
+        final double longitude = intent.getDoubleExtra(Const.BundleExtras.GEO_LNG, Double.MIN_VALUE);
 
         if (Double.compare(latitude, Double.MIN_VALUE) != 0
                 && Double.compare(latitude, Double.MIN_VALUE) != 0) {
-            location = new Location(Const.LOCATION_PROVIDER_INTENT);
+            location = new Location(Const.LocationProviders.INTENT);
 
             location.setLatitude(latitude);
             location.setLongitude(longitude);
@@ -44,12 +44,12 @@ public class LocationHelper {
 
     public static Location createSearchLocation(double latitude, double longitude) {
 
-        return createLocation(Const.LOCATION_PROVIDER_SEARCH, latitude, longitude);
+        return createLocation(Const.LocationProviders.SEARCH, latitude, longitude);
     }
 
     public static Location createDefaultLocation() {
 
-        return createLocation(Const.LOCATION_PROVIDER_DEFAULT,
+        return createLocation(Const.LocationProviders.DEFAULT,
                 Const.MONTREAL_GEO_LAT_LNG.latitude,
                 Const.MONTREAL_GEO_LAT_LNG.longitude);
     }
@@ -65,7 +65,7 @@ public class LocationHelper {
     }
 
     public static Location createLocation(String provider, double latitude, double longitude) {
-        final Location location = new Location(Const.LOCATION_PROVIDER_SEARCH);
+        final Location location = new Location(Const.LocationProviders.SEARCH);
         location.setLatitude(latitude);
         location.setLongitude(longitude);
 

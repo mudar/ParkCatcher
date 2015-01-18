@@ -90,7 +90,7 @@ public class DetailsFragment extends Fragment implements
     public static DetailsFragment newInstance(int idPost) {
         final DetailsFragment fragment = new DetailsFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(Const.SavedInstanceKeys.ID_POST, idPost);
+        bundle.putInt(Const.BundleExtras.ID_POST, idPost);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -99,7 +99,7 @@ public class DetailsFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_details, container, false);
 
-        mIdPost = getArguments().getInt(Const.SavedInstanceKeys.ID_POST, Const.UNKNOWN);
+        mIdPost = getArguments().getInt(Const.BundleExtras.ID_POST, Const.UNKNOWN);
 
         setOnClickListeners(mView);
 
@@ -239,13 +239,13 @@ public class DetailsFragment extends Fragment implements
     public void onSearchResults(Message msg) {
         final Bundle b = msg.getData();
 
-        if (b.getInt(Const.KEY_BUNDLE_REVERSE_GEOCODER) == Const.BUNDLE_SEARCH_ADDRESS_SUCCESS) {
+        if (b.getInt(Const.BundleExtras.REVERSE_GEOCODER) == Const.BundleExtrasValues.SEARCH_ADDRESS_SUCCESS) {
             mView.findViewById(R.id.details_address_error).setVisibility(View.GONE);
 
             final TextView viewAddressPrimary = (TextView) mView.findViewById(R.id.details_address_primary);
             final TextView viewAddressSecondary = (TextView) mView.findViewById(R.id.details_address_secondary);
-            final String addressPrimary = b.getString(Const.KEY_BUNDLE_ADDRESS_PRIMARY);
-            final String addressSecondary = b.getString(Const.KEY_BUNDLE_ADDRESS_SECONDARY);
+            final String addressPrimary = b.getString(Const.BundleExtras.ADDRESS_PRIMARY);
+            final String addressSecondary = b.getString(Const.BundleExtras.ADDRESS_SECONDARY);
             viewAddressSecondary.setText(addressSecondary);
 
             AnimHelper.updateTextView(viewAddressPrimary, addressPrimary);
@@ -405,9 +405,9 @@ public class DetailsFragment extends Fragment implements
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 //        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 
-        intent.putExtra(Const.INTENT_EXTRA_GEO_LAT, mGeoLat);
-        intent.putExtra(Const.INTENT_EXTRA_GEO_LNG, mGeoLng);
-        intent.putExtra(Const.INTENT_EXTRA_POST_ID, mIdPost);
+        intent.putExtra(Const.BundleExtras.GEO_LAT, mGeoLat);
+        intent.putExtra(Const.BundleExtras.GEO_LNG, mGeoLng);
+        intent.putExtra(Const.BundleExtras.ID_POST, mIdPost);
 
         startActivity(intent);
     }
@@ -543,14 +543,14 @@ public class DetailsFragment extends Fragment implements
                         /**
                          * Send error message to handler.
                          */
-                        b.putInt(Const.KEY_BUNDLE_REVERSE_GEOCODER, Const.BUNDLE_SEARCH_ADDRESS_ERROR);
+                        b.putInt(Const.BundleExtras.REVERSE_GEOCODER, Const.BundleExtrasValues.SEARCH_ADDRESS_ERROR);
                     } else {
                         /**
                          * Send success message to handler with the result geo-coordinates.
                          */
-                        b.putInt(Const.KEY_BUNDLE_REVERSE_GEOCODER, Const.BUNDLE_SEARCH_ADDRESS_SUCCESS);
-                        b.putString(Const.KEY_BUNDLE_ADDRESS_PRIMARY, address.getPrimaryAddress());
-                        b.putString(Const.KEY_BUNDLE_ADDRESS_SECONDARY, address.getSecondaryAddress());
+                        b.putInt(Const.BundleExtras.REVERSE_GEOCODER, Const.BundleExtrasValues.SEARCH_ADDRESS_SUCCESS);
+                        b.putString(Const.BundleExtras.ADDRESS_PRIMARY, address.getPrimaryAddress());
+                        b.putString(Const.BundleExtras.ADDRESS_SECONDARY, address.getSecondaryAddress());
                     }
                     msg.setData(b);
 

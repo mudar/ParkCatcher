@@ -69,7 +69,7 @@ public class DetailsActivity extends ToolbarActivity {
             return getIdFromUri(getIntent().getData());
         } else {
             final Bundle extras = getIntent().getExtras();
-            return extras.getInt(Const.INTENT_EXTRA_POST_ID, Const.UNKNOWN);
+            return extras.getInt(Const.BundleExtras.ID_POST, Const.UNKNOWN);
         }
     }
 
@@ -77,7 +77,7 @@ public class DetailsActivity extends ToolbarActivity {
         final List<String> pathSegments = uri.getPathSegments();
 
         if ((pathSegments.size() == 5)
-                && (pathSegments.get(0).equals(Const.INTENT_EXTRA_URL_PATH_POST_ID))) {
+                && (pathSegments.get(0).equals(Const.BundleExtras.URL_PATH_POST_ID))) {
 
             try {
                 final int postId = Integer.parseInt(pathSegments.get(1));

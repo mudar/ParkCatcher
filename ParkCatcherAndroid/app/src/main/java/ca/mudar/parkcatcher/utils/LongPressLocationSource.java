@@ -30,6 +30,8 @@ import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.model.LatLng;
 
+import ca.mudar.parkcatcher.Const;
+
 public class LongPressLocationSource implements
         LocationSource,
         OnMapLongClickListener {
@@ -64,7 +66,7 @@ public class LongPressLocationSource implements
         googleMap.setLocationSource(this);
 
         if (mEnabled && mListener != null) {
-            Location location = new Location("LongPressLocationProvider");
+            Location location = new Location(Const.LocationProviders.LONG_PRESS);
             location.setLatitude(point.latitude);
             location.setLongitude(point.longitude);
             mListener.onLocationChanged(location);

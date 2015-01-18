@@ -323,15 +323,15 @@ public class MainMapFragment extends SupportMapFragment implements
         setIndeterminateProgressVisibilty(false);
 
         final Bundle b = msg.getData();
-        final String desc = b.getString(Const.KEY_BUNDLE_ADDRESS_DESC);
+        final String desc = b.getString(Const.BundleExtras.ADDRESS_DESC);
 
-        if (b.getInt(Const.KEY_BUNDLE_SEARCH_ADDRESS) == Const.BUNDLE_SEARCH_ADDRESS_SUCCESS) {
+        if (b.getInt(Const.BundleExtras.SEARCH_ADDRESS) == Const.BundleExtrasValues.SEARCH_ADDRESS_SUCCESS) {
             /**
              * Address is found, center map on location and add a marker
              */
             final Location location = LocationHelper.createSearchLocation(
-                    b.getDouble(Const.KEY_BUNDLE_ADDRESS_LAT),
-                    b.getDouble(Const.KEY_BUNDLE_ADDRESS_LNG));
+                    b.getDouble(Const.BundleExtras.ADDRESS_LAT),
+                    b.getDouble(Const.BundleExtras.ADDRESS_LNG));
 
             moveCameraToLocation(location, true);
             addSearchedLocationMarker(location, desc);
@@ -724,7 +724,7 @@ public class MainMapFragment extends SupportMapFragment implements
         final Intent intent = new Intent(getActivity(), DetailsActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-        intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
+        intent.putExtra(Const.BundleExtras.ID_POST, idPost);
         getActivity().startActivity(intent);
     }
 
@@ -774,16 +774,16 @@ public class MainMapFragment extends SupportMapFragment implements
                 /**
                  * Send error message to handler.
                  */
-                b.putInt(Const.KEY_BUNDLE_SEARCH_ADDRESS, Const.BUNDLE_SEARCH_ADDRESS_ERROR);
-                b.putString(Const.KEY_BUNDLE_ADDRESS_DESC, query);
+                b.putInt(Const.BundleExtras.SEARCH_ADDRESS, Const.BundleExtrasValues.SEARCH_ADDRESS_ERROR);
+                b.putString(Const.BundleExtras.ADDRESS_DESC, query);
             } else {
                 /**
                  * Send success message to handler with the found geocoordinates.
                  */
-                b.putInt(Const.KEY_BUNDLE_SEARCH_ADDRESS, Const.BUNDLE_SEARCH_ADDRESS_SUCCESS);
-                b.putDouble(Const.KEY_BUNDLE_ADDRESS_LAT, address.getLatitude());
-                b.putDouble(Const.KEY_BUNDLE_ADDRESS_LNG, address.getLongitude());
-                b.putString(Const.KEY_BUNDLE_ADDRESS_DESC, address.getAddressLine(0));
+                b.putInt(Const.BundleExtras.SEARCH_ADDRESS, Const.BundleExtrasValues.SEARCH_ADDRESS_SUCCESS);
+                b.putDouble(Const.BundleExtras.ADDRESS_LAT, address.getLatitude());
+                b.putDouble(Const.BundleExtras.ADDRESS_LNG, address.getLongitude());
+                b.putString(Const.BundleExtras.ADDRESS_DESC, address.getAddressLine(0));
             }
             msg.setData(b);
 
@@ -924,7 +924,7 @@ public class MainMapFragment extends SupportMapFragment implements
 
             hasHintMarker = (screenCenter != null) && (searchedMarker == null) && (clickedMarker == null);
 
-            final Location locationCenter = new Location(Const.LOCATION_PROVIDER_DEFAULT);
+            final Location locationCenter = new Location(Const.LocationProviders.DEFAULT);
             if (hasHintMarker) {
                 locationCenter.setLatitude(screenCenter.latitude);
                 locationCenter.setLongitude(screenCenter.longitude);
@@ -960,7 +960,7 @@ public class MainMapFragment extends SupportMapFragment implements
                         mIndexInfoWindow = markersArray.size() - 1;
                     }
                 } else if (hasHintMarker) {
-                    Location locationMarker = new Location(Const.LOCATION_PROVIDER_DEFAULT);
+                    Location locationMarker = new Location(Const.LocationProviders.DEFAULT);
                     locationMarker.setLatitude(lat);
                     locationMarker.setLongitude(lng);
 
@@ -1087,7 +1087,7 @@ public class MainMapFragment extends SupportMapFragment implements
             if (screenCenter == null || clickedMarker != null) {
                 hasHintMarker = false;
             }
-            Location locationCenter = new Location(Const.LOCATION_PROVIDER_DEFAULT);
+            Location locationCenter = new Location(Const.LocationProviders.DEFAULT);
             if (hasHintMarker) {
                 locationCenter.setLatitude(screenCenter.latitude);
                 locationCenter.setLongitude(screenCenter.longitude);
@@ -1112,7 +1112,7 @@ public class MainMapFragment extends SupportMapFragment implements
                         marker.showInfoWindow();
                     }
                 } else if (hasHintMarker) {
-                    Location locationMarker = new Location(Const.LOCATION_PROVIDER_DEFAULT);
+                    Location locationMarker = new Location(Const.LocationProviders.DEFAULT);
                     locationMarker.setLatitude(marker.getPosition().latitude);
                     locationMarker.setLongitude(marker.getPosition().longitude);
 

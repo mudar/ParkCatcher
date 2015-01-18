@@ -332,8 +332,8 @@ public class MainActivity extends NavdrawerActivity implements
             // The service runs in the background with no listener
             final Intent intent = new Intent(Intent.ACTION_SYNC, null, getApplicationContext(),
                     SyncService.class);
-            intent.putExtra(Const.INTENT_EXTRA_SERVICE_LOCAL, false);
-            intent.putExtra(Const.INTENT_EXTRA_SERVICE_REMOTE, true);
+            intent.putExtra(Const.BundleExtras.SERVICE_LOCAL, false);
+            intent.putExtra(Const.BundleExtras.SERVICE_REMOTE, true);
             startService(intent);
         }
     }
@@ -390,8 +390,8 @@ public class MainActivity extends NavdrawerActivity implements
         // http://www.capteurdestationnement.com/map/search/2/15.5/12/h2w2e7
 
         if ((pathSegments.size() >= 5)
-                && (pathSegments.get(0).equals(Const.INTENT_EXTRA_URL_PATH_MAP))
-                && (pathSegments.get(1).equals(Const.INTENT_EXTRA_URL_PATH_SEARCH))) {
+                && (pathSegments.get(0).equals(Const.BundleExtras.URL_PATH_MAP))
+                && (pathSegments.get(1).equals(Const.BundleExtras.URL_PATH_SEARCH))) {
 
             try {
                 final int dayOfWeekIso = Integer.valueOf(pathSegments.get(2));

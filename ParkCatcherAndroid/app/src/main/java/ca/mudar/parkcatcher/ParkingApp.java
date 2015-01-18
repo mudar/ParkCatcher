@@ -151,7 +151,7 @@ public class ParkingApp extends Application {
             return mLocation;
         }
 
-        mLocation = new Location(Const.LOCATION_PROVIDER_PREFS);
+        mLocation = new Location(Const.LocationProviders.PREFS);
         mLocation.setLatitude(lastLat.doubleValue());
         mLocation.setLongitude(lastLng.doubleValue());
 
@@ -169,8 +169,8 @@ public class ParkingApp extends Application {
             if ((mLocation == null) || (this.mLocation.distanceTo(location) > Const.MAX_DISTANCE)) {
                 Intent intent = new Intent(this.getApplicationContext(),
                         DistanceUpdateService.class);
-                intent.putExtra(Const.INTENT_EXTRA_GEO_LAT, location.getLatitude());
-                intent.putExtra(Const.INTENT_EXTRA_GEO_LNG, location.getLongitude());
+                intent.putExtra(Const.BundleExtras.GEO_LAT, location.getLatitude());
+                intent.putExtra(Const.BundleExtras.GEO_LNG, location.getLongitude());
                 startService(intent);
             }
             /**
@@ -274,7 +274,7 @@ public class ParkingApp extends Application {
     }
 
     private void startErrorReporting() {
-        if (!BuildConfig.DEBUG) {
+        if (Const.IS_CRASHLYTICS_ENABLED) {
             Crashlytics.start(this);
         }
     }

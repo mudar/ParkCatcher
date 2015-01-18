@@ -111,8 +111,8 @@ public class SyncService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        final boolean isLocal = intent.getBooleanExtra(Const.INTENT_EXTRA_SERVICE_LOCAL, false);
-        final boolean isRemote = intent.getBooleanExtra(Const.INTENT_EXTRA_SERVICE_REMOTE, false);
+        final boolean isLocal = intent.getBooleanExtra(Const.BundleExtras.SERVICE_LOCAL, false);
+        final boolean isRemote = intent.getBooleanExtra(Const.BundleExtras.SERVICE_REMOTE, false);
 
         final ResultReceiver receiver = intent.getParcelableExtra(EXTRA_STATUS_RECEIVER);
         if (receiver != null) {

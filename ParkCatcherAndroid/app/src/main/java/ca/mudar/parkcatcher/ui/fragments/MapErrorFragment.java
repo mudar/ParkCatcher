@@ -43,7 +43,7 @@ public class MapErrorFragment extends Fragment implements
     public static MapErrorFragment newInstance(int errorCode) {
         final MapErrorFragment fragment = new MapErrorFragment();
         final Bundle bundle = new Bundle();
-        bundle.putInt(Const.SavedInstanceKeys.ERROR_CODE, errorCode);
+        bundle.putInt(Const.BundleExtras.ERROR_CODE, errorCode);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -52,7 +52,7 @@ public class MapErrorFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        final int errorCode = getArguments().getInt(Const.SavedInstanceKeys.ERROR_CODE);
+        final int errorCode = getArguments().getInt(Const.BundleExtras.ERROR_CODE);
         final int resource = (errorCode == Const.StartupStatus.ERROR_PLAYSERVICES) ?
                 R.layout.fragment_error_playservices : R.layout.fragment_error_connection;
 

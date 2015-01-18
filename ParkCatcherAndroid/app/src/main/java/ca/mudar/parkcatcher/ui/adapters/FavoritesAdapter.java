@@ -123,7 +123,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
                 final Intent intent = new Intent(v.getContext(), DetailsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-                intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
+                intent.putExtra(Const.BundleExtras.ID_POST, idPost);
                 v.getContext().startActivity(intent);
             }
         }

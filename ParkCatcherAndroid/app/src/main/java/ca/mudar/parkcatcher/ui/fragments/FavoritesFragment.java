@@ -86,7 +86,7 @@ public class FavoritesFragment extends Fragment implements
         final ParkingApp parkingApp = (ParkingApp) getActivity().getApplicationContext();
 
         final Bundle args = new Bundle();
-        args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION,
+        args.putStringArray(Const.BundleExtras.CURSOR_SELECTION,
                 ParkingTimeHelper.getCursorLoaderSelectionArgs(parkingApp.getParkingCalendar(), parkingApp.getParkingDuration()));
 
         getLoaderManager().initLoader(Queries.Favorites._TOKEN, args, this);
@@ -95,8 +95,8 @@ public class FavoritesFragment extends Fragment implements
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String[] selectionArgs = null;
-        if (id == Queries.Favorites._TOKEN && args.containsKey(Const.KEY_BUNDLE_CURSOR_SELECTION)) {
-            selectionArgs = args.getStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION);
+        if (id == Queries.Favorites._TOKEN && args.containsKey(Const.BundleExtras.CURSOR_SELECTION)) {
+            selectionArgs = args.getStringArray(Const.BundleExtras.CURSOR_SELECTION);
         }
 
         return new CursorLoader(getActivity().getApplicationContext(),
@@ -144,7 +144,7 @@ public class FavoritesFragment extends Fragment implements
         toggleProgressBar(true);
 
         final Bundle args = new Bundle();
-        args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION,
+        args.putStringArray(Const.BundleExtras.CURSOR_SELECTION,
                 ParkingTimeHelper.getCursorLoaderSelectionArgs(calendar, duration));
 
         getLoaderManager().restartLoader(Queries.Favorites._TOKEN, args, this);

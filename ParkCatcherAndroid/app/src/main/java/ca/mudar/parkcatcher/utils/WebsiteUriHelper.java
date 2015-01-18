@@ -39,8 +39,8 @@ public class WebsiteUriHelper {
         // http://www.capteurdestationnement.com/map/search/2/15.5/12/h2w2e7
 
         if ((pathSegments.size() == 6)
-                && (pathSegments.get(0).equals(Const.INTENT_EXTRA_URL_PATH_MAP))
-                && (pathSegments.get(1).equals(Const.INTENT_EXTRA_URL_PATH_SEARCH))) {
+                && (pathSegments.get(0).equals(Const.BundleExtras.URL_PATH_MAP))
+                && (pathSegments.get(1).equals(Const.BundleExtras.URL_PATH_SEARCH))) {
 
             try {
                 address = pathSegments.get(5);

@@ -75,14 +75,14 @@ public class DistanceUpdateService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         final long startLocal = System.currentTimeMillis();
 
-        Double latitude = intent.getDoubleExtra(Const.INTENT_EXTRA_GEO_LAT, Double.NaN);
-        Double longitude = intent.getDoubleExtra(Const.INTENT_EXTRA_GEO_LNG, Double.NaN);
+        Double latitude = intent.getDoubleExtra(Const.BundleExtras.GEO_LAT, Double.NaN);
+        Double longitude = intent.getDoubleExtra(Const.BundleExtras.GEO_LNG, Double.NaN);
 
         /**
          * Check to see if this is a forced update. Currently not in use in the
          * UI.
          */
-        boolean doUpdate = intent.getBooleanExtra(Const.INTENT_EXTRA_FORCE_UPDATE, false);
+        boolean doUpdate = intent.getBooleanExtra(Const.BundleExtras.FORCE_UPDATE, false);
 
         if (latitude.equals(Double.NaN) || longitude.equals(Double.NaN)) {
 
@@ -109,7 +109,7 @@ public class DistanceUpdateService extends IntentService {
          * if so, enforce a new update.
          */
         if (!doUpdate) {
-            Location newLocation = new Location(Const.LOCATION_PROVIDER_SERVICE);
+            Location newLocation = new Location(Const.LocationProviders.SERVICE);
             newLocation.setLatitude(latitude);
             newLocation.setLongitude(longitude);
 
@@ -124,7 +124,7 @@ public class DistanceUpdateService extends IntentService {
                 doUpdate = true;
             }
             else {
-                Location lastLocation = new Location(Const.LOCATION_PROVIDER_SERVICE);
+                Location lastLocation = new Location(Const.LocationProviders.SERVICE);
                 lastLocation.setLatitude(lastLat.doubleValue());
                 lastLocation.setLongitude(lastLng.doubleValue());
 

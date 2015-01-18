@@ -24,198 +24,44 @@
 package ca.mudar.parkcatcher;
 
 import android.app.AlarmManager;
+import android.os.Build;
+
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 public class Const {
 
-    public static boolean IS_DEBUG = false;
-    public static boolean HAS_OFFLINE = true;
-
-    // Configuration
+    /**
+     * Parking configuration
+     */
     public static final int DURATION_MIN = 1;
     public static final int DURATION_MAX = 48;
     public static final int DURATION_DEFAULT = 2;
 
-    // Database
-    public static final String DATABASE_NAME = "parkcatcher.db";
-    public static final int DATABASE_VERSION = 18;
+    // Minimum distance to center map on user location, otherwise center on downtown
+    public static final int MAPS_MIN_DISTANCE = 25000; // meters
 
-    // Prefs
-    public static final String APP_PREFS_NAME = "parking_prefs";
+    // The default search radius when searching for places nearby.
+    public static int DEFAULT_RADIUS = 150;
+    // The maximum distance the user should travel between location updates.
+    public static int MAX_DISTANCE = DEFAULT_RADIUS / 2;
 
-    // Google Analytics
-    public static interface GoogleAnalytics {
-        final String ACCOUNT = "UA-xxxxxxx-xx";
-    }
+    public static int DB_MAX_DISTANCE = MAX_DISTANCE / 2;
 
-    // Crittercism
-    public static final String CRITTERCISM_APP_ID = "__CRITTERCISM_APP_ID__";
+    // The maximum time that should pass before the user gets a location update.
+    public static long MAX_TIME = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
 
-    // Language
-    public static interface LangValues {
-        final String FR = "fr";
-        final String EN = "en";
-        final String DEFAULT = "fr";
-    }
+    public static final float MONTREAL_NATURAL_NORTH_ROTATION = -34f;
+    public static final LatLng MONTREAL_GEO_LAT_LNG = new LatLng(45.5d, -73.666667d);
+    public static final LatLngBounds MONTREAL_GEO_BOUNDS = new LatLngBounds(
+            new LatLng(45.380127d, -73.982620d), new LatLng(45.720444d, -73.466087d));
 
-    // Tabs
-    public static final int TABS_INDEX_MAP = 0x0;
-    public static final int TABS_INDEX_FAVORITES = 0x1;
-
-    public static final String TAG_TABS_MAP = "tabs_tag_map";
-    public static final String TAG_TABS_FAVORITES = "tabs_tag_favorites";
-
-    public static final String TAG_FRAGMENT_MAP = "tag_fragment_map";
-    public static final String TAG_FRAGMENT_FAVORITES = "tag_fragment_favorites";
-    public static final String TAG_FRAGMENT_PICKER_DATE = "tag_fragment_picker_date";
-    public static final String TAG_FRAGMENT_PICKER_TIME = "tag_fragment_picker_time";
-    public static final String TAG_FRAGMENT_PICKER_NUMBER = "tag_fragment_picker_number";
-    public static final String TAG_FRAGMENT_SEEKBAR_NUMBER = "tag_fragment_seekbar_number";
-
-    // API
-    private static final String API_KEY_PARK_CATCHER = "__API_PRIVATE_KEY__";
-    private static final String API_SERVER_NAME = "http://www.parkcatcher.com";
-
-    public static interface Api {
-
-        static final int PAGINATION = 1000;
-        static final int PAGES_POSTS = 92;
-        static final int PAGES_PANELS = 118;
-
-        static final String POSTS_LIVE = API_SERVER_NAME
-                + "/api/?day=%s&hour=%s&duration=%s&latNW=%s&lonNW=%s&latSE=%s&lonSE=%s"
-                + "&api_key=" + API_KEY_PARK_CATCHER;
-
-        static final String POSTS = API_SERVER_NAME + "/api/posts/"
-                + API_KEY_PARK_CATCHER + "/%s/%s";
-        static final String PANELS = API_SERVER_NAME + "/api/panels/"
-                + API_KEY_PARK_CATCHER + "/%s/%s";
-        static final String PANELS_CODES = API_SERVER_NAME + "/api/panels-codes/"
-                + API_KEY_PARK_CATCHER;
-        static final String PANELS_CODES_RULES = API_SERVER_NAME
-                + "/api/panels-codes-rules/"
-                + API_KEY_PARK_CATCHER;
-        static final String DATABASE = API_SERVER_NAME + "/sqlite/" + DATABASE_NAME;
-    }
-
-    public static final String URL_GMAPS_DIRECTIONS = "http://maps.google.com/maps?saddr=%s&daddr=%s&f=d";
-    public static final String URI_INTENT_STREETVIEW = "google.streetview:cbll=%s,%s";
-    public static final String URI_INSTALL_STREETVIEW = "market://details?id=com.google.android.street";
-    public static final String URI_INTENT_NAVIGATION = "google.navigation:q=%s,%s";
-
-    public static interface LocalAssets {
-        final String LICENSE = "gpl-3.0-standalone.html";
-    }
-
-    // Intent and Bundle extras
-    public static final String INTENT_EXTRA_POST_ID = "post_id";
-    public static final String INTENT_EXTRA_SERVICE_LOCAL = "service_local";
-    public static final String INTENT_EXTRA_SERVICE_REMOTE = "service_remote";
-    public static final String INTENT_EXTRA_URL_PATH_MAP = "map";
-    public static final String INTENT_EXTRA_URL_PATH_SEARCH = "search";
-    public static final String INTENT_EXTRA_URL_PATH_POST_ID = "spot";
-    public static final String INTENT_EXTRA_GEO_LAT = "geo_lat";
-    public static final String INTENT_EXTRA_GEO_LNG = "geo_lng";
-    public static final String INTENT_EXTRA_FORCE_UPDATE = "force_update";
-
-    public static final String KEY_BUNDLE_PROGRESS_INCREMENT = "bundle_progress_increment";
-    public static final String KEY_BUNDLE_ADDRESS_LAT = "bundle_address_lat";
-    public static final String KEY_BUNDLE_ADDRESS_LNG = "bundle_address_lng";
-    public static final String KEY_BUNDLE_ADDRESS_DESC = "bundle_address_desc";
-    public static final String KEY_BUNDLE_SELECTED_TAB = "bundle_selected_tab";
-
-    public static final int INTENT_REQ_CODE_EULA = 0x10;
-    // public static final int INTENT_REQ_CODE_SPLASH = 0x10;
-    // public static String INTENT_GMAPS_PACKAGE_NAME = "";
-
-    public static final String LOCATION_PROVIDER_DEFAULT = "DefaultLocationProvider";
-    public static final String LOCATION_PROVIDER_LONG_PRESS = "LongPressLocationProvider";
-    public static final String LOCATION_PROVIDER_SEARCH = "SearchLocationProvider";
-    public static final String LOCATION_PROVIDER_INTENT = "IntentLocationProvider";
-    public static final String LOCATION_PROVIDER_PREFS = "PrefsLocationProvider";
-    public static final String LOCATION_PROVIDER_SERVICE = "ServiceLocationProvider";
-
-    public static final int PADDING_BOTTOM_ZOOM = 40;
-
-    public static final double MAPS_DEFAULT_COORDINATES[] = {
-            45.5d, -73.666667d
-    };
-
-    public static final double MAPS_GEOCODER_LIMITS[] = {
+    public static final double MONTREAL_GEOCODER_LIMITS[] = {
             45.380127d, // lowerLeftLat
             -73.982620d, // lowerLeftLng
             45.720444d, // upperRightLat
-            -73.466087d
+            -73.466087d // upperRightLng
     };
-
-    // Help
-    public static interface HelpPages {
-        static final int COUNT = 9;
-
-        static final int APP = 0x0;
-        static final int STOPPING = 0x1;
-        static final int PARKING = 0x2;
-        static final int SRRR = 0x3;
-        static final int RESTRICTED = 0x4;
-        static final int PRIORITY = 0x5;
-        static final int ARROW = 0x6;
-        static final int RULES = 0x7;
-        static final int CELL = 0x8;
-    }
-
-    // Preferences
-    public static interface PrefsNames {
-        final String LANGUAGE = "prefs_language";
-        final String UNITS_SYSTEM = "prefs_units_system";
-        final String LAST_UPDATE_LAT = "prefs_last_update_lat";
-        final String LAST_UPDATE_LNG = "prefs_last_update_lng";
-        final String LAST_UPDATE_TIME_GEO = "prefs_last_update_time_geo";
-        final String FOLLOW_LOCATION_CHANGES = "prefs_follow_location_changes";
-        final String HAS_ACCEPTED_EULA = "accepted_eula";
-        final String HAS_LOADED_DATA = "loaded_data";
-        final String IS_BETA_USER = "beta_user";
-        final String HAS_VIEWED_TUTORIAL = "viewed_tutorial";
-    }
-
-    public static interface PrefsValues {
-        final String LANG_FR = "fr";
-        final String LANG_EN = "en";
-        final String UNITS_ISO = "iso";
-        final String UNITS_IMP = "imp";
-    }
-
-    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-
-    public static boolean SUPPORTS_JELLY_BEAN = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
-    public static boolean SUPPORTS_ICS = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
-    public static boolean SUPPORTS_HONEYCOMB = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB;
-    public static boolean SUPPORTS_GINGERBREAD = android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
-    // public static boolean SUPPORTS_FROYO = true;
-
-    /*
-     * TEMP
-     */
-    public static final String KEY_BUNDLE_SEARCH_ADDRESS = "bundle_search_address";
-    public static final String KEY_BUNDLE_REVERSE_GEOCODER = "bundle_reverse_geocoder";
-    public static final String KEY_BUNDLE_CURSOR_SELECTION = "bundle_cursor_selection";
-    public static final String KEY_BUNDLE_HELP_INDEX = "bundle_help_index";
-    public static final int BUNDLE_SEARCH_ADDRESS_SUCCESS = 0x1;
-    public static final int BUNDLE_SEARCH_ADDRESS_ERROR = 0x0;
-
-    // Database
-    public static interface DbValues {
-        final String DATE_FORMAT = "yyyy-MM-dd";
-
-        final int TYPE_PANEL_CODE_PARKING = 0x1;
-        final int TYPE_PANEL_CODE_PAID = 0x2;
-
-        final String CONCAT_SEPARATOR = "__SEP__";
-    }
-
-    /**
-     * Minimum distance to center map on user location, otherwise center on
-     * downtown. Units are meters.
-     */
-    public static final int MAPS_MIN_DISTANCE = 25000;
 
     public static interface UnitsDisplay {
         final float FEET_PER_MILE = 5280f;
@@ -227,32 +73,199 @@ public class Const {
     }
 
     /**
-     * Location constants. Copied from
-     * com.radioactiveyak.location_best_practices
+     * Crashlytics error reporting
      */
-    public static String EXTRA_KEY_IN_BACKGROUND = "extra_key_in_background";
+    public static final boolean IS_CRASHLYTICS_ENABLED = !BuildConfig.DEBUG;
 
-    // The default search radius when searching for places nearby.
-    public static int DEFAULT_RADIUS = 150;
-    // The maximum distance the user should travel between location updates.
-    public static int MAX_DISTANCE = DEFAULT_RADIUS / 2;
-    // The maximum time that should pass before the user gets a location update.
-    public static long MAX_TIME = AlarmManager.INTERVAL_FIFTEEN_MINUTES;
+    /**
+     * Share and external apps
+     */
+    public static final String URL_GMAPS_DIRECTIONS = "http://maps.google.com/maps?saddr=%1$s&daddr=%2$s&f=d";
+    public static final String URI_INTENT_STREETVIEW = "google.streetview:cbll=%1$s,%2$s";
+    public static final String URI_INSTALL_STREETVIEW = "market://details?id=com.google.android.street";
+    public static final String URI_INTENT_NAVIGATION = "google.navigation:q=%1$d,%2$d";
 
-    public static int DB_MAX_DISTANCE = MAX_DISTANCE / 2;
+    /**
+     * API
+     */
+    public static boolean HAS_OFFLINE = true;
+    private static final String API_KEY_PARK_CATCHER = "__API_PRIVATE_KEY__";
+    private static final String API_SERVER_NAME = "http://www.parkcatcher.com";
 
-    // You will generally want passive location updates to occur less frequently
-    // than active updates. You need to balance location freshness with battery
-    // life.
-    // The location update distance for passive updates.
-    public static int PASSIVE_MAX_DISTANCE = MAX_DISTANCE;
-    // The location update time for passive updates
-    public static long PASSIVE_MAX_TIME = AlarmManager.INTERVAL_HALF_DAY;
-    // Use the GPS (fine location provider) when the Activity is visible?
-    public static boolean USE_GPS_WHEN_ACTIVITY_VISIBLE = true;
-    // When the user exits via the back button, do you want to disable
-    // passive background updates.
-    public static boolean DISABLE_PASSIVE_LOCATION_WHEN_USER_EXIT = false;
+    public static interface Api {
+        final int PAGINATION = 1000;
+        final int PAGES_POSTS = 92;
+        final int PAGES_PANELS = 118;
 
-    public static String ACTIVE_LOCATION_UPDATE_PROVIDER_DISABLED = "ca.mudar.parkcatcher.data.ACTIVE_LOCATION_UPDATE_PROVIDER_DISABLED";
+        final String POSTS_LIVE = API_SERVER_NAME
+                + "/api/?day=%s&hour=%s&duration=%s&latNW=%s&lonNW=%s&latSE=%s&lonSE=%s"
+                + "&api_key=" + API_KEY_PARK_CATCHER;
+
+        final String POSTS = API_SERVER_NAME + "/api/posts/"
+                + API_KEY_PARK_CATCHER + "/%s/%s";
+        final String PANELS = API_SERVER_NAME + "/api/panels/"
+                + API_KEY_PARK_CATCHER + "/%s/%s";
+        final String PANELS_CODES = API_SERVER_NAME + "/api/panels-codes/"
+                + API_KEY_PARK_CATCHER;
+        final String PANELS_CODES_RULES = API_SERVER_NAME
+                + "/api/panels-codes-rules/"
+                + API_KEY_PARK_CATCHER;
+        final String DATABASE = API_SERVER_NAME + "/sqlite/" + DATABASE_NAME;
+    }
+
+    /**
+     * Database
+     */
+    public static final String DATABASE_NAME = "parkcatcher.db";
+    public static final int DATABASE_VERSION = 18;
+
+    public static interface LocalAssets {
+        final String LICENSE = "gpl-3.0-standalone.html";
+    }
+
+    public static interface DbValues {
+        final String DATE_FORMAT = "yyyy-MM-dd";
+
+        final int TYPE_PANEL_CODE_PARKING = 0x1;
+        final int TYPE_PANEL_CODE_PAID = 0x2;
+
+        final String CONCAT_SEPARATOR = "__SEP__";
+    }
+
+    /**
+     * Initial app launch
+     */
+    public static interface StartupStatus {
+        final int OK = 0;
+        final int ERROR_CONNECTION = 1;
+        final int ERROR_PLAYSERVICES = 2;
+    }
+
+    public static interface FragmentTags {
+        final String MAP = "fragment_map";
+        final String ERROR = "fragment_error";
+        final String FAVORITES = "fragment_favorites";
+        final String PICKER_DATE = "fragment_picker_date";
+        final String PICKER_TIME = "fragment_picker_time";
+        final String PICKER_NUMBER = "fragment_picker_number";
+        final String SEEKBAR_NUMBER = "fragment_seekbar_number";
+        final String SLIDING_UP_CALENDAR = "fragment_sliding_up_calendar"; // ref: R.strings.fragment_tag_sliding_up_calendar
+    }
+
+    public static interface RequestCodes {
+        final int EULA = 100;
+        final int DATE_PICKER = 110;
+        final int TIME_PICKER = 120;
+        final int NUMBER_PICKER = 130;
+        final int NUMBER_SEEKBAR = 131;
+        final int MAP = 140;
+        final int FAVORITES = 141;
+    }
+
+    public static interface SavedInstanceKeys {
+        final String PARCELABLE = "instance_parcelable";
+        final String DIMENSION = "dimension";
+        final String HELP_INDEX = "help_index";
+    }
+
+    public static interface BundleExtras {
+        final String ID_POST = "id_post";
+        final String SERVICE_LOCAL = "service_local";
+        final String SERVICE_REMOTE = "service_remote";
+        final String URL_PATH_MAP = "map";
+        final String URL_PATH_SEARCH = "search";
+        final String URL_PATH_POST_ID = "spot";
+        final String GEO_LAT = "geo_lat";
+        final String GEO_LNG = "geo_lng";
+        final String FORCE_UPDATE = "force_update";
+        final String ADDRESS_LAT = "bundle_address_lat";
+        final String ADDRESS_LNG = "bundle_address_lng";
+        final String ADDRESS_DESC = "bundle_address_desc";
+        final String ADDRESS_PRIMARY = "bundle_address_primary";
+        final String ADDRESS_SECONDARY = "bundle_address_secondary";
+        final String SEARCH_ADDRESS = "bundle_search_address";
+        final String REVERSE_GEOCODER = "bundle_reverse_geocoder";
+        final String CURSOR_SELECTION = "bundle_cursor_selection";
+        final String ERROR_CODE = "error_code";
+    }
+
+    public static interface BundleExtrasValues {
+        int SEARCH_ADDRESS_SUCCESS = 0x1;
+        int SEARCH_ADDRESS_ERROR = 0x0;
+    }
+
+    public static interface LocationProviders {
+        final String DEFAULT = "DefaultLocationProvider";
+        final String LONG_PRESS = "LongPressLocationProvider";
+        final String SEARCH = "SearchLocationProvider";
+        final String INTENT = "IntentLocationProvider";
+        final String PREFS = "PrefsLocationProvider";
+        final String SERVICE = "ServiceLocationProvider";
+    }
+
+    /**
+     * Navigation Drawer
+     */
+    public static interface NavdrawerSection {
+        final int _COUNT = 6;
+        final int HEADER = -1;
+        final int MAP = 0;
+        final int FAVORITES = 1;
+        final int HELP = 2;
+        final int ABOUT = 3;
+        final int SETTINGS = 4;
+    }
+
+    /**
+     * Help pages
+     */
+    public static interface HelpTabs {
+        static final int _COUNT = 9;
+        static final int APP = 0;
+        static final int STOPPING = 1;
+        static final int PARKING = 2;
+        static final int SRRR = 3;
+        static final int RESTRICTED = 4;
+        static final int PRIORITY = 5;
+        static final int ARROW = 6;
+        static final int RULES = 7;
+        static final int CELL = 8;
+    }
+
+    /**
+     * Preferences
+     */
+    public static final String APP_PREFS_NAME = "parking_prefs";
+
+    public static interface PrefsNames {
+        final String LANGUAGE = "prefs_language";
+        final String UNITS_SYSTEM = "prefs_units_system";
+        final String LAST_UPDATE_LAT = "prefs_last_update_lat";
+        final String LAST_UPDATE_LNG = "prefs_last_update_lng";
+        final String LAST_UPDATE_TIME_GEO = "prefs_last_update_time_geo";
+        final String HAS_ACCEPTED_EULA = "accepted_eula";
+        final String HAS_LOADED_DATA = "loaded_data";
+        //        final String IS_BETA_USER = "beta_user";
+        final String HAS_VIEWED_TUTORIAL = "viewed_tutorial";
+    }
+
+    public static interface PrefsValues {
+        final String LANG_FR = "fr";
+        final String LANG_EN = "en";
+        final String UNITS_ISO = "iso";
+        final String UNITS_IMP = "imp";
+    }
+
+    public static final int UNKNOWN = -1;
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
+    /**
+     * Compatibility
+     */
+    public static boolean SUPPORTS_LOLLIPOP = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    public static boolean SUPPORTS_JELLY_BEAN = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
+    public static boolean SUPPORTS_ICS = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+    @Deprecated
+    public static boolean SUPPORTS_HONEYCOMB = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+    public static boolean SUPPORTS_HONEYCOMB_MR1 = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1;
 }
