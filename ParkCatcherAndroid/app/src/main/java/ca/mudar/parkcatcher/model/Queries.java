@@ -64,7 +64,6 @@ public class Queries {
         int _TOKEN = 120;
 
         final String[] PROJECTION = new String[]{
-                ParkingContract.PanelsCodes._ID,
                 ParkingContract.PanelsCodes.CODE,
                 ParkingContract.PanelsCodes.DESCRIPTION,
                 ParkingContract.PanelsCodes.TYPE_DESC,
@@ -74,13 +73,12 @@ public class Queries {
                 ParkingContract.Posts.IS_FORBIDDEN,
         };
 
-        final int _ID = 0;
-        final int CODE = 1;
-        final int DESCRIPTION = 2;
-        final int TYPE_DESC = 3;
-        final int IS_STARRED = 4;
-        final int LAT = 5;
-        final int LNG = 6;
-        final int IS_FORBIDDEN = 7;
+        final int CODE = 0;
+        final int DESCRIPTION = 1;
+        final int TYPE_DESC = 2;
+        final int IS_STARRED = 3;
+        final int LAT = 4;
+        final int LNG = 5;
+        final int IS_FORBIDDEN = 6;
     }
 }
