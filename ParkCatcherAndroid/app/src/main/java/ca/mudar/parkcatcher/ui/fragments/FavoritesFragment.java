@@ -57,17 +57,6 @@ public class FavoritesFragment extends Fragment implements
     private FavoritesAdapter mAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private static String[] getSelectionArgs(GregorianCalendar calendar, int duration) {
-        final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(calendar);
-        final int dayOfYear = ParkingTimeHelper.getIsoDayOfYear(calendar);
-
-        return new String[]{
-                Double.toString(hourOfWeek),
-                Integer.toString(duration),
-                Integer.toString(dayOfYear)
-        };
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
@@ -98,7 +87,7 @@ public class FavoritesFragment extends Fragment implements
 
         final Bundle args = new Bundle();
         args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION,
-                getSelectionArgs(parkingApp.getParkingCalendar(), parkingApp.getParkingDuration()));
+                ParkingTimeHelper.getCursorLoaderSelectionArgs(parkingApp.getParkingCalendar(), parkingApp.getParkingDuration()));
 
         getLoaderManager().initLoader(Queries.Favorites._TOKEN, args, this);
     }
@@ -156,7 +145,7 @@ public class FavoritesFragment extends Fragment implements
 
         final Bundle args = new Bundle();
         args.putStringArray(Const.KEY_BUNDLE_CURSOR_SELECTION,
-                getSelectionArgs(calendar, duration));
+                ParkingTimeHelper.getCursorLoaderSelectionArgs(calendar, duration));
 
         getLoaderManager().restartLoader(Queries.Favorites._TOKEN, args, this);
     }

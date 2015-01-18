@@ -142,4 +142,16 @@ public class ParkingTimeHelper {
     public static int getMintuesFromClockTime(double clockTime) {
         return (int) ((clockTime % 1.0d) * 60);
     }
+
+
+    public static String[] getCursorLoaderSelectionArgs(GregorianCalendar calendar, int duration) {
+        final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(calendar);
+        final int dayOfYear = ParkingTimeHelper.getIsoDayOfYear(calendar);
+
+        return new String[]{
+                Double.toString(hourOfWeek),
+                Integer.toString(duration),
+                Integer.toString(dayOfYear)
+        };
+    }
 }
