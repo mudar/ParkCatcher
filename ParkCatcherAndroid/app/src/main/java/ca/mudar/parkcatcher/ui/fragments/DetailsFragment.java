@@ -323,8 +323,11 @@ public class DetailsFragment extends Fragment implements
         panelUi.setLayoutParams(params);
         panelUi.setTextColor(textColor);
 
+        String prefix = (String) desc.subSequence(0, 2);
+        prefix = prefix.trim();
         try {
             // Start with a figure: authorized duration
+            Integer.valueOf(prefix.trim());
             panelUi.setBackgroundResource(R.drawable.bg_panel_parking);
         } catch (NumberFormatException e) {
             if (desc.subSequence(0, 1).equals("P")) {
