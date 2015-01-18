@@ -32,7 +32,6 @@
 
     <!-- Main -->
     <style name="LogoActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
-        <item name="android:displayOptions">showHome|useLogo</item>
         <item name="displayOptions">showHome|useLogo</item>
     </style>
 
@@ -62,6 +61,7 @@
     </style>
 
     <style name="DrawerButton" parent="@style/ButtonAppTheme">
+        <!--<item name="android:fontFamily" tools:ignore="NewApi">sans-serif-condensed</item>-->
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:textColor">@color/text_primary_light</item>
         <item name="android:textSize">14sp</item>
@@ -143,7 +143,7 @@
     <style name="FavoritesListEmpty" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">@color/listview_text_2</item>
         <item name="android:gravity">center</item>
-        <item name="android:drawableBottom">@drawable/ic_action_favorite_on</item>
+        <item name="android:drawableBottom">@drawable/ic_action_star_on</item>
     </style>
 
     <!-- Post Details -->
@@ -162,10 +162,10 @@
         <item name="android:textColor">@color/green</item>
     </style>
 
-    <style name="DetailsTimeTitle" parent="@android:style/TextAppearance.Small">
-        <item name="android:layout_marginBottom">@dimen/padding_double</item>
-        <item name="android:textColor">@color/details_time_tile_text</item>
-    </style>
+    <!--<style name="DetailsTimeTitle" parent="@android:style/TextAppearance.Small">-->
+        <!--<item name="android:layout_marginBottom">@dimen/padding_double</item>-->
+        <!--<item name="android:textColor">@color/details_time_tile_text</item>-->
+    <!--</style>-->
 
     <!-- <style name="DetailsPanel" parent="@android:style/TextAppearance.Small"> -->
     <!-- <item name="android:textColor">@color/details_panel_text</item> -->

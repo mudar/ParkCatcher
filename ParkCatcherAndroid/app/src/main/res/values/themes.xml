@@ -34,12 +34,12 @@
         <item name="actionBarTabStyle">@style/parking_ActionBarTabStyle</item>
         <item name="actionDropDownStyle">@style/parking_DropDownNav</item>
         <item name="actionBarStyle">@style/parking_solid_ActionBar</item>
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_parking</item>
-        <item name="android:popupMenuStyle">@style/parking_PopupMenu</item>
+        <!--<item name="android:actionBarItemBackground">@drawable/selectable_background_parking</item>-->
+        <!--<item name="android:popupMenuStyle">@style/parking_PopupMenu</item>-->
         <item name="android:dropDownListViewStyle">@style/parking_DropDownListView</item>
-        <item name="android:actionBarTabStyle">@style/parking_ActionBarTabStyle</item>
-        <item name="android:actionDropDownStyle">@style/parking_DropDownNav</item>
-        <item name="android:actionBarStyle">@style/parking_solid_ActionBar</item>
+        <!--<item name="android:actionBarTabStyle">@style/parking_ActionBarTabStyle</item>-->
+        <!--<item name="android:actionDropDownStyle">@style/parking_DropDownNav</item>-->
+        <!--<item name="android:actionBarStyle">@style/parking_solid_ActionBar</item>-->
         <item name="android:panelBackground">@drawable/menu_hardkey_panel_parking</item>
 
         <!-- Holo -->
@@ -61,7 +61,7 @@
         <!-- <item name="searchViewTextField">@drawable/edit_text_holo_dark</item> -->
     </style>
 
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="Theme.AppTheme" parent="AppBaseTheme">
         <item name="android:windowBackground">@drawable/bg_big_logo</item>
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorPrimaryDark">@color/theme_primary_dark</item>
@@ -71,12 +71,18 @@
         <item name="android:textColorLink">@color/theme_link_color</item>
     </style>
 
+    <style name="Theme.AppThemeAlert" parent="Theme.AppTheme">
+        <item name="colorPrimary">#ff0000</item>
+        <item name="colorPrimaryDark">#990000</item>
+        <item name="colorAccent">#ff0000</item>
+    </style>
+
     <!-- Main -->
-    <style name="AppTheme.Main" parent="@style/AppTheme">
+    <style name="AppTheme.Main" parent="Theme.AppTheme">
         <item name="logo">@drawable/logo_home</item>
         <item name="actionBarStyle">@style/LogoActionBar</item>
-        <item name="android:logo">@drawable/logo_home</item>
-        <item name="android:actionBarStyle">@style/LogoActionBar</item>
+        <!--<item name="android:logo">@drawable/logo_home</item>-->
+        <!--<item name="android:actionBarStyle">@style/LogoActionBar</item>-->
     </style>
 
     <!-- Eula -->
@@ -89,7 +95,7 @@
     </style>
 
     <!-- Help -->
-    <style name="AppTheme.Help" parent="@style/AppTheme">
+    <style name="AppTheme.Help" parent="Theme.AppTheme">
         <!--<item name="vpiTitlePageIndicatorStyle">@style/CustomTitlePageIndicator</item>-->
     </style>
 

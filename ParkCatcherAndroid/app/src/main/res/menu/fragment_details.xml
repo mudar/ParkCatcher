@@ -24,47 +24,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <group>
-        <item
-            android:id="@+id/menu_favorites_toggle"
-            android:icon="@drawable/ic_action_favorite_off"
-            android:orderInCategory="10"
-            android:title="@string/menu_favorite"
-            app:showAsAction="ifRoom" />
-    </group>
-    <group>
-        <item
-            android:id="@+id/menu_map"
-            android:icon="@drawable/ic_action_map"
-            android:orderInCategory="20"
-            android:title="@string/menu_map"
-            app:showAsAction="ifRoom" />
-        <item
-            android:id="@+id/menu_directions"
-            android:icon="@drawable/ic_action_directions"
-            android:orderInCategory="30"
-            android:title="@string/menu_directions"
-            app:showAsAction="ifRoom" />
-        <item
-            android:id="@+id/menu_streetview"
-            android:icon="@drawable/ic_action_streetview"
-            android:orderInCategory="40"
-            android:title="@string/menu_streetview"
-            app:showAsAction="ifRoom" />
-    </group>
-    <group>
-        <item
-            android:id="@+id/menu_reminder"
-            android:icon="@drawable/ic_action_alert"
-            android:orderInCategory="50"
-            android:title="@string/menu_reminder"
-            app:showAsAction="never" />
-        <item
-            android:id="@+id/menu_share"
-            android:icon="@drawable/ic_action_share"
-            android:orderInCategory="60"
-            android:title="@string/menu_share"
-            app:showAsAction="never" />
-    </group>
-
+    <item
+        android:id="@+id/action_favorites_toggle"
+        android:icon="@drawable/ic_action_star_off"
+        android:orderInCategory="10"
+        android:title="@string/action_favorite"
+        app:showAsAction="ifRoom" />
 </menu>

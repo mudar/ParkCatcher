@@ -22,85 +22,159 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/theme_bg_primary"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:visibility="gone">
 
     <LinearLayout
-        style="@style/DetailsBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingTop="8dp">
 
-        <LinearLayout
-            android:id="@+id/details_progress_address"
+        <RelativeLayout
+            android:id="@+id/details_address_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_normal"
-            android:orientation="horizontal"
-            android:visibility="gone" >
+            android:background="?attr/selectableItemBackground"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/details_address_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/desc_address"
+                android:src="@drawable/ic_place" />
 
             <ProgressBar
-                android:id="@+id/details_progressbar"
-                style="@style/Widget.AppCompat.ProgressBar"
-                android:layout_width="@dimen/details_progress"
-                android:layout_height="@dimen/details_progress"
-                android:indeterminateOnly="true" />
+                android:id="@+id/progressbar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/details_address_primary"
+                android:layout_alignRight="@+id/details_address_primary"
+                android:layout_below="@id/details_address_primary"
+                android:indeterminate="true"
+                android:indeterminateBehavior="cycle" />
 
             <TextView
-                style="@style/DetailsProgressAddress"
+                android:id="@+id/details_address_error"
+                style="@style/DetailsRowPrimary"
+                android:lines="2"
+                android:minLines="2"
+                android:layout_marginBottom="0dp"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/details_progress"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/details_address_icon"
                 android:gravity="center_vertical"
+                android:text="@string/details_address_error"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/details_address_primary"
+                style="@style/DetailsRowPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/details_address_icon"
                 android:text="@string/details_progress_address" />
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/details_address"
+            <TextView
+                android:visibility="invisible"
+                android:id="@+id/details_address_secondary"
+                style="@style/DetailsRowSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/details_address_primary"
+                android:layout_below="@+id/details_address_primary" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_normal"
-            android:visibility="gone" />
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/details_title"
-            style="@style/DetailsTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/details_title" />
+            <ImageView
+                android:id="@+id/details_parking_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:contentDescription="Parking time"
+                android:src="@drawable/ic_parking" />
 
-        <TextView
-            android:id="@+id/details_time_title"
-            style="@style/DetailsTimeTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/details_title"
+                style="@style/DetailsRowPrimary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/details_parking_icon" />
+
+            <TextView
+                android:id="@+id/details_time_title"
+                style="@style/DetailsRowSecondary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/details_title"
+                android:layout_below="@+id/details_title" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/details_panels_wrapper"
             android:layout_width="@dimen/details_panel_width"
+            android:layout_height="0dp"
+            android:layout_marginLeft="72dp"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:orientation="vertical"
+            android:paddingBottom="16dp"
+            android:paddingTop="16dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/theme_bg_secondary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical" >
+            android:gravity="bottom"
+            android:padding="16dp"
+            android:weightSum="3">
 
-            <!-- <TextView -->
-            <!-- style="@style/DetailsPanelNoParking" -->
-            <!-- android:layout_width="@dimen/details_panel_width" -->
-            <!-- android:layout_height="wrap_content" -->
-            <!-- android:text="06h-07h LUN. AU VEN. 1 AVRIL AU 1 DEC." /> -->
+            <Button
+                android:id="@+id/btn_directions"
+                style="@style/DrawerButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_directions"
+                android:text="@string/btn_directions" />
 
+            <Button
+                android:id="@+id/btn_streetview"
+                style="@style/DrawerButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_streetview"
+                android:text="@string/btn_streetview" />
 
-            <!-- <TextView -->
-            <!-- style="@style/DetailsPanelNoStopping" -->
-            <!-- android:layout_width="@dimen/details_panel_width" -->
-            <!-- android:layout_height="wrap_content" -->
-            <!-- android:text="06h-07h LUN. AU VEN. 1 AVRIL AU 1 DEC." /> -->
+            <Button
+                android:id="@+id/btn_share"
+                style="@style/DrawerButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@drawable/ic_share"
+                android:text="@string/btn_share" />
 
-
-            <!-- <TextView -->
-            <!-- style="@style/DetailsPanelParking" -->
-            <!-- android:layout_width="@dimen/details_panel_width" -->
-            <!-- android:layout_height="wrap_content" -->
-            <!-- android:text="06h-07h LUN. AU VEN. 1 AVRIL AU 1 DEC." /> -->
         </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
