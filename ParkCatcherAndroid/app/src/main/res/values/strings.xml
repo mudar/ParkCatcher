@@ -76,24 +76,17 @@
     <string name="dialog_set">Set</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_done">Done</string>
-    <!-- <string name="dialog_title_maps_chooser">Get directions using</string> -->
-
 
     <!-- Toast -->
-    <!--<string name="toast_postal_code_processing">Processing…</string>-->
     <string name="toast_search_error">Location %1$s not found</string>
     <string name="toast_search_network_connection_error">Search requires an active Internet connection…</string>
-    <!--<string name="toast_sync_error">Sync error: %1$s</string>-->
-    <!--<string name="toast_sync_finished">Update completed successfully</string>-->
     <string name="toast_network_connection_error">Internet connection is unavailable…</string>
     <string name="toast_map_not_ready">Loading Map…</string>
     <string name="toast_map_zoom_to_update">Please zoom in to update map information</string>
     <string name="toast_playservices_restart">Restarting Park Catcher… Google Play services successfully update!</string>
-    <!--<string name="toast_address_error">Address not found</string>-->
     <string name="toast_favorites_added">Added to favorites</string>
     <string name="toast_favorites_removed">Removed from favorites</string>
     <string name="toast_streetview_error">Unable to start Google Street View…</string>
-    <!--<string name="toast_todo_reminder">Coming soon: set parking reminder</string>-->
 
     <!-- Map -->
     <string name="map_marker_snippet_title">Parking Allowed</string>
@@ -115,13 +108,9 @@
     <string name="drawer_time_btn">kk:mm</string>
     <string name="drawer_duration_btn">1&#160;hour</string>
     <string name="drawer_duration_plural_btn">%1$s&#160;hours</string>
-    <!--<string name="drawer_label_date">Date</string>-->
-    <!--<string name="drawer_label_time">Time</string>-->
-    <!--<string name="drawer_label_duration">Duration</string>-->
 
     <!-- Favorites -->
     <string name="favorites_empty_list">Favorites list is empty. Store your favorite locations here for faster access…</string>
-    <!--<string name="favroites_is_forbidden">Parking Forbidden</string>-->
 
     <!-- PostDetails -->
     <string name="details_title_allowed">Parking Allowed</string>
@@ -205,21 +194,14 @@
     <string name="help_priority_3"><b>Case #2</b>\r\nSigns are in reverse order. It’s still 8:00 Monday morning, you want to park for 30&#160;minutes.\r\nHere, maximum 60 minute <b>parking is allowed</b> on weekdays.</string>
 
     <!-- Prefrences -->
-    <!--<string name="prefs_breadcrumb">Settings and Preferences</string>-->
-    <!--<string name="prefs_category_general">General Settings</string>-->
-    <!--<string name="prefs_category_performance">Performance</string>-->
     <string name="prefs_language_title">Language</string>
-    <!--<string name="prefs_language_summary">Change the interface language</string>-->
     <string name="prefs_language_dialog_title">Set language</string>
     <string name="prefs_language_french">Français</string>
     <string name="prefs_language_english">English</string>
     <string name="prefs_units_title">Distance Units System</string>
-    <!--<string name="prefs_units_summary">Calculate distances using km or mi</string>-->
     <string name="prefs_units_dialog_title">Set units system</string>
     <string name="prefs_units_iso">Metric (km)</string>
     <string name="prefs_units_imperial">Imperial (mile)</string>
-    <!--<string name="prefs_follow_location_title">Enhanced measurements</string>-->
-    <!--<string name="prefs_follow_location_summary">Recommended: Background location updates. Useful if on the move.</string>-->
 
     <!-- Accessibility -->
     <string name="desc_logo_open_data_content">Montréal Ouvert</string>
