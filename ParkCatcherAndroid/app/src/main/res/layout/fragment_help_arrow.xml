@@ -49,25 +49,25 @@
         <ImageView
             android:id="@+id/help_arrow_sw_left"
             style="@style/HelpImageArrow"
-            android:contentDescription="@string/arrow_illustration_content_desc"
+            android:contentDescription="@string/desc_arrow_illustration_content"
             android:src="@drawable/help_arrow_empty" />
 
         <ImageView
             android:id="@+id/help_arrow_ne_left"
             style="@style/HelpImageArrow"
-            android:contentDescription="@string/arrow_illustration_content_desc"
+            android:contentDescription="@string/desc_arrow_illustration_content"
             android:src="@drawable/help_arrow_empty" />
 
         <ImageView
             android:id="@+id/help_arrow_se_right"
             style="@style/HelpImageArrow"
-            android:contentDescription="@string/arrow_illustration_content_desc"
+            android:contentDescription="@string/desc_arrow_illustration_content"
             android:src="@drawable/help_arrow_empty" />
 
         <ImageView
             android:id="@+id/help_arrow_nw_right"
             style="@style/HelpImageArrow"
-            android:contentDescription="@string/arrow_illustration_content_desc"
+            android:contentDescription="@string/desc_arrow_illustration_content"
             android:src="@drawable/help_arrow_empty" />
 
         <TextView
@@ -80,25 +80,25 @@
         <ImageView
             android:id="@+id/help_arrow_ne_right"
             style="@style/HelpImageArrow"
-            android:contentDescription="@string/arrow_illustration_content_desc"
+            android:contentDescription="@string/desc_arrow_illustration_content"
             android:src="@drawable/help_arrow_empty" />
 
         <ImageView
             android:id="@+id/help_arrow_sw_right"
             style="@style/HelpImageArrow"
-            android:contentDescription="@string/arrow_illustration_content_desc"
+            android:contentDescription="@string/desc_arrow_illustration_content"
             android:src="@drawable/help_arrow_empty" />
 
         <ImageView
             android:id="@+id/help_arrow_nw_left"
             style="@style/HelpImageArrow"
-            android:contentDescription="@string/arrow_illustration_content_desc"
+            android:contentDescription="@string/desc_arrow_illustration_content"
             android:src="@drawable/help_arrow_empty" />
 
         <ImageView
             android:id="@+id/help_arrow_se_left"
             style="@style/HelpImageArrow"
-            android:contentDescription="@string/arrow_illustration_content_desc"
+            android:contentDescription="@string/desc_arrow_illustration_content"
             android:src="@drawable/help_arrow_empty" />
 
         <TextView

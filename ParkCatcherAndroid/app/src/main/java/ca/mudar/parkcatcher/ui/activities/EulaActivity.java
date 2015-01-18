@@ -24,7 +24,6 @@
 package ca.mudar.parkcatcher.ui.activities;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -51,11 +50,6 @@ public class EulaActivity extends ActionBarActivity {
         v.setVisibility(View.VISIBLE);
         v.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
         v.loadUrl("file:///android_asset/" + LocalAssets.LICENSE);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
     }
 
     public void acceptEula(View v) {

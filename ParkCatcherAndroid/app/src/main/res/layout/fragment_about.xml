@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/padding_double"
-            android:contentDescription="@string/logo_about_content_desc"
+            android:contentDescription="@string/desc_logo_about_content"
             android:src="@drawable/logo_about" />
 
         <LinearLayout
@@ -74,7 +74,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="@dimen/padding_large"
-                android:contentDescription="@string/logo_open_data_content_desc"
+                android:contentDescription="@string/desc_logo_open_data_content"
                 android:src="@string/logo_open_data" />
 
             <TextView

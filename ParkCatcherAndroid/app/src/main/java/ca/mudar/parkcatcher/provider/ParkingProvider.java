@@ -591,10 +591,10 @@ public class ParkingProvider extends ContentProvider {
      * 
      * @param startHour
      * @param endHour
-     * @param dayOfYear
+     * @param startDayOfYear
      * @return SQL string
      */
-    private String getTimeFilterQuery(double startHour, double endHour, int dayOfYear) {
+    private String getTimeFilterQuery(double startHour, double endHour, int startDayOfYear) {
 
         final String sqlFilterDuration = " ( minutes_duration < " + ((endHour - startHour) * 60)
                 + " ) ";
@@ -613,8 +613,7 @@ public class ParkingProvider extends ContentProvider {
 
         String sqlFilterDayOfYear;
         if (startWeekDay != endWeekDay) {
-            final int startDayOfYear = dayOfYear;
-            final int endDayOfYear = dayOfYear + (endWeekDay - startWeekDay);
+            final int endDayOfYear = startDayOfYear + (endWeekDay - startWeekDay);
 
             final String sqlFilterDayOfYearStart = " ( day_start >= " + startDayOfYear
                     + " AND day_start <= " + endDayOfYear + " ) ";
@@ -627,7 +626,7 @@ public class ParkingProvider extends ContentProvider {
                     + " OR " + sqlFilterDayOfYearWide + " ) ";
         }
         else {
-            sqlFilterDayOfYear = " ( day_start <= " + dayOfYear + " AND day_end >= " + dayOfYear
+            sqlFilterDayOfYear = " ( day_start <= " + startDayOfYear + " AND day_end >= " + startDayOfYear
                     + " ) ";
         }
 

@@ -21,36 +21,45 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <string name="app_version">0.9.1</string>
 
     <!-- Share URL -->
-    <string name="url_share_post_id">http://parkcatcher.com/spot/<xliff:g id="string">%s</xliff:g>/<xliff:g id="string">%s</xliff:g>/<xliff:g id="string">%s</xliff:g>/<xliff:g id="string">%s</xliff:g>/</string>
+    <string name="url_share_post_id">http://parkcatcher.com/spot/%1$s/%2$s/%3$s/%4$s/</string>
+    <!--<string name="url_streetview">http://maps.googleapis.com/maps/api/streetview?size=800x300&amp;location=45.5194721,-73.580657&amp;fov=120&amp;heading=235a&amp;pitch=-5&amp;sensor=false&amp;key=AIzaSyD6tCffkLPapTchcC-8GWXv-NMB5d1k0f8</string>-->
+
+    <!--Fragment Tags, ref: Const.FragmentTags -->
+    <string name="fragment_tag_map">fragment_map</string>
+    <string name="fragment_tag_sliding_up_calendar">fragment_sliding_up_calendar</string>
 
     <!-- Activities -->
     <string name="app_name">Park Catcher Montréal</string>
+    <string name="activity_map">Park Catcher</string>
     <string name="activity_details">Parking Information</string>
     <string name="activity_about">About</string>
-    <string name="activity_help">Help</string>
+    <string name="activity_favorites">Favorites</string>
+    <string name="activity_help">Parking Rules</string>
     <string name="activity_preferences">Settings</string>
     <string name="activity_eula">EULA</string>
 
-    <!-- Menus -->
-    <string name="menu_search">Search</string>
-    <string name="menu_help">Help</string>
-    <string name="menu_settings">Settings</string>
-    <string name="menu_about">About</string>
-    <string name="menu_favorite">Favorites</string>
-    <string name="menu_reminder">Reminder</string>
-    <string name="menu_map">Map</string>
-    <string name="menu_directions">Directions</string>
-    <string name="menu_streetview">Street View</string>
-    <string name="menu_share">Share</string>
+    <!--Navdrawer-->
+    <string name="navdrawer_open">Open navigation drawer</string>
+    <string name="navdrawer_close">Close navigation drawer</string>
+    <string name="navdrawer_item_map">Map</string>
+    <string name="navdrawer_item_favorites">Favorites</string>
+    <string name="navdrawer_item_help">Parking rules</string>
+    <string name="navdrawer_item_about">About</string>
+    <string name="navdrawer_item_settings">Settings</string>
 
-    <!-- UI -->
-    <string name="tab_map">Map</string>
-    <string name="tab_favorites">Favorites</string>
+    <!-- Menus -->
+    <string name="action_search">Search</string>
+    <string name="action_favorite">Favorites</string>
+
+    <!--Buttons-->
+    <string name="btn_directions">Directions</string>
+    <string name="btn_streetview">Street View</string>
+    <string name="btn_share">Share</string>
 
     <!-- EULA -->
     <string name="eula_title">GNU General Public License v3.0</string>
@@ -63,7 +72,7 @@
     <!-- Dialogs -->
     <string name="dialog_title_duration">Duration</string>
     <string name="dialog_value_duration">1&#160;hour</string>
-    <string name="dialog_value_duration_plural">%s&#160;hours</string>
+    <string name="dialog_value_duration_plural">%1$s&#160;hours</string>
     <string name="dialog_set">Set</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_done">Done</string>
@@ -71,20 +80,20 @@
 
 
     <!-- Toast -->
-    <string name="toast_postal_code_processing">Processing…</string>
+    <!--<string name="toast_postal_code_processing">Processing…</string>-->
     <string name="toast_search_error">Location %1$s not found</string>
     <string name="toast_search_network_connection_error">Search requires an active Internet connection…</string>
-    <string name="toast_sync_error">Sync error: %s</string>
-    <string name="toast_sync_finished">Update completed successfully</string>
+    <!--<string name="toast_sync_error">Sync error: %1$s</string>-->
+    <!--<string name="toast_sync_finished">Update completed successfully</string>-->
     <string name="toast_network_connection_error">Internet connection is unavailable…</string>
     <string name="toast_map_not_ready">Loading Map…</string>
     <string name="toast_map_zoom_to_update">Please zoom in to update map information</string>
     <string name="toast_playservices_restart">Restarting Park Catcher… Google Play services successfully update!</string>
-    <string name="toast_address_error">Address not found</string>
+    <!--<string name="toast_address_error">Address not found</string>-->
     <string name="toast_favorites_added">Added to favorites</string>
     <string name="toast_favorites_removed">Removed from favorites</string>
     <string name="toast_streetview_error">Unable to start Google Street View…</string>
-    <string name="toast_todo_reminder">Coming soon: set parking reminder</string>
+    <!--<string name="toast_todo_reminder">Coming soon: set parking reminder</string>-->
 
     <!-- Map -->
     <string name="map_marker_snippet_title">Parking Allowed</string>
@@ -99,32 +108,32 @@
     <string name="playservices_2">Google Play services is usually updated automatically on Android devices. In the event you use an app that requires the latest Google Play services, you will be redirected to install or update it manually from the Google Play Store.</string>
 
     <!-- Drawer -->
-    <string name="drawer_time_title"><xliff:g id="string">%s</xliff:g> at&#160;<xliff:g id="string">%s</xliff:g> for&#160;1&#160;hour</string>
-    <string name="drawer_time_title_plural"><xliff:g id="string">%s</xliff:g> at&#160;<xliff:g id="string">%s</xliff:g> for&#160;<xliff:g id="string">%s</xliff:g>&#160;hours</string>
+    <string name="drawer_time_title">%1$s at&#160;%2$s for&#160;1&#160;hour</string>
+    <string name="drawer_time_title_plural">%1$s at&#160;%2$s for&#160;%3$s&#160;hours</string>
     <string name="drawer_title_day">EEEE</string>
-    <string name="drawer_date_btn">EEEE, MMMM d</string>
+    <string name="drawer_date_btn">EEEE, MMM&#160;d</string>
     <string name="drawer_time_btn">kk:mm</string>
     <string name="drawer_duration_btn">1&#160;hour</string>
-    <string name="drawer_duration_plural_btn">%s&#160;hours</string>
-    <string name="drawer_label_date">Date</string>
-    <string name="drawer_label_time">Time</string>
-    <string name="drawer_label_duration">Duration</string>
+    <string name="drawer_duration_plural_btn">%1$s&#160;hours</string>
+    <!--<string name="drawer_label_date">Date</string>-->
+    <!--<string name="drawer_label_time">Time</string>-->
+    <!--<string name="drawer_label_duration">Duration</string>-->
 
     <!-- Favorites -->
     <string name="favorites_empty_list">Favorites list is empty. Store your favorite locations here for faster access…</string>
-    <string name="favroites_is_forbidden">Parking Forbidden</string>
+    <!--<string name="favroites_is_forbidden">Parking Forbidden</string>-->
 
     <!-- PostDetails -->
-    <string name="details_title">Parking</string>
     <string name="details_title_allowed">Parking Allowed</string>
     <string name="details_title_forbidden">Parking Forbidden</string>
     <string name="details_progress_address">Looking for address…</string>
-    <string name="details_share_title">Parking Information by Park Catcher MTL: <xliff:g id="string">%s</xliff:g>&#160;</string>
-    <string name="details_share_subtitle">Parking here is forbidden at the following hours: %s</string>
+    <string name="details_share_title">Parking Information</string>
+    <string name="details_share_subtitle">Parking Information by Park Catcher MTL\r\n%1$s\r\nParking here is forbidden at the following hours: %2$s</string>
+    <string name="details_address_error">Address not found</string>
 
     <!-- About -->
-    <string name="logo_open_data">@drawable/logo_open_data_en</string>
-    <string name="about_project_version">Version %s</string>
+    <string name="logo_open_data" tools:ignore="ReferenceType">@drawable/logo_open_data_en</string>
+    <string name="about_project_version">Version %1$s</string>
     <string name="about_project_url"><a href="http://www.parkcatcher.com/">parkcatcher.com</a></string>
     <string name="about_intro_1">Stop driving in circles, avoid parking tickets, head directly to the right street!</string>
     <string name="about_intro_2">Park Catcher Montréal is your guide to easy parking. An Open Data project.</string>
@@ -133,18 +142,18 @@
     <string name="about_credits_3">Project done in collaboration with <a href="http://montrealouvert.net/donnees-ouvertes-questions-frequemment-demandees/?lang=en">Montréal ouvert</a>. Many thanks to everyone at the The City and The Plateau borough who made this project possible.</string>
     <string name="about_open_data">This app is powered by The City of Montréal Open Data <a href="http://donnees.ville.montreal.qc.ca/fiche/stationnement-rue/">Portal</a>, in compliance with its Open Data <a href="http://donnees.ville.montreal.qc.ca/licence-texte-complet">license</a>.</string>
 
-    <!-- Help -->
-    <!-- Help Titles -->
-    <string name="help_title_default">Help %s</string>
-    <string name="help_title_app">App</string>
-    <string name="help_title_rules">Rules</string>
-    <string name="help_title_parking">No Parking</string>
-    <string name="help_title_stopping">No Stopping</string>
-    <string name="help_title_restricted">Restricted</string>
-    <string name="help_title_srrr">S3R</string>
-    <string name="help_title_cell">Cell Phone</string>
-    <string name="help_title_arrow">Arrow</string>
-    <string name="help_title_priority">Priority</string>
+    <!-- Help Tabs -->
+    <array name="help_tabs_array">
+        <item>App</item>
+        <item>No Stopping</item>
+        <item>No Parking</item>
+        <item>S3R</item>
+        <item>Restricted</item>
+        <item>Priority</item>
+        <item>Arrow</item>
+        <item>Rules</item>
+        <item>Cell Phone</item>
+    </array>
 
     <!-- Help/APP -->
     <string name="help_app_1">The interactive map and the search engine allow you to find spots where parking is allowed for the time period you need.</string>
@@ -196,35 +205,35 @@
     <string name="help_priority_3"><b>Case #2</b>\r\nSigns are in reverse order. It’s still 8:00 Monday morning, you want to park for 30&#160;minutes.\r\nHere, maximum 60 minute <b>parking is allowed</b> on weekdays.</string>
 
     <!-- Prefrences -->
-    <string name="prefs_breadcrumb">Settings and Preferences</string>
-    <string name="prefs_category_general">General Settings</string>
-    <string name="prefs_category_performance">Performance</string>
+    <!--<string name="prefs_breadcrumb">Settings and Preferences</string>-->
+    <!--<string name="prefs_category_general">General Settings</string>-->
+    <!--<string name="prefs_category_performance">Performance</string>-->
     <string name="prefs_language_title">Language</string>
-    <string name="prefs_language_summary">Change the interface language</string>
+    <!--<string name="prefs_language_summary">Change the interface language</string>-->
     <string name="prefs_language_dialog_title">Set language</string>
     <string name="prefs_language_french">Français</string>
     <string name="prefs_language_english">English</string>
     <string name="prefs_units_title">Distance Units System</string>
-    <string name="prefs_units_summary">Calculate distances using km or mi</string>
+    <!--<string name="prefs_units_summary">Calculate distances using km or mi</string>-->
     <string name="prefs_units_dialog_title">Set units system</string>
     <string name="prefs_units_iso">Metric (km)</string>
     <string name="prefs_units_imperial">Imperial (mile)</string>
-    <string name="prefs_follow_location_title">Enhanced measurements</string>
-    <string name="prefs_follow_location_summary">Recommended: Background location updates. Useful if on the move.</string>
-
-    <!-- Offline -->
-
+    <!--<string name="prefs_follow_location_title">Enhanced measurements</string>-->
+    <!--<string name="prefs_follow_location_summary">Recommended: Background location updates. Useful if on the move.</string>-->
 
     <!-- Accessibility -->
-    <string name="logo_open_data_content_desc">Montréal Ouvert [Logo]</string>
-    <string name="logo_about_content_desc">Park Catcher [Logo]</string>
-    <string name="arrow_illustration_content_desc">Parking signage arrows [Illustration]</string>
+    <string name="desc_logo_open_data_content">Montréal Ouvert</string>
+    <string name="desc_logo_about_content">Park Catcher</string>
+    <string name="desc_arrow_illustration_content">Parking signage arrows</string>
+    <string name="desc_address">Address</string>
+    <string name="desc_parking_time">Parking time</string>
+    <string name="desc_parking_time_edit">Edit parking time</string>
 
-    <!-- TEMP -->
+    <!-- Distances -->
     <string name="park_distance_iso">%.1f km</string>
     <string name="park_distance_iso_min">&lt; 100 m</string>
     <string name="park_distance_imp">%.1f mi</string>
-    <string name="park_distance_imp_feet">%s ft</string>
+    <string name="park_distance_imp_feet">%1$s ft</string>
     <string name="park_distance_imp_min">&lt; 200 ft</string>
 
 </resources>

@@ -104,7 +104,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:contentDescription="Parking time"
+                android:contentDescription="@string/desc_parking_time"
                 android:src="@drawable/ic_parking" />
 
             <TextView
