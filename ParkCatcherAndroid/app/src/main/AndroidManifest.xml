@@ -24,9 +24,7 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.mudar.parkcatcher"
-    android:installLocation="auto"
-    android:versionCode="9"
-    android:versionName="@string/app_version">
+    android:installLocation="auto">
 
     <permission
         android:name="ca.mudar.parkcatcher.permission.MAPS_RECEIVE"
