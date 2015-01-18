@@ -112,7 +112,7 @@ public class FavoritesFragment extends Fragment implements
 
         return new CursorLoader(getActivity().getApplicationContext(),
                 Posts.CONTENT_STARRED_URI,
-                Queries.Favorites.FAVORITES_SUMMARY_PROJECTION,
+                Queries.Favorites.PROJECTION,
                 null,
                 selectionArgs,
                 Posts.DISTANCE_SORT);

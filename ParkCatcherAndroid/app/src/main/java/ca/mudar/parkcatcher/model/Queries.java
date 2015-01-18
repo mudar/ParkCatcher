@@ -46,7 +46,7 @@ public class Queries {
 
     public static interface Favorites {
         int _TOKEN = 110;
-        final String[] FAVORITES_SUMMARY_PROJECTION = new String[]{
+        final String[] PROJECTION = new String[]{
                 ParkingContract.Posts._ID,
                 ParkingContract.Posts.ID_POST,
                 ParkingContract.Favorites.LABEL,
@@ -60,4 +60,27 @@ public class Queries {
         final int IS_FORBIDDEN = 4;
     }
 
+    public static interface PostDetails {
+        int _TOKEN = 120;
+
+        final String[] PROJECTION = new String[]{
+                ParkingContract.PanelsCodes._ID,
+                ParkingContract.PanelsCodes.CODE,
+                ParkingContract.PanelsCodes.DESCRIPTION,
+                ParkingContract.PanelsCodes.TYPE_DESC,
+                ParkingContract.Posts.IS_STARRED,
+                ParkingContract.Posts.LAT,
+                ParkingContract.Posts.LNG,
+                ParkingContract.Posts.IS_FORBIDDEN,
+        };
+
+        final int _ID = 0;
+        final int CODE = 1;
+        final int DESCRIPTION = 2;
+        final int TYPE_DESC = 3;
+        final int IS_STARRED = 4;
+        final int LAT = 5;
+        final int LNG = 6;
+        final int IS_FORBIDDEN = 7;
+    }
 }
