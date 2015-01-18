@@ -64,7 +64,7 @@ public class ParkingInfoWindowAdapter implements InfoWindowAdapter {
          */
         if (snippet != null) {
             try {
-                int id = Integer.valueOf(title);
+                int tryIntValue = Integer.valueOf(title);
                 title = null;
             } catch (NumberFormatException e) {
                 // Nothing to do here, title is not an integer so it

@@ -97,6 +97,8 @@ public class DetailsActivity extends ToolbarActivity {
                 final ParkingApp parkingApp = (ParkingApp) getApplicationContext();
                 parkingApp.setParkingCalendar(calendar);
                 parkingApp.setParkingDuration(duration);
+
+                return postId;
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }

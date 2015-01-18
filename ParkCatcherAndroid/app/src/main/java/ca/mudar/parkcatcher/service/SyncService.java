@@ -228,6 +228,7 @@ public class SyncService extends IntentService {
         final DefaultHttpClient client = new DefaultHttpClient(params);
 
         client.addRequestInterceptor(new HttpRequestInterceptor() {
+            @Override
             public void process(HttpRequest request, HttpContext context) {
                 // Add header to accept gzip content
                 if (!request.containsHeader(HEADER_ACCEPT_ENCODING)) {
@@ -237,6 +238,7 @@ public class SyncService extends IntentService {
         });
 
         client.addResponseInterceptor(new HttpResponseInterceptor() {
+            @Override
             public void process(HttpResponse response, HttpContext context) {
                 // Inflate any responses compressed with gzip
                 final HttpEntity entity = response.getEntity();

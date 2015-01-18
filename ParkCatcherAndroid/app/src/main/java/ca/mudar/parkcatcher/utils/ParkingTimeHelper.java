@@ -55,9 +55,8 @@ public class ParkingTimeHelper {
     public static String getTime(Context context, GregorianCalendar calendar) {
         SimpleDateFormat df = new SimpleDateFormat(context.getResources().getString(
                 R.string.drawer_time_btn), Locale.getDefault());
-        String time = df.format(calendar.getTime());
 
-        return time;
+        return df.format(calendar.getTime());
     }
 
     public static String getDuration(Context context, int duration) {

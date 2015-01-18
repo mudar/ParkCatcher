@@ -159,11 +159,7 @@ public class ParkingApp extends Application {
     }
 
     public void setLocation(Location location) {
-        // Log.v(TAG, "setLocation");
-        if (location == null) {
-            return;
-        }
-        else {
+        if (location != null) {
             // Log.v(TAG, "new location = " + location.getLatitude() + "," +
             // location.getLongitude());
             if ((mLocation == null) || (this.mLocation.distanceTo(location) > Const.MAX_DISTANCE)) {

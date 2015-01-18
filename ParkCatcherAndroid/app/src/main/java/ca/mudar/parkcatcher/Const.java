@@ -83,7 +83,7 @@ public class Const {
     public static final String URL_GMAPS_DIRECTIONS = "http://maps.google.com/maps?saddr=%1$s&daddr=%2$s&f=d";
     public static final String URI_INTENT_STREETVIEW = "google.streetview:cbll=%1$s,%2$s";
     public static final String URI_INSTALL_STREETVIEW = "market://details?id=com.google.android.street";
-    public static final String URI_INTENT_NAVIGATION = "google.navigation:q=%1$d,%2$d";
+    public static final String URI_INTENT_NAVIGATION = "google.navigation:q=%1$s,%2$s";
 
     /**
      * API

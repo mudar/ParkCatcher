@@ -531,7 +531,7 @@ public class MainMapFragment extends SupportMapFragment implements
                 day, parkingHour, duration,
                 NE.latitude, SW.longitude, SW.latitude, NE.longitude);
 
-        URL apiURL = null;
+        URL apiURL;
         try {
             apiURL = new URL(fetchUrl);
         } catch (MalformedURLException e) {
@@ -1049,8 +1049,7 @@ public class MainMapFragment extends SupportMapFragment implements
 
             if (rootElement != null) {
                 Gson gson = new Gson();
-                GeoJSON geoJson = gson.fromJson(rootElement, GeoJSON.class);
-                return geoJson;
+                return gson.fromJson(rootElement, GeoJSON.class);
             }
 
             return null;

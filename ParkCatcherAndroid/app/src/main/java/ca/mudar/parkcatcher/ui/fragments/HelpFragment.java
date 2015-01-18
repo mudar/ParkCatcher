@@ -29,7 +29,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +43,7 @@ public class HelpFragment extends Fragment {
     private static final String TAG = "HelpFragment";
 
     private View mView;
+    private int index;
 
     public static HelpFragment newInstance(int index) {
         HelpFragment fragment = new HelpFragment();
@@ -52,8 +52,6 @@ public class HelpFragment extends Fragment {
 
         return fragment;
     }
-
-    private int index;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

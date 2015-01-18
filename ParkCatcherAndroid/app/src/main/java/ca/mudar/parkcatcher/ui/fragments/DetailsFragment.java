@@ -327,7 +327,7 @@ public class DetailsFragment extends Fragment implements
         prefix = prefix.trim();
         try {
             // Start with a figure: authorized duration
-            Integer.valueOf(prefix.trim());
+            final int tryIntValue = Integer.valueOf(prefix.trim());
             panelUi.setBackgroundResource(R.drawable.bg_panel_parking);
         } catch (NumberFormatException e) {
             if (desc.subSequence(0, 1).equals("P")) {
@@ -369,8 +369,6 @@ public class DetailsFragment extends Fragment implements
      * Handle toggling of starred location
      */
     private void toggleFavorite(boolean wasFavorite) {
-        int message;
-
         if (wasFavorite) {
             /**
              * Remove from favorites.

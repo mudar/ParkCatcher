@@ -111,6 +111,7 @@ public class NumberSeekBarFragment extends DialogFragment {
                 .setView(view)
                 .setPositiveButton(R.string.dialog_set,
                         new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 onDurationSet(seekbar);
                             }

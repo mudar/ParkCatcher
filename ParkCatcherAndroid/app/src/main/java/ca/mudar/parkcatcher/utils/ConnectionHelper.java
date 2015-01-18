@@ -37,11 +37,8 @@ public class ConnectionHelper {
         ConnectivityManager conMan = (ConnectivityManager) context
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = conMan.getActiveNetworkInfo();
-        if (networkInfo == null) {
-            return false;
-        } else {
-            return networkInfo.isConnected();
-        }
+
+        return (networkInfo != null) && networkInfo.isConnected();
     }
 
     public static void showDialogNoConnection(final Activity activity) {

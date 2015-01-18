@@ -95,7 +95,7 @@ public class Post {
      */
     private void initLatLng() {
         List<Double> coordinates = geometry.getCoordinates();
-        latLng = new LatLng(coordinates.get(1).doubleValue(), coordinates.get(0).doubleValue());
+        latLng = new LatLng(coordinates.get(1), coordinates.get(0));
     }
 
     /**

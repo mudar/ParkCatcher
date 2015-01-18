@@ -120,8 +120,7 @@ public class ParserUtils {
         final byte[] ba = baf.toByteArray();
         queryResult = new String(ba);
 
-        JSONTokener data = new JSONTokener(queryResult);
-        return data;
+        return new JSONTokener(queryResult);
     }
 
     public static JSONTokener newJsonTokenerParser(URL url) throws IOException {
@@ -137,14 +136,14 @@ public class ParserUtils {
             }
 
         } catch (IOException e) {
+            e.printStackTrace();
             throw e;
         } finally {
             in.close();
         }
 
         try {
-            final JSONTokener parser = new JSONTokener(str);
-            return parser;
+            return new JSONTokener(str);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
