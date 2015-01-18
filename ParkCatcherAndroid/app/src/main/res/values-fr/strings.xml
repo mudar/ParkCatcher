@@ -30,11 +30,11 @@
 
     <!-- Activities -->
     <string name="app_name">Capteur de stationnement Montréal</string>
-    <string name="activity_map">Capteur de stationnement</string>
-    <string name="activity_details">Informations du stationnement</string>
+    <string name="activity_map">Stationnement</string>
+    <string name="activity_details">Infos du stationnement</string>
     <string name="activity_about">À propos</string>
     <string name="activity_favorites">Favoris</string>
-    <string name="activity_help">Aide</string>
+    <string name="activity_help">Règles de stationnement</string>
     <string name="activity_preferences">Paramètres</string>
     <string name="activity_eula">EULA</string>
 
@@ -43,7 +43,7 @@
     <string name="navdrawer_close">Fermer le menu de navigation</string>
     <string name="navdrawer_item_map">Carte</string>
     <string name="navdrawer_item_favorites">Favoris</string>
-    <string name="navdrawer_item_help">Règlements</string>
+    <string name="navdrawer_item_help">Règlement</string>
     <string name="navdrawer_item_about">À propos</string>
     <string name="navdrawer_item_settings">Paramètres</string>
 

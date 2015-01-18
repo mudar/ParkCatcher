@@ -35,8 +35,8 @@
 
     <!-- Activities -->
     <string name="app_name">Park Catcher Montréal</string>
-    <string name="activity_map">Park Catcher</string>
-    <string name="activity_details">Parking Information</string>
+    <string name="activity_map">Parking</string>
+    <string name="activity_details">Parking Info</string>
     <string name="activity_about">About</string>
     <string name="activity_favorites">Favorites</string>
     <string name="activity_help">Parking Rules</string>
