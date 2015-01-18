@@ -165,11 +165,11 @@ public class Const {
     public static interface SavedInstanceKeys {
         final String PARCELABLE = "instance_parcelable";
         final String DIMENSION = "dimension";
-        final String HELP_INDEX = "help_index";
     }
 
     public static interface BundleExtras {
         final String ID_POST = "id_post";
+        final String HELP_PAGE = "help_page";
         final String SERVICE_LOCAL = "service_local";
         final String SERVICE_REMOTE = "service_remote";
         final String URL_PATH_MAP = "map";

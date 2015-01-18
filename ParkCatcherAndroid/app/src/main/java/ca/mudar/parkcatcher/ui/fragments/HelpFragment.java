@@ -46,9 +46,10 @@ public class HelpFragment extends Fragment {
     private int index;
 
     public static HelpFragment newInstance(int index) {
-        HelpFragment fragment = new HelpFragment();
-
-        fragment.index = index;
+        final HelpFragment fragment = new HelpFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Const.BundleExtras.HELP_PAGE, index);
+        fragment.setArguments(bundle);
 
         return fragment;
     }
@@ -57,10 +58,7 @@ public class HelpFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if ((savedInstanceState != null)
-                && savedInstanceState.containsKey(Const.SavedInstanceKeys.HELP_INDEX)) {
-            index = savedInstanceState.getInt(Const.SavedInstanceKeys.HELP_INDEX);
-        }
+        index = getArguments().getInt(Const.BundleExtras.HELP_PAGE, Const.UNKNOWN);
     }
 
     @Override
@@ -103,9 +101,11 @@ public class HelpFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt(Const.SavedInstanceKeys.HELP_INDEX, index);
+    public void onResume() {
+        super.onResume();
+        if (index == Const.HelpTabs.ARROW) {
+            startLoadingImages();
+        }
     }
 
     public void startLoadingImages() {
