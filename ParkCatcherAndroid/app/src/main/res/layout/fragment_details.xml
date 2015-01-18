@@ -126,9 +126,8 @@
         <LinearLayout
             android:id="@+id/details_panels_wrapper"
             android:layout_width="@dimen/details_panel_width"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="72dp"
-            android:layout_weight="1"
             android:gravity="left"
             android:orientation="vertical"
             android:paddingBottom="16dp"
