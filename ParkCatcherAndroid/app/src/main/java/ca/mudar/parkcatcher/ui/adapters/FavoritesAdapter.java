@@ -121,6 +121,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         public void onClick(View v) {
             if (idPost > 0) {
                 final Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
                 intent.putExtra(Const.INTENT_EXTRA_POST_ID, idPost);
                 v.getContext().startActivity(intent);
             }
