@@ -35,6 +35,7 @@ import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.Const.UnitsDisplay;
 import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
+import ca.mudar.parkcatcher.model.AddressFormatted;
 
 public class GeoHelper {
     private static final String TAG = "GeoHelper";
@@ -42,13 +43,15 @@ public class GeoHelper {
 
     public static Address findAddressFromName(Context c, String name) throws IOException {
         Geocoder geocoder = new Geocoder(c);
-        List<Address> adr;
+        List<Address> adr = null;
 
-        adr = geocoder.getFromLocationName(name, MAX_RESULTS, Const.MONTREAL_GEOCODER_LIMITS[0],
-                Const.MONTREAL_GEOCODER_LIMITS[1], Const.MONTREAL_GEOCODER_LIMITS[2],
-                Const.MONTREAL_GEOCODER_LIMITS[3]);
+        if (Geocoder.isPresent()) {
+            adr = geocoder.getFromLocationName(name, MAX_RESULTS, Const.MONTREAL_GEOCODER_LIMITS[0],
+                    Const.MONTREAL_GEOCODER_LIMITS[1], Const.MONTREAL_GEOCODER_LIMITS[2],
+                    Const.MONTREAL_GEOCODER_LIMITS[3]);
+        }
 
-        if (!adr.isEmpty()) {
+        if (adr != null && !adr.isEmpty()) {
             final int nbAdresses = adr.size();
 
             for (int i = 0; i < nbAdresses; i++) {
@@ -72,23 +75,21 @@ public class GeoHelper {
         return null;
     }
 
-    public static String findAddressFromLocation(Context c, double latitude, double longitude)
+    public static AddressFormatted findAddressFromLocation(Context c, double latitude, double longitude)
             throws IOException {
-        Geocoder geocoder = new Geocoder(c);
+        final List<Address> adr = new Geocoder(c)
+                .getFromLocation(latitude, longitude, 1);
 
-        List<Address> adr;
+        if ((adr != null) && (adr.size() == 1)) {
+            final Address address = adr.get(0);
+            final int nbLines = address.getMaxAddressLineIndex();
 
-        adr = geocoder.getFromLocation(latitude, longitude, 1);
-
-        if (!adr.isEmpty() && (adr.size() == 1)) {
-            Address address = adr.get(0);
-            int nbLines = address.getMaxAddressLineIndex();
-
-            String sAddress = "";
+            final AddressFormatted sAddress = new AddressFormatted();
             for (int i = 0; i < nbLines; i++) {
-                sAddress += address.getAddressLine(i);
-                if (i + 1 < nbLines) {
-                    sAddress += " " + Const.LINE_SEPARATOR;
+                if (i == 0) {
+                    sAddress.setPrimaryAddress(address.getAddressLine(i));
+                } else {
+                    sAddress.addSecondaryAddress(address.getAddressLine(i));
                 }
             }
 
@@ -102,7 +103,7 @@ public class GeoHelper {
      * Get distance in Metric or Imperial units. Display changes depending on
      * the value: different approximationss in ft when > 1000. Very short
      * distances are not displayed to avoid problems with Location accuracy.
-     * 
+     *
      * @param c
      * @param fDistanceM The distance in Meters.
      * @return String Display the distance.
@@ -133,8 +134,7 @@ public class GeoHelper {
                      * accuracy.
                      */
                     sDistance = res.getString(R.string.park_distance_imp_min);
-                }
-                else {
+                } else {
                     /**
                      * When displaying in feet, we round up by 100 ft for
                      * distances greater than 1000 ft and by 100 ft for smaller
@@ -144,24 +144,21 @@ public class GeoHelper {
                     if (iDistanceFt > 1000) {
                         iDistanceFt = Math.round(iDistanceFt / UnitsDisplay.ACCURACY_FEET_FAR)
                                 * UnitsDisplay.ACCURACY_FEET_FAR;
-                    }
-                    else {
+                    } else {
                         iDistanceFt = Math.round(iDistanceFt / UnitsDisplay.ACCURACY_FEET_NEAR)
                                 * UnitsDisplay.ACCURACY_FEET_NEAR;
                     }
                     sDistance = String.format(res.getString(R.string.park_distance_imp_feet),
                             iDistanceFt);
                 }
-            }
-            else {
+            } else {
                 /**
                  * Display distance in Miles when greater than 1 mile.
                  */
                 sDistance = String.format(res.getString(R.string.park_distance_imp),
                         fDistanceMi);
             }
-        }
-        else {
+        } else {
             /**
              * International Units system, Meters and Km.
              */
@@ -171,8 +168,7 @@ public class GeoHelper {
                  * Display "Less than 100 m".
                  */
                 sDistance = res.getString(R.string.park_distance_iso_min);
-            }
-            else {
+            } else {
                 /**
                  * No need to have a constant for 1 Km = 1000 M
                  */
