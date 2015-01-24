@@ -65,11 +65,16 @@ public class DetailsActivity extends ToolbarActivity {
     }
 
     private int getIdPostFromIntent() {
-        if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {
-            return getIdFromUri(getIntent().getData());
-        } else {
-            final Bundle extras = getIntent().getExtras();
-            return extras.getInt(Const.BundleExtras.ID_POST, Const.UNKNOWN);
+        try {
+            if (Intent.ACTION_VIEW.equals(getIntent().getAction())) {
+                return getIdFromUri(getIntent().getData());
+            } else {
+                final Bundle extras = getIntent().getExtras();
+                return extras.getInt(Const.BundleExtras.ID_POST, Const.UNKNOWN);
+            }
+        } catch (NullPointerException e) {
+            LogUtils.logException(e);
+            return Const.UNKNOWN;
         }
     }
 
