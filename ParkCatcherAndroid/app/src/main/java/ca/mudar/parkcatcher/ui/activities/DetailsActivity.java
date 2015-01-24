@@ -73,7 +73,7 @@ public class DetailsActivity extends ToolbarActivity {
                 return extras.getInt(Const.BundleExtras.ID_POST, Const.UNKNOWN);
             }
         } catch (NullPointerException e) {
-            LogUtils.logException(e);
+            e.printStackTrace();
             return Const.UNKNOWN;
         }
     }
