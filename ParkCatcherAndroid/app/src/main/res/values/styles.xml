@@ -140,10 +140,13 @@
         <item name="android:layout_marginLeft">16dp</item>
     </style>
 
-    <style name="FavoritesListEmpty" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textColor">@color/listview_text_2</item>
+    <style name="FavoritesListEmpty">
+        <item name="android:textColor">@color/text_secondary_light</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
         <item name="android:gravity">center</item>
-        <item name="android:drawableBottom">@drawable/ic_action_star_on</item>
+        <item name="android:drawableTop">@drawable/ic_big_star_on</item>
+        <item name="android:drawablePadding">16dp</item>
     </style>
 
     <!-- Post Details -->
