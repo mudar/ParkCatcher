@@ -24,6 +24,9 @@
 package ca.mudar.parkcatcher.ui.activities;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.R;
@@ -38,10 +41,16 @@ public class AboutActivity extends NavdrawerActivity {
         super.onCreate(savedInstanceState);
 
         setTitle(R.string.activity_about);
-        setContentView(R.layout.activity_navdrawer);
+        setContentView(R.layout.activity_about);
 
         getActionBarToolbar().setNavigationIcon(R.drawable.ic_action_arrow_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        // Remove elevation, to be seamless with title/subtitle
+        ViewCompat.setElevation(getActionBarToolbar(), 0);
+        ViewCompat.setElevation(findViewById(R.id.about_header),
+                getResources().getDimensionPixelSize(R.dimen.headerbar_elevation));
 
         if (savedInstanceState == null) {
             final AboutFragment fragment = new AboutFragment();
@@ -55,5 +64,14 @@ public class AboutActivity extends NavdrawerActivity {
     @Override
     protected int getDefaultNavDrawerItem() {
         return Const.NavdrawerSection.ABOUT;
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_about, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 }
