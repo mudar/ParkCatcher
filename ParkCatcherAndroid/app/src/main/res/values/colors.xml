@@ -46,7 +46,7 @@
     <color name="listview_bg">#cc2c2c2c</color>
     <color name="listview_divider">#99000000</color>
     <color name="listview_text_1">#ffffffff</color>
-    <color name="listview_text_2">#99ffffff</color>
+    <color name="listview_text_2">#90ffffff</color>
 
     <!-- Details -->
     <color name="details_panel_text">#ff000000</color>
