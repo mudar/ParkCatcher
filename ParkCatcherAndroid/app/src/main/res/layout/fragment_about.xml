@@ -42,6 +42,7 @@
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="72dp"
             android:layout_marginRight="16dp"
+            android:lineSpacingMultiplier="1.1"
             android:text="@string/about_intro"
             android:textColor="@color/text_secondary_light"
             android:textSize="18sp"
@@ -90,6 +91,13 @@
                 android:text="@string/about_source_code" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/theme_bg_secondary" />
+
         <LinearLayout
             android:id="@+id/about_credits_dev"
             style="@style/AboutRow"
@@ -102,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/desc_credits"
-                android:src="@drawable/ic_people" />
+                android:src="@drawable/ic_person" />
 
             <TextView
                 style="@style/AboutBoxText"
@@ -111,12 +119,26 @@
                 android:text="@string/about_credits_dev" />
         </LinearLayout>
 
-        <TextView
+        <LinearLayout
             android:id="@+id/about_credits_design"
-            style="@style/AboutTextRow"
+            style="@style/AboutRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/about_credits_design" />
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/AboutIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/desc_credits"
+                android:src="@drawable/ic_person" />
+
+            <TextView
+                style="@style/AboutBoxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_credits_design" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/about_credits_thanks"

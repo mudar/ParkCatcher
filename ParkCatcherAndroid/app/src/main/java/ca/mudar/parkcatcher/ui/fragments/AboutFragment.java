@@ -55,19 +55,20 @@ public class AboutFragment extends Fragment implements
         final int id = v.getId();
 
         if (id == R.id.about_open_data) {
-            openWebPage("http://donnees.ville.montreal.qc.ca/dataset/stationnement-sur-rue-signalisation-courant");
+            openWebPage(R.string.url_about_open_data);
         } else if (id == R.id.about_source_code) {
-            openWebPage("https://github.com/mudar/ParkCatcher");
+            openWebPage(R.string.url_about_source_code);
         } else if (id == R.id.about_credits_dev) {
-            openWebPage("http://www.mudar.ca/");
+            openWebPage(R.string.url_about_credits_dev);
         } else if (id == R.id.about_credits_design) {
-            openWebPage("http://cargocollective.com/emmadumesnil/");
+            openWebPage(R.string.url_about_credits_design);
         } else if (id == R.id.about_montreal_ouvert) {
-            openWebPage("http://montrealouvert.net/donnees-ouvertes-questions-frequemment-demandees/?lang=en");
+            openWebPage(R.string.url_about_montreal_ouvert);
         }
     }
 
-    private void openWebPage(String url) {
+    private void openWebPage(int res) {
+        final String url = getActivity().getResources().getString(res);
         final Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
     }
