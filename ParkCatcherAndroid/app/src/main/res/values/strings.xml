@@ -21,13 +21,24 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <string name="app_version">0.9.1</string>
+    <string name="app_version">1.3</string>
 
-    <!-- Share URL -->
+    <!-- URLs -->
+    <string name="uri_playstore">market://details?id=ca.mudar.parkcatcher</string>
+    <string name="url_playstore">http://play.google.com/store/apps/details?id=ca.mudar.parkcatcher</string>
     <string name="url_share_post_id">http://parkcatcher.com/spot/%1$s/%2$s/%3$s/%4$s/</string>
     <!--<string name="url_streetview">http://maps.googleapis.com/maps/api/streetview?size=800x300&amp;location=45.5194721,-73.580657&amp;fov=120&amp;heading=235a&amp;pitch=-5&amp;sensor=false&amp;key=AIzaSyD6tCffkLPapTchcC-8GWXv-NMB5d1k0f8</string>-->
+    <string name="url_about_open_data">http://donnees.ville.montreal.qc.ca/dataset/stationnement-sur-rue-signalisation-courant</string>
+    <string name="url_about_source_code">https://github.com/mudar/ParkCatcher</string>
+    <string name="url_about_credits_dev">http://www.mudar.ca/</string>
+    <string name="url_about_credits_design">http://cargocollective.com/emmadumesnil/</string>
+    <string name="url_about_montreal_ouvert">http://montrealouvert.net/donnees-ouvertes-questions-frequemment-demandees/?lang=en</string>
+
+    <!--Share App-->
+    <string name="share_intent_title">Discover Park Catcher MTL on Google Play</string>
+    <string name="share_intent_text">Park Catcher, a guide to easy parking in Montreal: http://play.google.com/store/apps/details?id=ca.mudar.parkcatcher</string>
 
     <!--Fragment Tags, ref: Const.FragmentTags -->
     <string name="fragment_tag_map">fragment_map</string>
@@ -55,6 +66,8 @@
     <!-- Menus -->
     <string name="action_search">Search</string>
     <string name="action_favorite">Favorites</string>
+    <string name="action_share">Share</string>
+    <string name="action_rate">Rate app</string>
 
     <!--Buttons-->
     <string name="btn_directions">Directions</string>
@@ -110,7 +123,7 @@
     <string name="drawer_duration_plural_btn">%1$s&#160;hours</string>
 
     <!-- Favorites -->
-    <string name="favorites_empty_list">Favorites list is empty. Store your favorite locations here for faster access…</string>
+    <string name="favorites_empty_list">Locations you add to favorites are shown here</string>
 
     <!-- PostDetails -->
     <string name="details_title_allowed">Parking Allowed</string>
@@ -121,15 +134,15 @@
     <string name="details_address_error">Address not found</string>
 
     <!-- About -->
-    <string name="logo_open_data" tools:ignore="ReferenceType">@drawable/logo_open_data_en</string>
-    <string name="about_project_version">Version %1$s</string>
-    <string name="about_project_url"><a href="http://www.parkcatcher.com/">parkcatcher.com</a></string>
-    <string name="about_intro_1">Stop driving in circles, avoid parking tickets, head directly to the right street!</string>
-    <string name="about_intro_2">Park Catcher Montréal is your guide to easy parking. An Open Data project.</string>
-    <string name="about_credits_1">Android app developed by <a href="http://www.mudar.ca/">Mudar Noufal</a>. Source code is released under the GPLv3 license from the Free Software Foundation.</string>
-    <string name="about_credits_2">Art Direction and Graphic Design by <a href="http://cargocollective.com/emmadumesnil/">Emma Dumesnil</a>.</string>
-    <string name="about_credits_3">Project done in collaboration with <a href="http://montrealouvert.net/donnees-ouvertes-questions-frequemment-demandees/?lang=en">Montréal ouvert</a>. Many thanks to everyone at the The City and The Plateau borough who made this project possible.</string>
-    <string name="about_open_data">This app is powered by The City of Montréal Open Data <a href="http://donnees.ville.montreal.qc.ca/fiche/stationnement-rue/">Portal</a>, in compliance with its Open Data <a href="http://donnees.ville.montreal.qc.ca/licence-texte-complet">license</a>.</string>
+    <string name="about_title">Park Catcher</string>
+    <string name="about_subtitle">Your guide to easy parking in Montréal</string>
+    <string name="about_intro">Stop driving in circles, avoid parking tickets, head directly to the right street!</string>
+    <string name="about_open_data">This app is powered by the City of&#160;Montréal Open&#160;Data Portal, in compliance with its Open&#160;Data license.</string>
+    <string name="about_source_code">Source code is released under the GPLv3 license from the Free Software Foundation.</string>
+    <string name="about_credits_dev">Android app developed by Mudar&#160;Noufal.</string>
+    <string name="about_credits_design">Art Direction and Graphic Design by Emma&#160;Dumesnil.</string>
+    <string name="about_credits_thanks">Many thanks to everyone at the City and the Plateau&#160;borough who made this project possible.</string>
+    <string name="about_montreal_ouvert">An Open Data project done in collaboration with Montréal&#160;ouvert.</string>
 
     <!-- Help Tabs -->
     <array name="help_tabs_array">
@@ -202,6 +215,7 @@
     <string name="prefs_units_dialog_title">Set units system</string>
     <string name="prefs_units_iso">Metric (km)</string>
     <string name="prefs_units_imperial">Imperial (mile)</string>
+    <string name="prefs_version_title">Version</string>
 
     <!-- Accessibility -->
     <string name="desc_logo_open_data_content">Montréal Ouvert</string>
@@ -210,6 +224,10 @@
     <string name="desc_address">Address</string>
     <string name="desc_parking_time">Parking time</string>
     <string name="desc_parking_time_edit">Edit parking time</string>
+    <string name="desc_montreal">City of Montréal</string>
+    <string name="desc_github">GitHub repository</string>
+    <string name="desc_credits">Credits</string>
+    <string name="desc_montreal_ouvert">Montréal ouvert</string>
 
     <!-- Distances -->
     <string name="park_distance_iso">%.1f km</string>

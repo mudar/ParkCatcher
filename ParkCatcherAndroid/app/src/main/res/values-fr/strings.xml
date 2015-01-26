@@ -21,12 +21,15 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-    <string name="app_version">0.9.1</string>
-
-    <!-- Share URL -->
+    <!-- URLs -->
     <string name="url_share_post_id">http://capteurdestationnement.com/spot/%1$s/%2$s/%3$s/%4$s/</string>
+    <string name="url_about_montreal_ouvert">http://montrealouvert.net/donnees-ouvertes-questions-frequemment-demandees/?lang=fr</string>
+
+    <!--Share App-->
+    <string name="share_intent_title">Découvrez Capteur de stationnement MTL sur Google Play</string>
+    <string name="share_intent_text">Capteur de stationnement, un guide pour stationner facilement à Montréal: http://play.google.com/store/apps/details?id=ca.mudar.parkcatcher</string>
 
     <!-- Activities -->
     <string name="app_name">Capteur de stationnement Montréal</string>
@@ -50,6 +53,8 @@
     <!-- Menus -->
     <string name="action_search">Recherche</string>
     <string name="action_favorite">Favoris</string>
+    <string name="action_share">Partager</string>
+    <string name="action_rate">Évaluer</string>
 
     <!--Buttons-->
     <string name="btn_directions">Itinéraire</string>
@@ -105,7 +110,7 @@
     <string name="drawer_duration_plural_btn">%1$s&#160;heures</string>
 
     <!-- Favorites -->
-    <string name="favorites_empty_list">La liste des favoris est vide. Sauvegardez vos emplacements préférés ici pour y accéder plus rapidement…</string>
+    <string name="favorites_empty_list">Les emplacements que vous ajoutez aux favoris s’affichent ici</string>
 
     <!-- PostDetails -->
     <string name="details_title_allowed">Stationnement autorisé</string>
@@ -116,15 +121,15 @@
     <string name="details_address_error">Adresse introuvable</string>
 
     <!-- About -->
-    <string name="logo_open_data" tools:ignore="ReferenceType">@drawable/logo_open_data_fr</string>
-    <string name="about_project_version">Version %1$s</string>
-    <string name="about_project_url"><a href="http://www.capteurdestationnement.com/">capteurdestationnement.com</a></string>
-    <string name="about_intro_1">Ne tournez plus en rond, évitez les contraventions, dirigez-vous directement vers la bonne rue&#160;!</string>
-    <string name="about_intro_2">Capteur de stationnement Montréal est votre guide pour stationner facilement. Un projet de données ouvertes.</string>
-    <string name="about_credits_1">Application Android réalisée par <a href="http://www.mudar.ca/">Mudar Noufal</a>. Le code source est publié sous la licence GPLv3 de la Free Software Foundation.</string>
-    <string name="about_credits_2">Direction artistique et design graphique par <a href="http://cargocollective.com/emmadumesnil/">Emma Dumesnil</a>.</string>
-    <string name="about_credits_3">Projet réalisé en collaboration avec <a href="http://montrealouvert.net/donnees-ouvertes-questions-frequemment-demandees/?lang=fr">Montréal ouvert</a>. Un grand merci à toutes les personnes de la Ville de Montréal et l’arrondissement du Plateau Mont-Royal qui ont rendu ce projet possible&#160;!</string>
-    <string name="about_open_data">Cette application est propulsée par le <a href="http://donnees.ville.montreal.qc.ca/fiche/stationnement-rue/">Portail</a> données ouvertes de la Ville de Montréal en conformité avec sa <a href="http://donnees.ville.montreal.qc.ca/licence-texte-complet">licence</a> d’utilisation des données ouvertes.</string>
+    <string name="about_title">Capteur de stationnement</string>
+    <string name="about_subtitle">Votre guide pour stationner facilement à Montréal</string>
+    <string name="about_intro">Ne tournez plus en rond, évitez les contraventions, dirigez-vous directement vers la bonne rue&#160;!</string>
+    <string name="about_open_data">Cette application est propulsée par le Portail données ouvertes de la Ville de Montréal en conformité avec sa licence d’utilisation des données ouvertes.</string>
+    <string name="about_source_code">Le code source est publié sous la licence GPLv3 de la Free Software Foundation.</string>
+    <string name="about_credits_dev">Application Android réalisée par Mudar&#160;Noufal.</string>
+    <string name="about_credits_design">Direction artistique et design graphique par Emma&#160;Dumesnil.</string>
+    <string name="about_credits_thanks">Un grand merci à toutes les personnes de la Ville de Montréal et de l’arrondissement du Plateau Mont-Royal qui ont rendu ce projet possible&#160;!</string>
+    <string name="about_montreal_ouvert">Un projet de données ouvertes réalisé en collaboration avec Montréal&#160;ouvert.</string>
 
     <!-- Help Tabs -->
     <array name="help_tabs_array">
@@ -197,6 +202,8 @@
     <string name="prefs_units_dialog_title">Système des unités de mesure</string>
     <string name="prefs_units_iso">Métrique (km)</string>
     <string name="prefs_units_imperial">Impérial (mile)</string>
+    <string name="prefs_version_title">Version</string>
+
 
     <!-- Accessibility -->
     <string name="desc_logo_open_data_content">Montréal Ouvert</string>
@@ -205,6 +212,10 @@
     <string name="desc_address">Adresse</string>
     <string name="desc_parking_time">Heure de stationnement</string>
     <string name="desc_parking_time_edit">Modifier l’heure de stationnement</string>
+    <string name="desc_montreal">Ville de Montréal</string>
+    <string name="desc_github">Dépôt GitHub</string>
+    <string name="desc_credits">Générique et remerciements</string>
+    <string name="desc_montreal_ouvert">Montréal ouvert</string>
 
     <!-- Distances -->
     <string name="park_distance_iso">%.1f km</string>
