@@ -228,6 +228,7 @@
     <string name="desc_github">GitHub repository</string>
     <string name="desc_credits">Credits</string>
     <string name="desc_montreal_ouvert">Montréal ouvert</string>
+    <string name="desc_retry">Retry</string>
 
     <!-- Distances -->
     <string name="park_distance_iso">%.1f km</string>

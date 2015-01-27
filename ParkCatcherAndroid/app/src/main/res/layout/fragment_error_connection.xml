@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
     Park Catcher Montréal
     Find a free parking in the nearest residential street when driving in
     Montréal. A Montréal Open Data project.
@@ -20,25 +21,30 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
-    android:layout_width="wrap_content"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center_horizontal"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:background="@color/theme_bg_primary">
 
     <TextView
-        style="@style/NoConnectionTitle"
-        android:layout_width="wrap_content"
+        style="@style/FavoritesListEmpty"
+        android:layout_width="@dimen/listview_empty_width"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableTop="@drawable/ic_big_map"
         android:text="@string/map_no_connection" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_retry_connection"
-        style="@style/DrawerButton"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/map_retry_btn" />
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="32dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/bg_floating_parking"
+        android:contentDescription="@string/desc_retry"
+        android:elevation="@dimen/floating_btn_elevation"
+        android:padding="16dp"
+        android:src="@drawable/ic_refresh" />
 
-</LinearLayout>
+</FrameLayout>
