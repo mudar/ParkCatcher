@@ -126,11 +126,11 @@ public class MainActivity extends NavdrawerActivity implements
     public void onResume() {
         super.onResume();
 
-        if (isPlayservicesOutdated) {
+        if (!ConnectionHelper.hasConnection(this)) {
+            ConnectionHelper.showDialogNoConnection(this);
+        } else if (isPlayservicesOutdated) {
             // Re-check Playservices status
             handlePlayservicesError();
-        } else if (!ConnectionHelper.hasConnection(this)) {
-            ConnectionHelper.showDialogNoConnection(this);
         }
 
         // Update calendar to handle new values defined in Favorites
