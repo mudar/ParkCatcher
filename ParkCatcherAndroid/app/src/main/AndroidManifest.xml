@@ -148,7 +148,12 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
             android:label="@string/activity_eula"
-            android:theme="@style/AppTheme.Eula" />
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:theme="@style/AppTheme.Eula">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activities.MainActivity" />
+        </activity>
         <activity
             android:name=".ui.activities.AboutActivity"
             android:exported="false"

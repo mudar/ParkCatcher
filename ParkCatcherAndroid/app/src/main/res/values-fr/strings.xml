@@ -39,7 +39,7 @@
     <string name="activity_favorites">Favoris</string>
     <string name="activity_help">Règles de stationnement</string>
     <string name="activity_preferences">Paramètres</string>
-    <string name="activity_eula">EULA</string>
+    <string name="activity_eula">Conditions générales d’utilisation</string>
 
     <!--Navdrawer-->
     <string name="navdrawer_open">Ouvrir le menu de navigation</string>
@@ -202,6 +202,7 @@
     <string name="prefs_units_dialog_title">Système des unités de mesure</string>
     <string name="prefs_units_iso">Métrique (km)</string>
     <string name="prefs_units_imperial">Impérial (mile)</string>
+    <string name="prefs_eula_title">@string/activity_eula</string>
     <string name="prefs_version_title">Version</string>
 
 

@@ -26,7 +26,6 @@ package ca.mudar.parkcatcher.ui.activities;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -34,16 +33,26 @@ import android.webkit.WebViewClient;
 import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.Const.LocalAssets;
 import ca.mudar.parkcatcher.R;
+import ca.mudar.parkcatcher.ui.activities.base.ToolbarActivity;
+import ca.mudar.parkcatcher.utils.EulaHelper;
 
-public class EulaActivity extends ActionBarActivity {
-    @SuppressWarnings("unused")
+public class EulaActivity extends ToolbarActivity {
     private static final String TAG = "EulaActivity";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle(R.string.activity_eula);
         setContentView(R.layout.activity_eula);
+        getActionBarToolbar();
+
+        if (EulaHelper.hasAcceptedEula(this)) {
+            // Hide the footer and show the upArrow
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            findViewById(R.id.eula_footer).setVisibility(View.GONE);
+            findViewById(R.id.eula_footer_border).setVisibility(View.GONE);
+        }
 
         WebView v = (WebView) findViewById(R.id.webview);
         v.setWebViewClient(new MyWebViewClient());

@@ -25,7 +25,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/eula_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_actionbar_with_headerbar" />
 
     <WebView
         android:id="@+id/webview"
@@ -33,29 +35,40 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <LinearLayout
+    <View
+        android:id="@+id/eula_footer_border"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="2" >
+        android:layout_height="1dp"
+        android:background="#0f000000" />
+
+    <LinearLayout
+        android:id="@+id/eula_footer"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_eula_decline"
-            style="@style/EulaButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginRight="6dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
             android:onClick="declineEula"
-            android:text="@string/eula_decline_btn" />
+            android:text="@string/eula_decline_btn"
+            android:textColor="@color/theme_primary_dark" />
 
         <Button
             android:id="@+id/btn_eula_accept"
-            style="@style/EulaButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginRight="6dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
             android:onClick="acceptEula"
-            android:text="@string/eula_accept_btn" />
+            android:text="@string/eula_accept_btn"
+            android:textColor="@color/theme_primary_dark" />
     </LinearLayout>
 
 </LinearLayout>

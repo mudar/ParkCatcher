@@ -38,6 +38,13 @@
         android:key="prefs_language"
         android:title="@string/prefs_language_title" />
 
+    <PreferenceScreen android:title="@string/prefs_eula_title">
+        <intent
+            android:action="ca.mudar.parkcatcher.ui.activities.EulaActivity"
+            android:targetClass="ca.mudar.parkcatcher.ui.activities.EulaActivity"
+            android:targetPackage="ca.mudar.parkcatcher" />
+    </PreferenceScreen>
+
     <PreferenceScreen
         android:enabled="false"
         android:summary="@string/app_version"

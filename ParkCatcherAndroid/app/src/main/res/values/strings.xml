@@ -52,7 +52,7 @@
     <string name="activity_favorites">Favorites</string>
     <string name="activity_help">Parking Rules</string>
     <string name="activity_preferences">Settings</string>
-    <string name="activity_eula">EULA</string>
+    <string name="activity_eula">End User License Agreement</string>
 
     <!--Navdrawer-->
     <string name="navdrawer_open">Open navigation drawer</string>
@@ -215,6 +215,7 @@
     <string name="prefs_units_dialog_title">Set units system</string>
     <string name="prefs_units_iso">Metric (km)</string>
     <string name="prefs_units_imperial">Imperial (mile)</string>
+    <string name="prefs_eula_title">@string/activity_eula</string>
     <string name="prefs_version_title">Version</string>
 
     <!-- Accessibility -->
