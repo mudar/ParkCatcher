@@ -21,19 +21,29 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/pager"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
-    <android.support.v4.view.PagerTabStrip
+    <com.astuetz.PagerSlidingTabStrip xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/tabs"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@color/bg_tabs_help"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:textColor="@color/text_tabs_help" />
+        android:layout_height="48dp"
+        android:background="?attr/colorPrimary"
+        app:pstsDividerColor="@color/transparent"
+        app:pstsIndicatorColor="@color/text_tabs_help"
+        app:pstsIndicatorHeight="2dp"
+        app:pstsTabPaddingLeftRight="12dp"
+        app:pstsTabBackground="?attr/selectableItemBackground"
+        app:pstsTextAllCaps="true"
+        app:pstsUnderlineColor="@color/text_tabs_help"
+        app:pstsUnderlineHeight="0dp" />
 
-</android.support.v4.view.ViewPager>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabs" />
+
+</RelativeLayout>

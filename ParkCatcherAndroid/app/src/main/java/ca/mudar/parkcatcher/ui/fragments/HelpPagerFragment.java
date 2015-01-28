@@ -23,6 +23,7 @@
 
 package ca.mudar.parkcatcher.ui.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
@@ -30,6 +31,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.astuetz.PagerSlidingTabStrip;
 
 import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.R;
@@ -42,6 +45,8 @@ public class HelpPagerFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         final View view = inflater.inflate(R.layout.fragment_help_pager, container, false);
+        ViewCompat.setElevation(view.findViewById(R.id.tabs),
+                getResources().getDimensionPixelSize(R.dimen.headerbar_elevation));
 
         final ViewPager pager = (ViewPager) view.findViewById(R.id.pager);
         final HelpPagerAdapter adapter = new HelpPagerAdapter(getFragmentManager(), getActivity());
@@ -49,8 +54,14 @@ public class HelpPagerFragment extends Fragment {
         pager.setAdapter(adapter);
         pager.setCurrentItem(Const.HelpTabs.STOPPING);
 
-        ViewCompat.setElevation(view.findViewById(R.id.tabs),
-                getResources().getDimensionPixelSize(R.dimen.headerbar_elevation));
+        // Bind the tabs to the ViewPager
+        final PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
+        tabs.setViewPager(pager);
+
+        // Style the tabs
+        tabs.setTextColorResource(R.color.text_tabs_help);
+        tabs.setTextSize(getResources().getDimensionPixelSize(R.dimen.tabs_text_size));
+        tabs.setTypeface(null, Typeface.NORMAL);
 
         return view;
     }
