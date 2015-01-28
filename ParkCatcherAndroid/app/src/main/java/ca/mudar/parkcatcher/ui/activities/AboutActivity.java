@@ -23,9 +23,6 @@
 
 package ca.mudar.parkcatcher.ui.activities;
 
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.view.Menu;
@@ -36,10 +33,10 @@ import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.ui.activities.base.NavdrawerActivity;
 import ca.mudar.parkcatcher.ui.fragments.AboutFragment;
+import ca.mudar.parkcatcher.utils.IntentHelper;
 
 public class AboutActivity extends NavdrawerActivity {
     private static final String TAG = "AboutActivity";
-    private static final String SEND_INTENT_TYPE = "text/plain";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,30 +80,11 @@ public class AboutActivity extends NavdrawerActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_rate) {
-            // Open playstore
-            try {
-                // try market://
-                final Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(getResources().getString(R.string.uri_playstore)));
-                startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-                // fallback to playstore http:// link
-                final Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(getResources().getString(R.string.url_playstore)));
-                startActivity(intent);
-            }
+            IntentHelper.sendPlaystoreIntent(this, R.string.package_parkcatcher);
             return true;
         } else if (item.getItemId() == R.id.action_share) {
             //  Native sharing
-            final Bundle extras = new Bundle();
-            extras.putString(Intent.EXTRA_SUBJECT, getResources().getString(R.string.share_intent_title));
-            extras.putString(Intent.EXTRA_TEXT, getResources().getString(R.string.share_intent_text));
-
-            final Intent sendIntent = new Intent();
-            sendIntent.putExtras(extras);
-            sendIntent.setAction(Intent.ACTION_SEND);
-            sendIntent.setType(SEND_INTENT_TYPE);
-            startActivity(sendIntent);
+            IntentHelper.sendShareIntent(this, R.string.share_intent_title, R.string.share_intent_text);
             return true;
         }
 

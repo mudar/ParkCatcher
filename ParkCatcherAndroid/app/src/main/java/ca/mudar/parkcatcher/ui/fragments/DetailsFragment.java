@@ -66,6 +66,7 @@ import ca.mudar.parkcatcher.ui.activities.MainActivity;
 import ca.mudar.parkcatcher.utils.AnimHelper;
 import ca.mudar.parkcatcher.utils.ConnectionHelper;
 import ca.mudar.parkcatcher.utils.GeoHelper;
+import ca.mudar.parkcatcher.utils.IntentHelper;
 import ca.mudar.parkcatcher.utils.NotifyingAsyncQueryHandler;
 import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 import ca.mudar.parkcatcher.utils.SearchMessageHandler;
@@ -486,11 +487,7 @@ public class DetailsFragment extends Fragment implements
                 url,
                 mShareDesc);
 
-        final Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
-        intent.putExtra(Intent.EXTRA_TEXT, message);
-        startActivity(intent);
+        IntentHelper.sendShareIntent(getActivity(), subject, message);
     }
 
     private void setThemeByParkingStatus(boolean isForbidden) {
