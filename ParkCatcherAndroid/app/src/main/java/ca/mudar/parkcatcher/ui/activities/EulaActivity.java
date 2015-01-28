@@ -50,7 +50,7 @@ public class EulaActivity extends ToolbarActivity {
         if (EulaHelper.hasAcceptedEula(this)) {
             // Hide the footer and show the upArrow
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            findViewById(R.id.eula_footer).setVisibility(View.GONE);
+            findViewById(R.id.btn_eula_accept).setVisibility(View.GONE);
             findViewById(R.id.eula_footer_border).setVisibility(View.GONE);
         }
 

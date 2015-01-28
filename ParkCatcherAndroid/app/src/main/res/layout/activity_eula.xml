@@ -39,36 +39,17 @@
         android:id="@+id/eula_footer_border"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#0f000000" />
+        android:background="#2e000000" />
 
-    <LinearLayout
-        android:id="@+id/eula_footer"
+    <Button
+        android:id="@+id/btn_eula_accept"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:gravity="right|center_vertical"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_eula_decline"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginRight="6dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:onClick="declineEula"
-            android:text="@string/eula_decline_btn"
-            android:textColor="@color/theme_primary_dark" />
-
-        <Button
-            android:id="@+id/btn_eula_accept"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginRight="6dp"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center"
-            android:onClick="acceptEula"
-            android:text="@string/eula_accept_btn"
-            android:textColor="@color/theme_primary_dark" />
-    </LinearLayout>
+        android:layout_height="?actionBarSize"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center"
+        android:onClick="acceptEula"
+        android:text="@string/eula_accept_btn"
+        android:textAllCaps="true"
+        android:textColor="@color/theme_primary_dark" />
 
 </LinearLayout>
