@@ -36,24 +36,17 @@
         android:paddingTop="24dp">
 
         <TextView
-            style="@style/AboutBoxText"
+            style="@style/ContentBigSubtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:layout_marginLeft="72dp"
-            android:layout_marginRight="16dp"
-            android:lineSpacingMultiplier="1.1"
-            android:text="@string/about_intro"
-            android:textColor="@color/text_secondary_light"
-            android:textSize="18sp"
-            android:textStyle="italic" />
+            android:text="@string/about_intro" />
 
         <LinearLayout
             android:id="@+id/about_open_data"
             style="@style/AboutRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="top"
             android:orientation="horizontal">
 
             <ImageView

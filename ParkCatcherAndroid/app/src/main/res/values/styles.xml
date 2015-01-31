@@ -209,15 +209,7 @@
     <style name="AboutBoxText">
         <item name="android:layout_marginLeft">32dp</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/about_text</item>
-        <item name="android:textColorLink">@color/hyperlink</item>
-    </style>
-
-    <style name="AboutBoxFooter">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/hyperlink</item>
-        <item name="android:textColorLink">@color/hyperlink</item>
-        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:textColor">@color/text_primary_light</item>
     </style>
 
     <style name="AboutRow">
@@ -230,7 +222,7 @@
     </style>
 
     <style name="AboutTextRow" parent="@style/AboutRow">
-        <item name="android:textColor">@color/about_text</item>
+        <item name="android:textColor">@color/text_primary_light</item>
         <item name="android:textSize">16sp</item>
         <item name="android:paddingLeft">72dp</item>
     </style>
@@ -240,18 +232,19 @@
     </style>
 
     <!-- Help -->
+    <style name="HelpRow" parent="@style/AboutRow"/>
+    <style name="HelpBoxText" parent="@style/AboutBoxText" />
+    <style name="HelpIcon" parent="@style/AboutIcon"/>
+    <style name="HelpTextRow" parent="@style/AboutTextRow"/>
+
     <style name="HelpBox" parent="@style/TextContent">
         <item name="android:layout_margin">@dimen/padding_double</item>
         <item name="android:background">@color/background</item>
     </style>
 
-    <style name="HelpBoxText" parent="@style/AboutBoxText">
-        <item name="android:drawablePadding">@dimen/padding_double</item>
-    </style>
-
     <style name="HelpBoxTextSmall" parent="@android:style/TextAppearance.Small">
         <item name="android:drawablePadding">@dimen/padding_double</item>
-        <item name="android:textColor">@color/about_text</item>
+        <item name="android:textColor">@color/text_primary_light</item>
     </style>
 
     <style name="HelpImageArrow">

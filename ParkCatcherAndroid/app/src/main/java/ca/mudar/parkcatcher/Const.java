@@ -160,6 +160,7 @@ public class Const {
         final int NUMBER_SEEKBAR = 131;
         final int MAP = 140;
         final int FAVORITES = 141;
+        final int PLAYSERVICES = 150;
     }
 
     public static interface SavedInstanceKeys {

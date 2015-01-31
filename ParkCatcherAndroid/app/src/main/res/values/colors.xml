@@ -57,10 +57,6 @@
     <color name="drawer_background">#cc2c2c2c</color>
     <color name="drawer_text">#ffffff</color>
 
-    <!-- About -->
-    <color name="about_text">#ffffff</color>
-    <color name="hyperlink">#99cc00</color>
-
     <!-- Help -->
     <color name="indicator_bg">#802c2c2c</color>
     <color name="indicator_text_1">#ffffffff</color>

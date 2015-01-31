@@ -146,8 +146,8 @@ public class MapErrorFragment extends Fragment implements
                 return;
             case ConnectionResult.SERVICE_MISSING:
                 message = isTablet() ?
-                        R.string.common_google_play_services_install_text_phone :
-                        R.string.common_google_play_services_install_text_tablet;
+                        R.string.common_google_play_services_install_text_tablet :
+                        R.string.common_google_play_services_install_text_phone;
                 break;
             case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED:
                 message = R.string.common_google_play_services_update_text;
