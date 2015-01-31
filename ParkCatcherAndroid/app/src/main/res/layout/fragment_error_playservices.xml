@@ -21,47 +21,129 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/theme_bg_primary">
 
-    <LinearLayout
-        style="@style/HelpBox"
+    <ScrollView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="96dp">
+
+            <TextView
+                android:id="@+id/playservices_title"
+                style="@style/FavoritesListEmpty"
+                android:layout_width="@dimen/listview_empty_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="32dp"
+                android:layout_marginTop="32dp"
+                android:drawableTop="@drawable/ic_playservices"
+                android:text="@string/playservices_title" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@color/theme_bg_secondary" />
+
+            <LinearLayout
+                android:id="@+id/playservices_message_container"
+                style="@style/AboutRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    style="@style/AboutIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/desc_logo_about_content"
+                    android:src="@drawable/ic_nav_info"
+                    android:tint="@color/theme_alert_primary" />
+
+                <TextView
+                    android:id="@+id/playservices_message"
+                    style="@style/AboutBoxText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <TextView
+                style="@style/ContentBigSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/playservices_subtitle" />
+
+            <LinearLayout
+                style="@style/AboutRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    style="@style/AboutIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/desc_logo_about_content"
+                    android:src="@drawable/ic_nav_help" />
+
+                <TextView
+                    style="@style/AboutBoxText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/playservices_1" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/AboutRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    style="@style/AboutIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+
+                    android:contentDescription="@string/desc_logo_about_content"
+                    android:src="@drawable/ic_playservices"
+                    android:tint="@color/text_primary_light" />
+
+                <TextView
+                    style="@style/AboutBoxText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/playservices_2" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/btn_resolve_error"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="32dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/bg_floating_parking"
+        android:contentDescription="@string/desc_retry"
+        android:elevation="@dimen/floating_btn_elevation"
+        android:padding="16dp"
+        android:src="@drawable/ic_download" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/padding_double"
-            android:contentDescription="@string/desc_logo_about_content"
-            android:src="@drawable/logo_about" />
-
-        <fragment
-            android:tag="@string/fragment_tag_map"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/padding_normal"
-            class="com.google.android.gms.maps.SupportMapFragment" />
-
-        <TextView
-            style="@style/PlayservicesTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/playservices_title" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/padding_normal"
-            android:text="@string/playservices_1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/playservices_2" />
-    </LinearLayout>
-
-</ScrollView>
+</FrameLayout>

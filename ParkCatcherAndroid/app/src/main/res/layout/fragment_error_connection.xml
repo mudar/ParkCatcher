@@ -35,7 +35,7 @@
         android:text="@string/map_no_connection" />
 
     <ImageButton
-        android:id="@+id/btn_retry_connection"
+        android:id="@+id/btn_resolve_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"

@@ -67,7 +67,6 @@ public class MainActivity extends NavdrawerActivity implements
     private RefreshProgressLayout mRefreshProgressLayout;
     private SlidingUpCalendar mSlidingUpCalendar;
     private MainMapFragment mMainMapFragment;
-    private boolean isPlayservicesOutdated = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -128,9 +127,6 @@ public class MainActivity extends NavdrawerActivity implements
 
         if (!ConnectionHelper.hasConnection(this)) {
             ConnectionHelper.showDialogNoConnection(this);
-        } else if (isPlayservicesOutdated) {
-            // Re-check Playservices status
-            handlePlayservicesError();
         }
 
         // Update calendar to handle new values defined in Favorites
@@ -157,6 +153,8 @@ public class MainActivity extends NavdrawerActivity implements
             if (!EulaHelper.acceptEula(resultCode, this)) {
                 this.finish();
             }
+        } else if (requestCode == Const.RequestCodes.PLAYSERVICES) {
+            handlePlayservicesResult();
         }
     }
 
@@ -301,20 +299,16 @@ public class MainActivity extends NavdrawerActivity implements
         }
 
         // If EULA can be displayed with an internet connection, continue to check PlayServices status
-        isPlayservicesOutdated = (GooglePlayServicesUtil
-                .isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS);
-        if (isPlayservicesOutdated) {
+        if (GooglePlayServicesUtil
+                .isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS) {
             return Const.StartupStatus.ERROR_PLAYSERVICES;
         }
 
         return Const.StartupStatus.OK;
     }
 
-    private void handlePlayservicesError() {
-        if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) != ConnectionResult.SUCCESS) {
-            // Still out of date, interrupt onResume()
-            disableLocationUpdates();
-        } else {
+    private void handlePlayservicesResult() {
+        if (GooglePlayServicesUtil.isGooglePlayServicesAvailable(getApplicationContext()) == ConnectionResult.SUCCESS) {
             // Playservice updated, display message and restart activity
             parkingApp.showToastText(R.string.toast_playservices_restart, Toast.LENGTH_LONG);
             final Intent intent = getIntent();
