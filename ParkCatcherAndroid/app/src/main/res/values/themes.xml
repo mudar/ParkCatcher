@@ -79,8 +79,8 @@
 
     <!-- Main -->
     <style name="AppTheme.Main" parent="Theme.AppTheme">
-        <item name="logo">@drawable/logo_home</item>
-        <item name="actionBarStyle">@style/LogoActionBar</item>
+        <!--<item name="logo">@drawable/logo_home</item>-->
+        <!--<item name="actionBarStyle">@style/LogoActionBar</item>-->
         <!--<item name="android:logo">@drawable/logo_home</item>-->
         <!--<item name="android:actionBarStyle">@style/LogoActionBar</item>-->
     </style>

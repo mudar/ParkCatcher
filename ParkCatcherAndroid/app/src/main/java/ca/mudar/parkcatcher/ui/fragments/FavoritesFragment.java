@@ -66,8 +66,12 @@ public class FavoritesFragment extends Fragment implements
         setUpSwipeRefreshLayout(mSwipeRefreshLayout);
 
         final RecyclerView recyclerView = (RecyclerView) mView.findViewById(R.id.recycler_view);
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(null);
 
         mAdapter = new FavoritesAdapter(getActivity(),
