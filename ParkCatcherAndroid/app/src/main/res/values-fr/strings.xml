@@ -82,7 +82,7 @@
     <string name="toast_network_connection_error">Pas de connexion internet…</string>
     <string name="toast_map_not_ready">Chargement de la carte en cours…</string>
     <string name="toast_map_zoom_to_update">Veuillez faire un zoom avant pour mettre à jour la carte</string>
-    <string name="toast_playservices_restart">Redémarrage de Capteur de stationnement… Mise à jour réussi de Google Play services&#160;!</string>
+    <string name="toast_playservices_restart">Redémarrage de Capteur de stationnement… Mise à jour réussi des services Google Play&#160;!</string>
     <string name="toast_favorites_added">Ajouté aux favoris</string>
     <string name="toast_favorites_removed">Supprimé des favoris</string>
     <string name="toast_streetview_error">Incapable de démarrer Google Street View…</string>
@@ -95,7 +95,8 @@
     <string name="map_no_connection_restart">Redémarrage de Capteur de stationnement…</string>
 
     <!-- Playservices -->
-    <string name="playservices_title">De quoi s’agit-il&#160;?</string>
+    <string name="playservices_title">Erreur liée aux services Google&#160;Play</string>
+    <string name="playservices_subtitle">De quoi s’agit-il&#160;?</string>
     <string name="playservices_1">Avec les services Google Play, les applications Android du Play Store s’intègrent dans Google+, Google Maps ainsi que d’autres services Google. Pour pouvoir fonctionner correctement, certaines applications peuvent nécessiter l’installation et la mise à jour des services Google Play.</string>
     <string name="playservices_2">Les services Google Play sont généralement mis à jour automatiquement sur les appareils Android. Si vous utilisez une application nécessitant la version la plus récente des services Google Play, vous êtes redirigé vers le Play Store où vous pouvez les installer ou les mettre à jour manuellement.</string>
 
@@ -126,7 +127,7 @@
     <string name="about_open_data">Cette application est propulsée par le Portail données ouvertes de la Ville de Montréal en conformité avec sa licence d’utilisation des données ouvertes.</string>
     <string name="about_source_code">Le code source est publié sous la licence GPLv3 de la Free Software Foundation.</string>
     <string name="about_credits_dev">Application Android réalisée par Mudar&#160;Noufal.</string>
-    <string name="about_credits_design">Direction artistique et design graphique par Emma&#160;Dumesnil.</string>
+    <string name="about_credits_design">Design graphique par Emma&#160;Dumesnil.</string>
     <string name="about_credits_thanks">Un grand merci à toutes les personnes de la Ville de Montréal et de l’arrondissement du Plateau Mont-Royal qui ont rendu ce projet possible&#160;!</string>
     <string name="about_montreal_ouvert">Un projet de données ouvertes réalisé en collaboration avec Montréal&#160;ouvert.</string>
 
@@ -144,12 +145,12 @@
     </array>
 
     <!-- Help/APP -->
+    <string name="help_app_intro">Comment utiliser la carte</string>
     <string name="help_app_1">La carte interactive et le moteur de recherche vous permettent de trouver les emplacements où le stationnement est autorisé pour la période de votre choix.</string>
-    <string name="help_app_2">Appuyez sur un poteau de stationnement, affiché en <b>vert</b>, pour afficher la prochaine période d’interdiction à cet emplacement.</string>
-    <string name="help_app_3">Les emplacements où le stationnement est <b>interdit</b> ne sont pas affichés.</string>
-    <string name="help_app_4">Appuyez sur <b>la date</b> en bas de l’écran pour saisir la période de temps pour laquelle vous cherchez un stationnement.</string>
-    <string name="help_app_5"><b>Appuyez longuement</b> sur la carte pour modifier votre position géographique.</string>
-    <string name="help_app_6"><b>Appuyez deux fois</b> sur le titre de l’onglet «&#160;Carte&#160;» pour réinitialiser la période de recherche et votre position géographique.</string>
+    <string name="help_app_2">Appuyez sur un poteau de stationnement, affiché en vert, pour afficher la prochaine période d’interdiction à cet emplacement.</string>
+    <string name="help_app_3">Les emplacements où le stationnement est interdit ne sont pas affichés sur la carte.</string>
+    <string name="help_app_4">Appuyez sur la date en bas de l’écran pour saisir la période de temps pour laquelle vous cherchez un stationnement.</string>
+    <string name="help_app_5">Astuce&#160;: appuyez longuement sur la carte pour modifier votre position géographique.</string>
 
     <!-- Help/Rules -->
     <string name="help_rules">Il est interdit de stationner&#160;:\r\n&#8226; devant une entrée privée\r\n&#8226; dans une ruelle\r\n&#8226; sur une piste cyclable\r\n&#8226; en double file\r\n&#8226; en sens inverse de la circulation\r\n&#8226; devant une borne-fontaine\r\n&#8226; à proximité d’une intersection\r\n&#8226; sur un trottoir\r\n&#8226; sur un passage piétonnier\r\n&#8226; devant une rampe de trottoir pour personnes handicapées\r\n&#8226; en angle, sauf signalisation, même lors de chutes de neige</string>
@@ -175,22 +176,20 @@
     <string name="help_srrr_2">Le nombre de places de stationnement réservées aux résidants n’excède pas 50&#160;% des places disponibles dans un secteur donné.</string>
 
     <!-- Help/Cell phone -->
-    <string name="help_cell_1">Depuis le 1er avril 2008, l’utilisation d’un téléphone cellulaire tenu en main, c’est-à-dire sans la fonction «&#160;mains libres&#160;», est interdite au volant.</string>
-    <string name="help_cell_2">Cette infracion est passible de&#160;:\r\n&#8226; 3 points d’inaptitude\r\n&#8226; une amende de 80&#160;$ à 100&#160;$</string>
+    <string name="help_cell_1">Depuis le 1er avril 2008, l’utilisation d’un téléphone cellulaire tenu en main, c’est-à-dire sans la fonction «&#160;mains libres&#160;», est interdite au volant. Cette infracion est passible de&#160;:\r\n&#8226; 3 points d’inaptitude\r\n&#8226; une amende de 80&#160;$ à 100&#160;$</string>
 
     <!-- Help/Arrow -->
-    <string name="help_arrow_1">Quand un panneau comporte une flèche, la réglementation s’applique dans la zone indiquée par la flèche.</string>
-    <string name="help_arrow_2">Si la flèche pointe vers <b>la rue</b>, il s’agit du <b>début de la zone</b> du panneau&#160;:</string>
-    <string name="help_arrow_3">Si la flèche pointe vers <b>le trottoir</b>, il s’agit de la <b>fin de la zone</b> du panneau&#160;:</string>
-    <string name="help_arrow_4">Une zone réglementée peut <b>commencer</b> après une intersection. Dans un tel cas, le panneau ne comporte pas de flèche.</string>
-    <string name="help_arrow_5">Une zone <b>se termine</b> soit par une autre intersection, soit par un panneau comportant une flèche.</string>
-    <string name="help_arrow_6">S’il n’y a <b>pas de flèche</b> sur le panneau, il s’agit d’un panneau intermédiaire qui indique le milieu de la zone de réglementation.</string>
+    <string name="help_arrow_1">Quand un panneau comporte une flèche, la réglementation s’applique dans la zone indiquée par la flèche.\r\nLa zone se termine soit par une autre intersection, soit par un panneau comportant une flèche.</string>
+    <string name="help_arrow_2">Si la flèche pointe <b>vers la rue</b>, il s’agit du début de la zone du panneau&#160;:</string>
+    <string name="help_arrow_3">Si la flèche pointe <b>vers le trottoir</b>, il s’agit de la fin de la zone du panneau&#160;:</string>
+    <string name="help_arrow_4">S’il n’y a pas de flèche sur le panneau, il s’agit d’un panneau intermédiaire qui indique le milieu de la zone de réglementation.\r\n\r\nUne zone réglementée peut commencer après une intersection. Dans un tel cas, le panneau ne comporte pas de flèche.</string>
     <string name="help_arrow_7">Une ruelle n’interrompt pas la signalisation&#160;: s’il n’y a pas d’autres panneaux, la signalisation est toujours valable de l’autre côté de la ruelle.</string>
 
     <!-- Help/Priority -->
-    <string name="help_priority_1">Quand un poteau comporte plusieurs panneaux, la réglementation s’applique du <b>plus haut au plus bas</b>.</string>
-    <string name="help_priority_2"><b>Cas n°&#160;1</b>\r\nNous sommes le lundi matin, il est 8&#160;h, vous voulez stationner pour 30&#160;minutes.\r\nIci, le stationnement est strictement <b>interdit</b> entre 7&#160;h et 9&#160;h, quelle que soit la durée.</string>
-    <string name="help_priority_3"><b>Cas n°&#160;2</b>\r\nLes panneaux sont inversés. Nous sommes toujours le lundi matin, il est 8&#160;h, vous voulez stationner pour 30&#160;minutes.\r\nIci, le stationnement est <b>autorisé</b> pour un maximum de 60&#160;minutes durant la semaine.</string>
+    <string name="help_priority_1">Quand un poteau comporte plusieurs panneaux, la réglementation s’applique du plus haut au plus bas.</string>
+    <string name="help_priority_2">Deux exemples en attribuant différentes priorités aux mêmes panneaux&#160;:</string>
+    <string name="help_priority_3">Cas n°&#160;1&#160;: nous sommes le lundi matin, il est 8&#160;h, vous voulez stationner pour 30&#160;minutes.\r\n\r\nSelon le premier panneau, le stationnement est strictement interdit entre 7&#160;h et 9&#160;h, quelle que soit la durée autorisée par le deuxième panneau.\r\n\r\n= Stationnement interdit</string>
+    <string name="help_priority_4">Cas n°&#160;2&#160;: les panneaux sont inversés. Nous sommes toujours le lundi matin, il est 8&#160;h, vous voulez stationner pour 30&#160;minutes.\r\n\r\nIci, le stationnement est autorisé pour un maximum de 60&#160;minutes durant la semaine.\r\n\r\n= Stationnement autorisé</string>
 
     <!-- Prefrences -->
     <string name="prefs_language_title">Langue</string>
@@ -208,6 +207,7 @@
     <!-- Accessibility -->
     <string name="desc_logo_open_data_content">Montréal Ouvert</string>
     <string name="desc_logo_about_content">Capteur de stationnement</string>
+    <string name="desc_logo_play_services">Services Google Play</string>
     <string name="desc_arrow_illustration_content">Flèches des panneaux de stationnement</string>
     <string name="desc_address">Adresse</string>
     <string name="desc_parking_time">Heure de stationnement</string>
@@ -216,6 +216,8 @@
     <string name="desc_github">Dépôt GitHub</string>
     <string name="desc_credits">Générique et remerciements</string>
     <string name="desc_montreal_ouvert">Montréal ouvert</string>
+    <string name="desc_help_panel">Panneau</string>
+    <string name="desc_help_panel_arrow">Flèche du panneau</string>
 
     <!-- Distances -->
     <string name="park_distance_iso">%.1f km</string>

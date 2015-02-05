@@ -109,7 +109,8 @@
     <string name="map_no_connection_restart">Restarting Park Catcher…</string>
 
     <!-- Playservices -->
-    <string name="playservices_title">What is this about?</string>
+    <string name="playservices_title">Google Play services error</string>
+    <string name="playservices_subtitle">What is this about?</string>
     <string name="playservices_1">Google Play services lets Android apps from the Google Play Store integrate with Google+, Google Maps, and other Google services. To work correctly, some apps may require Google Play services to be present and up to date.</string>
     <string name="playservices_2">Google Play services is usually updated automatically on Android devices. In the event you use an app that requires the latest Google Play services, you will be redirected to install or update it manually from the Google Play Store.</string>
 
@@ -140,7 +141,7 @@
     <string name="about_open_data">This app is powered by the City of&#160;Montréal Open&#160;Data Portal, in compliance with its Open&#160;Data license.</string>
     <string name="about_source_code">Source code is released under the GPLv3 license from the Free Software Foundation.</string>
     <string name="about_credits_dev">Android app developed by Mudar&#160;Noufal.</string>
-    <string name="about_credits_design">Art Direction and Graphic Design by Emma&#160;Dumesnil.</string>
+    <string name="about_credits_design">Graphic Design by Emma&#160;Dumesnil.</string>
     <string name="about_credits_thanks">Many thanks to everyone at the City and the Plateau&#160;borough who made this project possible.</string>
     <string name="about_montreal_ouvert">An Open Data project done in collaboration with Montréal&#160;ouvert.</string>
 
@@ -158,12 +159,12 @@
     </array>
 
     <!-- Help/APP -->
+    <string name="help_app_intro">Using the map</string>
     <string name="help_app_1">The interactive map and the search engine allow you to find spots where parking is allowed for the time period you need.</string>
-    <string name="help_app_2">Tap on a parking post, displayed in <b>green</b>, to display the next no-parking period in that area.</string>
-    <string name="help_app_3">The zones where parking is <b>not allowed</b> are not displayed on the map.</string>
-    <string name="help_app_4">Tap the <b>date</b> at the screen bottom to enter the time period for which you need a parking spot.</string>
-    <string name="help_app_5"><b>Long press</b> on the map to change your geographic location.</string>
-    <string name="help_app_6"><b>Press twice</b> on the “Map” tab title to reset the search time period and your geographic location.</string>
+    <string name="help_app_2">Tap on a parking post, displayed in green, to display the next no-parking period in that area.</string>
+    <string name="help_app_3">Zones where parking is forbidden are hidden from the map.</string>
+    <string name="help_app_4">Tap the date at the screen bottom to select the time period for which you need a parking spot.</string>
+    <string name="help_app_5">Hint: Long press on the map to change your geographic location.</string>
 
     <!-- Help/Rules -->
     <string name="help_rules">It is prohibited to park:\r\n&#8226; in front of a private driveway\r\n&#8226; in a back lane\r\n&#8226; on a cycle path\r\n&#8226; next to a parked vehicle (double parking)\r\n&#8226; facing oncoming traffic\r\n&#8226; in front of a fire hydrant\r\n&#8226; near an intersection\r\n&#8226; on the sidewalk\r\n&#8226; in a pedestrian walkway\r\n&#8226; in front of a disability access ramp\r\n&#8226; on an angle, unless signage, even owing to snowfall</string>
@@ -189,22 +190,20 @@
     <string name="help_srrr_2">The number of parking spaces reserved for residents in a given sector is no more than 50% of the available spaces.</string>
 
     <!-- Help/Cell phone -->
-    <string name="help_cell_1">As of April 1, 2008, use of a hand-held cell phone that does not have a “hands-free” function is prohibited while driving.</string>
-    <string name="help_cell_2">Committing this type of offence will result in:\r\n&#8226; 3 demerit points\r\n&#8226; $80 to $100 fine</string>
+    <string name="help_cell_1">As of April 1, 2008, use of a hand-held cell phone that does not have a “hands-free” function is prohibited while driving. Committing this type of offence will result in:\r\n&#8226; 3 demerit points\r\n&#8226; $80 to $100 fine</string>
 
     <!-- Help/Arrow -->
-    <string name="help_arrow_1">If the sign carries an arrow, the regulation applies in the zone pointed by the arrow.</string>
-    <string name="help_arrow_2">An arrow pointing towards the <b>road</b> indicates the beginning of the sign’s zone:</string>
-    <string name="help_arrow_3">An arrow pointing towards the <b>sidewalk</b> indicates the end of the sign’s zone:</string>
-    <string name="help_arrow_4">A regulation zone can <b>begin</b> after an intersection, in which case the sign doesn’t carry an arrow.</string>
-    <string name="help_arrow_5">A zone <b>ends</b> at the next intersection or at a sign that carries an arrow.</string>
-    <string name="help_arrow_6">A sign <b>without an arrow</b> is an intermediate sign that indicates the middle of the regulation zone.</string>
+    <string name="help_arrow_1">If the sign carries an arrow, the regulation applies in the zone pointed by the arrow.\r\n\r\nThe zone ends at the next intersection or at a sign that carries an arrow.</string>
+    <string name="help_arrow_2">An arrow pointing <b>towards the road</b> indicates the beginning of the sign’s zone:</string>
+    <string name="help_arrow_3">An arrow pointing <b>towards the sidewalk</b> indicates the end of the sign’s zone:</string>
+    <string name="help_arrow_4">A sign without an arrow is an intermediate sign that indicates the middle of the regulation zone.\r\n\r\nA regulation zone can begin after an intersection, in which case the sign doesn’t carry an arrow.</string>
     <string name="help_arrow_7">A back lane does not interrupt the signage: if there are no other signs, the signage still applies on the other side of the lane.</string>
 
     <!-- Help/Priority -->
-    <string name="help_priority_1">When a pole carries multiple signs, regulations are applied from <b>top to bottom signs</b>.</string>
-    <string name="help_priority_2"><b>Case #1</b>\r\nIt’s 8:00 Monday morning, you want to park for 30&#160;minutes.\r\nHere, parking is <b>strictly forbidden</b> between 7:00 and 9:00, regardless of duration.</string>
-    <string name="help_priority_3"><b>Case #2</b>\r\nSigns are in reverse order. It’s still 8:00 Monday morning, you want to park for 30&#160;minutes.\r\nHere, maximum 60 minute <b>parking is allowed</b> on weekdays.</string>
+    <string name="help_priority_1">When a pole carries multiple signs, regulations are applied from top to bottom signs.</string>
+    <string name="help_priority_2">Two examples, applying different priorities to the same signs:</string>
+    <string name="help_priority_3">Case #1: it’s 8:00 Monday morning, you want to park for 30&#160;minutes.\r\n\r\nThe sign on top rules, so parking is strictly forbidden between 7:00 and 9:00, regardless of duration.\r\n\r\n= Parking forbidden</string>
+    <string name="help_priority_4">Case #2: signs are in reverse order. It’s still 8:00 Monday morning, you want to park for 30&#160;minutes.\r\n\r\nHere, maximum 60 minute parking is allowed on weekdays.\r\n\r\n= Parking allowed</string>
 
     <!-- Prefrences -->
     <string name="prefs_language_title">Language</string>
@@ -221,6 +220,7 @@
     <!-- Accessibility -->
     <string name="desc_logo_open_data_content">Montréal Ouvert</string>
     <string name="desc_logo_about_content">Park Catcher</string>
+    <string name="desc_logo_play_services">Google Play Services</string>
     <string name="desc_arrow_illustration_content">Parking signage arrows</string>
     <string name="desc_address">Address</string>
     <string name="desc_parking_time">Parking time</string>
@@ -230,6 +230,8 @@
     <string name="desc_credits">Credits</string>
     <string name="desc_montreal_ouvert">Montréal ouvert</string>
     <string name="desc_retry">Retry</string>
+    <string name="desc_help_panel">Panel</string>
+    <string name="desc_help_panel_arrow">Panel arrow</string>
 
     <!-- Distances -->
     <string name="park_distance_iso">%.1f km</string>
