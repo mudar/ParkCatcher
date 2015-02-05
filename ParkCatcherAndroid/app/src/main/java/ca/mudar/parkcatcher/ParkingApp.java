@@ -82,6 +82,7 @@ public class ParkingApp extends Application {
         }
 
         mHasLoadedData = prefs.getBoolean(PrefsNames.HAS_LOADED_DATA, Const.HAS_OFFLINE);
+        mHasViewedTutorial = prefs.getBoolean(PrefsNames.HAS_VIEWED_TUTORIAL, false);
 
         resetParkingCalendar();
 

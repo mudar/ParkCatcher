@@ -176,10 +176,10 @@
     <string name="help_srrr_2">Le nombre de places de stationnement réservées aux résidants n’excède pas 50&#160;% des places disponibles dans un secteur donné.</string>
 
     <!-- Help/Cell phone -->
-    <string name="help_cell_1">Depuis le 1er avril 2008, l’utilisation d’un téléphone cellulaire tenu en main, c’est-à-dire sans la fonction «&#160;mains libres&#160;», est interdite au volant. Cette infracion est passible de&#160;:\r\n&#8226; 3 points d’inaptitude\r\n&#8226; une amende de 80&#160;$ à 100&#160;$</string>
+    <string name="help_cell_1">Depuis le 1er avril 2008, l’utilisation d’un téléphone cellulaire tenu en main, c’est-à-dire sans la fonction «&#160;mains libres&#160;», est interdite au volant. Cette infraction est passible de&#160;:\r\n&#8226; 3 points d’inaptitude\r\n&#8226; une amende de 80&#160;$ à 100&#160;$</string>
 
     <!-- Help/Arrow -->
-    <string name="help_arrow_1">Quand un panneau comporte une flèche, la réglementation s’applique dans la zone indiquée par la flèche.\r\nLa zone se termine soit par une autre intersection, soit par un panneau comportant une flèche.</string>
+    <string name="help_arrow_1">Quand un panneau comporte une flèche, la réglementation s’applique dans la zone indiquée par la flèche.\r\n\r\nLa zone se termine soit par une autre intersection, soit par un panneau comportant une flèche.</string>
     <string name="help_arrow_2">Si la flèche pointe <b>vers la rue</b>, il s’agit du début de la zone du panneau&#160;:</string>
     <string name="help_arrow_3">Si la flèche pointe <b>vers le trottoir</b>, il s’agit de la fin de la zone du panneau&#160;:</string>
     <string name="help_arrow_4">S’il n’y a pas de flèche sur le panneau, il s’agit d’un panneau intermédiaire qui indique le milieu de la zone de réglementation.\r\n\r\nUne zone réglementée peut commencer après une intersection. Dans un tel cas, le panneau ne comporte pas de flèche.</string>
