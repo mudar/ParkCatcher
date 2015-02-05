@@ -35,10 +35,13 @@ import android.view.ViewGroup;
 import com.astuetz.PagerSlidingTabStrip;
 
 import ca.mudar.parkcatcher.Const;
+import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.ui.adapters.HelpPagerAdapter;
 
 public class HelpPagerFragment extends Fragment {
+
+    private ViewPager mViewPager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,15 +51,14 @@ public class HelpPagerFragment extends Fragment {
         ViewCompat.setElevation(view.findViewById(R.id.tabs),
                 getResources().getDimensionPixelSize(R.dimen.headerbar_elevation));
 
-        final ViewPager pager = (ViewPager) view.findViewById(R.id.pager);
+        mViewPager = (ViewPager) view.findViewById(R.id.pager);
         final HelpPagerAdapter adapter = new HelpPagerAdapter(getFragmentManager(), getActivity());
 
-        pager.setAdapter(adapter);
-        pager.setCurrentItem(Const.HelpTabs.STOPPING);
+        mViewPager.setAdapter(adapter);
 
         // Bind the tabs to the ViewPager
         final PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
-        tabs.setViewPager(pager);
+        tabs.setViewPager(mViewPager);
 
         // Style the tabs
         tabs.setTextColorResource(R.color.text_tabs_help);
@@ -64,5 +66,14 @@ public class HelpPagerFragment extends Fragment {
         tabs.setTypeface(null, Typeface.NORMAL);
 
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        final ParkingApp parkingApp = (ParkingApp) getActivity().getApplicationContext();
+        mViewPager.setCurrentItem(parkingApp.hasViewedTutorial() ?
+                Const.HelpTabs.STOPPING : Const.HelpTabs.ARROW);
     }
 }

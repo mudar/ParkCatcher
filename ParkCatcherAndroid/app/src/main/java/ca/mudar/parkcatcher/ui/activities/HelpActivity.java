@@ -39,9 +39,6 @@ public class HelpActivity extends NavdrawerActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final ParkingApp parkingApp = (ParkingApp) getApplicationContext();
-        parkingApp.setHasViewedTutorial(true);
-
         setTitle(R.string.activity_help);
         setContentView(R.layout.activity_navdrawer);
 
@@ -58,6 +55,14 @@ public class HelpActivity extends NavdrawerActivity {
                     .add(R.id.content_frame, fragment)
                     .commit();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final ParkingApp parkingApp = (ParkingApp) getApplicationContext();
+        parkingApp.setHasViewedTutorial(true);
     }
 
     @Override
