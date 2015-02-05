@@ -23,27 +23,26 @@
 
 package ca.mudar.parkcatcher.ui.fragments;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.R;
+import ca.mudar.parkcatcher.model.HelpCard;
+import ca.mudar.parkcatcher.ui.adapters.HelpCardsAdapter;
 
 public class HelpFragment extends Fragment {
     private static final String TAG = "HelpFragment";
 
-    private View mView;
-    private int index;
+    private int mIndex;
 
     public static HelpFragment newInstance(int index) {
         final HelpFragment fragment = new HelpFragment();
@@ -58,116 +57,187 @@ public class HelpFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        index = getArguments().getInt(Const.BundleExtras.HELP_PAGE, Const.UNKNOWN);
+        mIndex = getArguments().getInt(Const.BundleExtras.HELP_PAGE, Const.UNKNOWN);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        int res;
-        switch (index) {
-            case Const.HelpTabs.RULES:
-                res = R.layout.fragment_help_rules;
-                break;
+        int layout;
+        int itemLayout;
+        switch (mIndex) {
             case Const.HelpTabs.STOPPING:
-                res = R.layout.fragment_help_stopping;
-                break;
             case Const.HelpTabs.PARKING:
-                res = R.layout.fragment_help_parking;
-                break;
             case Const.HelpTabs.RESTRICTED:
-                res = R.layout.fragment_help_restricted;
-                break;
             case Const.HelpTabs.SRRR:
-                res = R.layout.fragment_help_srrr;
+            case Const.HelpTabs.ARROW:
+            case Const.HelpTabs.PRIORITY:
+                layout = R.layout.fragment_help_page;
+                itemLayout = R.layout.list_item_help;
                 break;
             case Const.HelpTabs.CELL:
-                res = R.layout.fragment_help_cell;
-                break;
-            case Const.HelpTabs.ARROW:
-                res = R.layout.fragment_help_arrow;
-                break;
-            case Const.HelpTabs.PRIORITY:
-                res = R.layout.fragment_help_priority;
+            case Const.HelpTabs.RULES:
+                layout = R.layout.fragment_help_page;
+                itemLayout = R.layout.list_item_help_text;
                 break;
             // case HelpPages.APP:
             default:
-                res = R.layout.fragment_help_app;
+                layout = R.layout.fragment_help_app;
+                itemLayout = 0;
                 break;
         }
 
-        mView = inflater.inflate(res, container, false);
-        return mView;
-    }
+        final View view = inflater.inflate(layout, container, false);
+        final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (index == Const.HelpTabs.ARROW) {
-            startLoadingImages();
-        }
-    }
+        if (recyclerView != null) {
+            // App help doesn't use RecyclerView
+            final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(layoutManager);
 
-    public void startLoadingImages() {
-        if (getActivity() != null) {
-            startLoadingImages(mView, getActivity().getResources());
-        }
-    }
+            final List<HelpCard> data = prepareData(mIndex);
 
-    public void startLoadingImages(View view, Resources res) {
-
-        loadBitmap(R.drawable.help_arrow_sw_left,
-                (ImageView) view.findViewById(R.id.help_arrow_sw_left), res);
-        loadBitmap(R.drawable.help_arrow_ne_left,
-                (ImageView) view.findViewById(R.id.help_arrow_ne_left), res);
-        loadBitmap(R.drawable.help_arrow_se_right,
-                (ImageView) view.findViewById(R.id.help_arrow_se_right), res);
-        loadBitmap(R.drawable.help_arrow_nw_right,
-                (ImageView) view.findViewById(R.id.help_arrow_nw_right), res);
-
-        loadBitmap(R.drawable.help_arrow_ne_right,
-                (ImageView) view.findViewById(R.id.help_arrow_ne_right), res);
-        loadBitmap(R.drawable.help_arrow_sw_right,
-                (ImageView) view.findViewById(R.id.help_arrow_sw_right), res);
-        loadBitmap(R.drawable.help_arrow_nw_left,
-                (ImageView) view.findViewById(R.id.help_arrow_nw_left), res);
-        loadBitmap(R.drawable.help_arrow_se_left,
-                (ImageView) view.findViewById(R.id.help_arrow_se_left), res);
-    }
-
-    public void loadBitmap(int resId, ImageView imageView, Resources res) {
-        BitmapWorkerTask task = new BitmapWorkerTask(imageView, res);
-        task.execute(resId);
-    }
-
-    class BitmapWorkerTask extends AsyncTask<Integer, Void, Bitmap> {
-        private final WeakReference<ImageView> imageViewReference;
-        private int data = 0;
-        private Resources res;
-
-        public BitmapWorkerTask(ImageView imageView, Resources resources) {
-            // Use a WeakReference to ensure the ImageView can be garbage
-            // collected
-            imageViewReference = new WeakReference<ImageView>(imageView);
-            res = resources;
+            // specify an adapter (see also next example)
+            final RecyclerView.Adapter mAdapter = new HelpCardsAdapter(getActivity(), itemLayout, data);
+            recyclerView.setAdapter(mAdapter);
         }
 
-        // Decode image in background.
-        @Override
-        protected Bitmap doInBackground(Integer... params) {
-            data = params[0];
-            return BitmapFactory.decodeResource(res, data);
+        return view;
+    }
+
+    private List<HelpCard> prepareData(int index) {
+        final List<HelpCard> data = new ArrayList<HelpCard>();
+
+        switch (index) {
+            case Const.HelpTabs.STOPPING:
+                data.add(new HelpCard(
+                        R.drawable.help_panel_stopping_1,
+                        R.string.help_stopping_1)
+                        .setImagePlaceholder(R.drawable.help_panel_placeholder_short));
+                data.add(new HelpCard(
+                        R.drawable.help_panel_stopping_2,
+                        R.string.help_stopping_2));
+                data.add(new HelpCard(
+                        R.drawable.help_panel_stopping_3,
+                        R.string.help_stopping_3));
+                data.add(new HelpCard(
+                        R.drawable.help_panel_stopping_4,
+                        R.string.help_stopping_4));
+                break;
+            case Const.HelpTabs.PARKING:
+                data.add(new HelpCard(
+                        R.drawable.help_panel_parking_1,
+                        R.string.help_parking_1)
+                        .setImagePlaceholder(R.drawable.help_panel_placeholder_short));
+                data.add(new HelpCard(
+                        R.drawable.help_panel_parking_2,
+                        R.string.help_parking_2));
+                data.add(new HelpCard(
+                        R.drawable.help_panel_parking_3,
+                        R.string.help_parking_3));
+                data.add(new HelpCard(
+                        R.drawable.help_panel_parking_6,
+                        R.string.help_parking_6)
+                        .setImageBackground(R.drawable.help_panel_parking_6_bg));
+                break;
+            case Const.HelpTabs.RESTRICTED:
+                data.add(new HelpCard(
+                        R.drawable.help_panel_restricted_1,
+                        R.string.help_restricted_1));
+                data.add(new HelpCard(
+                        R.drawable.help_panel_restricted_2,
+                        R.string.help_restricted_2));
+                break;
+            case Const.HelpTabs.SRRR:
+                data.add(new HelpCard(
+                        R.drawable.help_panel_srrr,
+                        R.string.help_srrr_1));
+                data.add(new HelpCard(0,
+                        R.string.help_srrr_2));
+                break;
+            case Const.HelpTabs.ARROW:
+                // Text x2
+                data.add(new HelpCard(
+                        R.drawable.help_panel_arrow_1,
+                        R.string.help_arrow_1)
+                        .setImagePlaceholder(R.drawable.help_panel_placeholder_short));
+                data.add(new HelpCard(0,
+                        R.string.help_arrow_2));
+                // Images x4
+                data.add(new HelpCard(
+                        R.drawable.help_arrow_sw_left, 0)
+                        .setImagePlaceholder(R.drawable.help_arrow_empty)
+                        .setImageBackground(R.color.transparent));
+                data.add(new HelpCard(
+                        R.drawable.help_arrow_ne_left, 0)
+                        .setImagePlaceholder(R.drawable.help_arrow_empty)
+                        .setImageBackground(R.color.transparent));
+                data.add(new HelpCard(
+                        R.drawable.help_arrow_se_right, 0)
+                        .setImagePlaceholder(R.drawable.help_arrow_empty)
+                        .setImageBackground(R.color.transparent));
+                data.add(new HelpCard(
+                        R.drawable.help_arrow_nw_right, 0)
+                        .setImagePlaceholder(R.drawable.help_arrow_empty)
+                        .setImageBackground(R.color.transparent));
+                // Text x1
+                data.add(new HelpCard(0,
+                        R.string.help_arrow_3));
+                // Images x4
+                data.add(new HelpCard(
+                        R.drawable.help_arrow_ne_right, 0)
+                        .setImagePlaceholder(R.drawable.help_arrow_empty)
+                        .setImageBackground(R.color.transparent));
+                data.add(new HelpCard(
+                        R.drawable.help_arrow_sw_right, 0)
+                        .setImagePlaceholder(R.drawable.help_arrow_empty)
+                        .setImageBackground(R.color.transparent));
+                data.add(new HelpCard(
+                        R.drawable.help_arrow_nw_left, 0)
+                        .setImagePlaceholder(R.drawable.help_arrow_empty)
+                        .setImageBackground(R.color.transparent));
+                data.add(new HelpCard(
+                        R.drawable.help_arrow_se_left, 0)
+                        .setImagePlaceholder(R.drawable.help_arrow_empty)
+                        .setImageBackground(R.color.transparent));
+                // Text x2
+                data.add(new HelpCard(
+                        R.drawable.help_panel_parking_1,
+                        R.string.help_arrow_4)
+                        .setImagePlaceholder(R.drawable.help_panel_placeholder_short));
+                data.add(new HelpCard(0,
+                        R.string.help_arrow_7));
+                break;
+            case Const.HelpTabs.PRIORITY:
+                data.add(new HelpCard(
+                        R.drawable.help_panel_priority_1,
+                        R.string.help_priority_1)
+                        .setImagePlaceholder(R.drawable.help_panel_placeholder_short));
+                data.add(new HelpCard(0,
+                        R.string.help_priority_2));
+                data.add(new HelpCard(
+                        R.drawable.help_panel_priority_2,
+                        R.string.help_priority_3)
+                        .setImagePlaceholder(R.drawable.help_panel_placeholder_long));
+                data.add(new HelpCard(
+                        R.drawable.help_panel_priority_3,
+                        R.string.help_priority_4)
+                        .setImagePlaceholder(R.drawable.help_panel_placeholder_long));
+                break;
+            case Const.HelpTabs.RULES:
+                data.add(new HelpCard(0,
+                        R.string.help_rules)
+                        .setTopDrawable(R.drawable.ic_big_forbidden));
+                break;
+            case Const.HelpTabs.CELL:
+                data.add(new HelpCard(0,
+                        R.string.help_cell_1)
+                        .setTopDrawable(R.drawable.ic_big_smartphone));
+                break;
         }
 
-        // Once complete, see if ImageView is still around and set bitmap.
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (imageViewReference != null && bitmap != null) {
-                final ImageView imageView = imageViewReference.get();
-                if (imageView != null) {
-                    imageView.setImageBitmap(bitmap);
-                }
-            }
-        }
+
+        return data;
     }
 }

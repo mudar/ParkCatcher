@@ -35,39 +35,17 @@
     app:cardCornerRadius="@dimen/help_card_corner_radius"
     app:cardPreventCornerOverlap="false">
 
-    <FrameLayout
-        android:id="@+id/help_item_image_container"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/help_item_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/desc_help_panel" />
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/help_item_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/help_card_text_margin_left"
-        android:padding="@dimen/help_card_text_padding"
-        android:textColor="@color/text_primary_light"
-        android:textSize="15sp" />
-
     <TextView
         android:id="@+id/help_item_text_wide"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:drawablePadding="16dp"
+        android:lineSpacingMultiplier="1.4"
         android:paddingLeft="@dimen/help_card_text_padding"
         android:paddingRight="@dimen/help_card_text_padding"
-        android:textColor="@color/text_secondary_light"
-        android:textSize="14sp"
-        android:visibility="gone" />
+        android:textColor="@color/text_primary_light"
+        android:textSize="16sp" />
 
 </android.support.v7.widget.CardView>

@@ -23,56 +23,121 @@
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:clipToPadding="false">
 
     <LinearLayout
-        style="@style/HelpBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingTop="24dp">
 
         <TextView
-            android:drawableTop="@drawable/logo_about"
-            style="@style/HelpBoxText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/padding_normal"
-            android:text="@string/help_app_1" />
+            android:layout_marginBottom="16dp"
+            android:text="@string/help_app_intro"
+            style="@style/ContentBigSubtitle" />
 
-        <TextView
-            style="@style/HelpBoxText"
+        <LinearLayout
+            style="@style/HelpRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/padding_normal"
-            android:text="@string/help_app_2" />
+            android:orientation="horizontal">
 
-        <TextView
-            style="@style/HelpBoxText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/padding_normal"
-            android:text="@string/help_app_3" />
+            <ImageView
+                style="@style/HelpIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_nav_map" />
 
-        <TextView
-            style="@style/HelpBoxText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/padding_normal"
-            android:text="@string/help_app_4" />
+            <TextView
+                style="@style/HelpBoxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/help_app_1" />
+        </LinearLayout>
 
-        <TextView
-            style="@style/HelpBoxText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/padding_normal"
-            android:text="@string/help_app_5" />
 
-        <TextView
-            style="@style/HelpBoxText"
+        <LinearLayout
+            style="@style/HelpRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/padding_normal"
-            android:text="@string/help_app_6" />
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/HelpIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_time"
+                android:tint="@color/text_primary_light" />
+
+            <TextView
+                style="@style/HelpBoxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/help_app_4" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/HelpRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/HelpIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_place" />
+
+            <TextView
+                style="@style/HelpBoxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/help_app_2" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/HelpRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/HelpIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_place"
+                android:tint="@color/theme_alert_primary" />
+
+            <TextView
+                style="@style/HelpBoxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/help_app_3" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/HelpRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                style="@style/HelpIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_nav_info" />
+
+            <TextView
+                style="@style/HelpBoxText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/help_app_5" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
