@@ -21,6 +21,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item>
@@ -29,7 +30,7 @@
             <solid android:color="@color/transparent" />
             <size
                 android:width="70dp"
-                android:height="75dp" />
+                android:height="70dp" />
         </shape>
     </item>
 
