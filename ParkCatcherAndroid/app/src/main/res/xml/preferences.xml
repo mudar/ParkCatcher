@@ -29,13 +29,13 @@
         android:dialogTitle="@string/prefs_units_dialog_title"
         android:entries="@array/prefs_units_entries"
         android:entryValues="@array/prefs_units_values"
-        android:key="prefs_units_system"
+        android:key="@string/prefs_key_units"
         android:title="@string/prefs_units_title" />
     <ListPreference
         android:dialogTitle="@string/prefs_language_dialog_title"
         android:entries="@array/prefs_language_entries"
         android:entryValues="@array/prefs_language_values"
-        android:key="prefs_language"
+        android:key="@string/prefs_key_language"
         android:title="@string/prefs_language_title" />
 
     <PreferenceScreen android:title="@string/prefs_eula_title">
