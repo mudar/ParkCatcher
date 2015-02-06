@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    Park Catcher Montréal
+    Find a free parking in the nearest residential street when driving in
+    Montréal. A Montréal Open Data project.
+
+    Copyright (C) 2012 Mudar Noufal <mn@mudar.ca>
+
+    This file is part of Park Catcher Montréal.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
+    <string name="app_version" translatable="false">1.3</string>
+
+    <!-- URLs -->
+    <string name="package_parkcatcher" translatable="false">ca.mudar.parkcatcher</string>
+    <string name="uri_playstore" translatable="false">market://details?id=%1$s</string>
+    <string name="url_playstore_fallback" translatable="false">http://play.google.com/store/apps/details?id=%1$s</string>
+    <!--<string name="url_share_post_id" translatable="true"></string>-->
+    <!--<string name="url_streetview">http://maps.googleapis.com/maps/api/streetview?size=800x300&amp;location=45.5194721,-73.580657&amp;fov=120&amp;heading=235a&amp;pitch=-5&amp;sensor=false&amp;key=AIzaSyD6tCffkLPapTchcC-8GWXv-NMB5d1k0f8</string>-->
+    <string name="url_about_open_data" translatable="false">http://donnees.ville.montreal.qc.ca/dataset/stationnement-sur-rue-signalisation-courant</string>
+    <string name="url_about_source_code" translatable="false">https://github.com/mudar/ParkCatcher</string>
+    <string name="url_about_credits_dev" translatable="false">http://www.mudar.ca/</string>
+    <string name="url_about_credits_design" translatable="false">http://cargocollective.com/emmadumesnil/</string>
+    <string name="url_about_montreal_ouvert" translatable="true">http://montrealouvert.net/donnees-ouvertes-questions-frequemment-demandees/?lang=en</string>
+
+    <!--Fragment Tags, ref: Const.FragmentTags -->
+    <string name="fragment_tag_map" translatable="false">fragment_map</string>
+    <string name="fragment_tag_sliding_up_calendar" translatable="false">fragment_sliding_up_calendar</string>
+
+    <!--Preference Keys, ref: Const.PrefsNames -->
+    <string name="prefs_key_units" translatable="false">prefs_units_system</string>
+    <string name="prefs_key_language" translatable="false">prefs_language</string>
+</resources>
