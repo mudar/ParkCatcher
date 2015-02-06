@@ -205,7 +205,6 @@ public class ParkingApp extends Application {
         Editor prefsEditor = prefs.edit();
         prefsEditor.putBoolean(PrefsNames.HAS_LOADED_DATA, mHasLoadedData).apply();
     }
-    
 
     public boolean hasViewedTutorial() {
         return mHasViewedTutorial;

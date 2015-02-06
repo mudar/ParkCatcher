@@ -239,8 +239,8 @@ public class Const {
     public static final String APP_PREFS_NAME = "parking_prefs";
 
     public static interface PrefsNames {
-        final String LANGUAGE = "prefs_language";
-        final String UNITS_SYSTEM = "prefs_units_system";
+        final String LANGUAGE = "prefs_language"; // ref: R.strings.prefs_key_language
+        final String UNITS_SYSTEM = "prefs_units_system"; // ref: R.strings.prefs_key_units
         final String LAST_UPDATE_LAT = "prefs_last_update_lat";
         final String LAST_UPDATE_LNG = "prefs_last_update_lng";
         final String LAST_UPDATE_TIME_GEO = "prefs_last_update_time_geo";
