@@ -24,7 +24,6 @@
 package ca.mudar.parkcatcher.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -51,6 +50,7 @@ public class HelpCardsAdapter extends RecyclerView.Adapter<HelpCardsAdapter.View
     private final int cardElevation;
     private final int cardRadius;
     private final int cardBgColor;
+    private final int primaryBgColor;
 
     public HelpCardsAdapter(Context context, int layout, List<HelpCard> dataset) {
         this.context = context;
@@ -60,6 +60,7 @@ public class HelpCardsAdapter extends RecyclerView.Adapter<HelpCardsAdapter.View
         this.cardElevation = context.getResources().getDimensionPixelSize(R.dimen.help_card_elevation);
         this.cardRadius = context.getResources().getDimensionPixelSize(R.dimen.help_card_corner_radius);
         this.cardBgColor = context.getResources().getColor(R.color.help_card_bg);
+        this.primaryBgColor = context.getResources().getColor(R.color.theme_bg_primary);
     }
 
     @Override
@@ -90,7 +91,7 @@ public class HelpCardsAdapter extends RecyclerView.Adapter<HelpCardsAdapter.View
         } else {
             holder.cardView.setCardElevation(0);
             holder.cardView.setRadius(0);
-            holder.cardView.setCardBackgroundColor(Color.TRANSPARENT);
+            holder.cardView.setCardBackgroundColor(primaryBgColor);
         }
 
         if (card.hasImage() && holder.imageView != null) {
