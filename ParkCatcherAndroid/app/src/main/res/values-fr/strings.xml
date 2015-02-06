@@ -91,7 +91,6 @@
     <string name="map_marker_snippet_title">Stationnement autorisé</string>
     <string name="map_marker_snippet_subtitle">Prochaines périodes d’interdiction&#160;:</string>
     <string name="map_no_connection">Pas de connexion internet…</string>
-    <string name="map_retry_btn">Réessayer</string>
     <string name="map_no_connection_restart">Redémarrage de Capteur de stationnement…</string>
 
     <!-- Playservices -->
@@ -191,7 +190,7 @@
     <string name="help_priority_3">Cas n°&#160;1&#160;: nous sommes le lundi matin, il est 8&#160;h, vous voulez stationner pour 30&#160;minutes.\r\n\r\nSelon le premier panneau, le stationnement est strictement interdit entre 7&#160;h et 9&#160;h, quelle que soit la durée autorisée par le deuxième panneau.\r\n\r\n= Stationnement interdit</string>
     <string name="help_priority_4">Cas n°&#160;2&#160;: les panneaux sont inversés. Nous sommes toujours le lundi matin, il est 8&#160;h, vous voulez stationner pour 30&#160;minutes.\r\n\r\nIci, le stationnement est autorisé pour un maximum de 60&#160;minutes durant la semaine.\r\n\r\n= Stationnement autorisé</string>
 
-    <!-- Prefrences -->
+    <!-- Preferences -->
     <string name="prefs_language_title">Langue</string>
     <string name="prefs_language_dialog_title">Choix de langue</string>
     <string name="prefs_language_french">Français</string>
@@ -216,6 +215,7 @@
     <string name="desc_github">Dépôt GitHub</string>
     <string name="desc_credits">Générique et remerciements</string>
     <string name="desc_montreal_ouvert">Montréal ouvert</string>
+    <string name="desc_retry">Réessayer</string>
     <string name="desc_help_panel">Panneau</string>
     <string name="desc_help_panel_arrow">Flèche du panneau</string>
 

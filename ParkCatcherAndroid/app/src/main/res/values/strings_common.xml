@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
     Park Catcher Montréal
     Find a free parking in the nearest residential street when driving in
     Montréal. A Montréal Open Data project.
@@ -20,6 +21,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
+
 <resources>
     <string name="app_version" translatable="false">1.3</string>
 
@@ -27,7 +29,7 @@
     <string name="package_parkcatcher" translatable="false">ca.mudar.parkcatcher</string>
     <string name="uri_playstore" translatable="false">market://details?id=%1$s</string>
     <string name="url_playstore_fallback" translatable="false">http://play.google.com/store/apps/details?id=%1$s</string>
-    <!--<string name="url_share_post_id" translatable="true"></string>-->
+    <!--<string name="url_share_post_id" translatable=""></string>-->
     <!--<string name="url_streetview">http://maps.googleapis.com/maps/api/streetview?size=800x300&amp;location=45.5194721,-73.580657&amp;fov=120&amp;heading=235a&amp;pitch=-5&amp;sensor=false&amp;key=AIzaSyD6tCffkLPapTchcC-8GWXv-NMB5d1k0f8</string>-->
     <string name="url_about_open_data" translatable="false">http://donnees.ville.montreal.qc.ca/dataset/stationnement-sur-rue-signalisation-courant</string>
     <string name="url_about_source_code" translatable="false">https://github.com/mudar/ParkCatcher</string>
