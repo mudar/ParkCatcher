@@ -45,8 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/desc_help_panel" />
+            android:contentDescription="@string/desc_help_panel"
+            android:scaleType="fitStart" />
     </FrameLayout>
 
     <TextView
