@@ -166,10 +166,10 @@
 
     <!-- Help/Restricted -->
     <string name="help_restricted_1">Maximum 15 minute parking: Load/Unload area.</string>
-    <string name="help_restricted_2">Maximum 60 minute parking, during the period specified.</string>
+    <string name="help_restricted_2">Maximum 60 minute parking, during the period specified only.</string>
 
     <!-- Help/SRRR -->
-    <string name="help_srrr_1">No parking during the period specified: Reserved for S3R permit holders (resident parking only).</string>
+    <string name="help_srrr_1">No parking during the period specified: Reserved for SRRR permit holders (resident parking only).</string>
     <string name="help_srrr_2">The number of parking spaces reserved for residents in a given sector is no more than 50% of the available spaces.</string>
 
     <!-- Help/Cell phone -->
@@ -183,7 +183,7 @@
     <string name="help_arrow_7">A back lane does not interrupt the signage: if there are no other signs, the signage still applies on the other side of the lane.</string>
 
     <!-- Help/Priority -->
-    <string name="help_priority_1">When a pole carries multiple signs, regulations are applied from top to bottom signs.</string>
+    <string name="help_priority_1">When a pole carries multiple signs, regulations of the top sign has the priority.</string>
     <string name="help_priority_2">Two examples, applying different priorities to the same signs:</string>
     <string name="help_priority_3">Case #1: it’s 8:00 Monday morning, you want to park for 30&#160;minutes.\r\n\r\nThe sign on top rules, so parking is strictly forbidden between 7:00 and 9:00, regardless of duration.\r\n\r\n= Parking forbidden</string>
     <string name="help_priority_4">Case #2: signs are in reverse order. It’s still 8:00 Monday morning, you want to park for 30&#160;minutes.\r\n\r\nHere, maximum 60 minute parking is allowed on weekdays.\r\n\r\n= Parking allowed</string>
