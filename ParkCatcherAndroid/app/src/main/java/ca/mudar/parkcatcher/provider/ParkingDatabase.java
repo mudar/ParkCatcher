@@ -79,8 +79,8 @@ public class ParkingDatabase extends SQLiteAssetHelper {
                 + "INNER JOIN panels ON posts.id_post = panels.id_post "
                 + "INNER JOIN panels_codes ON panels.id_panel_code = panels_codes._id ";
 
-        final String POSTS_JOIN_FAVORITES_PANELS_PANELS_CODES_RULES = " posts "
-                + "INNER JOIN favorites ON posts.id_post = favorites.id_post "
+        final String FAVORITES_JOIN_POSTS_PANELS_PANELS_CODES_RULES = " favorites "
+                + "INNER JOIN posts ON favorites.id_post = posts.id_post "
                 + "INNER JOIN panels ON posts.id_post = panels.id_post "
                 + "INNER JOIN panels_codes_rules ON panels.id_panel_code = panels_codes_rules.id_panel_code ";
 

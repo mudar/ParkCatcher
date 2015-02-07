@@ -579,7 +579,7 @@ public class ParkingProvider extends ContentProvider {
 
         String POSTS_FAVORITES_PANELS_FORBIDDEN = "SELECT " + Qualified.POSTS_ID_POST
                 + " FROM "
-                + Tables.POSTS_JOIN_FAVORITES_PANELS_PANELS_CODES_RULES;
+                + Tables.FAVORITES_JOIN_POSTS_PANELS_PANELS_CODES_RULES;
 
         String PANELS_POST_ID_FORBIDDEN = "SELECT COUNT(" + Qualified.PANELS_ID + ") > 0 "
                 + " FROM "
