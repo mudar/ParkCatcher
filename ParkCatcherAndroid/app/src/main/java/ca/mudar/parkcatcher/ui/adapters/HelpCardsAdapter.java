@@ -33,6 +33,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 import java.util.List;
 
@@ -96,12 +97,13 @@ public class HelpCardsAdapter extends RecyclerView.Adapter<HelpCardsAdapter.View
 
         if (card.hasImage() && holder.imageView != null) {
             // Show the image
-            Picasso.with(context)
-                    .load(card.getImage())
-                    .placeholder(card.getImagePlaceholder())
-                    .error(card.getImagePlaceholder())
-//                    .fit()
-                    .transform(new RoundedTransformation(cardRadius, 0))
+            final RequestCreator picasso = Picasso.with(context).load(card.getImage());
+            final int placeholder = card.getImagePlaceholder();
+            if (placeholder != 0) {
+                picasso.placeholder(placeholder)
+                        .error(placeholder);
+            }
+            picasso.transform(new RoundedTransformation(cardRadius, 0))
                     .into(holder.imageView);
 
             // Set background only if text is available

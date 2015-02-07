@@ -139,6 +139,7 @@ public class HelpFragment extends Fragment {
                 data.add(new HelpCard(
                         R.drawable.help_panel_parking_6,
                         R.string.help_parking_6)
+                        .setImagePlaceholder(0)
                         .setImageBackground(R.drawable.help_panel_parking_6_bg));
                 break;
             case Const.HelpTabs.RESTRICTED:
