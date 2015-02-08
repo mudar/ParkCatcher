@@ -264,6 +264,7 @@ public class Const {
      * Compatibility
      */
     public static boolean SUPPORTS_LOLLIPOP = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    public static boolean SUPPORTS_JELLY_BEAN_MR1 = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1;
     public static boolean SUPPORTS_JELLY_BEAN = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     public static boolean SUPPORTS_ICS = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
     @Deprecated

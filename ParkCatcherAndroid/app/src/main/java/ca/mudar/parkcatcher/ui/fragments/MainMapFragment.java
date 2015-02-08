@@ -37,6 +37,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -417,10 +418,33 @@ public class MainMapFragment extends SupportMapFragment implements
         }
     }
 
+    /**
+     * Set map background to transparent
+     * Janky "fix" to prevent artefacts when embedding GoogleMaps in a sliding view.
+     * By Greg Roodt: https://gist.github.com/groodt/5181980
+     *
+     * @param group
+     */
+    private void setMapTransparent(ViewGroup group) {
+        int childCount = group.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            View child = group.getChildAt(i);
+            if (child instanceof ViewGroup) {
+                setMapTransparent((ViewGroup) child);
+            } else if (child instanceof SurfaceView) {
+                child.setBackgroundColor(0x00000000);
+            }
+        }
+    }
+
     private void setUpMap() {
         if (mLongPressLocationSource == null) {
             mLongPressLocationSource = new LongPressLocationSource(mMap);
             mMap.setOnMapLongClickListener(mLongPressLocationSource);
+        }
+
+        if (!Const.SUPPORTS_JELLY_BEAN_MR1) {
+            setMapTransparent((ViewGroup) getView());
         }
 
         mMap.setMyLocationEnabled(true);
@@ -995,12 +1019,11 @@ public class MainMapFragment extends SupportMapFragment implements
     @Deprecated
     private class JsonAsyncTask extends AsyncTask<URL, Void, GeoJSON> {
 
-        private boolean hasHintMarker = true;
-
-        // TODO: use WeakReference
-
         @SuppressWarnings("unused")
         private static final String TAG = "JsonAsyncTask";
+
+        // TODO: use WeakReference
+        private boolean hasHintMarker = true;
 
         @Override
         protected void onPreExecute() {
