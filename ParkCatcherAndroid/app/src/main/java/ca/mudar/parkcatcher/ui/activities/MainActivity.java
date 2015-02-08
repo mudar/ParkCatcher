@@ -244,7 +244,7 @@ public class MainActivity extends NavdrawerActivity implements
     private void toggleProgressBar(boolean isLoading) {
         if (mRefreshProgressLayout != null) {
             mRefreshProgressLayout.setRefreshing(isLoading);
-            if (Const.SUPPORTS_ICS) {
+            if (!Const.SUPPORTS_ICS) {
                 mRefreshProgressLayout.setVisibility(isLoading ? View.VISIBLE : View.GONE);
             }
         }
