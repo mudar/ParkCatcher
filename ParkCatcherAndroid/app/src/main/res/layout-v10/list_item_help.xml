@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Park Catcher Montréal
+    Find a free parking in the nearest residential street when driving in
+    Montréal. A Montréal Open Data project.
+
+    Copyright (C) 2012 Mudar Noufal <mn@mudar.ca>
+
+    This file is part of Park Catcher Montréal.
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginTop="8dp"
+    app:cardBackgroundColor="@color/help_card_bg"
+    app:cardCornerRadius="@dimen/help_card_corner_radius"
+    app:cardPreventCornerOverlap="false">
+
+    <FrameLayout
+        android:id="@+id/help_item_image_container"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/help_item_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/desc_help_panel"
+            android:scaleType="fitStart" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/help_item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/help_card_text_padding"
+        android:paddingRight="@dimen/help_card_text_padding"
+        android:paddingBottom="@dimen/help_card_text_padding"
+        android:paddingLeft="86dp"
+        android:textColor="@color/text_primary_light"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/help_item_text_wide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingLeft="@dimen/help_card_text_padding"
+        android:paddingRight="@dimen/help_card_text_padding"
+        android:textColor="@color/text_secondary_light"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+</android.support.v7.widget.CardView>
