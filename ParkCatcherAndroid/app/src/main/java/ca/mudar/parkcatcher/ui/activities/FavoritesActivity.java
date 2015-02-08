@@ -46,7 +46,6 @@ public class FavoritesActivity extends NavdrawerActivity implements
         setTitle(R.string.activity_favorites);
         setContentView(R.layout.activity_favorites);
 
-
         getActionBarToolbar().setNavigationIcon(R.drawable.ic_action_arrow_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

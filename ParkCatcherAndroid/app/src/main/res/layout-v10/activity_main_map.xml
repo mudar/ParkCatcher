@@ -48,7 +48,7 @@
             android:gravity="bottom"
             app:initialState="expanded"
             app:overlay="false"
-            app:panelHeight="@dimen/slider_collapsed_height"
+            app:panelHeight="@dimen/slider_drag_height"
             app:shadowHeight="4dp">
 
             <RelativeLayout
