@@ -165,7 +165,9 @@ public class MainMapFragment extends SupportMapFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        view.setPadding(0, 0, 0, getResources().getDimensionPixelSize(R.dimen.slider_collapsed_height));
+        if (Const.SUPPORTS_ICS) {
+            view.setPadding(0, 0, 0, getResources().getDimensionPixelSize(R.dimen.slider_collapsed_height));
+        }
 
         viewMarkerInfoWindow = inflater.inflate(R.layout.custom_info_window, container, false);
 
