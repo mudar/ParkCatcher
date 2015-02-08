@@ -31,6 +31,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -244,6 +245,9 @@ public class MainActivity extends NavdrawerActivity implements
     private void toggleProgressBar(boolean isLoading) {
         if (mRefreshProgressLayout != null) {
             mRefreshProgressLayout.setRefreshing(isLoading);
+            if (Const.SUPPORTS_ICS) {
+                mRefreshProgressLayout.setVisibility(isLoading ? View.VISIBLE : View.GONE);
+            }
         }
     }
 
@@ -359,11 +363,6 @@ public class MainActivity extends NavdrawerActivity implements
         if (mMainMapFragment != null && location != null) {
             mMainMapFragment.setInitialMapCenter(location);
         }
-    }
-
-    @Deprecated
-    private void disableLocationUpdates() {
-        Log.e(TAG, "disableLocationUpdates");
     }
 
     private void handleIntent(Intent intent) {

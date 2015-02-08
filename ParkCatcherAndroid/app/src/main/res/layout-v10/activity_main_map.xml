@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Park Catcher Montréal
     Find a free parking in the nearest residential street when driving in
     Montréal. A Montréal Open Data project.
@@ -33,14 +32,6 @@
 
         <include layout="@layout/toolbar_actionbar_with_headerbar" />
 
-        <!--<android.support.v4.widget.SwipeRefreshLayout-->
-        <!--android:background="@color/transparent"-->
-        <!--android:id="@+id/swipe_refresh"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:focusable="false"-->
-        <!--android:focusableInTouchMode="false">-->
-
         <ca.mudar.parkcatcher.ui.views.SlidingUpCalendar xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/sliding_layout"
             android:layout_width="match_parent"
@@ -60,10 +51,25 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
+                <ca.mudar.parkcatcher.ui.views.RefreshProgressLayout
+                    android:id="@+id/swipe_refresh"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="128dp"
+                    android:layout_marginRight="128dp">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </ca.mudar.parkcatcher.ui.views.RefreshProgressLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@android:color/transparent" />
+                    android:visibility="invisible" />
+
             </RelativeLayout>
 
             <fragment
