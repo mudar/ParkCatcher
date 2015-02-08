@@ -114,7 +114,7 @@ public class MapErrorFragment extends Fragment implements
                         e.printStackTrace();
                     }
                 } else {
-                    // Error cannot be resovled, show human-readable string of the error code
+                    // Error cannot be resolved, show human-readable string of the error code
                     final String errorString = GooglePlayServicesUtil.getErrorString(statusCode);
                     ((ParkingApp) getActivity().getApplicationContext())
                             .showToastText(errorString, Toast.LENGTH_LONG);
