@@ -93,6 +93,7 @@ public class ParkingApp extends Application {
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
         updateUiLanguage();
+
     }
 
     public void showToastText(int res, int duration) {
