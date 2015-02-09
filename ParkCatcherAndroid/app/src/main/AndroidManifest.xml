@@ -23,6 +23,7 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="ca.mudar.parkcatcher"
     android:installLocation="auto">
 
@@ -139,6 +140,7 @@
                     android:pathPrefix="/spot"
                     android:scheme="http" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
@@ -242,6 +244,13 @@
             android:name=".provider.ParkingProvider"
             android:authorities="ca.mudar.parkcatcher"
             android:exported="false" />
+
+        <!-- Remove the TestActivity coming from recyclerview-v7 -->
+        <!--suppress AndroidDomInspection -->
+        <activity
+            android:name="android.support.v7.widget.TestActivity"
+            android:label="RecyclerViewTestActivity"
+            tools:node="remove" />
 
     </application>
 

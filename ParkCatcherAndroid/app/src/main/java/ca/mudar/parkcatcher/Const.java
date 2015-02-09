@@ -75,7 +75,7 @@ public class Const {
     /**
      * Crashlytics error reporting
      */
-    public static final boolean IS_CRASHLYTICS_ENABLED = !BuildConfig.DEBUG;
+    public static final boolean IS_CRASHLYTICS_ENABLED = BuildConfig.USE_CRASHLYTICS;
 
     /**
      * Share and external apps

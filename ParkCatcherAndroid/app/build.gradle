@@ -24,7 +24,7 @@ android {
         minSdkVersion 10
         targetSdkVersion 21
         versionCode 12
-        versionName "1.4"
+        versionName "1.4.1"
 
         resConfigs "en", "fr"
         resConfigs "nodpi", "ldpi", "mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"
@@ -33,10 +33,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            ext.enableCrashlytics = true
+            buildConfigField "boolean", "USE_CRASHLYTICS", "true"
         }
         debug {
             minifyEnabled false
 //            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            ext.enableCrashlytics = false
+            buildConfigField "boolean", "USE_CRASHLYTICS", "false"
         }
     }
 
