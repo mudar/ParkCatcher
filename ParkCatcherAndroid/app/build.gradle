@@ -23,7 +23,7 @@ android {
         applicationId "ca.mudar.parkcatcher"
         minSdkVersion 10
         targetSdkVersion 21
-        versionCode 12
+        versionCode 13
         versionName "1.4.1"
 
         resConfigs "en", "fr"
@@ -58,7 +58,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:21.0.3'
     compile 'com.google.android.gms:play-services-location:6.5.87'
     compile 'com.google.android.gms:play-services-maps:6.5.87'
-//    compile 'com.google.android.gms:play-services-panorama:6.5.87'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.sothree.slidinguppanel:library:2.0.4'
 //    compile 'com.squareup.okhttp:okhttp:2.2.0'
