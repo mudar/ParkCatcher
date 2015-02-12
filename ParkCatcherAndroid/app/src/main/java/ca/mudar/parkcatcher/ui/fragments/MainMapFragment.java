@@ -369,7 +369,7 @@ public class MainMapFragment extends SupportMapFragment implements
      * Called from the activity to handle onKeyUp
      */
     public void toggleSearchView(boolean isDisplayed) {
-        if (isVisible()) {
+        if (searchItem != null && isVisible()) {
             if (isDisplayed) {
                 MenuItemCompat.expandActionView(searchItem);
             } else {
