@@ -223,6 +223,7 @@
         </activity>
         <activity
             android:name=".ui.activities.SettingsActivity"
+            android:enabled="@bool/supports_ics"
             android:exported="false"
             android:label="@string/activity_preferences"
             android:parentActivityName=".ui.activities.MainActivity"
