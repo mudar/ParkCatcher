@@ -61,7 +61,7 @@
 
     <!-- EULA -->
     <string name="eula_title">GNU General Public License v3.0</string>
-    <string name="eula_accept_btn">Accept &amp; continue</string>
+    <string name="eula_accept_btn">Accept &amp; Continue</string>
 
     <!-- Search -->
     <string name="search_hint">Address</string>
