@@ -50,6 +50,7 @@
         android:onClick="acceptEula"
         android:text="@string/eula_accept_btn"
         android:textAllCaps="true"
-        android:textColor="@color/theme_primary_dark" />
+        android:textColor="@color/theme_primary_dark"
+        android:textSize="14sp" />
 
 </LinearLayout>

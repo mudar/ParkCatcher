@@ -24,12 +24,6 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Eula -->
-    <style name="EulaButton" parent="@style/ButtonAppTheme">
-        <item name="android:textColor">@color/btn_text</item>
-        <item name="android:textSize">@dimen/button_text</item>
-    </style>
-
     <!-- Main -->
     <style name="LogoActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
         <item name="displayOptions">showHome|useLogo</item>
