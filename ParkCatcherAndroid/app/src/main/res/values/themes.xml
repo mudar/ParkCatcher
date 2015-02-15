@@ -75,7 +75,6 @@
     <style name="Theme.AppThemeAlert" parent="Theme.AppTheme">
         <item name="colorPrimary">#ff0000</item>
         <item name="colorPrimaryDark">#990000</item>
-        <item name="colorAccent">#ff0000</item>
     </style>
 
     <!-- Main -->
