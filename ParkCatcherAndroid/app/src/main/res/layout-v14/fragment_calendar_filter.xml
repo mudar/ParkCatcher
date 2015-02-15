@@ -40,21 +40,23 @@
             style="@style/DrawerTitle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/slider_collapsed_height"
-            android:background="@color/theme_bg_secondary" />
+            android:background="@drawable/bg_slider_handle" />
 
         <ImageView
-            android:contentDescription="@string/desc_parking_time_edit"
+            android:id="@+id/drawer_time_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginRight="28dp"
             android:layout_marginTop="@dimen/slider_top_margin"
-            android:background="@drawable/bg_floating_parking"
+            android:background="@drawable/bg_fab"
             android:clickable="false"
+            android:contentDescription="@string/desc_parking_time_edit"
             android:elevation="@dimen/floating_btn_elevation"
             android:focusable="true"
             android:padding="16dp"
-            android:src="@drawable/ic_parking" />
+            android:src="@drawable/ic_parking"
+            android:stateListAnimator="@anim/fab_elevation" />
     </FrameLayout>
 
     <LinearLayout
@@ -62,6 +64,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/theme_bg_primary"
+        android:clickable="true"
+        android:focusable="false"
         android:orientation="horizontal"
         android:padding="16dp"
         android:weightSum="3">

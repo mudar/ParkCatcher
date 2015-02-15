@@ -41,10 +41,10 @@
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="32dp"
         android:layout_marginRight="32dp"
-        android:background="@drawable/bg_floating_parking"
+        android:background="@drawable/bg_fab"
         android:contentDescription="@string/desc_retry"
-        android:elevation="@dimen/floating_btn_elevation"
         android:padding="16dp"
-        android:src="@drawable/ic_refresh" />
+        android:src="@drawable/ic_refresh"
+        android:stateListAnimator="@anim/fab_elevation" />
 
 </FrameLayout>

@@ -23,18 +23,26 @@
 
 package ca.mudar.parkcatcher.ui.fragments;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.GregorianCalendar;
 
+import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.ui.dialogs.DatePickerFragment;
@@ -53,6 +61,7 @@ public class CalendarFilterFragment extends Fragment implements
     private Context mContext;
     private ParkingApp parkingApp;
     private TextView vTimeTitle;
+    private ImageView vTimeFab;
     private Button vBtnDay;
     private Button vBtnStart;
     private Button vBtnDuration;
@@ -90,9 +99,12 @@ public class CalendarFilterFragment extends Fragment implements
         final View view = inflater.inflate(R.layout.fragment_calendar_filter, container, false);
 
         vTimeTitle = (TextView) view.findViewById(R.id.drawer_time_title);
+        vTimeFab = (ImageView) view.findViewById(R.id.drawer_time_fab);
         vBtnDay = (Button) view.findViewById(R.id.btn_day);
         vBtnStart = (Button) view.findViewById(R.id.btn_start);
         vBtnDuration = (Button) view.findViewById(R.id.btn_duration);
+
+        setupDragRipple();
 
         return view;
     }
@@ -180,6 +192,99 @@ public class CalendarFilterFragment extends Fragment implements
         final int duration = parkingApp.getParkingDuration();
 
         vBtnDuration.setText(ParkingTimeHelper.getDuration(mContext, duration));
+    }
+
+    /**
+     * The drag handle views (time & fab) require Hotspot adjustments.
+     * Applied for API 21+.
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setupDragRipple() {
+        if (Const.SUPPORTS_LOLLIPOP) {
+            // Wait for global layout before redefining the hotspotBounds.
+            vTimeFab.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    updateHotspotsBounds();
+                    vTimeFab.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+            });
+
+            vTimeTitle.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        setHotspots(event.getRawX(), event.getRawY());
+                    }
+                    return false;
+                }
+            });
+            vTimeFab.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        setHotspots(event.getRawX(), event.getRawY());
+                    }
+                    return false;
+                }
+            });
+        }
+    }
+
+    /**
+     * Adjust the 2 hotspot centers.
+     *
+     * @param rawX
+     * @param rawY
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setHotspots(float rawX, float rawY) {
+        final Drawable fabDrawable = vTimeFab.getBackground();
+        final Drawable timeDrawable = vTimeTitle.getBackground();
+
+        Rect fabGlobalRect = new Rect();
+        vTimeFab.getGlobalVisibleRect(fabGlobalRect);
+
+        Rect titleGlobalRect = new Rect();
+        vTimeTitle.getGlobalVisibleRect(titleGlobalRect);
+
+        timeDrawable.setHotspot(
+                rawX - titleGlobalRect.left,
+                rawY - titleGlobalRect.top);
+
+        fabDrawable.setHotspot(
+                rawX - fabGlobalRect.left,
+                rawY - fabGlobalRect.top);
+    }
+
+    /**
+     * Redefine the 2 HotspotBounds to a wide rectangle that contains both views.
+     * Called once only by onGlobalLayout().
+     */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void updateHotspotsBounds() {
+        final Drawable fabDrawable = vTimeFab.getBackground();
+        final Drawable timeDrawable = vTimeTitle.getBackground();
+
+        Rect fabGlobalRect = new Rect();
+        vTimeFab.getGlobalVisibleRect(fabGlobalRect);
+
+        Rect titleGlobalRect = new Rect();
+        vTimeTitle.getGlobalVisibleRect(titleGlobalRect);
+
+        // fabDrawable is expanded to the left, right and bottom. Top stays the same.
+        fabDrawable.setHotspotBounds(
+                fabGlobalRect.left * -1,
+                0,
+                titleGlobalRect.right - fabGlobalRect.left,
+                titleGlobalRect.bottom - fabGlobalRect.top);
+        // timeDrawable is expanded to the top. Left, right and bottom stay the same.
+        timeDrawable.setHotspotBounds(
+                0,
+                fabGlobalRect.top - titleGlobalRect.top,
+                titleGlobalRect.right,
+                titleGlobalRect.bottom - titleGlobalRect.top
+        );
     }
 
     public interface CalendarFilterUpdatedListener {
