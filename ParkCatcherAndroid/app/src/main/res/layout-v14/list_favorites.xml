@@ -50,7 +50,7 @@
 
     <TextView
         android:id="@+id/favorites_empty"
-        style="@style/FavoritesListEmpty"
+        style="@style/BigError"
         android:layout_width="@dimen/listview_empty_width"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
