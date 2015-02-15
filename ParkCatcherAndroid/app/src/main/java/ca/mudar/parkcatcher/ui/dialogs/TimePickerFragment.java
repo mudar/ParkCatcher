@@ -36,6 +36,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import ca.mudar.parkcatcher.ParkingApp;
+import ca.mudar.parkcatcher.R;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
@@ -79,7 +80,9 @@ public class TimePickerFragment extends DialogFragment
         int minute = c.get(Calendar.MINUTE);
 
         // Create a new instance of TimePickerDialog and return it
-        return new TimePickerDialog(getActivity(), this, hour, minute,
+        return new TimePickerDialog(getActivity(), R.style.DialogTheme, this,
+                hour,
+                minute,
                 DateFormat.is24HourFormat(getActivity()));
     }
 

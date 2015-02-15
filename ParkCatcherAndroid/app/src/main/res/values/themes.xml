@@ -110,4 +110,11 @@
         <!-- <item name="android:listViewStyle">@style/PrefsListView</item> -->
     </style>
 
+    <!--Dialogs-->
+    <style name="DialogTheme" parent="@style/Theme.AppCompat.Dialog">
+        <item name="colorPrimary">@color/theme_primary</item>
+        <item name="colorPrimaryDark">@color/theme_primary_dark</item>
+        <item name="colorAccent">@color/theme_accent_1</item>
+    </style>
+
 </resources>
