@@ -23,6 +23,6 @@
 -->
 
 <resources>
-    <!--Queue-->
+    <!--Slider-->
     <dimen name="slider_drag_height">56dp</dimen>
 </resources>

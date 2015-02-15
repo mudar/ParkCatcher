@@ -228,7 +228,7 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
         });
     }
 
-    public void setSlidingUpQueueListener(PanelSlideListener listener) {
+    public void setSlidingUpCalendarListener(PanelSlideListener listener) {
         mSlidingUpCalendarListener = listener;
     }
 
