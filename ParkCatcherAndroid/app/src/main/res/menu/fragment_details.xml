@@ -29,5 +29,6 @@
         android:icon="@drawable/ic_action_star_off"
         android:orderInCategory="10"
         android:title="@string/action_favorite"
+        android:visible="false"
         app:showAsAction="ifRoom" />
 </menu>

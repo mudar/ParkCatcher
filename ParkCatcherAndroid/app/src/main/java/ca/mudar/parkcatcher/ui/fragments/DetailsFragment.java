@@ -81,6 +81,7 @@ public class DetailsFragment extends Fragment implements
     private int mIdPost;
     private View mView;
     private boolean mIsStarred = false;
+    private boolean mIsValidPost = false;
     private double mGeoLat = Double.MIN_VALUE;
     private double mGeoLng = Double.MIN_VALUE;
     private String mShareDesc = "";
@@ -126,13 +127,13 @@ public class DetailsFragment extends Fragment implements
         updateParkingTime();
     }
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.fragment_details, menu);
 
-        menu.findItem(R.id.action_favorites_toggle).setIcon(mIsStarred ?
-                R.drawable.ic_action_star_on : R.drawable.ic_action_star_off);
+        menu.findItem(R.id.action_favorites_toggle)
+                .setIcon(mIsStarred ? R.drawable.ic_action_star_on : R.drawable.ic_action_star_off)
+                .setVisible(mIsValidPost);
     }
 
     @Override
@@ -198,9 +199,13 @@ public class DetailsFragment extends Fragment implements
      */
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        if (data != null && data.moveToFirst()) {
+        mIsValidPost = (data != null && data.moveToFirst());
+
+        if (mIsValidPost) {
             fillDetails(data);
         }
+
+        showError(mIsValidPost);
     }
 
     /**
@@ -222,7 +227,7 @@ public class DetailsFragment extends Fragment implements
      */
     @Override
     public void onDeleteComplete(int token, Object cookie, int result) {
-       parkingApp.showToastText(R.string.toast_favorites_removed, Toast.LENGTH_SHORT);
+        parkingApp.showToastText(R.string.toast_favorites_removed, Toast.LENGTH_SHORT);
     }
 
     /**
@@ -291,6 +296,12 @@ public class DetailsFragment extends Fragment implements
         mView.findViewById(R.id.root_view).setVisibility(View.VISIBLE);
     }
 
+    private void showError(boolean isValid) {
+        mView.findViewById(R.id.details_id_error).setVisibility(
+                isValid ? View.GONE : View.VISIBLE
+        );
+    }
+
     /**
      * Add all panels to the wrapping parent layout
      *
@@ -310,7 +321,6 @@ public class DetailsFragment extends Fragment implements
     }
 
     /**
-     *
      * @param desc
      * @param params
      * @param textColor

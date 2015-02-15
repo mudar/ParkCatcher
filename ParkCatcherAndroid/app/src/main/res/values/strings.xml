@@ -116,6 +116,7 @@
     <string name="details_share_title">Parking Information</string>
     <string name="details_share_subtitle">Parking Information by Park Catcher MTL\r\n%1$s\r\nParking here is forbidden at the following hours: %2$s</string>
     <string name="details_address_error">Address not found</string>
+    <string name="details_id_error">Parking not found</string>
 
     <!-- About -->
     <string name="about_title">Park Catcher</string>

@@ -118,6 +118,7 @@
     <string name="details_share_title">Informations du stationnement</string>
     <string name="details_share_subtitle">Informations du stationnement par Capteur de stationnement MTL\r\n%1$s\r\nInterdiction de stationner ici aux heures suivantes&#160;: %2$s</string>
     <string name="details_address_error">Adresse introuvable</string>
+    <string name="details_id_error">Stationnement introuvable</string>
 
     <!-- About -->
     <string name="about_title">Capteur de stationnement</string>
