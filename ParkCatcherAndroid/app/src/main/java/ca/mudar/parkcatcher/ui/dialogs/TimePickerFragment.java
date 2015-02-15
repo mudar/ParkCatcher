@@ -35,6 +35,7 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
 
@@ -59,7 +60,7 @@ public class TimePickerFragment extends DialogFragment
         super.onAttach(activity);
         try {
             final Fragment targetFragment = getTargetFragment();
-            if (targetFragment != null && (targetFragment instanceof  OnParkingCalendarChangedListener)) {
+            if (targetFragment != null && (targetFragment instanceof OnParkingCalendarChangedListener)) {
                 mListener = (OnParkingCalendarChangedListener) targetFragment;
             } else {
                 mListener = (OnParkingCalendarChangedListener) activity;
@@ -80,10 +81,19 @@ public class TimePickerFragment extends DialogFragment
         int minute = c.get(Calendar.MINUTE);
 
         // Create a new instance of TimePickerDialog and return it
-        return new TimePickerDialog(getActivity(), R.style.DialogTheme, this,
-                hour,
-                minute,
-                DateFormat.is24HourFormat(getActivity()));
+        if (Const.SUPPORTS_LOLLIPOP) {
+            return new TimePickerDialog(getActivity(), R.style.DialogTheme, this,
+                    hour,
+                    minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        } else {
+            // Skip theming pre-lollipop
+            return new TimePickerDialog(getActivity(), this,
+                    hour,
+                    minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
     }
 
     @Override

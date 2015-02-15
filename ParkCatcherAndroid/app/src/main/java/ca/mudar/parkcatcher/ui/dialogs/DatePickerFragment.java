@@ -34,6 +34,7 @@ import android.widget.DatePicker;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
 
@@ -41,14 +42,6 @@ public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
     private OnParkingCalendarChangedListener mListener;
-
-    public interface OnParkingCalendarChangedListener {
-        // Target Fragment or parent Activity are required to provide getter/setter for the parking
-        // time.
-        public GregorianCalendar getParkingCalendar();
-
-        public void setParkingDate(int year, int month, int day);
-    }
 
     /**
      * Attach a listener.
@@ -58,7 +51,7 @@ public class DatePickerFragment extends DialogFragment
         super.onAttach(activity);
         try {
             final Fragment targetFragment = getTargetFragment();
-            if (targetFragment != null && (targetFragment instanceof  OnParkingCalendarChangedListener)) {
+            if (targetFragment != null && (targetFragment instanceof OnParkingCalendarChangedListener)) {
                 mListener = (OnParkingCalendarChangedListener) targetFragment;
             } else {
                 mListener = (OnParkingCalendarChangedListener) activity;
@@ -79,14 +72,30 @@ public class DatePickerFragment extends DialogFragment
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        return new DatePickerDialog(getActivity(), R.style.DialogTheme, this,
-                year,
-                month,
-                day);
+        if (Const.SUPPORTS_LOLLIPOP) {
+            return new DatePickerDialog(getActivity(), R.style.DialogTheme, this,
+                    year,
+                    month,
+                    day);
+        } else {
+            // Skip theming pre-lollipop
+            return new DatePickerDialog(getActivity(), this,
+                    year,
+                    month,
+                    day);
+        }
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int day) {
         mListener.setParkingDate(year, month, day);
+    }
+
+    public interface OnParkingCalendarChangedListener {
+        // Target Fragment or parent Activity are required to provide getter/setter for the parking
+        // time.
+        public GregorianCalendar getParkingCalendar();
+
+        public void setParkingDate(int year, int month, int day);
     }
 }
