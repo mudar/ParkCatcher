@@ -88,7 +88,7 @@ public class NumberSeekBarFragment extends DialogFragment {
 
         int currentDuration = mListener.getParkingDuration();
         seekbar.setProgress(currentDuration - Const.DURATION_MIN);
-        setDurationText(vDurationValue, currentDuration - Const.DURATION_MIN);
+        setDurationText(vDurationValue, currentDuration);
 
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
@@ -102,7 +102,7 @@ public class NumberSeekBarFragment extends DialogFragment {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                setDurationText(vDurationValue, progress);
+                setDurationText(vDurationValue, progress + Const.DURATION_MIN);
             }
         });
 
@@ -138,15 +138,10 @@ public class NumberSeekBarFragment extends DialogFragment {
      * @param progress
      */
     private void setDurationText(TextView view, int progress) {
-        String sDurationValue;
-        if (progress + Const.DURATION_MIN == 1) {
-            sDurationValue = getResources().getString(R.string.dialog_value_duration);
-        }
-        else {
-            sDurationValue = String.format(
-                    getResources().getString(R.string.dialog_value_duration_plural),
-                    progress + Const.DURATION_MIN);
-        }
+        final String sDurationValue = getResources().getQuantityString(
+                R.plurals.duration_value,
+                progress,
+                progress);
 
         view.setText(sDurationValue);
     }
