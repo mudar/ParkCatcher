@@ -52,7 +52,6 @@
             android:background="@drawable/bg_fab"
             android:clickable="false"
             android:contentDescription="@string/desc_parking_time_edit"
-            android:elevation="@dimen/floating_btn_elevation"
             android:focusable="true"
             android:padding="16dp"
             android:src="@drawable/ic_parking"

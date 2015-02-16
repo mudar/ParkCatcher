@@ -23,6 +23,7 @@
 
 package ca.mudar.parkcatcher.ui.activities;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -112,8 +113,9 @@ public class DetailsActivity extends ToolbarActivity {
         return Const.UNKNOWN;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void toggleToobarColor(boolean isForbidden) {
-        if (Build.VERSION.SDK_INT >= 21) {
+        if (Const.SUPPORTS_LOLLIPOP) {
             final int colorDark = isForbidden ? getResources().getColor(R.color.theme_alert_primary_dark) : getResources().getColor(R.color.theme_primary_dark);
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);

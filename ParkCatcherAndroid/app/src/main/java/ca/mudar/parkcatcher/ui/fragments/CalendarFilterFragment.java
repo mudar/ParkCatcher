@@ -31,6 +31,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -107,6 +108,8 @@ public class CalendarFilterFragment extends Fragment implements
         vBtnDuration = (Button) view.findViewById(R.id.btn_duration);
 
         setupDragRipple();
+        ViewCompat.setElevation(vTimeFab,
+                getResources().getDimensionPixelSize(R.dimen.elevation_low));
 
         return view;
     }
