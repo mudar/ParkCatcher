@@ -77,19 +77,20 @@ public class DurationDiscreetSeekbarFragment extends DialogFragment {
 
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View view = inflater.inflate(R.layout.dialog_duration_discreet_seekbar, null);
-        final View vTitle = inflater.inflate(R.layout.dialog_duration_discreet_seekbar_title, (android.view.ViewGroup) view, false);
-        final TextView vTitleDuration = (TextView) vTitle.findViewById(R.id.dialog_title);
+        final TextView vTitle = (TextView) view.findViewById(R.id.dialog_title);
+        final TextView vLegend = (TextView) view.findViewById(R.id.dialog_legend);
         final DiscreteSeekBar seekbar = (DiscreteSeekBar) view.findViewById(R.id.seekbar_duration);
 
         int currentDuration = mListener.getParkingDuration();
-        vTitleDuration.setText(String.valueOf(currentDuration));
         seekbar.setProgress(currentDuration);
+        vTitle.setText(String.valueOf(currentDuration));
+        vLegend.setText(getDurationLegend(currentDuration));
 
         seekbar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
-//                getDialog().setTitle(getDurationTitle(value));
-                vTitleDuration.setText(String.valueOf(value));
+                vTitle.setText(String.valueOf(value));
+                vLegend.setText(getDurationLegend(value));
             }
         });
 
@@ -101,10 +102,8 @@ public class DurationDiscreetSeekbarFragment extends DialogFragment {
         }
 
         return builder
-                .setCustomTitle(vTitle)
-//                .setTitle(getDurationTitle(currentDuration))
                 .setView(view)
-                .setPositiveButton(R.string.dialog_set,
+                .setPositiveButton(R.string.dialog_ok,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -131,10 +130,9 @@ public class DurationDiscreetSeekbarFragment extends DialogFragment {
      *
      * @param progress
      */
-    private String getDurationTitle(int progress) {
+    private String getDurationLegend(int progress) {
         return getResources().getQuantityString(
-                R.plurals.dialog_value_duration,
-                progress,
+                R.plurals.duration_legend,
                 progress);
     }
 

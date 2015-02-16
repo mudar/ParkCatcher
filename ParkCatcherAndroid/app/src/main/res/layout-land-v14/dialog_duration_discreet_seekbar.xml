@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
     Park Catcher Montréal
     Find a free parking in the nearest residential street when driving in
     Montréal. A Montréal Open Data project.
@@ -24,10 +23,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/theme_primary"
         android:orientation="vertical">
@@ -45,10 +44,11 @@
 
         <TextView
             android:id="@+id/dialog_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:includeFontPadding="false"
+            android:minWidth="180sp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
@@ -73,12 +73,9 @@
     <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/seekbar_duration"
         android:layout_width="240dp"
-        android:layout_gravity="center_horizontal"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="72dp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="16dp"
         app:dsb_indicatorColor="@color/theme_primary"
         app:dsb_max="48"
         app:dsb_min="1"
