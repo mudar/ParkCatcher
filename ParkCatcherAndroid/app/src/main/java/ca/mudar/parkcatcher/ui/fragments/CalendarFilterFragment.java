@@ -46,6 +46,7 @@ import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.ui.dialogs.DatePickerFragment;
+import ca.mudar.parkcatcher.ui.dialogs.DurationDiscreetSeekbarFragment;
 import ca.mudar.parkcatcher.ui.dialogs.NumberPickerFragment;
 import ca.mudar.parkcatcher.ui.dialogs.NumberSeekBarFragment;
 import ca.mudar.parkcatcher.ui.dialogs.TimePickerFragment;
@@ -55,6 +56,7 @@ public class CalendarFilterFragment extends Fragment implements
         DatePickerFragment.OnParkingCalendarChangedListener,
         TimePickerFragment.OnParkingCalendarChangedListener,
         NumberSeekBarFragment.OnParkingCalendarChangedListener,
+        DurationDiscreetSeekbarFragment.OnParkingCalendarChangedListener,
         NumberPickerFragment.OnParkingCalendarChangedListener {
     private static final String TAG = "CalendarFilterFragment";
 

@@ -147,6 +147,7 @@ public class Const {
         final String FAVORITES = "fragment_favorites";
         final String PICKER_DATE = "fragment_picker_date";
         final String PICKER_TIME = "fragment_picker_time";
+        final String SEEKBAR_DURATION = "fragment_seekbar_duration";
         final String PICKER_NUMBER = "fragment_picker_number";
         final String SEEKBAR_NUMBER = "fragment_seekbar_number";
         final String SLIDING_UP_CALENDAR = "fragment_sliding_up_calendar"; // ref: R.strings.fragment_tag_sliding_up_calendar
@@ -158,6 +159,7 @@ public class Const {
         final int TIME_PICKER = 120;
         final int NUMBER_PICKER = 130;
         final int NUMBER_SEEKBAR = 131;
+        final int DURATION_DISCREET_SEEKBAR = 132;
         final int MAP = 140;
         final int FAVORITES = 141;
         final int PLAYSERVICES = 150;

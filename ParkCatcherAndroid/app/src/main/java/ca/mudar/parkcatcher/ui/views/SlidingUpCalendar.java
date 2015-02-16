@@ -45,6 +45,7 @@ import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.ui.dialogs.DatePickerFragment;
+import ca.mudar.parkcatcher.ui.dialogs.DurationDiscreetSeekbarFragment;
 import ca.mudar.parkcatcher.ui.dialogs.NumberPickerFragment;
 import ca.mudar.parkcatcher.ui.dialogs.NumberSeekBarFragment;
 import ca.mudar.parkcatcher.ui.dialogs.TimePickerFragment;
@@ -66,7 +67,9 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
 
     public interface SlidingUpCalendarCallbacks {
         public void showSlidingUpCalendar();
+
         public void hideSlidingUpCalendar();
+
         public void collapseSlidingUpCalendar();
     }
 
@@ -219,10 +222,12 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
         findViewById(R.id.btn_duration).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Const.SUPPORTS_HONEYCOMB) {
-                    showNumberSeekBarDialog(v);
-                } else {
+                if (Const.SUPPORTS_LOLLIPOP) {
+                    showDurationDiscreetSeekbarDialog(v);
+                } else if (Const.SUPPORTS_HONEYCOMB) {
                     showNumberPickerDialog(v);
+                } else {
+                    showNumberSeekBarDialog(v);
                 }
             }
         });
@@ -282,6 +287,15 @@ public class SlidingUpCalendar extends SlidingUpPanelLayout implements
         final DialogFragment dialog = new TimePickerFragment();
         dialog.setTargetFragment(targetFragment, Const.RequestCodes.TIME_PICKER);
         dialog.show(fm, Const.FragmentTags.PICKER_TIME);
+    }
+
+    public void showDurationDiscreetSeekbarDialog(View v) {
+        final FragmentManager fm = ((FragmentActivity) context).getSupportFragmentManager();
+        final Fragment targetFragment = fm.findFragmentByTag(Const.FragmentTags.SLIDING_UP_CALENDAR);
+
+        final DialogFragment dialog = new DurationDiscreetSeekbarFragment();
+        dialog.setTargetFragment(targetFragment, Const.RequestCodes.DURATION_DISCREET_SEEKBAR);
+        dialog.show(fm, Const.FragmentTags.SEEKBAR_DURATION);
     }
 
     // Build >= 11
