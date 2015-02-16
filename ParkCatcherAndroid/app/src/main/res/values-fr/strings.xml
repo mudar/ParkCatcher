@@ -21,7 +21,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- URLs -->
     <string name="url_share_post_id">http://capteurdestationnement.com/spot/%1$s/%2$s/%3$s/%4$s/</string>
@@ -69,12 +69,21 @@
     <string name="search_hint">Adresse</string>
 
     <!-- Dialogs -->
-    <string name="dialog_title_duration">Durée</string>
-    <string name="dialog_value_duration">1&#160;heure</string>
-    <string name="dialog_value_duration_plural">%1$s&#160;heures</string>
     <string name="dialog_set">Définir</string>
     <string name="dialog_cancel">Annuler</string>
     <string name="dialog_done">Ok</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_title_duration">Durée</string>
+
+    <!--Duration seekbar/picker-->
+    <plurals name="duration_value">
+        <item quantity="one">%1$s&#160;heure</item>
+        <item quantity="other">%1$s&#160;heures</item>
+    </plurals>
+    <plurals name="duration_legend">
+        <item quantity="one" tools:ignore="ImpliedQuantity">heure</item>
+        <item quantity="other">heures</item>
+    </plurals>
 
     <!-- Toast -->
     <string name="toast_search_error">Incapable de trouver %1$s</string>

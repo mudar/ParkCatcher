@@ -67,12 +67,21 @@
     <string name="search_hint">Address</string>
 
     <!-- Dialogs -->
-    <string name="dialog_title_duration">Duration</string>
-    <string name="dialog_value_duration">1&#160;hour</string>
-    <string name="dialog_value_duration_plural">%1$s&#160;hours</string>
     <string name="dialog_set">Set</string>
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_done">Done</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_title_duration">Duration</string>
+
+    <!--Duration seekbar/picker-->
+    <plurals name="duration_value">
+        <item quantity="one">%1$s&#160;hour</item>
+        <item quantity="other">%1$s&#160;hours</item>
+    </plurals>
+    <plurals name="duration_legend">
+        <item quantity="one">hour</item>
+        <item quantity="other">hours</item>
+    </plurals>
 
     <!-- Toast -->
     <string name="toast_search_error">Location %1$s not found</string>
