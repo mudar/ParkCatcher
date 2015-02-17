@@ -62,7 +62,7 @@
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppTheme">
+        android:theme="@style/AppTheme.Parking">
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
@@ -74,8 +74,7 @@
         <activity
             android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.Main">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -151,7 +150,7 @@
             android:exported="false"
             android:label="@string/activity_eula"
             android:parentActivityName=".ui.activities.MainActivity"
-            android:theme="@style/AppTheme.Eula">
+            android:theme="@style/EulaTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
@@ -192,8 +191,7 @@
             android:name=".ui.activities.HelpActivity"
             android:exported="false"
             android:label="@string/activity_help"
-            android:parentActivityName=".ui.activities.MainActivity"
-            android:theme="@style/AppTheme.Help">
+            android:parentActivityName=".ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -227,7 +225,7 @@
             android:exported="false"
             android:label="@string/activity_preferences"
             android:parentActivityName=".ui.activities.MainActivity"
-            android:theme="@style/AppTheme.Preferences">
+            android:theme="@style/AppTheme.NoBackground">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.MainActivity" />
