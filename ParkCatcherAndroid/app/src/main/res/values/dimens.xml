@@ -23,31 +23,48 @@
 -->
 <resources>
 
-    <dimen name="padding_small">4dp</dimen>
-    <dimen name="padding_normal">8dp</dimen>
-    <dimen name="padding_double">16dp</dimen>
-    <dimen name="padding_large">48dp</dimen>
-
-    <!-- UI -->
-    <dimen name="button_text">16sp</dimen>
-
-    <!-- Main -->
-    <dimen name="height_port_drawer">200dp</dimen>
-    <dimen name="height_land_drawer">140dp</dimen>
-    <dimen name="width_land_drawer">380dp</dimen>
-
     <!-- Map -->
     <dimen name="map_info_window_text">14sp</dimen>
 
     <!-- Favorites -->
-    <dimen name="listview_divider_height">1dp</dimen>
     <dimen name="listview_empty_width">220dp</dimen>
 
     <!-- Details -->
-    <dimen name="details_progress">24dp</dimen>
     <dimen name="details_panel_width">130dp</dimen>
 
-    <!-- Help -->
-    <dimen name="help_arrow_padding">32dp</dimen>
+    <!--
+    Lollipop new dimensions
+    -->
+    <dimen name="keyline_1">16dp</dimen>
+    <dimen name="nav_drawer_width">240sp</dimen>
+    <dimen name="elevation_high">4dp</dimen>
+    <dimen name="elevation_low">1dp</dimen>
+
+    <dimen name="headerbar_elevation">@dimen/elevation_high</dimen>
+    <dimen name="floating_btn_elevation">@dimen/elevation_low</dimen>
+
+    <!--Calendar Filter-->
+    <dimen name="slider_collapsed_height">56dp</dimen>
+    <!--<dimen name="slider_drag_height">84dp</dimen>-->
+    <dimen name="slider_top_padding">28dp</dimen>
+    <dimen name="slider_top_margin">-28dp</dimen>
+
+    <!--Floating Action Button-->
+    <dimen name="fab_diameter">56dp</dimen>
+    <dimen name="fab_elevation_low">1dp</dimen>
+    <dimen name="fab_elevation_high">4dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <!--Details-->
+    <dimen name="details_panel_margin_bottom">16dp</dimen>
+
+    <!--Rules-->
+    <dimen name="tabs_text_size">14sp</dimen>
+    <dimen name="help_card_elevation">4dp</dimen>
+    <dimen name="help_card_corner_radius">6dp</dimen>
+    <dimen name="help_card_image_width">70dp</dimen>
+    <dimen name="help_card_text_padding">16dp</dimen>
+    <dimen name="help_card_text_margin_left">@dimen/help_card_image_width</dimen>
+
 
 </resources>
