@@ -53,7 +53,7 @@
                 android:src="@drawable/ic_nav_map" />
 
             <TextView
-                style="@style/HelpBoxText"
+                style="@style/HelpPrimaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/help_app_1" />
@@ -74,7 +74,7 @@
                 android:tint="@color/text_primary_light" />
 
             <TextView
-                style="@style/HelpBoxText"
+                style="@style/HelpPrimaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/help_app_4" />
@@ -93,7 +93,7 @@
                 android:src="@drawable/ic_place" />
 
             <TextView
-                style="@style/HelpBoxText"
+                style="@style/HelpPrimaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/help_app_2" />
@@ -113,7 +113,7 @@
                 android:tint="@color/theme_alert_primary" />
 
             <TextView
-                style="@style/HelpBoxText"
+                style="@style/HelpPrimaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/help_app_3" />
@@ -132,7 +132,7 @@
                 android:src="@drawable/ic_nav_info" />
 
             <TextView
-                style="@style/HelpBoxText"
+                style="@style/HelpPrimaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/help_app_5" />

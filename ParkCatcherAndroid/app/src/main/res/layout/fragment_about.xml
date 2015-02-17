@@ -57,7 +57,7 @@
                 android:src="@drawable/ic_montreal" />
 
             <TextView
-                style="@style/AboutBoxText"
+                style="@style/AboutPrimaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/about_open_data" />
@@ -78,7 +78,7 @@
                 android:src="@drawable/ic_github" />
 
             <TextView
-                style="@style/AboutBoxText"
+                style="@style/AboutPrimaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/about_source_code" />
@@ -88,9 +88,9 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="12dp"
-            android:layout_marginTop="12dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp"
             android:background="@color/theme_bg_secondary" />
 
         <LinearLayout
@@ -108,7 +108,7 @@
                 android:src="@drawable/ic_person" />
 
             <TextView
-                style="@style/AboutBoxText"
+                style="@style/AboutPrimaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/about_credits_dev" />
@@ -129,7 +129,7 @@
                 android:src="@drawable/ic_person" />
 
             <TextView
-                style="@style/AboutBoxText"
+                style="@style/AboutPrimaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/about_credits_design" />
@@ -137,10 +137,13 @@
 
         <TextView
             android:id="@+id/about_credits_thanks"
-            style="@style/AboutTextRow"
+            style="@style/AboutRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/about_credits_thanks" />
+            android:paddingLeft="72dp"
+            android:text="@string/about_credits_thanks"
+            android:textColor="@color/text_primary_light"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:id="@+id/about_montreal_ouvert"
@@ -157,7 +160,7 @@
                 android:src="@drawable/ic_montreal_ouvert" />
 
             <TextView
-                style="@style/AboutBoxText"
+                style="@style/AboutPrimaryText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/about_montreal_ouvert" />

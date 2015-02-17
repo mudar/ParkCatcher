@@ -73,7 +73,7 @@
 
                 <TextView
                     android:id="@+id/playservices_message"
-                    style="@style/AboutBoxText"
+                    style="@style/ContentPrimaryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -101,7 +101,7 @@
                     android:src="@drawable/ic_nav_help" />
 
                 <TextView
-                    style="@style/AboutBoxText"
+                    style="@style/ContentPrimaryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/playservices_1" />
@@ -123,7 +123,7 @@
                     android:tint="@color/text_primary_light" />
 
                 <TextView
-                    style="@style/AboutBoxText"
+                    style="@style/ContentPrimaryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/playservices_2" />

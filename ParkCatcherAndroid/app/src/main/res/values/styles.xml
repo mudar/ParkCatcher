@@ -69,6 +69,12 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <style name="ContentPrimaryText">
+        <item name="android:layout_marginLeft">32dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_primary_light</item>
+    </style>
+
     <style name="SingleLine">
         <item name="android:ellipsize">end</item>
         <item name="android:lines">1</item>
@@ -146,11 +152,7 @@
     </style>
 
     <!--About-->
-    <style name="AboutBoxText">
-        <item name="android:layout_marginLeft">32dp</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/text_primary_light</item>
-    </style>
+    <style name="AboutPrimaryText" parent="@style/ContentPrimaryText" />
 
     <style name="AboutRow">
         <item name="android:gravity">top</item>
@@ -161,20 +163,14 @@
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="AboutTextRow" parent="@style/AboutRow">
-        <item name="android:textColor">@color/text_primary_light</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:paddingLeft">72dp</item>
-    </style>
-
     <style name="AboutIcon">
         <item name="android:layout_marginTop">4dp</item>
     </style>
 
-    <!-- Help -->
-    <style name="HelpRow" parent="@style/AboutRow" />
+    <!-- Help, inherits from About -->
+    <style name="HelpPrimaryText" parent="@style/AboutPrimaryText" />
 
-    <style name="HelpBoxText" parent="@style/AboutBoxText" />
+    <style name="HelpRow" parent="@style/AboutRow" />
 
     <style name="HelpIcon" parent="@style/AboutIcon" />
 
