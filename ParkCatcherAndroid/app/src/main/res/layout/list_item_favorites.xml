@@ -24,10 +24,11 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/favorites_list_item"
-    style="@style/FavoritesListItem"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:background="?attr/selectableItemBackground">
+    android:background="?attr/selectableItemBackground"
+    android:cacheColorHint="@color/transparent"
+    android:minHeight="?android:attr/listPreferredItemHeight">
 
     <TextView
         android:id="@+id/favorite_label"
