@@ -25,7 +25,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--Toolbar-->
-    <style name="HeaderBar">
+    <style name="HeaderToolbar">
         <item name="navigationIcon">@drawable/ic_action_arrow_back</item>
         <item name="popupTheme">@style/ToolbarPopupOverlayTheme</item>
         <item name="theme">@style/ToolbarOverlayTheme</item>
