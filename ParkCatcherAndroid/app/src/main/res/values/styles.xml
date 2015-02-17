@@ -151,27 +151,28 @@
         <item name="android:drawablePadding">16dp</item>
     </style>
 
-    <!--About-->
-    <style name="AboutPrimaryText" parent="@style/ContentPrimaryText" />
+    <!-- Help-->
+    <style name="HelpPrimaryText" parent="@style/ContentPrimaryText" />
 
-    <style name="AboutRow">
+    <style name="HelpRow">
         <item name="android:gravity">top</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:paddingTop">8dp</item>
-        <item name="android:background">?attr/selectableItemBackground</item>
     </style>
 
-    <style name="AboutIcon">
+    <style name="HelpIcon">
         <item name="android:layout_marginTop">4dp</item>
     </style>
 
-    <!-- Help, inherits from About -->
-    <style name="HelpPrimaryText" parent="@style/AboutPrimaryText" />
+    <!-- About, inherits from Help-->
+    <style name="AboutPrimaryText" parent="@style/HelpPrimaryText" />
 
-    <style name="HelpRow" parent="@style/AboutRow" />
+    <style name="AboutRow" parent="@style/HelpRow">
+        <item name="android:background">?attr/selectableItemBackground</item>
+    </style>
 
-    <style name="HelpIcon" parent="@style/AboutIcon" />
+    <style name="AboutIcon" parent="@style/HelpIcon" />
 
 </resources>
