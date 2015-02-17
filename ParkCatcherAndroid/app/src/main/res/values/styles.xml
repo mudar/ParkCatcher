@@ -123,14 +123,14 @@
     </style>
 
     <!--Details-->
-    <style name="DetailsRowPrimary" parent="@style/SingleLine">
+    <style name="DetailsPrimaryText" parent="@style/SingleLine">
         <item name="android:layout_marginBottom">2dp</item>
         <item name="android:layout_marginLeft">32dp</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/text_primary_light</item>
     </style>
 
-    <style name="DetailsRowSecondary" parent="@style/SingleLine">
+    <style name="DetailsSecondaryText" parent="@style/SingleLine">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/text_secondary_light</item>
     </style>

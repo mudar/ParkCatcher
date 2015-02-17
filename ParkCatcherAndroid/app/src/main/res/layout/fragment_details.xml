@@ -68,7 +68,7 @@
 
                 <TextView
                     android:id="@+id/details_address_error"
-                    style="@style/DetailsRowPrimary"
+                    style="@style/DetailsPrimaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0dp"
@@ -81,7 +81,7 @@
 
                 <TextView
                     android:id="@+id/details_address_primary"
-                    style="@style/DetailsRowPrimary"
+                    style="@style/DetailsPrimaryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/details_address_icon"
@@ -89,7 +89,7 @@
 
                 <TextView
                     android:id="@+id/details_address_secondary"
-                    style="@style/DetailsRowSecondary"
+                    style="@style/DetailsSecondaryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/details_address_primary"
@@ -113,14 +113,14 @@
 
                 <TextView
                     android:id="@+id/details_title"
-                    style="@style/DetailsRowPrimary"
+                    style="@style/DetailsPrimaryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/details_parking_icon" />
 
                 <TextView
                     android:id="@+id/details_time_title"
-                    style="@style/DetailsRowSecondary"
+                    style="@style/DetailsSecondaryText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignLeft="@+id/details_title"
