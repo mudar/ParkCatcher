@@ -112,4 +112,74 @@
     <style name="HelpBoxText" parent="@style/AboutBoxText" />
     <style name="HelpIcon" parent="@style/AboutIcon"/>
 
+    <!--
+    Lollipop new styles
+    -->
+
+    <style name="ActionBarThemeOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/theme_overlay_text</item>
+        <item name="colorControlNormal">@color/theme_overlay_text</item>
+    </style>
+
+    <style name="ActionBarPopupThemeOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="HeaderBar">
+        <item name="android:background">?colorPrimary</item>
+        <!--<item name="android:elevation">@dimen/headerbar_elevation</item>-->
+        <item name="navigationIcon">@drawable/ic_action_arrow_back</item>
+    </style>
+
+    <style name="ActionBar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/theme_overlay_text</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <!--Toolbar-->
+    <style name="MyDrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/theme_overlay_text</item>
+        <item name="spinBars">false</item>
+    </style>
+
+    <style name="BaseTabStrip" >
+        <item name="pstsTabBackground">@drawable/bg_tab_strip</item>
+    </style>
+
+    <style name="TabStrip" parent="@style/BaseTabStrip">
+        <item name="android:background">@color/theme_primary</item>
+        <item name="pstsDividerColor">@color/transparent</item>
+        <item name="pstsIndicatorColor">@color/text_tabs_help</item>
+        <item name="pstsIndicatorHeight">2dp</item>
+        <item name="pstsTabPaddingLeftRight">12dp</item>
+        <item name="pstsTextAllCaps">true</item>
+        <item name="pstsUnderlineColor">@color/text_tabs_help</item>
+        <item name="pstsUnderlineHeight">0dp</item>
+    </style>
+
+    <style name="SingleLine">
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
+        <item name="android:minLines">1</item>
+        <item name="android:scrollHorizontally">true</item>
+    </style>
+
+    <style name="DetailsRowPrimary" parent="@style/SingleLine">
+        <item name="android:layout_marginBottom">2dp</item>
+        <item name="android:layout_marginLeft">32dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_primary_light</item>
+    </style>
+
+    <style name="DetailsRowSecondary" parent="@style/SingleLine">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_secondary_light</item>
+    </style>
+
+    <style name="ContentBigSubtitle">
+        <item name="android:layout_marginLeft">72dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:textColor">@color/text_secondary_light</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
 </resources>
