@@ -73,11 +73,11 @@
     </style>
 
     <!--Toolbar-->
-    <style name="ActionBarThemeOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+    <style name="ToolbarOverlayTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="android:textColorPrimary">@color/theme_overlay_text</item>
         <item name="colorControlNormal">@color/theme_overlay_text</item>
     </style>
 
-    <style name="ActionBarPopupThemeOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="ToolbarPopupOverlayTheme" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>

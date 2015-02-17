@@ -28,7 +28,7 @@
     style="@style/HeaderBar"
     android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
-    app:popupTheme="@style/ActionBarPopupThemeOverlay"
-    app:theme="@style/ActionBarThemeOverlay"
+    app:popupTheme="@style/ToolbarPopupOverlayTheme"
+    app:theme="@style/ToolbarOverlayTheme"
     app:titleTextAppearance="@style/ActionBar.TitleText" />
     <!--app:contentInsetStart="?actionBarInsetStart"-->
