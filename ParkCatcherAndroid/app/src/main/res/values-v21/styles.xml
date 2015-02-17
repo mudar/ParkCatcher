@@ -23,7 +23,7 @@
 -->
 
 <resources>
-    <style name="TabStrip" parent="@style/BaseTabStrip">
+    <style name="BaseTabStrip">
         <item name="pstsTabBackground">?attr/selectableItemBackground</item>
     </style>
 </resources>
