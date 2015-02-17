@@ -24,22 +24,6 @@
 
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Main -->
-    <style name="LogoActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
-        <item name="displayOptions">showHome|useLogo</item>
-    </style>
-
-    <style name="NoConnectionTitle" parent="@android:style/TextAppearance.Medium">
-        <item name="android:padding">@dimen/padding_normal</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/no_connection_text</item>
-    </style>
-
-    <style name="PlayservicesTitle" parent="@android:style/TextAppearance.Medium">
-        <item name="android:layout_marginBottom">@dimen/padding_normal</item>
-        <item name="android:textColor">@color/green</item>
-    </style>
-
     <style name="DrawerTitle" parent="@android:style/TextAppearance.Small">
         <item name="android:gravity">center_vertical|left</item>
         <item name="android:textColor">@color/drawer_text</item>
@@ -50,7 +34,6 @@
     </style>
 
     <style name="DrawerButton" parent="@style/Widget.AppCompat.ActionButton">
-        <!--<item name="android:fontFamily" tools:ignore="NewApi">sans-serif-condensed</item>-->
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name="android:textColor">@color/text_primary_light</item>
         <item name="android:textSize">14sp</item>
@@ -67,10 +50,6 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="DrawerLabelLand" parent="@style/DrawerLabel">
-        <item name="android:layout_gravity">center</item>
-    </style>
-
     <!-- Dialogs -->
     <style name="DialogDuration">
         <item name="android:padding">@dimen/padding_normal</item>
@@ -81,11 +60,6 @@
     </style>
 
     <!-- Favorites -->
-    <style name="FavoritesBox" parent="@style/TextContent">
-        <item name="android:layout_margin">@dimen/padding_double</item>
-        <item name="android:background">@color/background</item>
-    </style>
-
     <style name="FavoritesList">
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">@dimen/slider_drag_height</item>
@@ -130,33 +104,11 @@
         <item name="android:drawablePadding">16dp</item>
     </style>
 
-    <!-- Post Details -->
-    <style name="DetailsBox" parent="@style/TextContent">
-        <item name="android:layout_margin">@dimen/padding_double</item>
-        <item name="android:background">@color/background</item>
-    </style>
-
-    <style name="DetailsProgressAddress" parent="@android:style/TextAppearance.Small">
-        <item name="android:paddingLeft">@dimen/padding_normal</item>
-        <item name="android:textColor">@color/details_progress_address_text</item>
-    </style>
-
-    <style name="DetailsTitle" parent="@android:style/TextAppearance.Large">
-        <item name="android:layout_marginBottom">@dimen/padding_normal</item>
-        <item name="android:textColor">@color/green</item>
-    </style>
-
     <!-- About -->
     <style name="TextContent">
         <item name="android:textSize">14sp</item>
         <item name="android:padding">@dimen/padding_double</item>
         <item name="android:layout_gravity">center_horizontal</item>
-    </style>
-
-    <style name="AboutBox">
-        <item name="android:background">@color/background</item>
-        <item name="android:padding">@dimen/padding_double</item>
-        <item name="android:layout_marginBottom">@dimen/padding_double</item>
     </style>
 
     <style name="AboutBoxText">
@@ -188,26 +140,5 @@
     <style name="HelpRow" parent="@style/AboutRow"/>
     <style name="HelpBoxText" parent="@style/AboutBoxText" />
     <style name="HelpIcon" parent="@style/AboutIcon"/>
-    <style name="HelpTextRow" parent="@style/AboutTextRow"/>
-
-    <style name="HelpBox" parent="@style/TextContent">
-        <item name="android:layout_margin">@dimen/padding_double</item>
-        <item name="android:background">@color/background</item>
-    </style>
-
-    <style name="HelpBoxTextSmall" parent="@android:style/TextAppearance.Small">
-        <item name="android:drawablePadding">@dimen/padding_double</item>
-        <item name="android:textColor">@color/text_primary_light</item>
-    </style>
-
-    <style name="HelpImageArrow">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/padding_normal</item>
-        <item name="android:layout_marginBottom">@dimen/help_arrow_padding</item>
-        <item name="android:scaleType">centerCrop</item>
-        <item name="android:adjustViewBounds">true</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-    </style>
 
 </resources>
