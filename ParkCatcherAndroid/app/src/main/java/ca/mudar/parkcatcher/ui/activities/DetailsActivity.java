@@ -125,7 +125,7 @@ public class DetailsActivity extends ToolbarActivity {
         final int color = isForbidden ? getResources().getColor(R.color.theme_alert_primary) : getResources().getColor(R.color.theme_primary);
         getActionBarToolbar().setBackgroundColor(color);
 
-        final ContextThemeWrapper w = new ContextThemeWrapper(this, isForbidden ? R.style.Theme_AppThemeAlert : R.style.Theme_AppTheme);
+        final ContextThemeWrapper w = new ContextThemeWrapper(this, isForbidden ? R.style.AppTheme_Parking_Alert : R.style.AppTheme_Parking);
         getTheme().setTo(w.getTheme());
     }
 }

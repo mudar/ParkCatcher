@@ -34,7 +34,6 @@ import android.widget.DatePicker;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
 
@@ -72,18 +71,11 @@ public class DatePickerFragment extends DialogFragment
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        if (Const.SUPPORTS_LOLLIPOP) {
-            return new DatePickerDialog(getActivity(), R.style.DialogTheme, this,
-                    year,
-                    month,
-                    day);
-        } else {
-            // Skip theming pre-lollipop
-            return new DatePickerDialog(getActivity(), this,
-                    year,
-                    month,
-                    day);
-        }
+        // Create a new instance of DatePickerDialog and return it
+        return new DatePickerDialog(getActivity(), R.style.DialogTheme, this,
+                year,
+                month,
+                day);
     }
 
     @Override

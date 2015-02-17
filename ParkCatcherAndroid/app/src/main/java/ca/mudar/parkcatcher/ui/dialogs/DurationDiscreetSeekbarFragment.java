@@ -38,7 +38,6 @@ import android.widget.TextView;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
-import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.ParkingApp;
 import ca.mudar.parkcatcher.R;
 
@@ -94,14 +93,7 @@ public class DurationDiscreetSeekbarFragment extends DialogFragment {
             }
         });
 
-        AlertDialog.Builder builder;
-        if (Const.SUPPORTS_LOLLIPOP) {
-            builder = new AlertDialog.Builder(getActivity(), R.style.DialogTheme);
-        } else {
-            builder = new AlertDialog.Builder(getActivity());
-        }
-
-        return builder
+        return new AlertDialog.Builder(getActivity(), R.style.DialogTheme)
                 .setView(view)
                 .setPositiveButton(R.string.dialog_ok,
                         new DialogInterface.OnClickListener() {
