@@ -26,8 +26,11 @@
 
     <!--Toolbar-->
     <style name="HeaderBar">
-        <item name="android:background">?colorPrimary</item>
         <item name="navigationIcon">@drawable/ic_action_arrow_back</item>
+        <item name="popupTheme">@style/ToolbarPopupOverlayTheme</item>
+        <item name="theme">@style/ToolbarOverlayTheme</item>
+        <item name="titleTextAppearance">@style/ActionBar.TitleText</item>
+        <!--<item name="contentInsetStart">?actionBarInsetStart</item>-->
     </style>
 
     <style name="ActionBar.TitleText" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
