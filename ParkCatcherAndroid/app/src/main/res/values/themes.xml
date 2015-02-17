@@ -27,8 +27,10 @@
     <!-- Base application themes, dependent on API level. These theme are replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices. -->
     <style name="AppBaseTheme" parent="@style/Theme.AppCompat" />
+
     <style name="LightBaseTheme" parent="@style/Theme.AppCompat.Light" />
-    <style name="DialogBaseTheme" parent="@style/Theme.AppCompat.Dialog"/>
+
+    <style name="DialogBaseTheme" parent="@style/Theme.AppCompat.Dialog" />
 
     <!-- Define app colors -->
     <style name="AppTheme" parent="@style/AppBaseTheme">
@@ -69,5 +71,13 @@
         <item name="colorPrimaryDark">@color/theme_primary_dark</item>
         <item name="colorAccent">@color/theme_accent_1</item>
     </style>
+
+    <!--Toolbar-->
+    <style name="ActionBarThemeOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@color/theme_overlay_text</item>
+        <item name="colorControlNormal">@color/theme_overlay_text</item>
+    </style>
+
+    <style name="ActionBarPopupThemeOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 </resources>
