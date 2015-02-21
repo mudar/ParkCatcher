@@ -157,7 +157,7 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-                toolbar,
+//                toolbar,
                 R.string.navdrawer_open,  /* "open drawer" description for accessibility */
                 R.string.navdrawer_close  /* "close drawer" description for accessibility */
         ) {
