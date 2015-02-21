@@ -93,7 +93,7 @@ public class NumberPickerFragment extends DialogFragment {
         int currentDuration = mListener.getParkingDuration();
         numberPicker.setValue(currentDuration);
 
-        return new AlertDialog.Builder(getActivity())
+        final Dialog dialog = new AlertDialog.Builder(getActivity())
                 .setTitle(getString(R.string.dialog_title_duration))
                 .setView(view)
                 .setNegativeButton(R.string.dialog_cancel, null)
@@ -106,6 +106,10 @@ public class NumberPickerFragment extends DialogFragment {
                         }
                 )
                 .create();
+
+        dialog.setCanceledOnTouchOutside(true);
+
+        return dialog;
     }
 
     /**
