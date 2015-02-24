@@ -179,6 +179,10 @@ public class DetailsFragment extends Fragment implements
         final double hourOfWeek = ParkingTimeHelper.getHourOfWeek(parkingCalendar);
         final int dayOfYear = ParkingTimeHelper.getIsoDayOfYear(parkingCalendar);
 
+        if (mIdPost == Const.UNKNOWN) {
+            mIdPost = -99; // TODO: fix this on DB side
+        }
+
         final Uri uriPost = Posts.buildPostTimedUri(String.valueOf(mIdPost),
                 String.valueOf(hourOfWeek),
                 String.valueOf(hourOfWeek + duration),
