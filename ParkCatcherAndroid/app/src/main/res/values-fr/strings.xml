@@ -71,7 +71,7 @@
     <!-- Dialogs -->
     <string name="dialog_set">Définir</string>
     <string name="dialog_cancel">Annuler</string>
-    <string name="dialog_done">Ok</string>
+    <string name="dialog_done">Appliquer</string>
     <string name="dialog_ok">OK</string>
     <string name="dialog_title_duration">Durée</string>
 
