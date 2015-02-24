@@ -49,7 +49,7 @@
     <color name="listview_text_2">#90ffffff</color>
 
     <!-- Details -->
-    <color name="details_panel_text">#ff000000</color>
+    <color name="details_panel_text">#e0000000</color>
     <color name="details_progress_address_text">#ccffffff</color>
     <color name="details_time_tile_text">#ccffffff</color>
 
