@@ -32,9 +32,12 @@ import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.crashlytics.android.Crashlytics;
 
 import java.util.GregorianCalendar;
 
@@ -152,7 +155,17 @@ public class FavoritesFragment extends Fragment implements
         args.putStringArray(Const.BundleExtras.CURSOR_SELECTION,
                 ParkingTimeHelper.getCursorLoaderSelectionArgs(calendar, duration));
 
-        getLoaderManager().restartLoader(Queries.Favorites._TOKEN, args, this);
+        try {
+            if (getActivity() != null && isAdded()) {
+                // Crashlytics issue #15: http://crashes.to/s/e08d9a9f43b
+                getLoaderManager().restartLoader(Queries.Favorites._TOKEN, args, this);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Crashlytics issue #15: http://crashes.to/s/e08d9a9f43b");
+
+            Crashlytics.logException(e);
+            e.printStackTrace();
+        }
     }
 
     private void setUpSwipeRefreshLayout(SwipeRefreshLayout mSwipeRefreshLayout) {
