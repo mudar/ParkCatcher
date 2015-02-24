@@ -25,7 +25,6 @@ package ca.mudar.parkcatcher.ui.activities.base;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
@@ -336,32 +335,23 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
     }
 
     private void showMapActivity() {
-        final Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(intent);
+        startActivity(MainActivity.newIntent(this));
     }
 
     private void showFavoritesActivity() {
-        final Intent intent = new Intent(this, FavoritesActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
+        startActivity(FavoritesActivity.newIntent(this));
     }
 
     private void showHelpActivity() {
-        final Intent intent = new Intent(this, HelpActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
+        startActivity(HelpActivity.newIntent(this));
     }
 
     private void showAboutActivity() {
-        final Intent intent = new Intent(this, AboutActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        startActivity(intent);
+        startActivity(AboutActivity.newIntent(this));
     }
 
     private void showSettingActivity() {
-        final Intent intent = new Intent(this, SettingsActivity.class);
-        startActivity(intent);
+        startActivity(SettingsActivity.newIntent(this));
     }
 
     protected void onNavdrawerClosed(View drawerView) {

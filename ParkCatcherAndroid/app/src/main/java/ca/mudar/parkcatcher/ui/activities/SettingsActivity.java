@@ -40,6 +40,10 @@ public class SettingsActivity extends ToolbarActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "SettingsActivity";
 
+    public static Intent newIntent(Context context) {
+        return new Intent(context, SettingsActivity.class);
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,11 +80,12 @@ public class SettingsActivity extends ToolbarActivity implements
 //            mParkingApp.setLanguage(lg);
 //            mParkingApp.updateUiLanguage();
 
-            this.finish();
-            Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+            final Intent intent = SettingsActivity.newIntent(this);
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             startActivity(intent);
+
+            this.finish();
         }
     }
 

@@ -23,6 +23,7 @@
 
 package ca.mudar.parkcatcher.ui.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
@@ -67,6 +68,26 @@ public class MainActivity extends NavdrawerActivity implements
     private RefreshProgressLayout mRefreshProgressLayout;
     private SlidingUpCalendar mSlidingUpCalendar;
     private MainMapFragment mMainMapFragment;
+
+    public static Intent newIntent(Context context) {
+        final Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        return intent;
+    }
+
+    public static Intent newIntent(Context context, int idPost, double geoLat, double geoLng) {
+        final Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        final Bundle extras = new Bundle();
+        extras.putInt(Const.BundleExtras.ID_POST, idPost);
+        extras.putDouble(Const.BundleExtras.GEO_LAT, geoLat);
+        extras.putDouble(Const.BundleExtras.GEO_LNG, geoLng);
+        intent.putExtras(extras);
+
+        return intent;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

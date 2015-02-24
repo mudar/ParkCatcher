@@ -24,7 +24,6 @@
 package ca.mudar.parkcatcher.ui.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
@@ -34,7 +33,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import ca.mudar.parkcatcher.Const;
 import ca.mudar.parkcatcher.R;
 import ca.mudar.parkcatcher.model.Queries;
 import ca.mudar.parkcatcher.ui.activities.DetailsActivity;
@@ -120,11 +118,8 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         @Override
         public void onClick(View v) {
             if (idPost > 0) {
-                final Intent intent = new Intent(v.getContext(), DetailsActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-                intent.putExtra(Const.BundleExtras.ID_POST, idPost);
-                v.getContext().startActivity(intent);
+                final Context c = v.getContext();
+                c.startActivity(DetailsActivity.newIntent(c, idPost));
             }
         }
     }

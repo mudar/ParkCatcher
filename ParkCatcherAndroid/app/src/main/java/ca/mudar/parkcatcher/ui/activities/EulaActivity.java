@@ -23,6 +23,7 @@
 
 package ca.mudar.parkcatcher.ui.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -38,6 +39,11 @@ import ca.mudar.parkcatcher.utils.EulaHelper;
 
 public class EulaActivity extends ToolbarActivity {
     private static final String TAG = "EulaActivity";
+
+    public static Intent newIntent(Context context) {
+        final Intent intent = new Intent(context, EulaActivity.class);
+        return intent;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

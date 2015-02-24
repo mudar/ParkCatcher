@@ -423,15 +423,10 @@ public class DetailsFragment extends Fragment implements
     }
 
     private void launchMap() {
-        final Intent intent = new Intent(getActivity(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-        intent.putExtra(Const.BundleExtras.GEO_LAT, mGeoLat);
-        intent.putExtra(Const.BundleExtras.GEO_LNG, mGeoLng);
-        intent.putExtra(Const.BundleExtras.ID_POST, mIdPost);
-
-        startActivity(intent);
+        startActivity(MainActivity.newIntent(getActivity(),
+                        mIdPost,
+                        mGeoLat,
+                        mGeoLng));
     }
 
     private void launchStreetview() {

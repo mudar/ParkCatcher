@@ -23,6 +23,8 @@
 
 package ca.mudar.parkcatcher.ui.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -36,6 +38,13 @@ import ca.mudar.parkcatcher.ui.views.SlidingUpCalendar;
 public class FavoritesActivity extends NavdrawerActivity implements
         SlidingUpCalendar.SlidingUpCalendarCallbacks {
     private static final String TAG = "FavoritesActivity";
+
+    public static Intent newIntent(Context context) {
+        final Intent intent = new Intent(context, FavoritesActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+        return intent;
+    }
 
     private SlidingUpCalendar mSlidingUpCalendar;
 

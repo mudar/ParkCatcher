@@ -29,7 +29,6 @@ package ca.mudar.parkcatcher.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -60,8 +59,9 @@ public class EulaHelper {
      */
 
     public static void showEula(final boolean accepted, final Activity activity) {
-        Intent intent = new Intent(activity, EulaActivity.class);
-        activity.startActivityForResult(intent, Const.RequestCodes.EULA);
+        activity.startActivityForResult(
+                EulaActivity.newIntent(activity),
+                Const.RequestCodes.EULA);
     }
 
     public static boolean acceptEula(int resultCode, final Activity activity) {

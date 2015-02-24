@@ -24,6 +24,7 @@
 package ca.mudar.parkcatcher.ui.activities;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -46,6 +47,14 @@ import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 
 public class DetailsActivity extends ToolbarActivity {
     private static final String TAG = "DetailsActivity";
+
+    public static Intent newIntent(Context context, int idPost) {
+        final Intent intent = new Intent(context, DetailsActivity.class);
+        intent.putExtra(Const.BundleExtras.ID_POST, idPost);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        return intent;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

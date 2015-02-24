@@ -747,11 +747,7 @@ public class MainMapFragment extends SupportMapFragment implements
     }
 
     private void showSpotDetails(int idPost) {
-        final Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-        intent.putExtra(Const.BundleExtras.ID_POST, idPost);
-        getActivity().startActivity(intent);
+        getActivity().startActivity(DetailsActivity.newIntent(getActivity(), idPost));
     }
 
 

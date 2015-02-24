@@ -23,6 +23,8 @@
 
 package ca.mudar.parkcatcher.ui.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
 import android.view.Menu;
@@ -37,6 +39,13 @@ import ca.mudar.parkcatcher.utils.IntentHelper;
 
 public class AboutActivity extends NavdrawerActivity {
     private static final String TAG = "AboutActivity";
+
+    public static Intent newIntent(Context context) {
+        final Intent intent = new Intent(context, AboutActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+        return intent;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
