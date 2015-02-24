@@ -259,6 +259,11 @@ public class Const {
         final String UNITS_IMP = "imp";
     }
 
+    public static interface TypeFaces {
+        final int _COUNT = 1;
+        final String CONDENSED = "fonts/RobotoCondensed-Bold.ttf";
+    }
+
     public static final int UNKNOWN = -1;
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
