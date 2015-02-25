@@ -41,10 +41,7 @@ public class AboutActivity extends NavdrawerActivity {
     private static final String TAG = "AboutActivity";
 
     public static Intent newIntent(Context context) {
-        final Intent intent = new Intent(context, AboutActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-        return intent;
+        return new Intent(context, AboutActivity.class);
     }
 
     @Override
@@ -73,7 +70,7 @@ public class AboutActivity extends NavdrawerActivity {
     }
 
     @Override
-    protected int getDefaultNavDrawerItem() {
+    protected int getSelfNavDrawerItem() {
         return Const.NavdrawerSection.ABOUT;
     }
 

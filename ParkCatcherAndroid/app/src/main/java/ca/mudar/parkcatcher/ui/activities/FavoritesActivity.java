@@ -40,10 +40,7 @@ public class FavoritesActivity extends NavdrawerActivity implements
     private static final String TAG = "FavoritesActivity";
 
     public static Intent newIntent(Context context) {
-        final Intent intent = new Intent(context, FavoritesActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-        return intent;
+        return new Intent(context, FavoritesActivity.class);
     }
 
     private SlidingUpCalendar mSlidingUpCalendar;
@@ -56,7 +53,6 @@ public class FavoritesActivity extends NavdrawerActivity implements
         setContentView(R.layout.activity_favorites);
 
         getActionBarToolbar().setNavigationIcon(R.drawable.ic_action_arrow_back);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         FavoritesFragment favoritesFragment;
         if (savedInstanceState == null) {
@@ -79,7 +75,7 @@ public class FavoritesActivity extends NavdrawerActivity implements
     }
 
     @Override
-    protected int getDefaultNavDrawerItem() {
+    protected int getSelfNavDrawerItem() {
         return Const.NavdrawerSection.FAVORITES;
     }
 

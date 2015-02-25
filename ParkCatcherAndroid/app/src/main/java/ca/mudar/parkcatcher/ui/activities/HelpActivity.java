@@ -38,10 +38,7 @@ public class HelpActivity extends NavdrawerActivity {
     private static final String TAG = "HelpActivity";
 
     public static Intent newIntent(Context context) {
-        final Intent intent = new Intent(context, HelpActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-
-        return intent;
+        return new Intent(context, HelpActivity.class);
     }
 
     @Override
@@ -52,7 +49,6 @@ public class HelpActivity extends NavdrawerActivity {
         setContentView(R.layout.activity_navdrawer);
 
         getActionBarToolbar().setNavigationIcon(R.drawable.ic_action_arrow_back);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Remove elevation, to be seamless with tabs
         ViewCompat.setElevation(getActionBarToolbar(), 0);
@@ -75,7 +71,7 @@ public class HelpActivity extends NavdrawerActivity {
     }
 
     @Override
-    protected int getDefaultNavDrawerItem() {
+    protected int getSelfNavDrawerItem() {
         return Const.NavdrawerSection.HELP;
     }
 }

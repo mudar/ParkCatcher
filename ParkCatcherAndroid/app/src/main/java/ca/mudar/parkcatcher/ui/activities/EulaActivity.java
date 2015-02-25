@@ -41,8 +41,7 @@ public class EulaActivity extends ToolbarActivity {
     private static final String TAG = "EulaActivity";
 
     public static Intent newIntent(Context context) {
-        final Intent intent = new Intent(context, EulaActivity.class);
-        return intent;
+        return new Intent(context, EulaActivity.class);
     }
 
     @Override

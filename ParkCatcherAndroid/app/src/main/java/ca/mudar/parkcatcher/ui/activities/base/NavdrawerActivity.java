@@ -29,6 +29,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.DrawerLayout;
@@ -72,20 +73,25 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
             R.drawable.ic_nav_info,
             R.drawable.ic_nav_settings
     };
+    // delay to launch navdrawer item, to allow close animation to play
+    private static final int NAVDRAWER_LAUNCH_DELAY = 250;
+
+    // Handler, needs to be global
+    private Handler mHandler;
+
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList<Integer> mNavDrawerItems = new ArrayList<Integer>();
     private View[] mNavDrawerItemViews = null;
-    private int mLastCheckedItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mLastCheckedItem = getDefaultNavDrawerItem();
-
         getSharedPreferences(Const.APP_PREFS_NAME, Context.MODE_PRIVATE)
                 .registerOnSharedPreferenceChangeListener(this);
+
+        mHandler = new Handler();
     }
 
     @Override
@@ -142,11 +148,13 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
                 .unregisterOnSharedPreferenceChangeListener(this);
     }
 
-    protected abstract int getDefaultNavDrawerItem();
+    protected abstract int getSelfNavDrawerItem();
+
+    protected boolean isSpecialActivity() {
+        return false;
+    }
 
     private void setupNavDrawer() {
-        final Toolbar toolbar = getActionBarToolbar();
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.LEFT);
@@ -156,7 +164,6 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,                  /* host Activity */
                 mDrawerLayout,         /* DrawerLayout object */
-//                toolbar,
                 R.string.navdrawer_open,  /* "open drawer" description for accessibility */
                 R.string.navdrawer_close  /* "close drawer" description for accessibility */
         ) {
@@ -210,14 +217,6 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
                 return super.onOptionsItemSelected(item);
             }
         };
-
-        // TODO verify need for this, for Fragments
-//        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
-//            @Override
-//            public void onBackStackChanged() {
-//                mDrawerToggle.syncState();
-//            }
-//        });
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         populateNavDrawer();
@@ -279,7 +278,7 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
         iconView.setContentDescription(title);
         iconView.setImageResource(iconId);
 
-        formatNavDrawerItem(view, mLastCheckedItem == itemId);
+        formatNavDrawerItem(view, getSelfNavDrawerItem() == itemId);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -304,54 +303,49 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
                 getResources().getColor(R.color.navdrawer_icon_tint));
     }
 
-    protected void setSelectedNavDrawerItem(int itemId) {
-        if (mNavDrawerItemViews != null) {
-            for (int i = 0; i < mNavDrawerItemViews.length; i++) {
-                if (i < mNavDrawerItems.size()) {
-                    int thisItemId = mNavDrawerItems.get(i);
-                    formatNavDrawerItem(mNavDrawerItemViews[i], itemId == thisItemId);
-                }
-            }
-        }
-    }
-
-    private void onNavDrawerItemClicked(int position) {
-        if (position == mLastCheckedItem) {
-            // Nothing to do here
-        } else if (position == Const.NavdrawerSection.MAP) {
-            showMapActivity();
-        } else if (position == Const.NavdrawerSection.FAVORITES) {
-            showFavoritesActivity();
-        } else if (position == Const.NavdrawerSection.HELP) {
-            showHelpActivity();
-        } else if (position == Const.NavdrawerSection.ABOUT) {
-            showAboutActivity();
-        } else if (position == Const.NavdrawerSection.SETTINGS) {
-            showSettingActivity();
-        }
+    private void onNavDrawerItemClicked(final int itemId) {
         mDrawerLayout.closeDrawer(Gravity.LEFT);
-//        mLastCheckedItem = position;
-//        setSelectedNavDrawerItem(mLastCheckedItem);
+
+        if (itemId != getSelfNavDrawerItem()) {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    goToNavDrawerItem(itemId);
+                }
+            }, NAVDRAWER_LAUNCH_DELAY);
+        }
     }
 
-    private void showMapActivity() {
-        startActivity(MainActivity.newIntent(this));
+    private void goToNavDrawerItem(int itemId) {
+        if (itemId == getSelfNavDrawerItem()) {
+            return;
+        }
+
+        switch (itemId) {
+            case Const.NavdrawerSection.MAP:
+                startActivity(MainActivity.newIntent(this));
+                break;
+            case Const.NavdrawerSection.FAVORITES:
+                startActivity(FavoritesActivity.newIntent(this));
+                break;
+            case Const.NavdrawerSection.HELP:
+                startActivity(HelpActivity.newIntent(this));
+                break;
+            case Const.NavdrawerSection.ABOUT:
+                startActivity(AboutActivity.newIntent(this));
+                break;
+            case Const.NavdrawerSection.SETTINGS:
+                startActivity(SettingsActivity.newIntent(this));
+                break;
+        }
+
+        clearBackStack(itemId);
     }
 
-    private void showFavoritesActivity() {
-        startActivity(FavoritesActivity.newIntent(this));
-    }
-
-    private void showHelpActivity() {
-        startActivity(HelpActivity.newIntent(this));
-    }
-
-    private void showAboutActivity() {
-        startActivity(AboutActivity.newIntent(this));
-    }
-
-    private void showSettingActivity() {
-        startActivity(SettingsActivity.newIntent(this));
+    private void clearBackStack(int itemId) {
+        if (!isSpecialActivity() && itemId != Const.NavdrawerSection.SETTINGS) {
+            finish();
+        }
     }
 
     protected void onNavdrawerClosed(View drawerView) {
