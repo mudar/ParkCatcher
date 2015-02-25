@@ -40,6 +40,8 @@ public class SettingsActivity extends ToolbarActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String TAG = "SettingsActivity";
 
+    private SharedPreferences mSharedPrefs;
+
     public static Intent newIntent(Context context) {
         return new Intent(context, SettingsActivity.class);
     }
@@ -57,8 +59,7 @@ public class SettingsActivity extends ToolbarActivity implements
         final ParkingApp mParkingApp = (ParkingApp) getApplicationContext();
         mParkingApp.updateUiLanguage();
 
-        getSharedPreferences(Const.APP_PREFS_NAME, Context.MODE_PRIVATE)
-                .registerOnSharedPreferenceChangeListener(this);
+        mSharedPrefs = getSharedPreferences(Const.APP_PREFS_NAME, Context.MODE_PRIVATE);
 
         if (savedInstanceState == null) {
             final SettingsFragment fragment = new SettingsFragment();
@@ -69,23 +70,36 @@ public class SettingsActivity extends ToolbarActivity implements
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mSharedPrefs.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        /**
+         * Remove the listener onPause
+         */
+        if (mSharedPrefs != null) {
+            mSharedPrefs.unregisterOnSharedPreferenceChangeListener(this);
+        }
+    }
+
     /**
      * Update the interface language, independently from the phone's UI language.
      */
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (Const.PrefsNames.LANGUAGE.equals(key)) {
-            // updateUiLanguage() is not needed, already called by stacked BaseActivity
-//            final String lg = sharedPreferences.getString(key, Locale.getDefault().getLanguage());
-//            mParkingApp.setLanguage(lg);
-//            mParkingApp.updateUiLanguage();
-
+            // Recreate activity using a crossfade
             final Intent intent = SettingsActivity.newIntent(this);
-            intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            this.finish();
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             startActivity(intent);
-
-            this.finish();
         }
     }
 
