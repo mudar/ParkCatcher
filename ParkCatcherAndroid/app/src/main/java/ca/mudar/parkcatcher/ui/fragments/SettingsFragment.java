@@ -101,14 +101,14 @@ public class SettingsFragment extends PreferenceFragment implements
 
     @Override
     public void onPause() {
+        super.onPause();
+
         /**
          * Remove the listener onPause
          */
         if (mSharedPrefs != null) {
             mSharedPrefs.unregisterOnSharedPreferenceChangeListener(this);
         }
-
-        super.onPause();
     }
 
     @Override

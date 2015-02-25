@@ -30,12 +30,10 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,6 +52,7 @@ import ca.mudar.parkcatcher.ui.activities.FavoritesActivity;
 import ca.mudar.parkcatcher.ui.activities.HelpActivity;
 import ca.mudar.parkcatcher.ui.activities.MainActivity;
 import ca.mudar.parkcatcher.ui.activities.SettingsActivity;
+import ca.mudar.parkcatcher.utils.UIUtils;
 
 public abstract class NavdrawerActivity extends ToolbarActivity implements
         SharedPreferences.OnSharedPreferenceChangeListener {
@@ -200,22 +199,6 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
                     });
                 }
             }
-
-            @Override
-            public boolean onOptionsItemSelected(MenuItem item) {
-                final FragmentManager fm = getSupportFragmentManager();
-                if (item.getItemId() == android.R.id.home) {
-                    if (fm.getBackStackEntryCount() > 0) {
-                        fm.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                        mDrawerToggle.syncState();
-                        return true;
-                    } else if (!mDrawerToggle.isDrawerIndicatorEnabled()) {
-                        finish();
-                    }
-                }
-
-                return super.onOptionsItemSelected(item);
-            }
         };
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -230,6 +213,7 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
         mNavDrawerItems.add(Const.NavdrawerSection.MAP);
         mNavDrawerItems.add(Const.NavdrawerSection.FAVORITES);
         mNavDrawerItems.add(Const.NavdrawerSection.HELP);
+        mNavDrawerItems.add(Const.NavdrawerSection.SEPARATOR);
         mNavDrawerItems.add(Const.NavdrawerSection.ABOUT);
         mNavDrawerItems.add(Const.NavdrawerSection.SETTINGS);
 
@@ -253,16 +237,25 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
     }
 
     private View makeNavDrawerItem(final int itemId, ViewGroup container) {
-        final boolean isHeader = (itemId == Const.NavdrawerSection.HEADER);
-        final View view = getLayoutInflater().inflate(
-                isHeader ? R.layout.navdrawer_header : R.layout.navdrawer_item,
-                container, false);
+        int layoutToInflate = 0;
+        if (itemId == Const.NavdrawerSection.HEADER) {
+            layoutToInflate = R.layout.navdrawer_header;
+        } else if (itemId == Const.NavdrawerSection.SEPARATOR) {
+            layoutToInflate = R.layout.navdrawer_separator;
+        } else {
+            layoutToInflate = R.layout.navdrawer_item;
+        }
 
-        if (itemId < 0 || itemId >= NAVDRAWER_ICON_RES_ID.length) {
+        final View view = getLayoutInflater().inflate(layoutToInflate, container, false);
+
+        if (itemId < 0 || itemId >= Const.NavdrawerSection._COUNT) {
+            if (itemId == Const.NavdrawerSection.SEPARATOR) {
+                UIUtils.setAccessibilityIgnore(view);
+            }
             return view;
         }
         if (itemId == Const.NavdrawerSection.SETTINGS && !Const.SUPPORTS_ICS) {
-            // Skip settings for non-ICS devices
+            // Skip settings for pre-ICS devices
             view.setVisibility(View.GONE);
             return view;
         }

@@ -210,7 +210,8 @@ public class Const {
      * Navigation Drawer
      */
     public static interface NavdrawerSection {
-        final int _COUNT = 6;
+        final int _COUNT = 5;
+        final int SEPARATOR = -2;
         final int HEADER = -1;
         final int MAP = 0;
         final int FAVORITES = 1;
