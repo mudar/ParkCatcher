@@ -23,10 +23,6 @@
 -->
 <resources>
 
-    <!-- Map -->
-    <dimen name="map_info_window_text">14sp</dimen>
-    <dimen name="map_info_window_text_small">13sp</dimen>
-
     <!-- Favorites -->
     <dimen name="listview_empty_width">220dp</dimen>
 

@@ -37,8 +37,7 @@
         android:paddingBottom="8dp"
         android:singleLine="true"
         android:textColor="@color/map_info_title"
-        android:textSize="@dimen/map_info_window_text"
-        android:textStyle="bold" />
+        android:textSize="15sp" />
 
     <ca.mudar.parkcatcher.ui.views.RobotoCondRegTextView
         android:id="@+id/subtitle"
@@ -48,13 +47,13 @@
         android:singleLine="true"
         android:text="@string/map_marker_snippet_subtitle"
         android:textColor="@color/map_info_snippet"
-        android:textSize="@dimen/map_info_window_text" />
+        android:textSize="14sp" />
 
     <ca.mudar.parkcatcher.ui.views.RobotoCondRegTextView
         android:id="@+id/snippet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/map_info_snippet"
-        android:textSize="@dimen/map_info_window_text_small" />
+        android:textSize="13sp" />
 
 </LinearLayout>
