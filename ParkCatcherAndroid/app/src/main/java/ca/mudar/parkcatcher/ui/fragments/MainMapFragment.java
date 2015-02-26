@@ -967,14 +967,14 @@ public class MainMapFragment extends SupportMapFragment implements
                 final double lng = cursor.getDouble(Queries.PostsOverlays.LNG);
                 final String desc = cursor.getString(Queries.PostsOverlays.CONCAT_DESCRIPTION)
                         .replace(DbValues.CONCAT_SEPARATOR, Const.LINE_SEPARATOR);
-                final int isStarred = cursor.getInt(Queries.PostsOverlays.IS_STARRED);
+                final boolean isStarred = (1 == cursor.getInt(Queries.PostsOverlays.IS_STARRED));
 
                 final LatLng latLng = new LatLng(lat, lng);
                 markersArray.add(new MarkerOptions()
                         .title(String.valueOf(idPost))
                         .position(latLng)
                         .snippet(desc)
-                        .icon(isStarred == 1 ? starredMarker : defaultMarker)
+                        .icon(isStarred ? starredMarker : defaultMarker)
                         .visible(true));
 
                 if (clickedLatLng != null) {
