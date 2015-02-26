@@ -27,7 +27,6 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.graphics.Typeface;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -65,6 +64,7 @@ import ca.mudar.parkcatcher.provider.ParkingContract.Favorites;
 import ca.mudar.parkcatcher.provider.ParkingContract.Posts;
 import ca.mudar.parkcatcher.ui.activities.DetailsActivity;
 import ca.mudar.parkcatcher.ui.activities.MainActivity;
+import ca.mudar.parkcatcher.ui.views.RobotoCondBoldTextView;
 import ca.mudar.parkcatcher.utils.AnimHelper;
 import ca.mudar.parkcatcher.utils.ConnectionHelper;
 import ca.mudar.parkcatcher.utils.GeoHelper;
@@ -72,7 +72,6 @@ import ca.mudar.parkcatcher.utils.IntentHelper;
 import ca.mudar.parkcatcher.utils.NotifyingAsyncQueryHandler;
 import ca.mudar.parkcatcher.utils.ParkingTimeHelper;
 import ca.mudar.parkcatcher.utils.SearchMessageHandler;
-import ca.mudar.parkcatcher.utils.TypefaceHelper;
 
 public class DetailsFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>,
@@ -321,10 +320,9 @@ public class DetailsFragment extends Fragment implements
         final LayoutParams params = getPanelLayoutParams();
         final int textColor = getResources().getColor(R.color.details_panel_text);
         final int textSize = getResources().getDimensionPixelSize(R.dimen.details_panel_text);
-        final Typeface typeface = TypefaceHelper.getTypeface(getActivity(), Const.TypeFaces.CONDENSED);
         do {
             final String desc = data.getString(Queries.PostDetails.DESCRIPTION);
-            parent.addView(formatPanel(desc, params, textColor, textSize, typeface));
+            parent.addView(formatPanel(desc, params, textColor, textSize));
 
             // Add panel details to the ShareIntent description
             mShareDesc += Const.LINE_SEPARATOR + desc;
@@ -337,14 +335,13 @@ public class DetailsFragment extends Fragment implements
      * @param textColor
      * @return
      */
-    private TextView formatPanel(String desc, LayoutParams params, int textColor, int textSize, Typeface typeface) {
+    private TextView formatPanel(String desc, LayoutParams params, int textColor, int textSize) {
         desc = desc.trim().toUpperCase();
-        final TextView panelUi = new TextView(getActivity());
+        final TextView panelUi = new RobotoCondBoldTextView(getActivity());
 
         panelUi.setGravity(Gravity.CENTER_HORIZONTAL);
         panelUi.setLayoutParams(params);
         panelUi.setTextColor(textColor);
-        panelUi.setTypeface(typeface);
         panelUi.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
 
         String prefix = (String) desc.subSequence(0, 2);

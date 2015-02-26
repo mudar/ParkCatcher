@@ -261,8 +261,9 @@ public class Const {
     }
 
     public static interface TypeFaces {
-        final int _COUNT = 1;
-        final String CONDENSED = "fonts/RobotoCondensed-Bold.ttf";
+        final int _COUNT = 2;
+        final String CONDENSED_REGULAR = "fonts/RobotoCondensed-Regular.ttf";
+        final String CONDENSED_BOLD = "fonts/RobotoCondensed-Bold.ttf";
     }
 
     public static final int UNKNOWN = -1;

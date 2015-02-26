@@ -24,21 +24,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp">
 
-    <TextView
+    <ca.mudar.parkcatcher.ui.views.RobotoCondBoldTextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:ellipsize="end"
-        android:paddingBottom="4dp"
+        android:paddingBottom="8dp"
         android:singleLine="true"
         android:textColor="@color/map_info_title"
         android:textSize="@dimen/map_info_window_text"
         android:textStyle="bold" />
 
-    <TextView
+    <ca.mudar.parkcatcher.ui.views.RobotoCondRegTextView
         android:id="@+id/subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,11 +50,11 @@
         android:textColor="@color/map_info_snippet"
         android:textSize="@dimen/map_info_window_text" />
 
-    <TextView
+    <ca.mudar.parkcatcher.ui.views.RobotoCondRegTextView
         android:id="@+id/snippet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/map_info_snippet"
-        android:textSize="@dimen/map_info_window_text" />
+        android:textSize="@dimen/map_info_window_text_small" />
 
 </LinearLayout>
