@@ -29,7 +29,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
 import android.view.ContextThemeWrapper;
+import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -51,7 +54,6 @@ public class DetailsActivity extends ToolbarActivity {
     public static Intent newIntent(Context context, int idPost) {
         final Intent intent = new Intent(context, DetailsActivity.class);
         intent.putExtra(Const.BundleExtras.ID_POST, idPost);
-        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         return intent;
     }
@@ -72,6 +74,31 @@ public class DetailsActivity extends ToolbarActivity {
                     .add(R.id.content_frame, fragment)
                     .commit();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent upIntent = NavUtils.getParentActivityIntent(this);
+            if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+                // This activity is NOT part of this app's task, so create a new task
+                // when navigating up, with a synthesized back stack.
+                TaskStackBuilder.create(this)
+                        // Add all of this activity's parents to the back stack
+                        .addNextIntentWithParentStack(upIntent)
+                                // Navigate up to the closest parent
+                        .startActivities();
+            } else {
+                // This activity is part of this app's task, so simply
+                // navigate up to the logical parent activity.
+                startActivity(MainActivity.newIntent(this));
+                finish();
+//                NavUtils.navigateUpTo(this, upIntent);
+            }
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private int getIdPostFromIntent() {

@@ -78,7 +78,7 @@ public class MainActivity extends NavdrawerActivity implements
 
     public static Intent newIntent(Context context, int idPost, double geoLat, double geoLng) {
         final Intent intent = new Intent(context, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         final Bundle extras = new Bundle();
         extras.putInt(Const.BundleExtras.ID_POST, idPost);
@@ -242,8 +242,18 @@ public class MainActivity extends NavdrawerActivity implements
      * @return
      */
     @Override
-    protected int getDefaultNavDrawerItem() {
+    protected int getSelfNavDrawerItem() {
         return Const.NavdrawerSection.MAP;
+    }
+
+    /**
+     * NavDrawer special activity, not cleared from backstack
+     *
+     * @return
+     */
+    @Override
+    protected boolean isSpecialActivity() {
+        return true;
     }
 
     /**
