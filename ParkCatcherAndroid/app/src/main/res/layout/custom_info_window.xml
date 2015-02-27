@@ -34,7 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:ellipsize="end"
-        android:paddingBottom="8dp"
         android:singleLine="true"
         android:textColor="@color/map_info_title"
         android:textSize="15sp" />
@@ -43,6 +42,7 @@
         android:id="@+id/subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:text="@string/map_marker_snippet_subtitle"
