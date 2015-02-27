@@ -51,11 +51,11 @@
     <style name="TabStrip" parent="@style/BaseTabStrip">
         <item name="android:background">@color/theme_primary</item>
         <item name="pstsDividerColor">@color/transparent</item>
-        <item name="pstsIndicatorColor">@color/text_tabs_help</item>
+        <item name="pstsIndicatorColor">@color/help_tabs_text</item>
         <item name="pstsIndicatorHeight">2dp</item>
         <item name="pstsTabPaddingLeftRight">12dp</item>
         <item name="pstsTextAllCaps">true</item>
-        <item name="pstsUnderlineColor">@color/text_tabs_help</item>
+        <item name="pstsUnderlineColor">@color/white_bg</item>
         <item name="pstsUnderlineHeight">0dp</item>
     </style>
 
@@ -114,7 +114,7 @@
     <style name="FavoritesListItemTitle" parent="@style/SingleLine">
         <item name="android:gravity">center_vertical</item>
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/listview_text_1</item>
+        <item name="android:textColor">@color/text_primary_light</item>
         <item name="android:layout_marginLeft">16dp</item>
         <item name="android:drawablePadding">16dp</item>
         <item name="android:drawableLeft">@drawable/ic_parking_allowed</item>
@@ -122,7 +122,7 @@
 
     <style name="FavoritesListItemDistance">
         <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/listview_text_2</item>
+        <item name="android:textColor">@color/text_secondary_light</item>
         <item name="android:gravity">right</item>
         <item name="android:layout_marginRight">16dp</item>
         <item name="android:layout_marginLeft">16dp</item>

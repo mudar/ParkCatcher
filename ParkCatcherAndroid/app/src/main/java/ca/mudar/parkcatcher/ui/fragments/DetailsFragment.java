@@ -510,7 +510,7 @@ public class DetailsFragment extends Fragment implements
         ((ImageView) mView.findViewById(R.id.details_address_icon))
                 .setColorFilter(isForbidden ?
                         getResources().getColor(R.color.text_primary_light) :
-                        getResources().getColor(R.color.theme_primary));
+                        getResources().getColor(R.color.theme_accent));
 
         // Toggle Toolbar color
         ((DetailsActivity) getActivity()).toggleToobarColor(isForbidden);

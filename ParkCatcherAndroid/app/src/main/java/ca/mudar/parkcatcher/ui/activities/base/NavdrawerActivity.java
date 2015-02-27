@@ -289,11 +289,11 @@ public abstract class NavdrawerActivity extends ToolbarActivity implements
 
         // configure its appearance according to whether or not it's selected
         titleView.setTextColor(selected ?
-                getResources().getColor(R.color.drawer_active_text) :
-                getResources().getColor(R.color.drawer_inactive_text));
+                getResources().getColor(R.color.navdrawer_active_text) :
+                getResources().getColor(R.color.navdrawer_default_text));
         iconView.setColorFilter(selected ?
-                getResources().getColor(R.color.navdrawer_icon_tint_selected) :
-                getResources().getColor(R.color.navdrawer_icon_tint));
+                getResources().getColor(R.color.navdrawer_active_icon_tint) :
+                getResources().getColor(R.color.navdrawer_default_icon_tint));
     }
 
     private void onNavDrawerItemClicked(final int itemId) {

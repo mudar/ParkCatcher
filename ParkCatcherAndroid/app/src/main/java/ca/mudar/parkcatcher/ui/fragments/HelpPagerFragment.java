@@ -61,7 +61,7 @@ public class HelpPagerFragment extends Fragment {
         tabs.setViewPager(mViewPager);
 
         // Style the tabs
-        tabs.setTextColorResource(R.color.text_tabs_help);
+        tabs.setTextColorResource(R.color.help_tabs_text);
         tabs.setTextSize(getResources().getDimensionPixelSize(R.dimen.tabs_text_size));
         tabs.setTypeface(null, Typeface.NORMAL);
 

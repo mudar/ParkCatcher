@@ -25,7 +25,7 @@
 
     <!--Theme colors-->
     <color name="transparent">#00000000</color>
-    <color name="white">#ffffff</color>
+    <color name="white_bg">#ffffff</color>
     <color name="text_primary_dark">#000000</color>
     <color name="text_primary_light">#ffffff</color>
     <color name="text_secondary_light">#90ffffff</color>
@@ -45,10 +45,10 @@
     <!--<color name="background">@color/theme_bg_secondary</color>-->
 
     <!--NavDrawer-->
-    <color name="drawer_active_text">@color/theme_primary</color>
-    <color name="drawer_inactive_text">@color/text_primary_light</color>
-    <color name="navdrawer_icon_tint_selected">@color/theme_primary</color>
-    <color name="navdrawer_icon_tint">@color/text_primary_light</color>
+    <color name="navdrawer_default_text">@color/text_primary_light</color>
+    <color name="navdrawer_active_text">@color/theme_accent</color>
+    <color name="navdrawer_default_icon_tint">@color/text_primary_light</color>
+    <color name="navdrawer_active_icon_tint">@color/theme_accent</color>
 
     <!-- Drawer Time -->
     <color name="drawer_text">@color/text_primary_light</color>
@@ -57,10 +57,6 @@
     <color name="map_info_title">@color/text_primary_dark</color>
     <color name="map_info_snippet">#757575</color>
 
-    <!-- Favorites -->
-    <color name="listview_text_1">@color/text_primary_light</color>
-    <color name="listview_text_2">@color/text_secondary_light</color>
-
     <!-- Details -->
     <color name="details_panel_text">#212121</color>
 
@@ -68,13 +64,13 @@
     <color name="bg_header_about">@color/theme_primary</color>
 
     <!--Help-->
-    <color name="text_tabs_help">@color/text_primary_light</color>
+    <color name="help_tabs_text">@color/text_primary_light</color>
     <color name="help_card_bg">#424242</color>
-    <color name="help_card_image_main_bg">@color/white</color>
+    <color name="help_card_image_main_bg">@color/white_bg</color>
     <color name="help_card_image_temp_bg">#D32F2F</color>
     <!--<color name="help_card_image_main_bg">#000000</color>-->
 
     <!-- Eula -->
-    <color name="eula_bg">@color/white</color>
+    <color name="eula_bg">@color/white_bg</color>
 
 </resources>
