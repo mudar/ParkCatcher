@@ -51,7 +51,7 @@ public class ParkingInfoWindowAdapter implements InfoWindowAdapter {
         String title = marker.getTitle();
         final String snippet = marker.getSnippet();
         final TextView titleUi = (TextView) view.findViewById(R.id.title);
-        final View subtitleUi = view.findViewById(R.id.subtitle);
+        final TextView subtitleUi = (TextView) view.findViewById(R.id.subtitle);
         final TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
 
         /**
@@ -82,6 +82,7 @@ public class ParkingInfoWindowAdapter implements InfoWindowAdapter {
             subtitleUi.setVisibility(View.GONE);
             snippetUi.setVisibility(View.GONE);
         } else {
+            subtitleUi.setText(R.string.map_marker_snippet_subtitle);
             subtitleUi.setVisibility(View.VISIBLE);
             snippetUi.setVisibility(View.VISIBLE);
             final SpannableString snippetText = new SpannableString(snippet);
