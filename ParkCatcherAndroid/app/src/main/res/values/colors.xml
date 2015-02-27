@@ -35,7 +35,7 @@
     <color name="theme_bg_primary">#303030</color>
     <color name="theme_bg_secondary">#262626</color>
     <!--<color name="theme_primary_light">#e91e63</color>-->
-    <color name="theme_accent_1">@color/theme_primary</color>
+    <color name="theme_accent">@color/theme_primary</color>
     <!--<color name="theme_accent_1_light">#800000</color>-->
     <!--<color name="theme_accent_2">#fa981e</color>-->
     <color name="refresh_color_1">@color/theme_bg_primary</color>
