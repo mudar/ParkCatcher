@@ -23,8 +23,8 @@ android {
         applicationId "ca.mudar.parkcatcher"
         minSdkVersion 10
         targetSdkVersion 21
-        versionCode 13
-        versionName "1.4.1"
+        versionCode 14
+        versionName "1.4.2"
 
         resConfigs "en", "fr"
         resConfigs "nodpi", "mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"
