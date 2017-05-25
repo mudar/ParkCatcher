@@ -1,6 +1,6 @@
 [![Park Catcher / Capteur de stationnement][img_github]][link_parkcatcher]
 
-##A Montréal Open Data project. Find a free parking in the nearest residential area.
+## A Montréal Open Data project. Find a free parking in the nearest residential area.
 
 Park Catcher Montréal is your guide to easy parking. Find spots where parking is allowed for the time period you need, using the interactive map and the search engine. Stop driving in circles, avoid parking tickets, head directly to the right street! 
 
@@ -9,7 +9,7 @@ Powered by Open Data provided by the City of Montréal [Open Data Portal][link_p
 A **GeoJSON API** is also available. Check the [Wiki][link_wiki_api] or the [example][link_api_example] for more information. **iOS** mobile version is currently under development…
 
 
-##Links
+## Links
 
 [www.parkcatcher.com][link_parkcatcher]
 
@@ -24,7 +24,7 @@ Check the project's [Wiki][link_wiki] for more resources:
 * Fully-documented [**GeoJSON API**][link_wiki_api].
 * [**How Does It Work?**][link_wiki_how_does_it_work]
 
-##Open Data
+## Open Data
 
 This project was done in collaboration with [Montréal Ouvert][link_mtl_ouvert].
 
@@ -42,7 +42,7 @@ Data sources are JSON and KMZ files provided by the City of Montréal:
 * Developed by [Mudar Noufal][link_mudar_ca]  &lt;<mn@mudar.ca>&gt;
 * Art Direction and Graphic Design by [Emma Dumesnil][link_emma_cargo]
 
-##Code license
+## Code license
 
     Park Catcher Montréal
     Copyright (C) 2012  Mudar Noufal <mn@mudar.ca>
